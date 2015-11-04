@@ -19,8 +19,34 @@ namespace Telefonbuch_newGUI
 
         #region "Variabeln"
 
-        DateTime dBirthday;
-        bool isFemale;
+        #region "String"
+        string sNumberType1 = "";
+        string sNumberType2 = "";
+        string sNumberType3 = "";
+        string sNumberType4 = "";
+        string sMailType1 = "";
+        string sMailType2 = "";
+        string sShowAsType = "NV";
+        string sName = "";
+        string sFirstName = "";
+        string sNickName = "";
+        string sTitle = "";
+        string sStreet = "";
+        string sStreetF = "";
+        string sHouseNumber = "";
+        string sHouseNumberF = "";
+        string sPLZ = "";
+        string sPLZF = "";
+        string sCity = "";
+        string sCityF = "";
+        string sCountry = "";
+        string sCountryF = "";
+        string sFirma = "";
+        string sMail1 = "";
+        string sMail2 = "";
+        string sOther = "";
+        #endregion
+       
         #region "integer"
 
         int iCC1;
@@ -37,8 +63,15 @@ namespace Telefonbuch_newGUI
         int iNr4;
 
         #endregion
+
+        #region "Sonstige"
+        Image iContactImg;
+        DateTime dBirthday;
+        bool isFemale;
         #endregion
 
+
+        #endregion
 
         private void btnNew_Click(object sender, EventArgs e)
         {//Neu button wurde geklick
@@ -49,13 +82,13 @@ namespace Telefonbuch_newGUI
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {//Schaltet Karteikarten ein und Meldung aus.
+        {//Kontakte Button. Schaltet Karteikarten ein und Meldung aus.
             tabContact.Visible = true;
             this.labAttention.Visible = false;
         }
 
         private void cobShowAs_SelectedIndexChanged(object sender, EventArgs e)
-        {//Combobox ShowAs - Auswahl geändert
+        {//Vorschau. Combobox ShowAs - Auswahl geändert
             switch (this.cobShowAs.SelectedIndex)
             {
                 case 0:
@@ -111,26 +144,26 @@ namespace Telefonbuch_newGUI
             {
                 case "btnDelNr1":
                     this.cbNumber1.SelectedIndex = -1;
-                    this.mtbCountryCode1.Text = "43";
-                    this.tbNumber1.Text = "";
+                    this.tbCC1.Text = "43";
+                    this.tbAC1.Text = "";
                     this.tbNumber1Part2.Text = "";
                     break;
                 case "btnDelNr2":
                     this.cbNumber2.SelectedIndex = -1;
-                    this.mtbCountryCode2.Text = "43";
-                    this.tbNumber2.Text = "";
+                    this.tbCC2.Text = "43";
+                    this.tbAC2.Text = "";
                     this.tbNumber2Part2.Text = "";
                     break;
                 case "btnDelNr3":
                     this.cbNumber3.SelectedIndex = -1;
-                    this.mtbCountryCode3.Text = "43";
-                    this.tbNumber3.Text = "";
+                    this.tbCC3.Text = "43";
+                    this.tbAC3.Text = "";
                     this.tbNumber3Part2.Text = "";
                     break;
                 case "btnDelNr4":
                     this.cbNumber4.SelectedIndex = -1;
-                    this.mtbCountryCode4.Text = "43";
-                    this.tbNumber4.Text = "";
+                    this.tbCC4.Text = "43";
+                    this.tbAC4.Text = "";
                     this.tbNumber4Part2.Text = "";
                     break;
                 case "btnDelMail1":
@@ -150,27 +183,72 @@ namespace Telefonbuch_newGUI
             //try and catch - string in intfeld wirft einen Fehler, dieser wird abgefangen und als Messagebox wiedergegeben.
             try
             {
-                if (this.tbNumber1.Text != "")
+                if (this.tbAC1.Text != "")
                 {
-                    iNr1 = int.Parse(this.tbNumber1.Text);
+                    iNr1 = int.Parse(this.tbAC1.Text);
                 }
-                if (this.tbNumber2.Text != "")
+                if (this.tbAC2.Text != "")
                 {
-                    iNr2 = int.Parse(this.tbNumber2.Text);
+                    iNr2 = int.Parse(this.tbAC2.Text);
                 }
-                if (this.tbNumber3.Text != "")
+                if (this.tbAC3.Text != "")
                 {
-                    iNr3 = int.Parse(this.tbNumber3.Text);
+                    iNr3 = int.Parse(this.tbAC3.Text);
                 }
-                if (this.tbNumber4.Text != "")
+                if (this.tbAC4.Text != "")
                 {
-                    iNr4 = int.Parse(this.tbNumber4.Text);
+                    iNr4 = int.Parse(this.tbAC4.Text);
                 }
             }
             catch (Exception)
             {
                 MessageBox.Show("Achtung! Bitte geben Sie nur Ziffern für die Telefonnummer ein!", "Fehler!",MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+             
         }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+            sName = tbName.Text;
+            sFirstName = tbFirstname.Text;
+            sNickName = tbNickname.Text;
+            sTitle = tbTitle.Text;
+            sStreet = tbStreet.Text;
+            sStreetF = tbStreet.Text;
+            sHouseNumber = tbNr.Text;
+            sHouseNumberF = tbNrF.Text;
+            sPLZ = tbCode.Text;
+            sPLZF = tbCodeF.Text;
+            sCity = tbCity.Text;
+            sCityF = tbCityF.Text;
+            sCountry = tbCountry.Text;
+            sCountryF = tbCountryF.Text;
+            sFirma = tbCompany.Text;
+            sMail1 = tbMail1.Text;
+            sMail2 = tbMail2.Text;
+            sOther = tbOthers.Text;
+
+            if (rbFemale.Checked == true)
+            {
+                isFemale = true;
+            }
+            else { isFemale = false; }
+
+            //Text to int
+            iCC1 = int.Parse(tbCC1.Text); 
+            iCC2 = int.Parse(tbCC2.Text);
+            iCC3 = int.Parse(tbCC3.Text);
+            iCC4 = int.Parse(tbCC4.Text);
+
+            try
+            {
+                iAC1 = int.Parse(tbAC1.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Achtung! Bitte geben Sie nur Ziffern für die Telefonnummer ein!", "FEHLER!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+         }
     }
 }

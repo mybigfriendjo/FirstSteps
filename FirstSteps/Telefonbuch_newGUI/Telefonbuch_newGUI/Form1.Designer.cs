@@ -65,10 +65,10 @@
             this.cbNumber4 = new System.Windows.Forms.ComboBox();
             this.cbNumber3 = new System.Windows.Forms.ComboBox();
             this.cbNumber2 = new System.Windows.Forms.ComboBox();
-            this.mtbCountryCode3 = new System.Windows.Forms.MaskedTextBox();
-            this.mtbCountryCode2 = new System.Windows.Forms.MaskedTextBox();
-            this.mtbCountryCode4 = new System.Windows.Forms.MaskedTextBox();
-            this.mtbCountryCode1 = new System.Windows.Forms.MaskedTextBox();
+            this.tbCC3 = new System.Windows.Forms.MaskedTextBox();
+            this.tbCC2 = new System.Windows.Forms.MaskedTextBox();
+            this.tbCC4 = new System.Windows.Forms.MaskedTextBox();
+            this.tbCC1 = new System.Windows.Forms.MaskedTextBox();
             this.cbNumber1 = new System.Windows.Forms.ComboBox();
             this.labNumber4Slash = new System.Windows.Forms.Label();
             this.labNumber3Slash = new System.Windows.Forms.Label();
@@ -78,28 +78,42 @@
             this.tbNumber3Part2 = new System.Windows.Forms.TextBox();
             this.tbNumber2Part2 = new System.Windows.Forms.TextBox();
             this.tbNumber1Part2 = new System.Windows.Forms.TextBox();
-            this.tbNumber4 = new System.Windows.Forms.TextBox();
-            this.tbNumber3 = new System.Windows.Forms.TextBox();
-            this.tbNumber2 = new System.Windows.Forms.TextBox();
-            this.tbNumber1 = new System.Windows.Forms.TextBox();
+            this.tbAC4 = new System.Windows.Forms.TextBox();
+            this.tbAC3 = new System.Windows.Forms.TextBox();
+            this.tbAC2 = new System.Windows.Forms.TextBox();
+            this.tbAC1 = new System.Windows.Forms.TextBox();
             this.labNumber4 = new System.Windows.Forms.Label();
             this.labNumber3 = new System.Windows.Forms.Label();
             this.labNumber2 = new System.Windows.Forms.Label();
             this.labNumber1 = new System.Windows.Forms.Label();
             this.tabAdress = new System.Windows.Forms.TabPage();
-            this.tbCountry = new System.Windows.Forms.TextBox();
-            this.tbCode = new System.Windows.Forms.TextBox();
-            this.tbNr = new System.Windows.Forms.TextBox();
-            this.tbCity = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tbStreetF = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbCompany = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbCountryF = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbCodeF = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tbNrF = new System.Windows.Forms.TextBox();
+            this.tbCityF = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tbStreet = new System.Windows.Forms.TextBox();
-            this.labCity = new System.Windows.Forms.Label();
-            this.labCountry = new System.Windows.Forms.Label();
-            this.labCode = new System.Windows.Forms.Label();
-            this.labNr = new System.Windows.Forms.Label();
             this.labStreet = new System.Windows.Forms.Label();
+            this.labNr = new System.Windows.Forms.Label();
+            this.labCode = new System.Windows.Forms.Label();
+            this.labCountry = new System.Windows.Forms.Label();
+            this.labCity = new System.Windows.Forms.Label();
+            this.tbCity = new System.Windows.Forms.TextBox();
+            this.tbNr = new System.Windows.Forms.TextBox();
+            this.tbCode = new System.Windows.Forms.TextBox();
+            this.tbCountry = new System.Windows.Forms.TextBox();
             this.tabOther = new System.Windows.Forms.TabPage();
             this.labRTbox = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.tbOthers = new System.Windows.Forms.RichTextBox();
             this.grbMail = new System.Windows.Forms.GroupBox();
             this.btnDelMail2 = new System.Windows.Forms.Button();
             this.btnDelMail1 = new System.Windows.Forms.Button();
@@ -118,6 +132,8 @@
             this.gbGender.SuspendLayout();
             this.tabPhonenumber.SuspendLayout();
             this.tabAdress.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tabOther.SuspendLayout();
             this.grbMail.SuspendLayout();
             this.SuspendLayout();
@@ -669,10 +685,10 @@
             this.tabPhonenumber.Controls.Add(this.cbNumber4);
             this.tabPhonenumber.Controls.Add(this.cbNumber3);
             this.tabPhonenumber.Controls.Add(this.cbNumber2);
-            this.tabPhonenumber.Controls.Add(this.mtbCountryCode3);
-            this.tabPhonenumber.Controls.Add(this.mtbCountryCode2);
-            this.tabPhonenumber.Controls.Add(this.mtbCountryCode4);
-            this.tabPhonenumber.Controls.Add(this.mtbCountryCode1);
+            this.tabPhonenumber.Controls.Add(this.tbCC3);
+            this.tabPhonenumber.Controls.Add(this.tbCC2);
+            this.tabPhonenumber.Controls.Add(this.tbCC4);
+            this.tabPhonenumber.Controls.Add(this.tbCC1);
             this.tabPhonenumber.Controls.Add(this.cbNumber1);
             this.tabPhonenumber.Controls.Add(this.labNumber4Slash);
             this.tabPhonenumber.Controls.Add(this.labNumber3Slash);
@@ -682,10 +698,10 @@
             this.tabPhonenumber.Controls.Add(this.tbNumber3Part2);
             this.tabPhonenumber.Controls.Add(this.tbNumber2Part2);
             this.tabPhonenumber.Controls.Add(this.tbNumber1Part2);
-            this.tabPhonenumber.Controls.Add(this.tbNumber4);
-            this.tabPhonenumber.Controls.Add(this.tbNumber3);
-            this.tabPhonenumber.Controls.Add(this.tbNumber2);
-            this.tabPhonenumber.Controls.Add(this.tbNumber1);
+            this.tabPhonenumber.Controls.Add(this.tbAC4);
+            this.tabPhonenumber.Controls.Add(this.tbAC3);
+            this.tabPhonenumber.Controls.Add(this.tbAC2);
+            this.tabPhonenumber.Controls.Add(this.tbAC1);
             this.tabPhonenumber.Controls.Add(this.labNumber4);
             this.tabPhonenumber.Controls.Add(this.labNumber3);
             this.tabPhonenumber.Controls.Add(this.labNumber2);
@@ -782,41 +798,41 @@
             this.cbNumber2.Size = new System.Drawing.Size(140, 21);
             this.cbNumber2.TabIndex = 24;
             // 
-            // mtbCountryCode3
+            // tbCC3
             // 
-            this.mtbCountryCode3.Location = new System.Drawing.Point(39, 79);
-            this.mtbCountryCode3.Mask = "+00";
-            this.mtbCountryCode3.Name = "mtbCountryCode3";
-            this.mtbCountryCode3.Size = new System.Drawing.Size(36, 20);
-            this.mtbCountryCode3.TabIndex = 23;
-            this.mtbCountryCode3.Text = "43";
+            this.tbCC3.Location = new System.Drawing.Point(39, 79);
+            this.tbCC3.Mask = "+00";
+            this.tbCC3.Name = "tbCC3";
+            this.tbCC3.Size = new System.Drawing.Size(36, 20);
+            this.tbCC3.TabIndex = 23;
+            this.tbCC3.Text = "43";
             // 
-            // mtbCountryCode2
+            // tbCC2
             // 
-            this.mtbCountryCode2.Location = new System.Drawing.Point(39, 53);
-            this.mtbCountryCode2.Mask = "+00";
-            this.mtbCountryCode2.Name = "mtbCountryCode2";
-            this.mtbCountryCode2.Size = new System.Drawing.Size(36, 20);
-            this.mtbCountryCode2.TabIndex = 22;
-            this.mtbCountryCode2.Text = "43";
+            this.tbCC2.Location = new System.Drawing.Point(39, 53);
+            this.tbCC2.Mask = "+00";
+            this.tbCC2.Name = "tbCC2";
+            this.tbCC2.Size = new System.Drawing.Size(36, 20);
+            this.tbCC2.TabIndex = 22;
+            this.tbCC2.Text = "43";
             // 
-            // mtbCountryCode4
+            // tbCC4
             // 
-            this.mtbCountryCode4.Location = new System.Drawing.Point(39, 105);
-            this.mtbCountryCode4.Mask = "+00";
-            this.mtbCountryCode4.Name = "mtbCountryCode4";
-            this.mtbCountryCode4.Size = new System.Drawing.Size(36, 20);
-            this.mtbCountryCode4.TabIndex = 21;
-            this.mtbCountryCode4.Text = "43";
+            this.tbCC4.Location = new System.Drawing.Point(39, 105);
+            this.tbCC4.Mask = "+00";
+            this.tbCC4.Name = "tbCC4";
+            this.tbCC4.Size = new System.Drawing.Size(36, 20);
+            this.tbCC4.TabIndex = 21;
+            this.tbCC4.Text = "43";
             // 
-            // mtbCountryCode1
+            // tbCC1
             // 
-            this.mtbCountryCode1.Location = new System.Drawing.Point(39, 27);
-            this.mtbCountryCode1.Mask = "+00";
-            this.mtbCountryCode1.Name = "mtbCountryCode1";
-            this.mtbCountryCode1.Size = new System.Drawing.Size(36, 20);
-            this.mtbCountryCode1.TabIndex = 20;
-            this.mtbCountryCode1.Text = "43";
+            this.tbCC1.Location = new System.Drawing.Point(39, 27);
+            this.tbCC1.Mask = "+00";
+            this.tbCC1.Name = "tbCC1";
+            this.tbCC1.Size = new System.Drawing.Size(36, 20);
+            this.tbCC1.TabIndex = 20;
+            this.tbCC1.Text = "43";
             // 
             // cbNumber1
             // 
@@ -897,33 +913,33 @@
             this.tbNumber1Part2.Size = new System.Drawing.Size(153, 20);
             this.tbNumber1Part2.TabIndex = 8;
             // 
-            // tbNumber4
+            // tbAC4
             // 
-            this.tbNumber4.Location = new System.Drawing.Point(78, 105);
-            this.tbNumber4.Name = "tbNumber4";
-            this.tbNumber4.Size = new System.Drawing.Size(82, 20);
-            this.tbNumber4.TabIndex = 7;
+            this.tbAC4.Location = new System.Drawing.Point(78, 105);
+            this.tbAC4.Name = "tbAC4";
+            this.tbAC4.Size = new System.Drawing.Size(82, 20);
+            this.tbAC4.TabIndex = 7;
             // 
-            // tbNumber3
+            // tbAC3
             // 
-            this.tbNumber3.Location = new System.Drawing.Point(78, 79);
-            this.tbNumber3.Name = "tbNumber3";
-            this.tbNumber3.Size = new System.Drawing.Size(82, 20);
-            this.tbNumber3.TabIndex = 6;
+            this.tbAC3.Location = new System.Drawing.Point(78, 79);
+            this.tbAC3.Name = "tbAC3";
+            this.tbAC3.Size = new System.Drawing.Size(82, 20);
+            this.tbAC3.TabIndex = 6;
             // 
-            // tbNumber2
+            // tbAC2
             // 
-            this.tbNumber2.Location = new System.Drawing.Point(78, 53);
-            this.tbNumber2.Name = "tbNumber2";
-            this.tbNumber2.Size = new System.Drawing.Size(82, 20);
-            this.tbNumber2.TabIndex = 5;
+            this.tbAC2.Location = new System.Drawing.Point(78, 53);
+            this.tbAC2.Name = "tbAC2";
+            this.tbAC2.Size = new System.Drawing.Size(82, 20);
+            this.tbAC2.TabIndex = 5;
             // 
-            // tbNumber1
+            // tbAC1
             // 
-            this.tbNumber1.Location = new System.Drawing.Point(78, 27);
-            this.tbNumber1.Name = "tbNumber1";
-            this.tbNumber1.Size = new System.Drawing.Size(82, 20);
-            this.tbNumber1.TabIndex = 4;
+            this.tbAC1.Location = new System.Drawing.Point(78, 27);
+            this.tbAC1.Name = "tbAC1";
+            this.tbAC1.Size = new System.Drawing.Size(82, 20);
+            this.tbAC1.TabIndex = 4;
             // 
             // labNumber4
             // 
@@ -964,16 +980,8 @@
             // tabAdress
             // 
             this.tabAdress.BackColor = System.Drawing.Color.Bisque;
-            this.tabAdress.Controls.Add(this.tbCountry);
-            this.tabAdress.Controls.Add(this.tbCode);
-            this.tabAdress.Controls.Add(this.tbNr);
-            this.tabAdress.Controls.Add(this.tbCity);
-            this.tabAdress.Controls.Add(this.tbStreet);
-            this.tabAdress.Controls.Add(this.labCity);
-            this.tabAdress.Controls.Add(this.labCountry);
-            this.tabAdress.Controls.Add(this.labCode);
-            this.tabAdress.Controls.Add(this.labNr);
-            this.tabAdress.Controls.Add(this.labStreet);
+            this.tabAdress.Controls.Add(this.groupBox2);
+            this.tabAdress.Controls.Add(this.groupBox1);
             this.tabAdress.Location = new System.Drawing.Point(4, 22);
             this.tabAdress.Name = "tabAdress";
             this.tabAdress.Padding = new System.Windows.Forms.Padding(3);
@@ -981,91 +989,229 @@
             this.tabAdress.TabIndex = 2;
             this.tabAdress.Text = "Adresse";
             // 
-            // tbCountry
+            // groupBox2
             // 
-            this.tbCountry.Location = new System.Drawing.Point(81, 160);
-            this.tbCountry.Name = "tbCountry";
-            this.tbCountry.Size = new System.Drawing.Size(230, 20);
-            this.tbCountry.TabIndex = 9;
+            this.groupBox2.Controls.Add(this.tbStreetF);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.tbCompany);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.tbCountryF);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.tbCodeF);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.tbNrF);
+            this.groupBox2.Controls.Add(this.tbCityF);
+            this.groupBox2.Location = new System.Drawing.Point(31, 199);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(469, 178);
+            this.groupBox2.TabIndex = 23;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Firmen-Adresse";
             // 
-            // tbCode
+            // tbStreetF
             // 
-            this.tbCode.Location = new System.Drawing.Point(81, 109);
-            this.tbCode.Name = "tbCode";
-            this.tbCode.Size = new System.Drawing.Size(88, 20);
-            this.tbCode.TabIndex = 8;
+            this.tbStreetF.Location = new System.Drawing.Point(69, 66);
+            this.tbStreetF.Name = "tbStreetF";
+            this.tbStreetF.Size = new System.Drawing.Size(230, 20);
+            this.tbStreetF.TabIndex = 15;
             // 
-            // tbNr
+            // label5
             // 
-            this.tbNr.Location = new System.Drawing.Point(361, 60);
-            this.tbNr.Name = "tbNr";
-            this.tbNr.Size = new System.Drawing.Size(92, 20);
-            this.tbNr.TabIndex = 7;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(22, 69);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 13);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Straße:";
             // 
-            // tbCity
+            // tbCompany
             // 
-            this.tbCity.Location = new System.Drawing.Point(223, 109);
-            this.tbCity.Name = "tbCity";
-            this.tbCity.Size = new System.Drawing.Size(230, 20);
-            this.tbCity.TabIndex = 6;
+            this.tbCompany.Location = new System.Drawing.Point(69, 31);
+            this.tbCompany.Name = "tbCompany";
+            this.tbCompany.Size = new System.Drawing.Size(230, 20);
+            this.tbCompany.TabIndex = 21;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(322, 69);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(24, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Nr.:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(22, 34);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(35, 13);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "Firma:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(22, 108);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(30, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "PLZ:";
+            // 
+            // tbCountryF
+            // 
+            this.tbCountryF.Location = new System.Drawing.Point(69, 142);
+            this.tbCountryF.Name = "tbCountryF";
+            this.tbCountryF.Size = new System.Drawing.Size(230, 20);
+            this.tbCountryF.TabIndex = 19;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(22, 145);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Land:";
+            // 
+            // tbCodeF
+            // 
+            this.tbCodeF.Location = new System.Drawing.Point(69, 105);
+            this.tbCodeF.Name = "tbCodeF";
+            this.tbCodeF.Size = new System.Drawing.Size(88, 20);
+            this.tbCodeF.TabIndex = 18;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(164, 108);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "Stadt:";
+            // 
+            // tbNrF
+            // 
+            this.tbNrF.Location = new System.Drawing.Point(352, 66);
+            this.tbNrF.Name = "tbNrF";
+            this.tbNrF.Size = new System.Drawing.Size(92, 20);
+            this.tbNrF.TabIndex = 17;
+            // 
+            // tbCityF
+            // 
+            this.tbCityF.Location = new System.Drawing.Point(211, 105);
+            this.tbCityF.Name = "tbCityF";
+            this.tbCityF.Size = new System.Drawing.Size(230, 20);
+            this.tbCityF.TabIndex = 16;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tbStreet);
+            this.groupBox1.Controls.Add(this.labStreet);
+            this.groupBox1.Controls.Add(this.labNr);
+            this.groupBox1.Controls.Add(this.labCode);
+            this.groupBox1.Controls.Add(this.labCountry);
+            this.groupBox1.Controls.Add(this.labCity);
+            this.groupBox1.Controls.Add(this.tbCity);
+            this.groupBox1.Controls.Add(this.tbNr);
+            this.groupBox1.Controls.Add(this.tbCode);
+            this.groupBox1.Controls.Add(this.tbCountry);
+            this.groupBox1.Location = new System.Drawing.Point(31, 19);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(469, 141);
+            this.groupBox1.TabIndex = 22;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Privat-Adresse";
+            this.groupBox1.UseCompatibleTextRendering = true;
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // tbStreet
             // 
-            this.tbStreet.Location = new System.Drawing.Point(78, 60);
+            this.tbStreet.Location = new System.Drawing.Point(69, 30);
             this.tbStreet.Name = "tbStreet";
             this.tbStreet.Size = new System.Drawing.Size(230, 20);
             this.tbStreet.TabIndex = 5;
             // 
-            // labCity
-            // 
-            this.labCity.AutoSize = true;
-            this.labCity.Location = new System.Drawing.Point(176, 112);
-            this.labCity.Name = "labCity";
-            this.labCity.Size = new System.Drawing.Size(35, 13);
-            this.labCity.TabIndex = 4;
-            this.labCity.Text = "Stadt:";
-            // 
-            // labCountry
-            // 
-            this.labCountry.AutoSize = true;
-            this.labCountry.Location = new System.Drawing.Point(34, 163);
-            this.labCountry.Name = "labCountry";
-            this.labCountry.Size = new System.Drawing.Size(34, 13);
-            this.labCountry.TabIndex = 3;
-            this.labCountry.Text = "Land:";
-            // 
-            // labCode
-            // 
-            this.labCode.AutoSize = true;
-            this.labCode.Location = new System.Drawing.Point(34, 112);
-            this.labCode.Name = "labCode";
-            this.labCode.Size = new System.Drawing.Size(30, 13);
-            this.labCode.TabIndex = 2;
-            this.labCode.Text = "PLZ:";
-            // 
-            // labNr
-            // 
-            this.labNr.AutoSize = true;
-            this.labNr.Location = new System.Drawing.Point(314, 63);
-            this.labNr.Name = "labNr";
-            this.labNr.Size = new System.Drawing.Size(24, 13);
-            this.labNr.TabIndex = 1;
-            this.labNr.Text = "Nr.:";
-            // 
             // labStreet
             // 
             this.labStreet.AutoSize = true;
-            this.labStreet.Location = new System.Drawing.Point(34, 63);
+            this.labStreet.Location = new System.Drawing.Point(22, 33);
             this.labStreet.Name = "labStreet";
             this.labStreet.Size = new System.Drawing.Size(41, 13);
             this.labStreet.TabIndex = 0;
             this.labStreet.Text = "Straße:";
             // 
+            // labNr
+            // 
+            this.labNr.AutoSize = true;
+            this.labNr.Location = new System.Drawing.Point(322, 33);
+            this.labNr.Name = "labNr";
+            this.labNr.Size = new System.Drawing.Size(24, 13);
+            this.labNr.TabIndex = 1;
+            this.labNr.Text = "Nr.:";
+            // 
+            // labCode
+            // 
+            this.labCode.AutoSize = true;
+            this.labCode.Location = new System.Drawing.Point(22, 72);
+            this.labCode.Name = "labCode";
+            this.labCode.Size = new System.Drawing.Size(30, 13);
+            this.labCode.TabIndex = 2;
+            this.labCode.Text = "PLZ:";
+            // 
+            // labCountry
+            // 
+            this.labCountry.AutoSize = true;
+            this.labCountry.Location = new System.Drawing.Point(22, 109);
+            this.labCountry.Name = "labCountry";
+            this.labCountry.Size = new System.Drawing.Size(34, 13);
+            this.labCountry.TabIndex = 3;
+            this.labCountry.Text = "Land:";
+            // 
+            // labCity
+            // 
+            this.labCity.AutoSize = true;
+            this.labCity.Location = new System.Drawing.Point(164, 72);
+            this.labCity.Name = "labCity";
+            this.labCity.Size = new System.Drawing.Size(35, 13);
+            this.labCity.TabIndex = 4;
+            this.labCity.Text = "Stadt:";
+            // 
+            // tbCity
+            // 
+            this.tbCity.Location = new System.Drawing.Point(211, 69);
+            this.tbCity.Name = "tbCity";
+            this.tbCity.Size = new System.Drawing.Size(230, 20);
+            this.tbCity.TabIndex = 6;
+            // 
+            // tbNr
+            // 
+            this.tbNr.Location = new System.Drawing.Point(352, 30);
+            this.tbNr.Name = "tbNr";
+            this.tbNr.Size = new System.Drawing.Size(92, 20);
+            this.tbNr.TabIndex = 7;
+            // 
+            // tbCode
+            // 
+            this.tbCode.Location = new System.Drawing.Point(69, 69);
+            this.tbCode.Name = "tbCode";
+            this.tbCode.Size = new System.Drawing.Size(88, 20);
+            this.tbCode.TabIndex = 8;
+            // 
+            // tbCountry
+            // 
+            this.tbCountry.Location = new System.Drawing.Point(69, 106);
+            this.tbCountry.Name = "tbCountry";
+            this.tbCountry.Size = new System.Drawing.Size(230, 20);
+            this.tbCountry.TabIndex = 9;
+            // 
             // tabOther
             // 
             this.tabOther.BackColor = System.Drawing.Color.OldLace;
             this.tabOther.Controls.Add(this.labRTbox);
-            this.tabOther.Controls.Add(this.richTextBox1);
+            this.tabOther.Controls.Add(this.tbOthers);
             this.tabOther.Controls.Add(this.grbMail);
             this.tabOther.Location = new System.Drawing.Point(4, 22);
             this.tabOther.Name = "tabOther";
@@ -1083,13 +1229,13 @@
             this.labRTbox.TabIndex = 2;
             this.labRTbox.Text = "Sonstige Informationen:";
             // 
-            // richTextBox1
+            // tbOthers
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(19, 163);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(501, 220);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
+            this.tbOthers.Location = new System.Drawing.Point(19, 163);
+            this.tbOthers.Name = "tbOthers";
+            this.tbOthers.Size = new System.Drawing.Size(501, 220);
+            this.tbOthers.TabIndex = 1;
+            this.tbOthers.Text = "";
             // 
             // grbMail
             // 
@@ -1225,7 +1371,10 @@
             this.tabPhonenumber.ResumeLayout(false);
             this.tabPhonenumber.PerformLayout();
             this.tabAdress.ResumeLayout(false);
-            this.tabAdress.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabOther.ResumeLayout(false);
             this.tabOther.PerformLayout();
             this.grbMail.ResumeLayout(false);
@@ -1272,21 +1421,21 @@
         private System.Windows.Forms.TextBox tbNumber3Part2;
         private System.Windows.Forms.TextBox tbNumber2Part2;
         private System.Windows.Forms.TextBox tbNumber1Part2;
-        private System.Windows.Forms.TextBox tbNumber4;
-        private System.Windows.Forms.TextBox tbNumber3;
-        private System.Windows.Forms.TextBox tbNumber2;
-        private System.Windows.Forms.TextBox tbNumber1;
+        private System.Windows.Forms.TextBox tbAC4;
+        private System.Windows.Forms.TextBox tbAC3;
+        private System.Windows.Forms.TextBox tbAC2;
+        private System.Windows.Forms.TextBox tbAC1;
         private System.Windows.Forms.Label labNumber4;
         private System.Windows.Forms.Label labNumber3;
         private System.Windows.Forms.Label labNumber2;
         private System.Windows.Forms.Label labNumber1;
-        private System.Windows.Forms.MaskedTextBox mtbCountryCode1;
+        private System.Windows.Forms.MaskedTextBox tbCC1;
         private System.Windows.Forms.ComboBox cbNumber4;
         private System.Windows.Forms.ComboBox cbNumber3;
         private System.Windows.Forms.ComboBox cbNumber2;
-        private System.Windows.Forms.MaskedTextBox mtbCountryCode3;
-        private System.Windows.Forms.MaskedTextBox mtbCountryCode2;
-        private System.Windows.Forms.MaskedTextBox mtbCountryCode4;
+        private System.Windows.Forms.MaskedTextBox tbCC3;
+        private System.Windows.Forms.MaskedTextBox tbCC2;
+        private System.Windows.Forms.MaskedTextBox tbCC4;
         private System.Windows.Forms.TextBox tbCountry;
         private System.Windows.Forms.TextBox tbCode;
         private System.Windows.Forms.TextBox tbNr;
@@ -1298,7 +1447,7 @@
         private System.Windows.Forms.Label labNr;
         private System.Windows.Forms.Label labStreet;
         private System.Windows.Forms.Label labRTbox;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox tbOthers;
         private System.Windows.Forms.GroupBox grbMail;
         private System.Windows.Forms.ComboBox cbMail2;
         private System.Windows.Forms.ComboBox cbMail1;
@@ -1316,6 +1465,20 @@
         private System.Windows.Forms.Button btnDelNr2;
         private System.Windows.Forms.Button btnDelMail2;
         private System.Windows.Forms.Button btnDelMail1;
+        private System.Windows.Forms.TextBox tbCompany;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox tbCountryF;
+        private System.Windows.Forms.TextBox tbCodeF;
+        private System.Windows.Forms.TextBox tbNrF;
+        private System.Windows.Forms.TextBox tbCityF;
+        private System.Windows.Forms.TextBox tbStreetF;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        public System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
 
