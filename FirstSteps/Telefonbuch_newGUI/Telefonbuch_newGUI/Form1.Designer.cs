@@ -41,7 +41,7 @@
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.labRealName = new System.Windows.Forms.Label();
             this.gbBirthday = new System.Windows.Forms.GroupBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.tbBirthday = new System.Windows.Forms.DateTimePicker();
             this.labPicture = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.gbShowAs = new System.Windows.Forms.GroupBox();
@@ -514,7 +514,7 @@
             // 
             // gbBirthday
             // 
-            this.gbBirthday.Controls.Add(this.dateTimePicker1);
+            this.gbBirthday.Controls.Add(this.tbBirthday);
             this.gbBirthday.Location = new System.Drawing.Point(346, 245);
             this.gbBirthday.Name = "gbBirthday";
             this.gbBirthday.Size = new System.Drawing.Size(163, 78);
@@ -522,15 +522,15 @@
             this.gbBirthday.TabStop = false;
             this.gbBirthday.Text = "Geburtstag";
             // 
-            // dateTimePicker1
+            // tbBirthday
             // 
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker1.Location = new System.Drawing.Point(20, 33);
-            this.dateTimePicker1.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            this.dateTimePicker1.MinDate = new System.DateTime(1880, 1, 1, 0, 0, 0, 0);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(120, 20);
-            this.dateTimePicker1.TabIndex = 0;
+            this.tbBirthday.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.tbBirthday.Location = new System.Drawing.Point(20, 33);
+            this.tbBirthday.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            this.tbBirthday.MinDate = new System.DateTime(1880, 1, 1, 0, 0, 0, 0);
+            this.tbBirthday.Name = "tbBirthday";
+            this.tbBirthday.Size = new System.Drawing.Size(120, 20);
+            this.tbBirthday.TabIndex = 0;
             // 
             // labPicture
             // 
@@ -1456,7 +1456,7 @@
         private System.Windows.Forms.TextBox tbMail2;
         private System.Windows.Forms.TextBox tbMail1;
         private System.Windows.Forms.GroupBox gbBirthday;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker tbBirthday;
         private System.Windows.Forms.Label labRealName;
         private System.Windows.Forms.Label labAttention;
         private System.Windows.Forms.Button btnDelNr1;

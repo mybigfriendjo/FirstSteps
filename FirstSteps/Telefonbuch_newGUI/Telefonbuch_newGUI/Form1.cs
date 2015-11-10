@@ -66,7 +66,7 @@ namespace Telefonbuch_newGUI
 
         #region "Sonstige"
         Image iContactImg;
-        DateTime dBirthday;
+        DateTime dtBirthday;
         bool isFemale;
         #endregion
 
@@ -185,27 +185,40 @@ namespace Telefonbuch_newGUI
             {
                 if (this.tbAC1.Text != "")
                 {
-                    iNr1 = int.Parse(this.tbAC1.Text);
+                    iAC1 = int.Parse(this.tbAC1.Text);
                 }
                 if (this.tbAC2.Text != "")
                 {
-                    iNr2 = int.Parse(this.tbAC2.Text);
+                    iAC2 = int.Parse(this.tbAC2.Text);
                 }
                 if (this.tbAC3.Text != "")
                 {
-                    iNr3 = int.Parse(this.tbAC3.Text);
+                    iAC3 = int.Parse(this.tbAC3.Text);
                 }
                 if (this.tbAC4.Text != "")
                 {
-                    iNr4 = int.Parse(this.tbAC4.Text);
+                    iAC4 = int.Parse(this.tbAC4.Text);
                 }
+
+                //Gleiche Funktion wie oben jedoch für die Nummernfelder rechts, und auf eine Zeile reduziert.
+                if (this.tbNumber1Part2.Text != "") iNr1 = int.Parse(this.tbNumber1Part2.Text);
+                if (this.tbNumber2Part2.Text != "") iNr2 = int.Parse(this.tbNumber2Part2.Text);
+                if (this.tbNumber3Part2.Text != "") iNr3 = int.Parse(this.tbNumber3Part2.Text);
+                if (this.tbNumber4Part2.Text != "") iNr4 = int.Parse(this.tbNumber4Part2.Text);
             }
             catch (Exception)
             {
-                MessageBox.Show("Achtung! Bitte geben Sie nur Ziffern für die Telefonnummer ein!", "Fehler!",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Achtung! Bitte geben Sie nur Ziffern für die Telefonnummer ein!", "Fehler!",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
-             
+            try
+            {
+                dtBirthday = DateTime.Parse(tbBirthday.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Achtung! Bitte geben Sie ein gültiges Geburtsdatum ein!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -240,15 +253,7 @@ namespace Telefonbuch_newGUI
             iCC2 = int.Parse(tbCC2.Text);
             iCC3 = int.Parse(tbCC3.Text);
             iCC4 = int.Parse(tbCC4.Text);
-
-            try
-            {
-                iAC1 = int.Parse(tbAC1.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Achtung! Bitte geben Sie nur Ziffern für die Telefonnummer ein!", "FEHLER!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+ 
          }
     }
 }
