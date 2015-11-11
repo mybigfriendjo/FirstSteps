@@ -73,22 +73,25 @@ namespace Telefonbuch_newGUI
 
         #endregion
 
+        //Neu button wurde geklick - dadurch werden andere Tabs eingeblendet
         private void btnNew_Click(object sender, EventArgs e)
-        {//Neu button wurde geklick
+        {
             this.tabContact.Visible = true;
             this.btnPreview.Visible = true;
             this.btnSave.Visible = true;
             this.labAttention.Visible = false;
         }
 
+        //Kontakte Button. Schaltet Karteikarten ein und Meldung aus.
         private void button1_Click(object sender, EventArgs e)
-        {//Kontakte Button. Schaltet Karteikarten ein und Meldung aus.
+        {
             tabContact.Visible = true;
             this.labAttention.Visible = false;
         }
 
+        //Allgemeines -> Anzeigen als: Hier wird die Namenszusammenstellung gemacht.
         private void cobShowAs_SelectedIndexChanged(object sender, EventArgs e)
-        {//Vorschau. Combobox ShowAs - Auswahl geändert
+        {
             switch (this.cobShowAs.SelectedIndex)
             {
                 case 0:
@@ -117,8 +120,9 @@ namespace Telefonbuch_newGUI
             }
         }
 
+        //Läd die Bildauswahl
         private void btnPicture_Click(object sender, EventArgs e)
-        {//Bildauswahl
+        {
             OpenFileDialog OF = new OpenFileDialog();
             OF.Title = "Bitte Bild auswählen...";
             OF.Multiselect = false;
@@ -135,8 +139,9 @@ namespace Telefonbuch_newGUI
             }
         }
 
+        //Löschfunktion für Löschbuttons die mit "sender" den button ausgibt und die jeweilige switch anweisung ausführt.
         private void btnDel(object sender, EventArgs e)
-        {//Löschfunktion für Löschbuttons die mit "sender" den button ausgibt und die jeweilige switch anweisung ausführt.
+        {
             Button usedBtn = new Button();
             usedBtn = (Button)sender;
 
@@ -178,7 +183,36 @@ namespace Telefonbuch_newGUI
             }
         }
 
+        //Läd die Vorschau
         private void btnPreview_Click(object sender, EventArgs e)
+        {
+            VarsSpeicher();
+        }
+
+        //überprüft ob ein "@" in der Mail enthalten ist oder das Feld leer ist.
+        string MailStringChecken(string sMail)
+        {
+            if (sMail != "")
+            {
+                if (sMail.IndexOf("@") == -1)
+                {
+                    MessageBox.Show("Achtung! Die Emailadresse ist ungültig da sie kein \"@\" enthält!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return sMail;
+                }
+                else
+                {
+                    return sMail;
+                }
+            }
+            else
+            {
+                //Verursacht 2 Maildungen(Pro Mail eine) MessageBox.Show("Achtung! Bitte geben Sie eine Emailadresse ein!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return sMail;
+            }
+        }
+
+        //Speichert alle Inhalte für das preview
+        void VarsSpeicher ()
         {
             //try and catch - string in intfeld wirft einen Fehler, dieser wird abgefangen und als Messagebox wiedergegeben.
             try
@@ -208,7 +242,7 @@ namespace Telefonbuch_newGUI
             }
             catch (Exception)
             {
-                MessageBox.Show("Achtung! Bitte geben Sie nur Ziffern für die Telefonnummer ein!", "Fehler!",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Achtung! Bitte geben Sie nur Ziffern für die Telefonnummer ein!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
             try
@@ -219,10 +253,7 @@ namespace Telefonbuch_newGUI
             {
                 MessageBox.Show("Achtung! Bitte geben Sie ein gültiges Geburtsdatum ein!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-        }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
             sName = tbName.Text;
             sFirstName = tbFirstname.Text;
             sNickName = tbNickname.Text;
@@ -249,18 +280,10 @@ namespace Telefonbuch_newGUI
             else { isFemale = false; }
 
             //Text to int
-            iCC1 = int.Parse(tbCC1.Text); 
+            iCC1 = int.Parse(tbCC1.Text);
             iCC2 = int.Parse(tbCC2.Text);
             iCC3 = int.Parse(tbCC3.Text);
             iCC4 = int.Parse(tbCC4.Text);
- 
-         }
-
-        string MailStringChecken(string sMail)
-        {
-
-
-            return "";
         }
     }
 }

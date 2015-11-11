@@ -544,7 +544,6 @@
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox1.Image = global::Telefonbuch.Properties.Resources.turtle;
             this.pictureBox1.Location = new System.Drawing.Point(346, 15);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(163, 177);
@@ -1125,7 +1124,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Privat-Adresse";
             this.groupBox1.UseCompatibleTextRendering = true;
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // tbStreet
             // 
