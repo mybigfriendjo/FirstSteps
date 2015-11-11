@@ -238,8 +238,8 @@ namespace Telefonbuch_newGUI
             sCountry = tbCountry.Text;
             sCountryF = tbCountryF.Text;
             sFirma = tbCompany.Text;
-            sMail1 = tbMail1.Text;
-            sMail2 = tbMail2.Text;
+            sMail1 = MailStringChecken(tbMail1.Text);
+            sMail2 = MailStringChecken(tbMail2.Text);
             sOther = tbOthers.Text;
 
             if (rbFemale.Checked == true)
@@ -255,5 +255,12 @@ namespace Telefonbuch_newGUI
             iCC4 = int.Parse(tbCC4.Text);
  
          }
+
+        string MailStringChecken(string sMail)
+        {
+
+
+            return "";
+        }
     }
 }
