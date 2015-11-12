@@ -46,6 +46,10 @@ namespace Telefonbuch_newGUI
         string sMail1 = "";
         string sMail2 = "";
         string sOther = "";
+        string sNr1;
+        string sNr2;
+        string sNr3;
+        string sNr4;
         #endregion
        
         #region "integer"
@@ -97,25 +101,31 @@ namespace Telefonbuch_newGUI
             {
                 case 0:
                     this.labExample.Text = "Beispiel: " + this.tbName.Text + ", " + this.tbFirstname.Text;
+                    sShowAsType = "NV";
                     break;
                 case 1:
                     this.labExample.Text = "Beispiel: " + this.tbFirstname.Text + tbName.Text;
+                    sShowAsType = "VN";
                     break;
                 case 2:
                     if(this.tbNickname.Text != null && this.tbNickname.Text != "")
                     {
                         this.labExample.Text = "Beispiel: " + this.tbName.Text + ", " + this.tbFirstname.Text + " (" + this.tbNickname.Text + ")";
+                        sShowAsType = "NVS";
                     }
                     else
                     {
                         this.labExample.Text = "Beispiel: " + this.tbName.Text + ", " + this.tbFirstname.Text;
+                        sShowAsType = "NV";
                     }   
                     break;
                 case 3:
                     this.labExample.Text = "Beispiel: " + this.tbTitle.Text + " " + this.tbName.Text + ", " + this.tbFirstname.Text;
+                    sShowAsType = "TNV";
                     break;
                 default:
                     this.labExample.Text = "Beispiel: " + this.tbName.Text + ", " + this.tbFirstname.Text;
+                    sShowAsType = "NV";
                     break;
                     
             }
@@ -190,7 +200,36 @@ namespace Telefonbuch_newGUI
             VarsSpeicher();
 
             Form2_preview FPre = new Form2_preview();
-            
+            FPre.Text += PrepareShowAsPreview(sName, sFirstName, sNickName, sTitle, sShowAsType);
+
+            FPre.label48.Text = PrepareMailPreview(sMail1, sMailType1);
+            FPre.label47.Text = PrepareMailPreview(sMail2, sMailType2);
+
+            FPre.label31.Text = PrepareNumbersPreview(sNumberType1, iCC1, iAC1, sNr1);
+            FPre.label32.Text = PrepareNumbersPreview(sNumberType2, iCC2, iAC2, sNr2);
+            FPre.label33.Text = PrepareNumbersPreview(sNumberType3, iCC3, iAC3, sNr3);
+            FPre.label34.Text = PrepareNumbersPreview(sNumberType4, iCC4, iAC4, sNr4);
+
+            // = sName;
+            // = sFirstName;
+            // = sNickName;
+            // = sTitle;
+            // = sStreet;
+            // = sStreetF;
+            // = sHouseNumber;
+            // = sHouseNumberF;
+            // = sPLZ;
+            // = sPLZF;
+            // = sCity;
+            // = sCityF;
+            // = sCountry;
+            // = sCountryF;
+            // = sFirma;
+            // = sOther;
+
+            //birthday
+            //picture
+
             FPre.Show();
         }
 
@@ -230,20 +269,11 @@ namespace Telefonbuch_newGUI
                 {
                     iAC2 = int.Parse(this.tbAC2.Text);
                 }
-                if (this.tbAC3.Text != "")
-                {
-                    iAC3 = int.Parse(this.tbAC3.Text);
-                }
-                if (this.tbAC4.Text != "")
-                {
-                    iAC4 = int.Parse(this.tbAC4.Text);
-                }
+                if (tbAC3.Text != "") iAC3 = int.Parse(tbAC3.Text);
+                if (tbAC4.Text != "") iAC4 = int.Parse(tbAC4.Text);
+               
 
                 //Gleiche Funktion wie oben jedoch für die Nummernfelder rechts, und auf eine Zeile reduziert.
-                if (this.tbNumber1Part2.Text != "") iNr1 = int.Parse(this.tbNumber1Part2.Text);
-                if (this.tbNumber2Part2.Text != "") iNr2 = int.Parse(this.tbNumber2Part2.Text);
-                if (this.tbNumber3Part2.Text != "") iNr3 = int.Parse(this.tbNumber3Part2.Text);
-                if (this.tbNumber4Part2.Text != "") iNr4 = int.Parse(this.tbNumber4Part2.Text);
             }
             catch (Exception)
             {
@@ -278,6 +308,11 @@ namespace Telefonbuch_newGUI
             sMail2 = MailStringChecken(tbMail2.Text);
             sOther = tbOthers.Text;
 
+            sNr1 = tbNumber1Part2.Text;
+            sNr2 = tbNumber2Part2.Text;
+            sNr3 = tbNumber3Part2.Text;
+            sNr4 = tbNumber4Part2.Text;
+
             if (rbFemale.Checked == true)
             {
                 isFemale = true;
@@ -291,10 +326,10 @@ namespace Telefonbuch_newGUI
             iCC4 = int.Parse(tbCC4.Text);
         }
 
-        //TODO - why same shit as before?
-        string PrepareShowAsPreview(string sName, string sFirstName, string sNickName, string sTitle, string sShowas)
+        //Nimmt die Werte der Namenszusammenstellung und gibt sie als string retour für den Titel von Form2 retour
+        string PrepareShowAsPreview(string sName, string sFirstName, string sNickName, string sTitle, string sShowAs)
         {
-            switch (sShowas)
+            switch (sShowAs)
             {
                 case "NV":
                     return sName + ", " + sFirstName;
@@ -306,6 +341,32 @@ namespace Telefonbuch_newGUI
                     return sTitle + ", " + ", " + sFirstName+ ", " + sName;
                 default:
                     return sName + ", " + sFirstName;
+            }
+        }
+
+        //Prüft ob Mail befüllt ist und übergibt string.
+        string PrepareMailPreview(string sMail, string sMailType)
+        {
+            if (sMail != "")
+            {
+                return sMail;
+            }
+            else
+            {
+                return "----";
+            }
+        }
+
+        //Prüft ob Nummer und Ländervorwahl befüllt sind und übergibt string.
+        string PrepareNumbersPreview(string NumberType,int CC, int AC, string Number)
+        {
+            if (AC.ToString() == "" & Number.ToString() == "")
+            {
+                return "----";
+            }
+            else
+            {
+                return "+" + CC + " " + AC + " / " + Number + " (" + NumberType + ")";
             }
         }
     }
