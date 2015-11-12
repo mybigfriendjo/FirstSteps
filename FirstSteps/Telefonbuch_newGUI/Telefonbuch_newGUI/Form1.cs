@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Telefonbuch;
 
 namespace Telefonbuch_newGUI
 {
@@ -187,6 +188,10 @@ namespace Telefonbuch_newGUI
         private void btnPreview_Click(object sender, EventArgs e)
         {
             VarsSpeicher();
+
+            Form2_preview FPre = new Form2_preview();
+            
+            FPre.Show();
         }
 
         //überprüft ob ein "@" in der Mail enthalten ist oder das Feld leer ist.
@@ -284,6 +289,24 @@ namespace Telefonbuch_newGUI
             iCC2 = int.Parse(tbCC2.Text);
             iCC3 = int.Parse(tbCC3.Text);
             iCC4 = int.Parse(tbCC4.Text);
+        }
+
+        //TODO - why same shit as before?
+        string PrepareShowAsPreview(string sName, string sFirstName, string sNickName, string sTitle, string sShowas)
+        {
+            switch (sShowas)
+            {
+                case "NV":
+                    return sName + ", " + sFirstName;
+                case "VN":
+                    return sFirstName + ", " + sName;
+                case "NVS":
+                    return sFirstName + ", " + sName + ", (" + sNickName + ")";
+                case "TVN":
+                    return sTitle + ", " + ", " + sFirstName+ ", " + sName;
+                default:
+                    return sName + ", " + sFirstName;
+            }
         }
     }
 }

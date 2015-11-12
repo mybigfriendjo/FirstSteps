@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Telefonbuch_newGUI;
 
 namespace Telefonbuch
 {
@@ -15,6 +16,12 @@ namespace Telefonbuch
         public Form2_preview()
         {
             InitializeComponent();
+        }
+
+        //Beendet den Frame2 per Doppelklick
+        private void Form2_preview_DoubleClick(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
