@@ -54,7 +54,7 @@
             this.labTitel = new System.Windows.Forms.Label();
             this.tbNickname = new System.Windows.Forms.TextBox();
             this.labNickname = new System.Windows.Forms.Label();
-            this.tbFirstname = new System.Windows.Forms.TextBox();
+            this.tbFirstName = new System.Windows.Forms.TextBox();
             this.labFirstname = new System.Windows.Forms.Label();
             this.tbName = new System.Windows.Forms.TextBox();
             this.tabPhonenumber = new System.Windows.Forms.TabPage();
@@ -493,7 +493,7 @@
             this.tabGeneral.Controls.Add(this.labTitel);
             this.tabGeneral.Controls.Add(this.tbNickname);
             this.tabGeneral.Controls.Add(this.labNickname);
-            this.tabGeneral.Controls.Add(this.tbFirstname);
+            this.tabGeneral.Controls.Add(this.tbFirstName);
             this.tabGeneral.Controls.Add(this.labFirstname);
             this.tabGeneral.Controls.Add(this.tbName);
             this.tabGeneral.Location = new System.Drawing.Point(4, 22);
@@ -651,12 +651,12 @@
             this.labNickname.TabIndex = 4;
             this.labNickname.Text = "Spitzname:";
             // 
-            // tbFirstname
+            // tbFirstName
             // 
-            this.tbFirstname.Location = new System.Drawing.Point(83, 38);
-            this.tbFirstname.Name = "tbFirstname";
-            this.tbFirstname.Size = new System.Drawing.Size(210, 20);
-            this.tbFirstname.TabIndex = 3;
+            this.tbFirstName.Location = new System.Drawing.Point(83, 38);
+            this.tbFirstName.Name = "tbFirstName";
+            this.tbFirstName.Size = new System.Drawing.Size(210, 20);
+            this.tbFirstName.TabIndex = 3;
             // 
             // labFirstname
             // 
@@ -1400,7 +1400,7 @@
         private System.Windows.Forms.Label labTitel;
         private System.Windows.Forms.TextBox tbNickname;
         private System.Windows.Forms.Label labNickname;
-        private System.Windows.Forms.TextBox tbFirstname;
+        private System.Windows.Forms.TextBox tbFirstName;
         private System.Windows.Forms.Label labFirstname;
         private System.Windows.Forms.TextBox tbName;
         private System.Windows.Forms.Button btnPicture;

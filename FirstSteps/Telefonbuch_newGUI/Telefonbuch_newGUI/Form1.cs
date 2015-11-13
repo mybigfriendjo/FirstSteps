@@ -51,7 +51,7 @@ namespace Telefonbuch_newGUI
         string sNr3;
         string sNr4;
         #endregion
-       
+
         #region "integer"
 
         int iCC1;
@@ -62,10 +62,6 @@ namespace Telefonbuch_newGUI
         int iAC2;
         int iAC3;
         int iAC4;
-        int iNr1;
-        int iNr2;
-        int iNr3;
-        int iNr4;
 
         #endregion
 
@@ -78,6 +74,7 @@ namespace Telefonbuch_newGUI
 
         #endregion
 
+        #region Buttons
         //Neu button wurde geklick - dadurch werden andere Tabs eingeblendet
         private void btnNew_Click(object sender, EventArgs e)
         {
@@ -92,43 +89,6 @@ namespace Telefonbuch_newGUI
         {
             tabContact.Visible = true;
             this.labAttention.Visible = false;
-        }
-
-        //Allgemeines -> Anzeigen als: Hier wird die Namenszusammenstellung gemacht.
-        private void cobShowAs_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            switch (this.cobShowAs.SelectedIndex)
-            {
-                case 0:
-                    this.labExample.Text = "Beispiel: " + this.tbName.Text + ", " + this.tbFirstname.Text;
-                    sShowAsType = "NV";
-                    break;
-                case 1:
-                    this.labExample.Text = "Beispiel: " + this.tbFirstname.Text + tbName.Text;
-                    sShowAsType = "VN";
-                    break;
-                case 2:
-                    if(this.tbNickname.Text != null && this.tbNickname.Text != "")
-                    {
-                        this.labExample.Text = "Beispiel: " + this.tbName.Text + ", " + this.tbFirstname.Text + " (" + this.tbNickname.Text + ")";
-                        sShowAsType = "NVS";
-                    }
-                    else
-                    {
-                        this.labExample.Text = "Beispiel: " + this.tbName.Text + ", " + this.tbFirstname.Text;
-                        sShowAsType = "NV";
-                    }   
-                    break;
-                case 3:
-                    this.labExample.Text = "Beispiel: " + this.tbTitle.Text + " " + this.tbName.Text + ", " + this.tbFirstname.Text;
-                    sShowAsType = "TNV";
-                    break;
-                default:
-                    this.labExample.Text = "Beispiel: " + this.tbName.Text + ", " + this.tbFirstname.Text;
-                    sShowAsType = "NV";
-                    break;
-                    
-            }
         }
 
         //Läd die Bildauswahl
@@ -150,6 +110,50 @@ namespace Telefonbuch_newGUI
             }
         }
 
+        //Läd die Vorschau
+        private void btnPreview_Click(object sender, EventArgs e)
+        {
+            VarsSpeicher();
+
+            Form2_preview FPre = new Form2_preview();
+            FPre.Text += PrepareShowAsPreview(sName, sFirstName, sNickName, sTitle, sShowAsType);
+
+            FPre.label48.Text = PrepareMailPreview(sMail1, sMailType1);
+            FPre.label47.Text = PrepareMailPreview(sMail2, sMailType2);
+
+            FPre.label31.Text = PrepareNumbersPreview(sNumberType1, iCC1, iAC1, sNr1);
+            FPre.label32.Text = PrepareNumbersPreview(sNumberType2, iCC2, iAC2, sNr2);
+            FPre.label33.Text = PrepareNumbersPreview(sNumberType3, iCC3, iAC3, sNr3);
+            FPre.label34.Text = PrepareNumbersPreview(sNumberType4, iCC4, iAC4, sNr4);
+
+            FPre.label26.Text = sName;
+            FPre.label25.Text = sFirstName;
+            FPre.label27.Text = sNickName;
+            FPre.label28.Text = sTitle;
+            FPre.label45.Text = sStreet;
+            FPre.label37.Text = sStreetF;
+            FPre.label42.Text = sHouseNumber;
+            FPre.label40.Text = sHouseNumberF;
+            FPre.label44.Text = sPLZ;
+            FPre.label36.Text = sPLZF;
+            FPre.label41.Text = sCity;
+            FPre.label39.Text = sCityF;
+            FPre.label43.Text = sCountry;
+            FPre.label35.Text = sCountryF;
+            FPre.label38.Text = sFirma;
+            FPre.label46.Text = sOther;
+
+            FPre.label30.Text = dtBirthday.ToLongDateString();
+            FPre.previewpictureBox1.Image = pictureBox1.Image;
+
+            if (isFemale == true) FPre.label29.Text = "weiblich";
+            else FPre.label29.Text = "männlich";
+
+            FPre.Show();
+        }
+        #endregion
+
+        #region Hilfsfunktionen
         //Löschfunktion für Löschbuttons die mit "sender" den button ausgibt und die jeweilige switch anweisung ausführt.
         private void btnDel(object sender, EventArgs e)
         {
@@ -190,47 +194,45 @@ namespace Telefonbuch_newGUI
                     this.cbMail2.SelectedIndex = -1;
                     this.tbMail2.Text = "";
                     break;
-                //default:
+                    //default:
             }
         }
 
-        //Läd die Vorschau
-        private void btnPreview_Click(object sender, EventArgs e)
+        //Allgemeines -> Anzeigen als: Hier wird die Namenszusammenstellung gemacht.
+        private void cobShowAs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            VarsSpeicher();
+            switch (this.cobShowAs.SelectedIndex)
+            {
+                case 0:
+                    this.labExample.Text = "Beispiel: " + this.tbName.Text + ", " + this.tbFirstName.Text;
+                    sShowAsType = "NV";
+                    break;
+                case 1:
+                    this.labExample.Text = "Beispiel: " + this.tbFirstName.Text + tbName.Text;
+                    sShowAsType = "VN";
+                    break;
+                case 2:
+                    if (this.tbNickname.Text != null && this.tbNickname.Text != "")
+                    {
+                        this.labExample.Text = "Beispiel: " + this.tbName.Text + ", " + this.tbFirstName.Text + " (" + this.tbNickname.Text + ")";
+                        sShowAsType = "NVS";
+                    }
+                    else
+                    {
+                        this.labExample.Text = "Beispiel: " + this.tbName.Text + ", " + this.tbFirstName.Text;
+                        sShowAsType = "NV";
+                    }
+                    break;
+                case 3:
+                    this.labExample.Text = "Beispiel: " + this.tbTitle.Text + " " + this.tbName.Text + ", " + this.tbFirstName.Text;
+                    sShowAsType = "TNV";
+                    break;
+                default:
+                    this.labExample.Text = "Beispiel: " + this.tbName.Text + ", " + this.tbFirstName.Text;
+                    sShowAsType = "NV";
+                    break;
 
-            Form2_preview FPre = new Form2_preview();
-            FPre.Text += PrepareShowAsPreview(sName, sFirstName, sNickName, sTitle, sShowAsType);
-
-            FPre.label48.Text = PrepareMailPreview(sMail1, sMailType1);
-            FPre.label47.Text = PrepareMailPreview(sMail2, sMailType2);
-
-            FPre.label31.Text = PrepareNumbersPreview(sNumberType1, iCC1, iAC1, sNr1);
-            FPre.label32.Text = PrepareNumbersPreview(sNumberType2, iCC2, iAC2, sNr2);
-            FPre.label33.Text = PrepareNumbersPreview(sNumberType3, iCC3, iAC3, sNr3);
-            FPre.label34.Text = PrepareNumbersPreview(sNumberType4, iCC4, iAC4, sNr4);
-
-            // = sName;
-            // = sFirstName;
-            // = sNickName;
-            // = sTitle;
-            // = sStreet;
-            // = sStreetF;
-            // = sHouseNumber;
-            // = sHouseNumberF;
-            // = sPLZ;
-            // = sPLZF;
-            // = sCity;
-            // = sCityF;
-            // = sCountry;
-            // = sCountryF;
-            // = sFirma;
-            // = sOther;
-
-            //birthday
-            //picture
-
-            FPre.Show();
+            }
         }
 
         //überprüft ob ein "@" in der Mail enthalten ist oder das Feld leer ist.
@@ -250,13 +252,23 @@ namespace Telefonbuch_newGUI
             }
             else
             {
-                //Verursacht 2 Maildungen(Pro Mail eine) MessageBox.Show("Achtung! Bitte geben Sie eine Emailadresse ein!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                //Verursacht 2 Meldungen(Pro Mail eine) 
+                if (sMail1 == "" & sMail2 == "")
+                { if (sMail == sMail1 )
+                  {
+                        MessageBox.Show("Achtung! Bitte geben Sie eine Emailadresse ein!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                  }
+                }
+                else
+                {
+                    MessageBox.Show("Achtung! Bitte geben Sie eine Emailadresse ein!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
                 return sMail;
             }
         }
 
         //Speichert alle Inhalte für das preview
-        void VarsSpeicher ()
+        void VarsSpeicher()
         {
             //try and catch - string in intfeld wirft einen Fehler, dieser wird abgefangen und als Messagebox wiedergegeben.
             try
@@ -271,7 +283,7 @@ namespace Telefonbuch_newGUI
                 }
                 if (tbAC3.Text != "") iAC3 = int.Parse(tbAC3.Text);
                 if (tbAC4.Text != "") iAC4 = int.Parse(tbAC4.Text);
-               
+
 
                 //Gleiche Funktion wie oben jedoch für die Nummernfelder rechts, und auf eine Zeile reduziert.
             }
@@ -290,7 +302,7 @@ namespace Telefonbuch_newGUI
             }
 
             sName = tbName.Text;
-            sFirstName = tbFirstname.Text;
+            sFirstName = tbFirstName.Text;
             sNickName = tbNickname.Text;
             sTitle = tbTitle.Text;
             sStreet = tbStreet.Text;
@@ -338,7 +350,7 @@ namespace Telefonbuch_newGUI
                 case "NVS":
                     return sFirstName + ", " + sName + ", (" + sNickName + ")";
                 case "TVN":
-                    return sTitle + ", " + ", " + sFirstName+ ", " + sName;
+                    return sTitle + ", " + ", " + sFirstName + ", " + sName;
                 default:
                     return sName + ", " + sFirstName;
             }
@@ -358,7 +370,7 @@ namespace Telefonbuch_newGUI
         }
 
         //Prüft ob Nummer und Ländervorwahl befüllt sind und übergibt string.
-        string PrepareNumbersPreview(string NumberType,int CC, int AC, string Number)
+        string PrepareNumbersPreview(string NumberType, int CC, int AC, string Number)
         {
             if (AC.ToString() == "" & Number.ToString() == "")
             {
@@ -369,5 +381,6 @@ namespace Telefonbuch_newGUI
                 return "+" + CC + " " + AC + " / " + Number + " (" + NumberType + ")";
             }
         }
+        #endregion
     }
 }

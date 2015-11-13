@@ -75,7 +75,7 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.previewpictureBox1 = new System.Windows.Forms.PictureBox();
             this.label25 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
@@ -87,7 +87,7 @@
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.previewpictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -143,7 +143,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(182, 117);
+            this.label6.Location = new System.Drawing.Point(165, 117);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(62, 13);
             this.label6.TabIndex = 5;
@@ -622,15 +622,16 @@
             this.label17.Text = "Mail1:";
             this.label17.DoubleClick += new System.EventHandler(this.Form2_preview_DoubleClick);
             // 
-            // pictureBox1
+            // previewpictureBox1
             // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pictureBox1.Location = new System.Drawing.Point(395, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(113, 116);
-            this.pictureBox1.TabIndex = 8;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.DoubleClick += new System.EventHandler(this.Form2_preview_DoubleClick);
+            this.previewpictureBox1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.previewpictureBox1.Location = new System.Drawing.Point(395, 12);
+            this.previewpictureBox1.Name = "previewpictureBox1";
+            this.previewpictureBox1.Size = new System.Drawing.Size(113, 116);
+            this.previewpictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.previewpictureBox1.TabIndex = 8;
+            this.previewpictureBox1.TabStop = false;
+            this.previewpictureBox1.DoubleClick += new System.EventHandler(this.Form2_preview_DoubleClick);
             // 
             // label25
             // 
@@ -685,7 +686,7 @@
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(250, 117);
+            this.label30.Location = new System.Drawing.Point(233, 117);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(22, 13);
             this.label30.TabIndex = 14;
@@ -704,7 +705,7 @@
             this.Controls.Add(this.label27);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.label25);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.previewpictureBox1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -717,7 +718,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Form2_preview";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Form2_preview";
+            this.Text = "Vorschau für: ";
             this.toolTip1.SetToolTip(this, "Fenster mit Doppelklick schließen");
             this.TopMost = true;
             this.DoubleClick += new System.EventHandler(this.Form2_preview_DoubleClick);
@@ -729,7 +730,7 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.previewpictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -764,7 +765,7 @@
         public System.Windows.Forms.Label label21;
         public System.Windows.Forms.Label label23;
         public System.Windows.Forms.Label label22;
-        public System.Windows.Forms.PictureBox pictureBox1;
+        public System.Windows.Forms.PictureBox previewpictureBox1;
         public System.Windows.Forms.Label label34;
         public System.Windows.Forms.Label label33;
         public System.Windows.Forms.Label label32;
