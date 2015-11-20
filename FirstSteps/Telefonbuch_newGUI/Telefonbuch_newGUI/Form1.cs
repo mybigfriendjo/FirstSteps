@@ -21,10 +21,6 @@ namespace Telefonbuch_newGUI
         #region "Variabeln"
 
         #region "String"
-        string sNumberType1 = "";
-        string sNumberType2 = "";
-        string sNumberType3 = "";
-        string sNumberType4 = "";
         string sMailType1 = "";
         string sMailType2 = "";
         string sShowAsType = "NV";
@@ -121,10 +117,10 @@ namespace Telefonbuch_newGUI
             FPre.label48.Text = PrepareMailPreview(sMail1, sMailType1);
             FPre.label47.Text = PrepareMailPreview(sMail2, sMailType2);
 
-            FPre.label31.Text = PrepareNumbersPreview(sNumberType1, iCC1, iAC1, sNr1);
-            FPre.label32.Text = PrepareNumbersPreview(sNumberType2, iCC2, iAC2, sNr2);
-            FPre.label33.Text = PrepareNumbersPreview(sNumberType3, iCC3, iAC3, sNr3);
-            FPre.label34.Text = PrepareNumbersPreview(sNumberType4, iCC4, iAC4, sNr4);
+            FPre.label31.Text = PrepareNumbersPreview(cbNumber1.Text, iCC1, iAC1, sNr1);
+            FPre.label32.Text = PrepareNumbersPreview(cbNumber2.Text, iCC2, iAC2, sNr2);
+            FPre.label33.Text = PrepareNumbersPreview(cbNumber3.Text, iCC3, iAC3, sNr3);
+            FPre.label34.Text = PrepareNumbersPreview(cbNumber4.Text, iCC4, iAC4, sNr4);
 
             FPre.label26.Text = sName;
             FPre.label25.Text = sFirstName;
@@ -236,7 +232,7 @@ namespace Telefonbuch_newGUI
         }
 
         //überprüft ob ein "@" in der Mail enthalten ist oder das Feld leer ist.
-        string MailStringChecken(string sMail)
+        string MailStringChecken(string sMail, string source)
         {
             if (sMail != "")
             {
@@ -252,16 +248,16 @@ namespace Telefonbuch_newGUI
             }
             else
             {
-                //Verursacht 2 Meldungen(Pro Mail eine) 
+                //TODO Alternative zu source? (Um 2 Meldungen zu vermeiden) 
                 if (sMail1 == "" & sMail2 == "")
-                { if (sMail == sMail1 )
+                { if (source == "sMail1" )
                   {
                         MessageBox.Show("Achtung! Bitte geben Sie eine Emailadresse ein!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                   }
                 }
                 else
                 {
-                    MessageBox.Show("Achtung! Bitte geben Sie eine Emailadresse ein!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                   
                 }
                 return sMail;
             }
@@ -316,10 +312,12 @@ namespace Telefonbuch_newGUI
             sCountry = tbCountry.Text;
             sCountryF = tbCountryF.Text;
             sFirma = tbCompany.Text;
-            sMail1 = MailStringChecken(tbMail1.Text);
-            sMail2 = MailStringChecken(tbMail2.Text);
+            sMail1 = MailStringChecken(tbMail1.Text, "sMail1");
+            sMail2 = MailStringChecken(tbMail2.Text, "sMail2");
+            sMailType1 = cbMail1.Text;
+            sMailType2 = cbMail2.Text;
             sOther = tbOthers.Text;
-
+                   
             sNr1 = tbNumber1Part2.Text;
             sNr2 = tbNumber2Part2.Text;
             sNr3 = tbNumber3Part2.Text;
@@ -340,19 +338,29 @@ namespace Telefonbuch_newGUI
 
         //Nimmt die Werte der Namenszusammenstellung und gibt sie als string retour für den Titel von Form2 retour
         string PrepareShowAsPreview(string sName, string sFirstName, string sNickName, string sTitle, string sShowAs)
-        {
-            switch (sShowAs)
+        {//TODO - kein if im case möglich?
+            if (sName != "" & sFirstName != "")
             {
-                case "NV":
-                    return sName + ", " + sFirstName;
-                case "VN":
-                    return sFirstName + ", " + sName;
-                case "NVS":
-                    return sFirstName + ", " + sName + ", (" + sNickName + ")";
-                case "TVN":
-                    return sTitle + ", " + ", " + sFirstName + ", " + sName;
-                default:
-                    return sName + ", " + sFirstName;
+                switch (sShowAs)
+                {
+                    case "NV":
+                        return sName + ", " + sFirstName;
+                    case "VN":
+                        return sFirstName + ", " + sName;
+                    case "NVS":
+                        return sFirstName + ", " + sName + ", (" + sNickName + ")";
+                    case "TVN":
+                        return sTitle + ", " + ", " + sFirstName + ", " + sName;
+                    default:
+                        //if (sName != "" || sFirstName != "")
+                        //{ return sName + ", " + sFirstName; }
+                        //else { return sName + sFirstName; }
+                        return sName + ", " + sFirstName;
+                }
+            }
+            else
+            {
+                return sName + sFirstName;
             }
         }
 
@@ -361,7 +369,7 @@ namespace Telefonbuch_newGUI
         {
             if (sMail != "")
             {
-                return sMail;
+                return sMail + " ( " + sMailType + " ) ";
             }
             else
             {
@@ -372,7 +380,7 @@ namespace Telefonbuch_newGUI
         //Prüft ob Nummer und Ländervorwahl befüllt sind und übergibt string.
         string PrepareNumbersPreview(string NumberType, int CC, int AC, string Number)
         {
-            if (AC.ToString() == "" & Number.ToString() == "")
+            if ((AC.ToString() == "" || AC == 0) & (Number == "" || Number == "0" ))
             {
                 return "----";
             }
