@@ -20,6 +20,7 @@ namespace AutoVP
             //DateNowValue = DateTime.Now.ToString();
 
             ////Creates a File named "Config" 
+            //TODO: Write to SysConfigfile > Check for best way to retrive values afterwards
             File.WriteAllText("C:\\Temp\\Config.txt", DateTime.Now.ToString("dd.MM.yyyy HH:mm"));
 
             Application.EnableVisualStyles();
