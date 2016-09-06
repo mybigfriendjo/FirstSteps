@@ -23,5 +23,9 @@ namespace ÜName {
         private void btnSizeAbs_Click(object sender, EventArgs e) {
             btnTest.Size = new Size(50, 100);
         }
+
+        private void btnAnzeige_Click(object sender, EventArgs e) {
+            lblSize.Text = "Position: X: " + btnTest.Location.X + ", Y: " + btnTest.Location.Y + "\n" + "Größe: Breite: " + btnTest.Size.Width + ", Höhe; " + btnTest.Size.Height;
+        }
     }
 }

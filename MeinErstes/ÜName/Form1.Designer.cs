@@ -28,6 +28,8 @@
             this.btnPosAbs = new System.Windows.Forms.Button();
             this.btnSizeAbs = new System.Windows.Forms.Button();
             this.btnTest = new System.Windows.Forms.Button();
+            this.btnAnzeige = new System.Windows.Forms.Button();
+            this.lblSize = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnPosRel
@@ -72,18 +74,40 @@
             // 
             // btnTest
             // 
-            this.btnTest.Location = new System.Drawing.Point(91, 147);
+            this.btnTest.Location = new System.Drawing.Point(91, 192);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(73, 22);
             this.btnTest.TabIndex = 5;
             this.btnTest.Text = "Test";
             this.btnTest.UseVisualStyleBackColor = true;
             // 
+            // btnAnzeige
+            // 
+            this.btnAnzeige.Location = new System.Drawing.Point(199, 26);
+            this.btnAnzeige.Name = "btnAnzeige";
+            this.btnAnzeige.Size = new System.Drawing.Size(73, 22);
+            this.btnAnzeige.TabIndex = 6;
+            this.btnAnzeige.Text = "Anzeige";
+            this.btnAnzeige.UseVisualStyleBackColor = true;
+            this.btnAnzeige.Click += new System.EventHandler(this.btnAnzeige_Click);
+            // 
+            // lblSize
+            // 
+            this.lblSize.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblSize.Location = new System.Drawing.Point(12, 65);
+            this.lblSize.Name = "lblSize";
+            this.lblSize.Size = new System.Drawing.Size(260, 40);
+            this.lblSize.TabIndex = 7;
+            this.lblSize.Text = "label1";
+            this.lblSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(289, 329);
+            this.Controls.Add(this.lblSize);
+            this.Controls.Add(this.btnAnzeige);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.btnSizeAbs);
             this.Controls.Add(this.btnPosAbs);
@@ -102,6 +126,8 @@
         private System.Windows.Forms.Button btnPosAbs;
         private System.Windows.Forms.Button btnSizeAbs;
         private System.Windows.Forms.Button btnTest;
+        private System.Windows.Forms.Button btnAnzeige;
+        private System.Windows.Forms.Label lblSize;
     }
 }
 
