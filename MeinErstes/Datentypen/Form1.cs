@@ -81,14 +81,16 @@ namespace Datentypen {
             int a = 9654;
             int b = 0x742;
 
-            //lblSize.Text = a + " " + b;
+            lblSize.Text = "a: " + a + "b: " + b; 
+
 
             // 2.2 Übung Datentypen
 
             string Adresse = "Claus Clever \n ";
             int Alter = 32;
+            double Income = 2828.28;
 
-            lblSize.Text = "Adresse: " + Adresse + "\n" + "Alter: " + Alter;
+            lblSize.Text = "Adresse: " + Adresse + "\n" + "Alter: " + Alter + "\nGehalt: " + Income;
         }
     }
 }
