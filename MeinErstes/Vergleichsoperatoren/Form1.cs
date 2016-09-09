@@ -58,7 +58,7 @@ namespace Vergleichsoperatoren {
             x = -5;
             a = b + " Welt " + d + " " + x + "" + 12;
             lblAnzeige2.Text = a;
-            // lblAnzeige.Text = x;
+            // lblAnzeige.Text = x
         }
     }
 }
