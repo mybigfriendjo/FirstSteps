@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gültigkeitsbereich", "Gül
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Konstanten", "Konstanten\Konstanten.csproj", "{75D4FF7A-B748-47AE-9797-28D96AB438EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rechenoperatoren", "Rechenoperatoren\Rechenoperatoren.csproj", "{6FFFDB2D-165F-43B9-9BCD-71BED2AABD39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vergleichsoperatoren", "Vergleichsoperatoren\Vergleichsoperatoren.csproj", "{6AA376AE-7845-4A46-AFEF-206FD978445E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{75D4FF7A-B748-47AE-9797-28D96AB438EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75D4FF7A-B748-47AE-9797-28D96AB438EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75D4FF7A-B748-47AE-9797-28D96AB438EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FFFDB2D-165F-43B9-9BCD-71BED2AABD39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FFFDB2D-165F-43B9-9BCD-71BED2AABD39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FFFDB2D-165F-43B9-9BCD-71BED2AABD39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FFFDB2D-165F-43B9-9BCD-71BED2AABD39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AA376AE-7845-4A46-AFEF-206FD978445E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AA376AE-7845-4A46-AFEF-206FD978445E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AA376AE-7845-4A46-AFEF-206FD978445E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AA376AE-7845-4A46-AFEF-206FD978445E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
