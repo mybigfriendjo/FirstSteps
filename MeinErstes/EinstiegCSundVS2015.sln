@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kran", "Kran\Kran.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Textfelder", "Textfelder\Textfelder.csproj", "{2779A5AB-899F-4DF7-B3B0-F59E67920EBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZahlenAufAb", "ZahlenAufAb\ZahlenAufAb.csproj", "{322B6934-9C84-4CD1-97CC-D34D9A3131AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IfElse", "IfElse\IfElse.csproj", "{2196BF32-50BD-4E42-B91F-51B4569F7CCD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +85,14 @@ Global
 		{2779A5AB-899F-4DF7-B3B0-F59E67920EBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2779A5AB-899F-4DF7-B3B0-F59E67920EBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2779A5AB-899F-4DF7-B3B0-F59E67920EBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{322B6934-9C84-4CD1-97CC-D34D9A3131AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{322B6934-9C84-4CD1-97CC-D34D9A3131AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{322B6934-9C84-4CD1-97CC-D34D9A3131AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{322B6934-9C84-4CD1-97CC-D34D9A3131AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2196BF32-50BD-4E42-B91F-51B4569F7CCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2196BF32-50BD-4E42-B91F-51B4569F7CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2196BF32-50BD-4E42-B91F-51B4569F7CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2196BF32-50BD-4E42-B91F-51B4569F7CCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
