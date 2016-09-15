@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IfElse", "IfElse\IfElse.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchCase", "SwitchCase\SwitchCase.csproj", "{3E673B0F-BCB3-438E-9E43-B9E542B30FD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ÜSteuerbetrag", "ÜSteuerbetrag\ÜSteuerbetrag.csproj", "{86E25B96-1BB8-4953-AB96-41519584578B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ÜSteuerbetrag_SalaryCalculator", "ÜSteuerbetrag\ÜSteuerbetrag_SalaryCalculator.csproj", "{86E25B96-1BB8-4953-AB96-41519584578B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
