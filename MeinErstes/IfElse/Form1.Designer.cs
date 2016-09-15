@@ -33,6 +33,8 @@
             this.lbl4 = new System.Windows.Forms.Label();
             this.btn3 = new System.Windows.Forms.Button();
             this.btn4 = new System.Windows.Forms.Button();
+            this.btn5 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
@@ -92,15 +94,16 @@
             // lbl3
             // 
             this.lbl3.AutoSize = true;
-            this.lbl3.Location = new System.Drawing.Point(12, 73);
+            this.lbl3.Location = new System.Drawing.Point(9, 150);
             this.lbl3.Name = "lbl3";
-            this.lbl3.Size = new System.Drawing.Size(0, 13);
+            this.lbl3.Size = new System.Drawing.Size(23, 13);
             this.lbl3.TabIndex = 6;
+            this.lbl3.Text = "lbl3";
             // 
             // lbl4
             // 
             this.lbl4.AutoSize = true;
-            this.lbl4.Location = new System.Drawing.Point(12, 102);
+            this.lbl4.Location = new System.Drawing.Point(12, 130);
             this.lbl4.Name = "lbl4";
             this.lbl4.Size = new System.Drawing.Size(23, 13);
             this.lbl4.TabIndex = 7;
@@ -110,27 +113,49 @@
             // 
             this.btn3.Location = new System.Drawing.Point(12, 70);
             this.btn3.Name = "btn3";
-            this.btn3.Size = new System.Drawing.Size(75, 23);
+            this.btn3.Size = new System.Drawing.Size(113, 23);
             this.btn3.TabIndex = 8;
-            this.btn3.Text = "if else Short";
+            this.btn3.Text = "Ternärer Operator";
             this.btn3.UseVisualStyleBackColor = true;
             this.btn3.Click += new System.EventHandler(this.btn3_Click);
             // 
             // btn4
             // 
-            this.btn4.Location = new System.Drawing.Point(93, 68);
+            this.btn4.Location = new System.Drawing.Point(131, 70);
             this.btn4.Name = "btn4";
-            this.btn4.Size = new System.Drawing.Size(75, 23);
+            this.btn4.Size = new System.Drawing.Size(61, 23);
             this.btn4.TabIndex = 9;
-            this.btn4.Text = "Button4";
+            this.btn4.Text = "log. Und";
             this.btn4.UseVisualStyleBackColor = true;
             this.btn4.Click += new System.EventHandler(this.btn4_Click);
+            // 
+            // btn5
+            // 
+            this.btn5.Location = new System.Drawing.Point(198, 70);
+            this.btn5.Name = "btn5";
+            this.btn5.Size = new System.Drawing.Size(61, 23);
+            this.btn5.TabIndex = 10;
+            this.btn5.Text = "log. Oder";
+            this.btn5.UseVisualStyleBackColor = true;
+            this.btn5.Click += new System.EventHandler(this.btn5_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(170, 99);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(89, 23);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "Xor / excl. oder";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 124);
+            this.ClientSize = new System.Drawing.Size(284, 172);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btn5);
             this.Controls.Add(this.btn4);
             this.Controls.Add(this.btn3);
             this.Controls.Add(this.lbl4);
@@ -162,6 +187,8 @@
         private System.Windows.Forms.Label lbl4;
         private System.Windows.Forms.Button btn3;
         private System.Windows.Forms.Button btn4;
+        private System.Windows.Forms.Button btn5;
+        private System.Windows.Forms.Button button1;
     }
 }
 
