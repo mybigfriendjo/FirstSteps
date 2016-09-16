@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchCase", "SwitchCase\Sw
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ÜSteuerbetrag_SalaryCalculator", "ÜSteuerbetrag\ÜSteuerbetrag_SalaryCalculator.csproj", "{86E25B96-1BB8-4953-AB96-41519584578B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ÜKran", "ÜKran\ÜKran.csproj", "{409EEB54-6372-4259-AE02-8D206454E6F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kontrollkästchen_chk_radiobtn", "Kontrollkästchen\Kontrollkästchen_chk_radiobtn.csproj", "{1F1D0480-5875-4535-A323-FC0DFC643BD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +109,14 @@ Global
 		{86E25B96-1BB8-4953-AB96-41519584578B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86E25B96-1BB8-4953-AB96-41519584578B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86E25B96-1BB8-4953-AB96-41519584578B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{409EEB54-6372-4259-AE02-8D206454E6F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{409EEB54-6372-4259-AE02-8D206454E6F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{409EEB54-6372-4259-AE02-8D206454E6F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{409EEB54-6372-4259-AE02-8D206454E6F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F1D0480-5875-4535-A323-FC0DFC643BD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F1D0480-5875-4535-A323-FC0DFC643BD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F1D0480-5875-4535-A323-FC0DFC643BD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F1D0480-5875-4535-A323-FC0DFC643BD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
