@@ -39,6 +39,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ÜKran", "ÜKran\ÜKran.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kontrollkästchen_chk_radiobtn", "Kontrollkästchen\Kontrollkästchen_chk_radiobtn.csproj", "{1F1D0480-5875-4535-A323-FC0DFC643BD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MehrereEreignisse", "MehrereEreignisse\MehrereEreignisse.csproj", "{7DB1F10A-EE7C-41AF-B8F9-80EA760BBE8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Optionsgruppen", "Optionsgruppen\Optionsgruppen.csproj", "{EF7F110B-1406-4B3C-94A5-07C1C22AD3C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +121,14 @@ Global
 		{1F1D0480-5875-4535-A323-FC0DFC643BD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F1D0480-5875-4535-A323-FC0DFC643BD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F1D0480-5875-4535-A323-FC0DFC643BD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DB1F10A-EE7C-41AF-B8F9-80EA760BBE8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DB1F10A-EE7C-41AF-B8F9-80EA760BBE8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DB1F10A-EE7C-41AF-B8F9-80EA760BBE8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DB1F10A-EE7C-41AF-B8F9-80EA760BBE8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF7F110B-1406-4B3C-94A5-07C1C22AD3C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF7F110B-1406-4B3C-94A5-07C1C22AD3C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF7F110B-1406-4B3C-94A5-07C1C22AD3C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF7F110B-1406-4B3C-94A5-07C1C22AD3C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
