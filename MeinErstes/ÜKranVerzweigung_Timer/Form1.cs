@@ -8,9 +8,9 @@ namespace ÜKranVerzweigung_Timer {
             InitializeComponent();
         }
         
-        private void btnStart_Click(object sender, EventArgs e) {
+        private void btnStart_Click(object sender, EventArgs e) { // Will man die Funktion nicht mit Name(null,null) aufrufen, sondern nur Name() muss man in der Aufgerufenen Methode die Übergabewerte null setzen:   btnStart_Click(object sender=null, EventArgs e=null)
             timAnzeige.Enabled = true;
-            timAnzeige.Interval = 50; //Number is ms 500 -> 0,5 sec
+            timAnzeige.Interval = 500; //Number is ms 500 -> 0,5 sec
         }
 
         private void btnStop_Click(object sender, EventArgs e) {
@@ -18,7 +18,35 @@ namespace ÜKranVerzweigung_Timer {
         }
        
         private void timAnzeige_Tick(object sender, EventArgs e) {
-            MessageBox.Show("" + sender,"");
+            //(sender as Timer).Stop(); //sender löst Timer Stop aus
+            //MessageBox.Show("" + sender + ", " + e,"");
+            //(sender as Timer).Start(); //sender löst Timer Start aus
+
+            if(cbAuslegerL.Checked) {
+                //MessageBox.Show("");
+                btnAuslegerL_Click(null, null);
+            }
+            if (cbAuslegerR.Checked) {
+                btnAuslegerR_Click(null, null);
+            }
+            if (cbHookDown.Checked) {
+                btnHookDown_Click(null, null);
+            }
+            if (cbHookUP.Checked) {
+                btnHookUp_Click(null, null);
+            }
+            if (cbKranL.Checked) {
+                btnKranL_Click(null, null);
+            }
+            if (cbKranR.Checked) {
+                btnKranR_Click(null, null);
+            }
+            if (cbKranDown.Checked) {
+                btnKranDown_Click(null, null);
+            }
+            if (cbKranUp.Checked) {
+                btnKranUp_Click(null, null);
+            }
         }
 
         private void btnHookUp_Click(object sender, EventArgs e) {

@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Optionsgruppen", "Optionsgr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ÜKranVerzweigung_Timer", "ÜKranVerzweigung_Timer\ÜKranVerzweigung_Timer.csproj", "{19BCBED6-4053-4A1E-8744-BDF68A966C06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MethodeOhneEreignis", "MethodeOhneEreignis\MethodeOhneEreignis.csproj", "{37D539AB-0D4C-4B1F-A51E-22FEE3B6FA41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{19BCBED6-4053-4A1E-8744-BDF68A966C06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19BCBED6-4053-4A1E-8744-BDF68A966C06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19BCBED6-4053-4A1E-8744-BDF68A966C06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37D539AB-0D4C-4B1F-A51E-22FEE3B6FA41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D539AB-0D4C-4B1F-A51E-22FEE3B6FA41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37D539AB-0D4C-4B1F-A51E-22FEE3B6FA41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37D539AB-0D4C-4B1F-A51E-22FEE3B6FA41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
