@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MehrereEreignisse", "Mehrer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Optionsgruppen", "Optionsgruppen\Optionsgruppen.csproj", "{EF7F110B-1406-4B3C-94A5-07C1C22AD3C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ÜKranVerzweigung_Timer", "ÜKranVerzweigung_Timer\ÜKranVerzweigung_Timer.csproj", "{19BCBED6-4053-4A1E-8744-BDF68A966C06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,10 @@ Global
 		{EF7F110B-1406-4B3C-94A5-07C1C22AD3C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF7F110B-1406-4B3C-94A5-07C1C22AD3C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF7F110B-1406-4B3C-94A5-07C1C22AD3C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19BCBED6-4053-4A1E-8744-BDF68A966C06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19BCBED6-4053-4A1E-8744-BDF68A966C06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19BCBED6-4053-4A1E-8744-BDF68A966C06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19BCBED6-4053-4A1E-8744-BDF68A966C06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
