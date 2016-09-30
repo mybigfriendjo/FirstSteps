@@ -13,21 +13,22 @@ namespace MethodeOhneEreignis {
         public MethodeOhneEreignis() {
             InitializeComponent();
         }
-    }
 
-    private void optUnterkunft(object sender, EventArgs e) {
-        // Unterkunft
-        if (optAppartement.Checked)
-            AusgabeUnterkunft = "Appartement";
-        else if (optPension.Checked)
-            AusgabeUnterkunft = "Pension";
-        else
-            AusgabeUnterkunft = "Hotel";
-        Anzeigen();
-    }
-    private void Anzeigen() {
-        lblAnzeige.Text = AusgabeUrlaubsort
-        +
-        ", " + AusgabeUnterkunft;
+        string AusgabeUnterkunft = "";
+        string AusgabeUrlaubsort = "";
+        private void optUnterkunft(object sender, EventArgs e) {
+            // Unterkunft
+            if (rbAppartement.Checked) {
+                AusgabeUnterkunft = "Appartement";
+            } else if (rbPension.Checked) {
+                AusgabeUnterkunft = "Pension";
+            } else {
+                AusgabeUnterkunft = "Hotel";
+            }
+            Anzeigen();
+        }
+        private void Anzeigen() {
+            lblDisplay.Text = AusgabeUrlaubsort + ", " + AusgabeUnterkunft;
+        }
     }
 }
