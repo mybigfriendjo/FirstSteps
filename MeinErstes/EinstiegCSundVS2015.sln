@@ -47,6 +47,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ÜKranVerzweigung_Timer", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MethodeOhneEreignis", "MethodeOhneEreignis\MethodeOhneEreignis.csproj", "{37D539AB-0D4C-4B1F-A51E-22FEE3B6FA41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schieberegler", "Schieberegler\Schieberegler.csproj", "{471923C8-C694-4EB9-8F59-06A8A3A09349}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForSchleife", "Schleifen\ForSchleife.csproj", "{D5D5F973-6104-4DA6-8F1D-39C0082EFA6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhileDoWhileSchleifen", "WhileDoWhileSchleifen\WhileDoWhileSchleifen.csproj", "{FF15EBFB-C78B-4BEA-807C-69BFE494E7DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Übung ÜForSchleife", "Übung ÜForSchleife\Übung ÜForSchleife.csproj", "{82D5F866-EA1A-45D6-B67D-8CDF766FFD19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Übung ÜHalbierung - While", "Übung ÜHalbierung - While\Übung ÜHalbierung - While.csproj", "{B2799045-AD46-4C5C-A35C-5EDB472E801D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +151,26 @@ Global
 		{37D539AB-0D4C-4B1F-A51E-22FEE3B6FA41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37D539AB-0D4C-4B1F-A51E-22FEE3B6FA41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37D539AB-0D4C-4B1F-A51E-22FEE3B6FA41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{471923C8-C694-4EB9-8F59-06A8A3A09349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{471923C8-C694-4EB9-8F59-06A8A3A09349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{471923C8-C694-4EB9-8F59-06A8A3A09349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{471923C8-C694-4EB9-8F59-06A8A3A09349}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5D5F973-6104-4DA6-8F1D-39C0082EFA6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5D5F973-6104-4DA6-8F1D-39C0082EFA6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5D5F973-6104-4DA6-8F1D-39C0082EFA6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5D5F973-6104-4DA6-8F1D-39C0082EFA6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF15EBFB-C78B-4BEA-807C-69BFE494E7DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF15EBFB-C78B-4BEA-807C-69BFE494E7DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF15EBFB-C78B-4BEA-807C-69BFE494E7DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF15EBFB-C78B-4BEA-807C-69BFE494E7DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82D5F866-EA1A-45D6-B67D-8CDF766FFD19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82D5F866-EA1A-45D6-B67D-8CDF766FFD19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82D5F866-EA1A-45D6-B67D-8CDF766FFD19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82D5F866-EA1A-45D6-B67D-8CDF766FFD19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2799045-AD46-4C5C-A35C-5EDB472E801D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2799045-AD46-4C5C-A35C-5EDB472E801D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2799045-AD46-4C5C-A35C-5EDB472E801D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2799045-AD46-4C5C-A35C-5EDB472E801D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
