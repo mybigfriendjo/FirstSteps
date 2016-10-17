@@ -57,6 +57,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Übung ÜForSchleife", "Üb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Übung ÜHalbierung - While", "Übung ÜHalbierung - While\Übung ÜHalbierung - While.csproj", "{B2799045-AD46-4C5C-A35C-5EDB472E801D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ÜZahlenraten", "ÜZahlebraten\ÜZahlenraten.csproj", "{5464BB55-C061-4204-8EEE-A7C894517ECA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -171,6 +173,10 @@ Global
 		{B2799045-AD46-4C5C-A35C-5EDB472E801D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2799045-AD46-4C5C-A35C-5EDB472E801D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2799045-AD46-4C5C-A35C-5EDB472E801D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5464BB55-C061-4204-8EEE-A7C894517ECA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5464BB55-C061-4204-8EEE-A7C894517ECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5464BB55-C061-4204-8EEE-A7C894517ECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5464BB55-C061-4204-8EEE-A7C894517ECA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
