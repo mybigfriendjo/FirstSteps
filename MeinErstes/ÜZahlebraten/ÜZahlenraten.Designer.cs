@@ -28,6 +28,7 @@
             this.lblEingabe = new System.Windows.Forms.Label();
             this.tbEingabe = new System.Windows.Forms.TextBox();
             this.lblResult = new System.Windows.Forms.Label();
+            this.lblCounter = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnErzeugen
@@ -75,11 +76,20 @@
             this.lblResult.TabIndex = 4;
             this.lblResult.Text = "<<Bitte geben Sie im Eingabefeld die geratene Zahl ein>>";
             // 
+            // lblCounter
+            // 
+            this.lblCounter.AutoSize = true;
+            this.lblCounter.Location = new System.Drawing.Point(12, 46);
+            this.lblCounter.Name = "lblCounter";
+            this.lblCounter.Size = new System.Drawing.Size(0, 13);
+            this.lblCounter.TabIndex = 5;
+            // 
             // ÜZahlenraten
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(319, 145);
+            this.Controls.Add(this.lblCounter);
             this.Controls.Add(this.lblResult);
             this.Controls.Add(this.tbEingabe);
             this.Controls.Add(this.lblEingabe);
@@ -99,6 +109,7 @@
         private System.Windows.Forms.Label lblEingabe;
         private System.Windows.Forms.TextBox tbEingabe;
         private System.Windows.Forms.Label lblResult;
+        private System.Windows.Forms.Label lblCounter;
     }
 }
 
