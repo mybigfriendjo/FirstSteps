@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ÜZahlebraten {
+namespace ÜZahlenraten {
     public partial class ÜZahlenraten : Form {
         public ÜZahlenraten() {
             InitializeComponent();
@@ -22,22 +22,15 @@ namespace ÜZahlebraten {
             lblResult.Text = "Neue Zahl wurde berechnet. \nBitte geben Sie im Eingabefeld die geratene Zahl ein \nund klicken Sie auf \"Prüfen\"!";
             Cnt = 0;
             lblCounter.Text = "" + Cnt + " Versuche";
-            
-            //else if (Convert.ToInt32(tbEingabe.Text) == z) {
-            //    lblResult.Text = "Gratulation! Die Zahl ist richtig!";
-            //}
-            //else if (Convert.ToInt32(tbEingabe.Text) > z) {
-            //    lblResult.Text = "Die eingegebene Zahl zu groß.";
-            //}
-            //else if (Convert.ToInt32(tbEingabe.Text) < z) {
-            //    lblResult.Text = "Die eingegebene Zahl zu klein.";
-            //}
-            //else {
-            //    lblResult.Text = "Es wurde keine Zahl eingegeben!";
-            //}
         }
 
-        //TODO - fix z
+        //TODO - Textbox Zahlen only? z als String verwenden ist schlecht da vergleiche >, < etc nicht mehr möglich sind
+        private void numericsOnly(object sender, KeyPressEventArgs e) {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != ',') {
+                e.Handled = true;
+            }
+        }
+        //textPriceZydrine.KeyPress += numericsOnly; 
         private void btnPruefen_Click(object sender, EventArgs e) {
             if (tbEingabe.Text == "" || tbEingabe.Text == null) {
                 lblResult.Text = "<<Bitte geben Sie im Eingabefeld die geratene Zahl ein>>";
@@ -52,7 +45,7 @@ namespace ÜZahlebraten {
                 lblResult.Text = "Die eingegebene Zahl zu klein.";
             }
             else {
-                lblResult.Text = "Es wurde keine Zahl eingegeben!";
+                lblResult.Text = "Es wurde keine Zahl eingegeben!"; //TODO - klappt nicht - Text is exception -> exceptionhandling?
             }
             Cnt += 1;
             lblCounter.Text = "" + Cnt + " Versuche";

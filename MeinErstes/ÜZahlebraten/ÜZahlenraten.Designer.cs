@@ -1,4 +1,4 @@
-﻿namespace ÜZahlebraten {
+﻿namespace ÜZahlenraten {
     partial class ÜZahlenraten {
         /// <summary>
         /// Required designer variable.
@@ -63,6 +63,7 @@
             // tbEingabe
             // 
             this.tbEingabe.Location = new System.Drawing.Point(68, 14);
+            this.tbEingabe.MaxLength = 3;
             this.tbEingabe.Name = "tbEingabe";
             this.tbEingabe.Size = new System.Drawing.Size(100, 20);
             this.tbEingabe.TabIndex = 3;
