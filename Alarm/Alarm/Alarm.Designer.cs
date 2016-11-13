@@ -56,6 +56,9 @@
             this.panelCountdown = new System.Windows.Forms.Panel();
             this.btnStop = new System.Windows.Forms.Button();
             this.lblCountdownTime = new System.Windows.Forms.Label();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnDeleteAll = new System.Windows.Forms.Button();
+            this.cbShutdown = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numAlarmMin)).BeginInit();
@@ -209,9 +212,9 @@
             // 
             // tbNote
             // 
-            this.tbNote.Location = new System.Drawing.Point(36, 215);
+            this.tbNote.Location = new System.Drawing.Point(94, 202);
             this.tbNote.Name = "tbNote";
-            this.tbNote.Size = new System.Drawing.Size(428, 20);
+            this.tbNote.Size = new System.Drawing.Size(370, 20);
             this.tbNote.TabIndex = 14;
             // 
             // menuStrip1
@@ -249,7 +252,7 @@
             // lblNote
             // 
             this.lblNote.AutoSize = true;
-            this.lblNote.Location = new System.Drawing.Point(33, 199);
+            this.lblNote.Location = new System.Drawing.Point(33, 205);
             this.lblNote.Name = "lblNote";
             this.lblNote.Size = new System.Drawing.Size(60, 13);
             this.lblNote.TabIndex = 17;
@@ -267,9 +270,9 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(297, 241);
+            this.btnSave.Location = new System.Drawing.Point(298, 228);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(48, 23);
             this.btnSave.TabIndex = 19;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -292,7 +295,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(506, 283);
+            this.btnStop.Location = new System.Drawing.Point(506, 287);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 23);
             this.btnStop.TabIndex = 21;
@@ -307,11 +310,44 @@
             this.lblCountdownTime.Size = new System.Drawing.Size(0, 13);
             this.lblCountdownTime.TabIndex = 22;
             // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(349, 228);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(48, 23);
+            this.btnDelete.TabIndex = 23;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnDeleteAll
+            // 
+            this.btnDeleteAll.Location = new System.Drawing.Point(400, 228);
+            this.btnDeleteAll.Name = "btnDeleteAll";
+            this.btnDeleteAll.Size = new System.Drawing.Size(64, 23);
+            this.btnDeleteAll.TabIndex = 24;
+            this.btnDeleteAll.Text = "Delete All";
+            this.btnDeleteAll.UseVisualStyleBackColor = true;
+            this.btnDeleteAll.Click += new System.EventHandler(this.btnDeleteAll_Click);
+            // 
+            // cbShutdown
+            // 
+            this.cbShutdown.AutoSize = true;
+            this.cbShutdown.Location = new System.Drawing.Point(143, 287);
+            this.cbShutdown.Name = "cbShutdown";
+            this.cbShutdown.Size = new System.Drawing.Size(91, 17);
+            this.cbShutdown.TabIndex = 25;
+            this.cbShutdown.Text = "PC-Shutdown";
+            this.cbShutdown.UseVisualStyleBackColor = true;
+            // 
             // Alarm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(589, 316);
+            this.Controls.Add(this.cbShutdown);
+            this.Controls.Add(this.btnDeleteAll);
+            this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.lblCountdownTime);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.cbCountdown);
@@ -371,6 +407,9 @@
         private System.Windows.Forms.Panel panelCountdown;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Label lblCountdownTime;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnDeleteAll;
+        private System.Windows.Forms.CheckBox cbShutdown;
     }
 }
 

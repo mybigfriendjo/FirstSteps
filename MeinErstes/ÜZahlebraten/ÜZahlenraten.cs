@@ -24,14 +24,15 @@ namespace ÜZahlenraten {
             lblCounter.Text = "" + Cnt + " Versuche";
         }
 
-        //TODO - Textbox Zahlen only? z als String verwenden ist schlecht da vergleiche >, < etc nicht mehr möglich sind
+        //TODO - String einfügen (Ctrl+v) unterbinden
         private void numericsOnly(object sender, KeyPressEventArgs e) {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != ',') {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)){ // && e.KeyChar != '.' && e.KeyChar != ',') { //lässt ctrl, 0-9, . und , zu
                 e.Handled = true;
             }
         }
-        //textPriceZydrine.KeyPress += numericsOnly; 
+        
         private void btnPruefen_Click(object sender, EventArgs e) {
+            tbEingabe.KeyPress += numericsOnly; //Only records digital keystrokes in the control!
             if (tbEingabe.Text == "" || tbEingabe.Text == null) {
                 lblResult.Text = "<<Bitte geben Sie im Eingabefeld die geratene Zahl ein>>";
             }

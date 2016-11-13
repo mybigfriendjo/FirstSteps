@@ -21,15 +21,23 @@ namespace Alarm
             System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
             ToolTip1.SetToolTip(this.tbNote, "Please insert your Note that should be attatched to the Alarm.");
 
-            //Loadlist
-            string[] HistoryListImport = File.ReadAllLines("C:\\Temp\\AlarmHistory.db");
-            foreach (string History in HistoryListImport) {
-                lbHistory.Items.Add(History);
+            //Loadlist - with Exceptionhandling (try/catch)
+            try {
+                string[] HistoryListImport = File.ReadAllLines("C:\\Temp\\AlarmHistory.db");
+                foreach (string History in HistoryListImport) {
+                    lbHistory.Items.Add(History);
+                }
+            }
+            catch (FileNotFoundException HistoryLoadError){
+                // Write error.
+                Console.WriteLine(HistoryLoadError);
             }
 
             //Set startvalues
-            cbAlarm.Checked = true;
-            cbCountdown.Checked = true;
+            cbAlarm.Checked = false;
+            cbCountdown.Checked = false;
+            //cbAlarm_CheckedChanged();
+            //cbCountdown_CheckedChanged();
 
             //TimerSettings
             t = new Timer();
@@ -56,18 +64,11 @@ namespace Alarm
             string Space = new string(' ', 20);
             lbHistory.Items.Add(string.Format("{0:00}", numAlarmHour.Value) + ":" + numAlarmMin.Value.ToString("00") + Space + tbNote.Text + "");
 
-            string HistoryListExport = "";
-            int cnt = 0;
+            
             foreach (string History in lbHistory.Items)
             {
-                //if(cnt > 20) {
-                //    break;
-                //}
-                cnt++;
-                HistoryListExport += History.ToString() + "\n";
+                HistoryExport();
             }
-
-            File.WriteAllText("C:\\Temp\\AlarmHistory.db", HistoryListExport);
 
             if (cbCountdown.Checked) {
                 if (rb5min.Checked) {
@@ -135,15 +136,40 @@ namespace Alarm
             
         }
 
+        private void btnDeleteAll_Click(object sender, EventArgs e) {
+            DialogResult result = MessageBox.Show("\"Ok\" will remove all entries in the Alarmlist!", "Clear whole List?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (result == System.Windows.Forms.DialogResult.OK) {
+                lbHistory.Items.Clear();
+
+                HistoryExport();
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e) {
+            lbHistory.Items.RemoveAt(lbHistory.SelectedIndex);
+
+            HistoryExport();
+        }
+
+        //method HistoryListExport
+        //int cnt = 0;
+        private void HistoryExport() {
+            string HistoryListExport = "";
+            foreach (string History in lbHistory.Items) {
+                HistoryListExport += History.ToString() + "\n";
+            }
+            File.WriteAllText("C:\\Temp\\AlarmHistory.db", HistoryListExport);
+        }
+
         //TODO
         /*
          Get .exe path to store DB there? Alternative %Userprofile%\App....
          SoundPath
          YoutubePath
-         Load-List (ToRight 5, Var1) + (All - ToRight 25 = Var2)
          config/registry -> save 
-         Delete Entry Button
          Activate Button
+         SetStartValues (disable controls)
+
 
         
          */
