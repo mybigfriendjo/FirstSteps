@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace Alarm
-{
-    public partial class Alarm : Form
-    {
+namespace Alarm {
+    public partial class Alarm : Form {
         private Timer t = null;
         public Alarm() {
             InitializeComponent();
@@ -28,7 +26,7 @@ namespace Alarm
                     lbHistory.Items.Add(History);
                 }
             }
-            catch (FileNotFoundException HistoryLoadError){
+            catch (FileNotFoundException HistoryLoadError) {
                 // Write error.
                 Console.WriteLine(HistoryLoadError);
             }
@@ -46,7 +44,7 @@ namespace Alarm
             t.Enabled = true;
             t.Start();
 
-            
+
         }
 
         //Get CurrentTime + CountdownTime
@@ -64,9 +62,8 @@ namespace Alarm
             string Space = new string(' ', 20);
             lbHistory.Items.Add(string.Format("{0:00}", numAlarmHour.Value) + ":" + numAlarmMin.Value.ToString("00") + Space + tbNote.Text + "");
 
-            
-            foreach (string History in lbHistory.Items)
-            {
+
+            foreach (string History in lbHistory.Items) {
                 HistoryExport();
             }
 
@@ -111,9 +108,8 @@ namespace Alarm
             }
         }
 
-        private void cbAlarm_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbAlarm.Checked){
+        private void cbAlarm_CheckedChanged(object sender, EventArgs e) {
+            if (cbAlarm.Checked) {
                 numAlarmHour.Enabled = true;
                 numAlarmMin.Enabled = true;
                 tbNote.Enabled = true;
@@ -133,7 +129,7 @@ namespace Alarm
             else {
                 panelCountdown.Enabled = false;
             }
-            
+
         }
 
         private void btnDeleteAll_Click(object sender, EventArgs e) {
@@ -169,6 +165,7 @@ namespace Alarm
          config/registry -> save 
          Activate Button
          SetStartValues (disable controls)
+         start programm @ Alarm
 
 
         
