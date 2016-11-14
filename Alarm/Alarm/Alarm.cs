@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Resources;
 
 namespace Alarm {
     public partial class Alarm : Form {
@@ -32,6 +33,11 @@ namespace Alarm {
             }
 
             //Set startvalues
+            numAlarmHour.Value = DateTime.Now.Hour;
+            numAlarmMin.Value = DateTime.Now.Minute;
+
+                //ToString("dd.MM.yyyy HH:mm:ss")
+            cbNoDoubleEntry.Checked = true;
             cbAlarm.Checked = false;
             cbCountdown.Checked = false;
             //cbAlarm_CheckedChanged();
@@ -44,6 +50,16 @@ namespace Alarm {
             t.Enabled = true;
             t.Start();
 
+   //         //Systray
+   //         private NotifyIcon trayIcon;
+   //         trayIcon = new NotifyIcon {
+   //             Icon = Properties.Resources, 
+   //             Text = "Alarm", 
+   //             ContextMenu = trayMenu
+   //         };
+   // trayIcon.DoubleClick += trayIcon_DoubleClick;
+   //trayIcon.Visible = true;
+        
 
         }
 
@@ -53,19 +69,30 @@ namespace Alarm {
         private void btnStop_Click(object sender, EventArgs e) {
             //StopTimer
             t.Enabled = false;
-        }
+    }
 
         private void btnSave_Click(object sender, EventArgs e) {
             t.Enabled = true;
 
             //Save Historylist:  Foreach Item in lbHistory Append String to VarExport
             string Space = new string(' ', 20);
-            lbHistory.Items.Add(string.Format("{0:00}", numAlarmHour.Value) + ":" + numAlarmMin.Value.ToString("00") + Space + tbNote.Text + "");
 
+            string NewHistoryEntry = string.Format("{0:00}", numAlarmHour.Value) + ":" + numAlarmMin.Value.ToString("00") + Space + tbNote.Text + "";
 
-            foreach (string History in lbHistory.Items) {
+            int DoubleEntry = 0;
+            if (cbNoDoubleEntry.Checked) {
+                foreach (string History in lbHistory.Items) {
+                    if (History == NewHistoryEntry) {
+                        DoubleEntry = 1;
+                    }
+                }
+            }
+
+            if (DoubleEntry == 0) {
+                lbHistory.Items.Add(NewHistoryEntry);
                 HistoryExport();
             }
+
 
             if (cbCountdown.Checked) {
                 if (rb5min.Checked) {
@@ -96,7 +123,7 @@ namespace Alarm {
             Console.Write("tick");
             if (cbCountdown.Checked) {
                 if (DateTime.Now == CountdownTimeADD) { //Format = "02.09.2016 15:29"                                                         
-                    MessageBox.Show("U da CountdownMan");
+                    MessageBox.Show(" U da CountdownMan");
                 }
             }
             string TodaysDate = DateTime.Now.ToString("dd.MM.yyyy"); //As long as there is no DateField includet or it is NULL
@@ -104,7 +131,7 @@ namespace Alarm {
             string CountdownValue = TodaysDate + " " + numCountdownHour.Value.ToString("00") + ":" + numCountdownMin.Value.ToString("00") + ":00";
             if (DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") == AlarmValue) { //Format = "02.09.2016 15:29"
                 //File.AppendAllText("C:\\Temp\\Config.txt", Environment.NewLine + "WayToGo");
-                MessageBox.Show("U da Man");
+                MessageBox.Show("It´s an Alarm! Watcha gonna do" + tbNote.Text);
             }
         }
 
@@ -152,9 +179,23 @@ namespace Alarm {
         private void HistoryExport() {
             string HistoryListExport = "";
             foreach (string History in lbHistory.Items) {
-                HistoryListExport += History.ToString() + "\n";
+                HistoryListExport += History + "\n";
             }
             File.WriteAllText("C:\\Temp\\AlarmHistory.db", HistoryListExport);
+        }
+
+        private void Alarm_FormClosing(object sender, FormClosingEventArgs e) {
+
+            if (e.CloseReason == CloseReason.UserClosing) {
+
+                
+
+
+                //Properties.Resources.Alarm.Visible = true; 
+                e.Cancel = true;
+                Hide();
+                FormClosing += Alarm_FormClosing;
+            }
         }
 
         //TODO
@@ -166,8 +207,15 @@ namespace Alarm {
          Activate Button
          SetStartValues (disable controls)
          start programm @ Alarm
+         Doppelte Einträge - Abfrage
+         Notiz in Meldung Anzeigen
 
 
+        Changelog
+
+         +Alarm Time startValue is changed to current time at start
+         +new funktion "No double entries"
+         -systray in progress
         
          */
     }

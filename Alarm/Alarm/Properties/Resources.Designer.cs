@@ -69,14 +69,5 @@ namespace Alarm.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        internal static string Icon {
-            get {
-                return ResourceManager.GetString("Icon", resourceCulture);
-            }
-        }
     }
 }

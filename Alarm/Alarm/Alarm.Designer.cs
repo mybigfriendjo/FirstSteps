@@ -54,6 +54,8 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnDeleteAll = new System.Windows.Forms.Button();
             this.cbShutdown = new System.Windows.Forms.CheckBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cbNoDoubleEntry = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numAlarmMin)).BeginInit();
@@ -335,11 +337,27 @@
             this.cbShutdown.Text = "PC-Shutdown";
             this.cbShutdown.UseVisualStyleBackColor = true;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // cbNoDoubleEntry
+            // 
+            this.cbNoDoubleEntry.AutoSize = true;
+            this.cbNoDoubleEntry.Location = new System.Drawing.Point(349, 55);
+            this.cbNoDoubleEntry.Name = "cbNoDoubleEntry";
+            this.cbNoDoubleEntry.Size = new System.Drawing.Size(109, 17);
+            this.cbNoDoubleEntry.TabIndex = 27;
+            this.cbNoDoubleEntry.Text = "No double entries";
+            this.cbNoDoubleEntry.UseVisualStyleBackColor = true;
+            // 
             // Alarm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(589, 316);
+            this.Controls.Add(this.cbNoDoubleEntry);
             this.Controls.Add(this.cbShutdown);
             this.Controls.Add(this.btnDeleteAll);
             this.Controls.Add(this.btnDelete);
@@ -361,6 +379,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Alarm";
             this.Text = "Alarm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Alarm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownHour)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numAlarmMin)).EndInit();
@@ -405,6 +424,8 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnDeleteAll;
         private System.Windows.Forms.CheckBox cbShutdown;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.CheckBox cbNoDoubleEntry;
     }
 }
 
