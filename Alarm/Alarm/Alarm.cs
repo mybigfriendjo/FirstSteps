@@ -188,7 +188,7 @@ namespace Alarm {
 
         void MyNotifyIcon_MouseDoubleClick(object sender, EventArgs e) {
             this.WindowState = FormWindowState.Normal;
-            Alarm.ActiveForm.Show();
+            Show();
         }
 
         private void contextMenuStripSystray_Opening(object sender, CancelEventArgs e) {
