@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Resources;
 
 namespace Alarm {
     public partial class Alarm : Form {
@@ -184,19 +183,32 @@ namespace Alarm {
             File.WriteAllText("C:\\Temp\\AlarmHistory.db", HistoryListExport);
         }
 
+        //Systray
         private void Alarm_FormClosing(object sender, FormClosingEventArgs e) {
 
             if (e.CloseReason == CloseReason.UserClosing) {
 
-                
+                NotifyIcon MyNotifyIcon = new NotifyIcon();
+                MyNotifyIcon.Icon = SystemIcons.Application;
+                //MyNotifyIcon.Icon = new Icon("Alarm.ico");
+                MyNotifyIcon.Visible = true;
+                MyNotifyIcon.BalloonTipText = "minimized"; //noclue
+                MyNotifyIcon.Text = "double leftclick to maximize Program."; //systray helptext
+                MyNotifyIcon.ShowBalloonTip(500); //Time Systray helptext is shown
+                //MyNotifyIcon.DoubleClick += new System.EventHandler(this.MyNotifyIcon_MouseDoubleClick);
 
-
-                //Properties.Resources.Alarm.Visible = true; 
                 e.Cancel = true;
                 Hide();
                 FormClosing += Alarm_FormClosing;
             }
         }
+
+        void MyNotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e) {
+            this.WindowState = FormWindowState.Normal;
+            Alarm.ActiveForm.Show();
+            //MaxmizedFromTray();
+        }
+
 
         //TODO
         /*
