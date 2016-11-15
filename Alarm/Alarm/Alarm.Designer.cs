@@ -54,14 +54,16 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnDeleteAll = new System.Windows.Forms.Button();
             this.cbShutdown = new System.Windows.Forms.CheckBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStripSystray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cbNoDoubleEntry = new System.Windows.Forms.CheckBox();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numAlarmMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numAlarmHour)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.panelCountdown.SuspendLayout();
+            this.contextMenuStripSystray.SuspendLayout();
             this.SuspendLayout();
             // 
             // cbCountdown
@@ -167,6 +169,7 @@
             // 
             // numAlarmMin
             // 
+            this.numAlarmMin.Enabled = false;
             this.numAlarmMin.Location = new System.Drawing.Point(134, 30);
             this.numAlarmMin.Maximum = new decimal(new int[] {
             59,
@@ -179,6 +182,7 @@
             // 
             // numAlarmHour
             // 
+            this.numAlarmHour.Enabled = false;
             this.numAlarmHour.Location = new System.Drawing.Point(94, 30);
             this.numAlarmHour.Maximum = new decimal(new int[] {
             23,
@@ -191,6 +195,7 @@
             // 
             // lbHistory
             // 
+            this.lbHistory.Enabled = false;
             this.lbHistory.FormattingEnabled = true;
             this.lbHistory.Location = new System.Drawing.Point(36, 75);
             this.lbHistory.Name = "lbHistory";
@@ -209,6 +214,7 @@
             // 
             // tbNote
             // 
+            this.tbNote.Enabled = false;
             this.tbNote.Location = new System.Drawing.Point(94, 202);
             this.tbNote.Name = "tbNote";
             this.tbNote.Size = new System.Drawing.Size(370, 20);
@@ -230,21 +236,21 @@
             this.languageToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Text = "&Options";
             // 
             // languageToolStripMenuItem
             // 
             this.languageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.englishToolStripMenuItem});
             this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
-            this.languageToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
-            this.languageToolStripMenuItem.Text = "Language";
+            this.languageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.languageToolStripMenuItem.Text = "&Language";
             // 
             // englishToolStripMenuItem
             // 
             this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            this.englishToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-            this.englishToolStripMenuItem.Text = "English";
+            this.englishToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.englishToolStripMenuItem.Text = "&English";
             // 
             // lblNote
             // 
@@ -258,6 +264,8 @@
             // cbFlashscreen
             // 
             this.cbFlashscreen.AutoSize = true;
+            this.cbFlashscreen.Checked = true;
+            this.cbFlashscreen.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbFlashscreen.Location = new System.Drawing.Point(36, 287);
             this.cbFlashscreen.Name = "cbFlashscreen";
             this.cbFlashscreen.Size = new System.Drawing.Size(88, 17);
@@ -285,6 +293,7 @@
             this.panelCountdown.Controls.Add(this.rbCustom);
             this.panelCountdown.Controls.Add(this.numCountdownHour);
             this.panelCountdown.Controls.Add(this.numCountdownMin);
+            this.panelCountdown.Enabled = false;
             this.panelCountdown.Location = new System.Drawing.Point(470, 59);
             this.panelCountdown.Name = "panelCountdown";
             this.panelCountdown.Size = new System.Drawing.Size(116, 148);
@@ -337,20 +346,32 @@
             this.cbShutdown.Text = "PC-Shutdown";
             this.cbShutdown.UseVisualStyleBackColor = true;
             // 
-            // contextMenuStrip1
+            // contextMenuStripSystray
             // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            this.contextMenuStripSystray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitToolStripMenuItem});
+            this.contextMenuStripSystray.Name = "contextMenuStrip1";
+            this.contextMenuStripSystray.Size = new System.Drawing.Size(153, 48);
+            this.contextMenuStripSystray.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripSystray_Opening);
             // 
             // cbNoDoubleEntry
             // 
             this.cbNoDoubleEntry.AutoSize = true;
+            this.cbNoDoubleEntry.Checked = true;
+            this.cbNoDoubleEntry.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbNoDoubleEntry.Location = new System.Drawing.Point(349, 55);
             this.cbNoDoubleEntry.Name = "cbNoDoubleEntry";
             this.cbNoDoubleEntry.Size = new System.Drawing.Size(109, 17);
             this.cbNoDoubleEntry.TabIndex = 27;
             this.cbNoDoubleEntry.Text = "No double entries";
             this.cbNoDoubleEntry.UseVisualStyleBackColor = true;
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.exitToolStripMenuItem.Text = "&Exit";
             // 
             // Alarm
             // 
@@ -388,6 +409,7 @@
             this.menuStrip1.PerformLayout();
             this.panelCountdown.ResumeLayout(false);
             this.panelCountdown.PerformLayout();
+            this.contextMenuStripSystray.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -424,8 +446,9 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnDeleteAll;
         private System.Windows.Forms.CheckBox cbShutdown;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripSystray;
         private System.Windows.Forms.CheckBox cbNoDoubleEntry;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
 

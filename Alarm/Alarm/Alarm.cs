@@ -11,7 +11,12 @@ using System.IO;
 
 namespace Alarm {
     public partial class Alarm : Form {
+
+        //Important Variables
         private Timer t = null;
+        NotifyIcon MyNotifyIcon = new NotifyIcon();
+        string DB_Path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Alarm\\AlarmHistory.db");
+
         public Alarm() {
             InitializeComponent();
 
@@ -21,7 +26,7 @@ namespace Alarm {
 
             //Loadlist - with Exceptionhandling (try/catch)
             try {
-                string[] HistoryListImport = File.ReadAllLines("C:\\Temp\\AlarmHistory.db");
+                string[] HistoryListImport = File.ReadAllLines(DB_Path);
                 foreach (string History in HistoryListImport) {
                     lbHistory.Items.Add(History);
                 }
@@ -35,13 +40,6 @@ namespace Alarm {
             numAlarmHour.Value = DateTime.Now.Hour;
             numAlarmMin.Value = DateTime.Now.Minute;
 
-                //ToString("dd.MM.yyyy HH:mm:ss")
-            cbNoDoubleEntry.Checked = true;
-            cbAlarm.Checked = false;
-            cbCountdown.Checked = false;
-            //cbAlarm_CheckedChanged();
-            //cbCountdown_CheckedChanged();
-
             //TimerSettings
             t = new Timer();
             t.Tick += new EventHandler(tTick);
@@ -49,17 +47,13 @@ namespace Alarm {
             t.Enabled = true;
             t.Start();
 
-   //         //Systray
-   //         private NotifyIcon trayIcon;
-   //         trayIcon = new NotifyIcon {
-   //             Icon = Properties.Resources, 
-   //             Text = "Alarm", 
-   //             ContextMenu = trayMenu
-   //         };
-   // trayIcon.DoubleClick += trayIcon_DoubleClick;
-   //trayIcon.Visible = true;
-        
-
+            //Systray
+            MyNotifyIcon.Icon = Properties.Resources.Alarm;
+            MyNotifyIcon.Visible = true;
+            MyNotifyIcon.BalloonTipText = "minimized"; //noclue - GPO disables it at copany
+            MyNotifyIcon.ShowBalloonTip(500); //Time Systray helptext is shown - GPO disables it at copany
+            MyNotifyIcon.Text = "double leftclick to maximize Program."; //systray helptext
+            MyNotifyIcon.DoubleClick += MyNotifyIcon_MouseDoubleClick; //Easy create method when first set += Methodname -> rightclick it afterwards "create method". //At doubleclick load methode
         }
 
         //Get CurrentTime + CountdownTime
@@ -75,9 +69,8 @@ namespace Alarm {
 
             //Save Historylist:  Foreach Item in lbHistory Append String to VarExport
             string Space = new string(' ', 20);
-
             string NewHistoryEntry = string.Format("{0:00}", numAlarmHour.Value) + ":" + numAlarmMin.Value.ToString("00") + Space + tbNote.Text + "";
-
+            //Check for double entries
             int DoubleEntry = 0;
             if (cbNoDoubleEntry.Checked) {
                 foreach (string History in lbHistory.Items) {
@@ -86,7 +79,6 @@ namespace Alarm {
                     }
                 }
             }
-
             if (DoubleEntry == 0) {
                 lbHistory.Items.Add(NewHistoryEntry);
                 HistoryExport();
@@ -180,55 +172,60 @@ namespace Alarm {
             foreach (string History in lbHistory.Items) {
                 HistoryListExport += History + "\n";
             }
-            File.WriteAllText("C:\\Temp\\AlarmHistory.db", HistoryListExport);
+            if (!Directory.Exists(Path.GetDirectoryName(DB_Path))) { //this removes the Filepattern from the pathfile and checkes if directory does NOT exist then create it.
+                Directory.CreateDirectory(Path.GetDirectoryName(DB_Path));
+            }
+            File.WriteAllText(DB_Path, HistoryListExport);
         }
 
-        //Systray
+        //Systray + RestoreFromTray
         private void Alarm_FormClosing(object sender, FormClosingEventArgs e) {
-
             if (e.CloseReason == CloseReason.UserClosing) {
-
-                NotifyIcon MyNotifyIcon = new NotifyIcon();
-                MyNotifyIcon.Icon = SystemIcons.Application;
-                //MyNotifyIcon.Icon = new Icon("Alarm.ico");
-                MyNotifyIcon.Visible = true;
-                MyNotifyIcon.BalloonTipText = "minimized"; //noclue
-                MyNotifyIcon.Text = "double leftclick to maximize Program."; //systray helptext
-                MyNotifyIcon.ShowBalloonTip(500); //Time Systray helptext is shown
-                //MyNotifyIcon.DoubleClick += new System.EventHandler(this.MyNotifyIcon_MouseDoubleClick);
-
                 e.Cancel = true;
                 Hide();
-                FormClosing += Alarm_FormClosing;
             }
         }
 
-        void MyNotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e) {
+        void MyNotifyIcon_MouseDoubleClick(object sender, EventArgs e) {
             this.WindowState = FormWindowState.Normal;
             Alarm.ActiveForm.Show();
-            //MaxmizedFromTray();
+        }
+
+        private void contextMenuStripSystray_Opening(object sender, CancelEventArgs e) {
+            MyNotifyIcon.Visible = false; //do remove systray icon at close
+            Application.Exit(); //Exits programm
         }
 
 
         //TODO
         /*
-         Get .exe path to store DB there? Alternative %Userprofile%\App....
-         SoundPath
-         YoutubePath
-         config/registry -> save 
-         Activate Button
-         SetStartValues (disable controls)
-         start programm @ Alarm
-         Doppelte Einträge - Abfrage
-         Notiz in Meldung Anzeigen
+        SoundPath
+        YoutubePath
+        config/registry -> save Properties.Settings.Default.Save();
+        Activate Button
+        start programm @ Alarm
+        option -> raidobutton -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
+        doubleclick List Entry -> activate Alarm and set hour/min/note
+        countdown ActivateAlarm Button
+        Warning - if Alarm/countdown changed while active -> MsgBox -> reload Alarm|keep active Alarm and changes|cancel changes
 
 
         Changelog
 
-         +Alarm Time startValue is changed to current time at start
-         +new funktion "No double entries"
-         -systray in progress
+        +Check Path if exists - else create path
+        +DB-file will be stored in User\mydocuments
+        +Startvalues are now set directly in GUI
+        +SystrayIcon is now correctly shown
+        +reopen programm out of systray is now working
+        +added menu to systray
+        +added menu shortcuts (Alt+ .....)
+        -DB-file won´t be stored with the *exe
+
+        +Alarm Time startValue is changed to current time at start
+        +new funktion "No double entries"
+        -systray in progress
+        +notiz is now show in AlarmMsg
         
-         */
+        */
     }
 }

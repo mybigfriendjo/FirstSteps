@@ -22,5 +22,17 @@ namespace Alarm.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AlarmOnStart {
+            get {
+                return ((bool)(this["AlarmOnStart"]));
+            }
+            set {
+                this["AlarmOnStart"] = value;
+            }
+        }
     }
 }
