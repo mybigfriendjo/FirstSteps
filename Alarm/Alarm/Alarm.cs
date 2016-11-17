@@ -16,6 +16,10 @@ namespace Alarm {
         private Timer t = null;
         NotifyIcon MyNotifyIcon = new NotifyIcon();
         string DB_Path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Alarm\\AlarmHistory.db");
+        bool AlarmActive = false; //ActivateAlarm Button pressed = ?
+        DateTime CountdownTimeADD = DateTime.Now; //Get CurrentTime + CountdownTime
+        DateTime StopFlash = DateTime.Now;
+        string DisplayInfo = "";
 
         public Alarm() {
             InitializeComponent();
@@ -54,18 +58,22 @@ namespace Alarm {
             MyNotifyIcon.ShowBalloonTip(500); //Time Systray helptext is shown - GPO disables it at copany
             MyNotifyIcon.Text = "double leftclick to maximize Program."; //systray helptext
             MyNotifyIcon.DoubleClick += MyNotifyIcon_MouseDoubleClick; //Easy create method when first set += Methodname -> rightclick it afterwards "create method". //At doubleclick load methode
+
+            //Gather DisplayInfo
+            int cnt = 0;
+            foreach (var screen in Screen.AllScreens) {
+                DisplayInfo += screen.DeviceName + "\n" + screen.Bounds.ToString() + "\n" + screen.Bounds.X.ToString() + "\n" + screen.Bounds.Y.ToString() + "\n" + screen.Bounds.Width.ToString() + "\n" + screen.Bounds.Height.ToString() + "\n" + screen.GetType().ToString() + "\n" + screen.WorkingArea.ToString() + "\n" + screen.Primary.ToString() + "\n\n\n";
+                //string[] Array = new string "a" [cnt];
+                cnt++;
+            }
+            MessageBox.Show(DisplayInfo);
         }
 
-        //Get CurrentTime + CountdownTime
-        DateTime CountdownTimeADD = DateTime.Now;
-
-        private void btnStop_Click(object sender, EventArgs e) {
-            //StopTimer
-            t.Enabled = false;
-    }
+        private void GlabiNit (object sender, EventArgs e) {
+            foreach(var screen in Screen.AllScreens)                                        
+        }
 
         private void btnSave_Click(object sender, EventArgs e) {
-            t.Enabled = true;
 
             //Save Historylist:  Foreach Item in lbHistory Append String to VarExport
             string Space = new string(' ', 20);
@@ -83,46 +91,46 @@ namespace Alarm {
                 lbHistory.Items.Add(NewHistoryEntry);
                 HistoryExport();
             }
+        }
 
-
-            if (cbCountdown.Checked) {
-                if (rb5min.Checked) {
-                    CountdownTimeADD = CountdownTimeADD.AddMinutes(5);
-                }
-                else if (rb10min.Checked) {
-                    CountdownTimeADD = CountdownTimeADD.AddMinutes(10);
-                }
-                else if (rb15min.Checked) {
-                    CountdownTimeADD = CountdownTimeADD.AddMinutes(15);
-                }
-                else if (rb30min.Checked) {
-                    CountdownTimeADD = CountdownTimeADD.AddMinutes(30);
-                }
-                else if (rb1hour.Checked) {
-                    CountdownTimeADD = CountdownTimeADD.AddHours(1);
-                }
-                else if (rbCustom.Checked) {
-                    CountdownTimeADD = CountdownTimeADD.AddMinutes(Convert.ToDouble(numCountdownMin.Value));
-                    CountdownTimeADD = CountdownTimeADD.AddHours(Convert.ToDouble(numCountdownHour.Value));
-                }
-                lblCountdownTime.Text = CountdownTimeADD.ToString("dd.MM.yyyy HH:mm:ss");
+        int CountdownChecked = 0;
+        private void CountdownRadio(Object sender, EventArgs e) {
+            CountdownChecked = 1;
+            if (sender == numCountdownHour || sender == numCountdownMin) {
+                rbCustom.Checked = true;
             }
         }
 
-
         void tTick(object sender, EventArgs e) {
             Console.Write("tick");
-            if (cbCountdown.Checked) {
-                if (DateTime.Now == CountdownTimeADD) { //Format = "02.09.2016 15:29"                                                         
+            //var CountdownChecked = Container.Co
+            if (cbCountdown.Checked && AlarmActive && CountdownChecked == 1) {
+                if (DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") == lblCountdownTime.Text) { //Format = "02.09.2016 15:29"    
+                    StopFlash = Convert.ToDateTime(lblCountdownTime.Text);
+                    StopFlash = StopFlash.AddSeconds(15);
                     MessageBox.Show(" U da CountdownMan");
                 }
             }
             string TodaysDate = DateTime.Now.ToString("dd.MM.yyyy"); //As long as there is no DateField includet or it is NULL
             string AlarmValue = TodaysDate + " " + numAlarmHour.Value.ToString("00") + ":" + numAlarmMin.Value.ToString("00") + ":00";
             string CountdownValue = TodaysDate + " " + numCountdownHour.Value.ToString("00") + ":" + numCountdownMin.Value.ToString("00") + ":00";
-            if (DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") == AlarmValue) { //Format = "02.09.2016 15:29"
+            if (DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") == AlarmValue && cbAlarm.Checked && AlarmActive) { //Format = "02.09.2016 15:29"
                 //File.AppendAllText("C:\\Temp\\Config.txt", Environment.NewLine + "WayToGo");
+                StopFlash = Convert.ToDateTime(AlarmValue);
+                StopFlash = StopFlash.AddSeconds(15);
+
                 MessageBox.Show("It´s an Alarm! Watcha gonna do" + tbNote.Text);
+            }
+            
+            //Alarm went off - FlashScreen Activated
+            if (cbAlarm.Checked && cbFlashscreen.Checked && DateTime.Now < StopFlash && AlarmActive && ( DateTime.Now > Convert.ToDateTime(AlarmValue))) { //If Time is between Alarm and Stopflash(Alarm +15sec)
+                FrameFlash(null, null);
+            }
+            //Countdown went off - FlashScreen Activated
+            if (lblCountdownTime.Text != "") {
+                if (cbCountdown.Checked && cbFlashscreen.Checked && DateTime.Now < StopFlash && AlarmActive && (DateTime.Now > Convert.ToDateTime(lblCountdownTime.Text))) { //If Time is between Countdown and Stopflash(Alarm +15sec)
+                    FrameFlash(null, null);
+                }
             }
         }
 
@@ -154,14 +162,12 @@ namespace Alarm {
             DialogResult result = MessageBox.Show("\"Ok\" will remove all entries in the Alarmlist!", "Clear whole List?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (result == System.Windows.Forms.DialogResult.OK) {
                 lbHistory.Items.Clear();
-
                 HistoryExport();
             }
         }
 
         private void btnDelete_Click(object sender, EventArgs e) {
             lbHistory.Items.RemoveAt(lbHistory.SelectedIndex);
-
             HistoryExport();
         }
 
@@ -196,21 +202,104 @@ namespace Alarm {
             Application.Exit(); //Exits programm
         }
 
+        //AlarmActive button toggle
+        private void btnAcivateAlarm_Click(object sender, EventArgs e) {
+            if (AlarmActive) {
+                btnAcivateAlarm.Text = "Activate Alarm";
+                AlarmActive = false;
+                t.Enabled = false; //disables Timer
+                lblCountdownTime.Text = "";
+            }
+            else {
+                btnAcivateAlarm.Text = "Deactivate Alarm";
+                AlarmActive = true;
+                t.Enabled = true; //enables Timer
+
+
+                if (cbCountdown.Checked) {
+                    if (rb5min.Checked) {
+                        CountdownTimeADD = CountdownTimeADD.AddMinutes(5);
+                    }
+                    else if (rb10min.Checked) {
+                        CountdownTimeADD = CountdownTimeADD.AddMinutes(10);
+                    }
+                    else if (rb15min.Checked) {
+                        CountdownTimeADD = CountdownTimeADD.AddMinutes(15);
+                    }
+                    else if (rb30min.Checked) {
+                        CountdownTimeADD = CountdownTimeADD.AddMinutes(30);
+                    }
+                    else if (rb1hour.Checked) {
+                        CountdownTimeADD = CountdownTimeADD.AddHours(1);
+                    }
+                    else if (rbCustom.Checked) {
+                        CountdownTimeADD = CountdownTimeADD.AddMinutes(Convert.ToDouble(numCountdownMin.Value));
+                        CountdownTimeADD = CountdownTimeADD.AddHours(Convert.ToDouble(numCountdownHour.Value));
+                    }
+                    lblCountdownTime.Text = CountdownTimeADD.ToString("dd.MM.yyyy HH:mm:ss");
+                }
+            }
+        }
+
+        //ScreenOverlay
+        Bottom FrmBottm = new Bottom();
+        Top FrmTop = new Top();
+        LeftSide FrmLeft = new LeftSide();
+        RightSide FrmRight = new RightSide();
+        private void FrameFlash(object sender, EventArgs e) {
+            
+           //Bottom
+            if (FrmBottm.Visible) {
+                FrmBottm.Hide();
+            }
+            else {
+                FrmBottm.Show();
+            }
+
+            //Top
+            if (FrmTop.Visible) {
+                FrmTop.Hide();
+            }
+            else {
+                FrmTop.Show();
+            }
+
+            //Left
+            if (FrmLeft.Visible) {
+                FrmLeft.Hide();
+            }
+            else {
+                FrmLeft.Show();
+            }
+
+            //Right
+            if (FrmRight.Visible) {
+                FrmRight.Hide();
+            }
+            else {
+                FrmRight.Show();
+            }
+        }
 
         //TODO
         /*
         SoundPath
         YoutubePath
         config/registry -> save Properties.Settings.Default.Save();
-        Activate Button
+        Activate Alarm/Countdown Button
         start programm @ Alarm
         option -> raidobutton -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
-        doubleclick List Entry -> activate Alarm and set hour/min/note
-        countdown ActivateAlarm Button
+        ~~~doubleclick List Entry -> activate Alarm and set hour/min/note
+        Change List into a List Containing Alarm + chkbox, days, + upcomming alarms for example: http://freealarmclocksoftware.com/images/alarmclock.png
         Warning - if Alarm/countdown changed while active -> MsgBox -> reload Alarm|keep active Alarm and changes|cancel changes
 
 
         Changelog
+
+        +Alarm trigger can seperate countdown from Alarm now.
+        +Started to implement multiple monitor support
+        +Added ScreenFlashing - For 1 Monitor
+        +Countdown now working
 
         +Check Path if exists - else create path
         +DB-file will be stored in User\mydocuments

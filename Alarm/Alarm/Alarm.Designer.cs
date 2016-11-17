@@ -55,8 +55,9 @@
             this.btnDeleteAll = new System.Windows.Forms.Button();
             this.cbShutdown = new System.Windows.Forms.CheckBox();
             this.contextMenuStripSystray = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cbNoDoubleEntry = new System.Windows.Forms.CheckBox();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbNoDoubleEntry = new System.Windows.Forms.CheckBox();
+            this.btnAcivateAlarm = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numAlarmMin)).BeginInit();
@@ -82,55 +83,60 @@
             this.rb5min.AutoSize = true;
             this.rb5min.Location = new System.Drawing.Point(18, 4);
             this.rb5min.Name = "rb5min";
-            this.rb5min.Size = new System.Drawing.Size(50, 17);
+            this.rb5min.Size = new System.Drawing.Size(51, 17);
             this.rb5min.TabIndex = 1;
             this.rb5min.TabStop = true;
-            this.rb5min.Text = "5 min";
+            this.rb5min.Text = "5 Min";
             this.rb5min.UseVisualStyleBackColor = true;
+            this.rb5min.CheckedChanged += new System.EventHandler(this.CountdownRadio);
             // 
             // rb10min
             // 
             this.rb10min.AutoSize = true;
             this.rb10min.Location = new System.Drawing.Point(18, 27);
             this.rb10min.Name = "rb10min";
-            this.rb10min.Size = new System.Drawing.Size(56, 17);
+            this.rb10min.Size = new System.Drawing.Size(57, 17);
             this.rb10min.TabIndex = 2;
             this.rb10min.TabStop = true;
-            this.rb10min.Text = "10 min";
+            this.rb10min.Text = "10 Min";
             this.rb10min.UseVisualStyleBackColor = true;
+            this.rb10min.CheckedChanged += new System.EventHandler(this.CountdownRadio);
             // 
             // rb15min
             // 
             this.rb15min.AutoSize = true;
             this.rb15min.Location = new System.Drawing.Point(18, 50);
             this.rb15min.Name = "rb15min";
-            this.rb15min.Size = new System.Drawing.Size(56, 17);
+            this.rb15min.Size = new System.Drawing.Size(57, 17);
             this.rb15min.TabIndex = 3;
             this.rb15min.TabStop = true;
-            this.rb15min.Text = "15 min";
+            this.rb15min.Text = "15 Min";
             this.rb15min.UseVisualStyleBackColor = true;
+            this.rb15min.CheckedChanged += new System.EventHandler(this.CountdownRadio);
             // 
             // rb30min
             // 
             this.rb30min.AutoSize = true;
             this.rb30min.Location = new System.Drawing.Point(18, 73);
             this.rb30min.Name = "rb30min";
-            this.rb30min.Size = new System.Drawing.Size(56, 17);
+            this.rb30min.Size = new System.Drawing.Size(57, 17);
             this.rb30min.TabIndex = 4;
             this.rb30min.TabStop = true;
-            this.rb30min.Text = "30 min";
+            this.rb30min.Text = "30 Min";
             this.rb30min.UseVisualStyleBackColor = true;
+            this.rb30min.CheckedChanged += new System.EventHandler(this.CountdownRadio);
             // 
             // rb1hour
             // 
             this.rb1hour.AutoSize = true;
             this.rb1hour.Location = new System.Drawing.Point(18, 96);
             this.rb1hour.Name = "rb1hour";
-            this.rb1hour.Size = new System.Drawing.Size(55, 17);
+            this.rb1hour.Size = new System.Drawing.Size(57, 17);
             this.rb1hour.TabIndex = 5;
             this.rb1hour.TabStop = true;
-            this.rb1hour.Text = "1 hour";
+            this.rb1hour.Text = "1 Hour";
             this.rb1hour.UseVisualStyleBackColor = true;
+            this.rb1hour.CheckedChanged += new System.EventHandler(this.CountdownRadio);
             // 
             // rbCustom
             // 
@@ -141,6 +147,7 @@
             this.rbCustom.TabIndex = 6;
             this.rbCustom.TabStop = true;
             this.rbCustom.UseVisualStyleBackColor = true;
+            this.rbCustom.CheckedChanged += new System.EventHandler(this.CountdownRadio);
             // 
             // cbAlarm
             // 
@@ -159,6 +166,7 @@
             this.numCountdownHour.Name = "numCountdownHour";
             this.numCountdownHour.Size = new System.Drawing.Size(35, 20);
             this.numCountdownHour.TabIndex = 8;
+            this.numCountdownHour.ValueChanged += new System.EventHandler(this.CountdownRadio);
             // 
             // numCountdownMin
             // 
@@ -166,6 +174,7 @@
             this.numCountdownMin.Name = "numCountdownMin";
             this.numCountdownMin.Size = new System.Drawing.Size(37, 20);
             this.numCountdownMin.TabIndex = 9;
+            this.numCountdownMin.ValueChanged += new System.EventHandler(this.CountdownRadio);
             // 
             // numAlarmMin
             // 
@@ -249,7 +258,7 @@
             // englishToolStripMenuItem
             // 
             this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            this.englishToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.englishToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.englishToolStripMenuItem.Text = "&English";
             // 
             // lblNote
@@ -275,7 +284,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(298, 228);
+            this.btnSave.Location = new System.Drawing.Point(296, 228);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(48, 23);
             this.btnSave.TabIndex = 19;
@@ -318,7 +327,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(349, 228);
+            this.btnDelete.Location = new System.Drawing.Point(347, 228);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(48, 23);
             this.btnDelete.TabIndex = 23;
@@ -328,11 +337,11 @@
             // 
             // btnDeleteAll
             // 
-            this.btnDeleteAll.Location = new System.Drawing.Point(400, 228);
+            this.btnDeleteAll.Location = new System.Drawing.Point(398, 228);
             this.btnDeleteAll.Name = "btnDeleteAll";
-            this.btnDeleteAll.Size = new System.Drawing.Size(64, 23);
+            this.btnDeleteAll.Size = new System.Drawing.Size(66, 23);
             this.btnDeleteAll.TabIndex = 24;
-            this.btnDeleteAll.Text = "Delete All";
+            this.btnDeleteAll.Text = "Delete List";
             this.btnDeleteAll.UseVisualStyleBackColor = true;
             this.btnDeleteAll.Click += new System.EventHandler(this.btnDeleteAll_Click);
             // 
@@ -351,8 +360,15 @@
             this.contextMenuStripSystray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
             this.contextMenuStripSystray.Name = "contextMenuStrip1";
-            this.contextMenuStripSystray.Size = new System.Drawing.Size(153, 48);
+            this.contextMenuStripSystray.Size = new System.Drawing.Size(138, 26);
             this.contextMenuStripSystray.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripSystray_Opening);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.exitToolStripMenuItem.Text = "&Exit";
             // 
             // cbNoDoubleEntry
             // 
@@ -366,18 +382,22 @@
             this.cbNoDoubleEntry.Text = "No double entries";
             this.cbNoDoubleEntry.UseVisualStyleBackColor = true;
             // 
-            // exitToolStripMenuItem
+            // btnAcivateAlarm
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
-            this.exitToolStripMenuItem.Text = "&Exit";
+            this.btnAcivateAlarm.Location = new System.Drawing.Point(400, 287);
+            this.btnAcivateAlarm.Name = "btnAcivateAlarm";
+            this.btnAcivateAlarm.Size = new System.Drawing.Size(100, 23);
+            this.btnAcivateAlarm.TabIndex = 10;
+            this.btnAcivateAlarm.Text = "Activate Alarm";
+            this.btnAcivateAlarm.UseVisualStyleBackColor = true;
+            this.btnAcivateAlarm.Click += new System.EventHandler(this.btnAcivateAlarm_Click);
             // 
             // Alarm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(589, 316);
+            this.Controls.Add(this.btnAcivateAlarm);
             this.Controls.Add(this.cbNoDoubleEntry);
             this.Controls.Add(this.cbShutdown);
             this.Controls.Add(this.btnDeleteAll);
@@ -449,6 +469,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripSystray;
         private System.Windows.Forms.CheckBox cbNoDoubleEntry;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.Button btnAcivateAlarm;
     }
 }
 
