@@ -69,10 +69,6 @@ namespace Alarm {
             MessageBox.Show(DisplayInfo);
         }
 
-        private void GlabiNit (object sender, EventArgs e) {
-            foreach(var screen in Screen.AllScreens)                                        
-        }
-
         private void btnSave_Click(object sender, EventArgs e) {
 
             //Save Historylist:  Foreach Item in lbHistory Append String to VarExport
@@ -131,6 +127,13 @@ namespace Alarm {
                 if (cbCountdown.Checked && cbFlashscreen.Checked && DateTime.Now < StopFlash && AlarmActive && (DateTime.Now > Convert.ToDateTime(lblCountdownTime.Text))) { //If Time is between Countdown and Stopflash(Alarm +15sec)
                     FrameFlash(null, null);
                 }
+            }
+            if (DateTime.Now > StopFlash.AddSeconds(2)) {
+                //Hide all BoarderForms
+                FrmBottm.Hide();
+                FrmLeft.Hide();
+                FrmRight.Hide();
+                FrmTop.Hide();
             }
         }
 
@@ -215,7 +218,7 @@ namespace Alarm {
                 AlarmActive = true;
                 t.Enabled = true; //enables Timer
 
-
+                CountdownTimeADD = DateTime.Now;
                 if (cbCountdown.Checked) {
                     if (rb5min.Checked) {
                         CountdownTimeADD = CountdownTimeADD.AddMinutes(5);
@@ -292,6 +295,8 @@ namespace Alarm {
         ~~~doubleclick List Entry -> activate Alarm and set hour/min/note
         Change List into a List Containing Alarm + chkbox, days, + upcomming alarms for example: http://freealarmclocksoftware.com/images/alarmclock.png
         Warning - if Alarm/countdown changed while active -> MsgBox -> reload Alarm|keep active Alarm and changes|cancel changes
+        repeat alarm - else deaktivate it after it was triggered
+        Seperate Stopflash for Alarm and Counter else it will get overwritten if both are active(still works though)
 
 
         Changelog
