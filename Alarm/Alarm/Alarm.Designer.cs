@@ -32,53 +32,41 @@
             this.rb30min = new System.Windows.Forms.RadioButton();
             this.rb1hour = new System.Windows.Forms.RadioButton();
             this.rbCustom = new System.Windows.Forms.RadioButton();
-            this.cbAlarm = new System.Windows.Forms.CheckBox();
             this.timerCountdown = new System.Windows.Forms.Timer(this.components);
             this.numCountdownHour = new System.Windows.Forms.NumericUpDown();
             this.numCountdownMin = new System.Windows.Forms.NumericUpDown();
-            this.numAlarmMin = new System.Windows.Forms.NumericUpDown();
-            this.numAlarmHour = new System.Windows.Forms.NumericUpDown();
             this.lbHistory = new System.Windows.Forms.ListBox();
             this.lblHistory = new System.Windows.Forms.Label();
-            this.tbNote = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblNote = new System.Windows.Forms.Label();
-            this.cbFlashscreen = new System.Windows.Forms.CheckBox();
-            this.btnSave = new System.Windows.Forms.Button();
             this.panelCountdown = new System.Windows.Forms.Panel();
             this.btnStop = new System.Windows.Forms.Button();
             this.lblCountdownTime = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnDeleteAll = new System.Windows.Forms.Button();
-            this.cbShutdown = new System.Windows.Forms.CheckBox();
             this.contextMenuStripSystray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbNoDoubleEntry = new System.Windows.Forms.CheckBox();
             this.btnAcivateAlarm = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.AlarmISActive = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.Column2525 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataSet1 = new System.Data.DataSet();
             this.dataTable1 = new System.Data.DataTable();
             this.dataColumn1 = new System.Data.DataColumn();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.dataColumn2 = new System.Data.DataColumn();
-            this.Column2525 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownMin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numAlarmMin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numAlarmHour)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.panelCountdown.SuspendLayout();
             this.contextMenuStripSystray.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTable1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // cbCountdown
@@ -163,17 +151,6 @@
             this.rbCustom.UseVisualStyleBackColor = true;
             this.rbCustom.CheckedChanged += new System.EventHandler(this.CountdownRadio);
             // 
-            // cbAlarm
-            // 
-            this.cbAlarm.AutoSize = true;
-            this.cbAlarm.Location = new System.Drawing.Point(36, 30);
-            this.cbAlarm.Name = "cbAlarm";
-            this.cbAlarm.Size = new System.Drawing.Size(52, 17);
-            this.cbAlarm.TabIndex = 7;
-            this.cbAlarm.Text = "Alarm";
-            this.cbAlarm.UseVisualStyleBackColor = true;
-            this.cbAlarm.CheckedChanged += new System.EventHandler(this.cbAlarm_CheckedChanged);
-            // 
             // numCountdownHour
             // 
             this.numCountdownHour.Location = new System.Drawing.Point(36, 119);
@@ -190,58 +167,24 @@
             this.numCountdownMin.TabIndex = 9;
             this.numCountdownMin.ValueChanged += new System.EventHandler(this.CountdownRadio);
             // 
-            // numAlarmMin
-            // 
-            this.numAlarmMin.Enabled = false;
-            this.numAlarmMin.Location = new System.Drawing.Point(134, 30);
-            this.numAlarmMin.Maximum = new decimal(new int[] {
-            59,
-            0,
-            0,
-            0});
-            this.numAlarmMin.Name = "numAlarmMin";
-            this.numAlarmMin.Size = new System.Drawing.Size(37, 20);
-            this.numAlarmMin.TabIndex = 11;
-            // 
-            // numAlarmHour
-            // 
-            this.numAlarmHour.Enabled = false;
-            this.numAlarmHour.Location = new System.Drawing.Point(94, 30);
-            this.numAlarmHour.Maximum = new decimal(new int[] {
-            23,
-            0,
-            0,
-            0});
-            this.numAlarmHour.Name = "numAlarmHour";
-            this.numAlarmHour.Size = new System.Drawing.Size(35, 20);
-            this.numAlarmHour.TabIndex = 10;
-            // 
             // lbHistory
             // 
             this.lbHistory.Enabled = false;
             this.lbHistory.FormattingEnabled = true;
-            this.lbHistory.Location = new System.Drawing.Point(36, 249);
+            this.lbHistory.Location = new System.Drawing.Point(470, 226);
             this.lbHistory.Name = "lbHistory";
-            this.lbHistory.Size = new System.Drawing.Size(180, 17);
+            this.lbHistory.Size = new System.Drawing.Size(180, 69);
             this.lbHistory.Sorted = true;
             this.lbHistory.TabIndex = 12;
             // 
             // lblHistory
             // 
             this.lblHistory.AutoSize = true;
-            this.lblHistory.Location = new System.Drawing.Point(33, 233);
+            this.lblHistory.Location = new System.Drawing.Point(467, 210);
             this.lblHistory.Name = "lblHistory";
             this.lblHistory.Size = new System.Drawing.Size(68, 13);
             this.lblHistory.TabIndex = 13;
             this.lblHistory.Text = "Alarm History";
-            // 
-            // tbNote
-            // 
-            this.tbNote.Enabled = false;
-            this.tbNote.Location = new System.Drawing.Point(94, 202);
-            this.tbNote.Name = "tbNote";
-            this.tbNote.Size = new System.Drawing.Size(370, 20);
-            this.tbNote.TabIndex = 14;
             // 
             // menuStrip1
             // 
@@ -249,7 +192,7 @@
             this.optionsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(589, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(806, 24);
             this.menuStrip1.TabIndex = 16;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -275,37 +218,6 @@
             this.englishToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.englishToolStripMenuItem.Text = "&English";
             // 
-            // lblNote
-            // 
-            this.lblNote.AutoSize = true;
-            this.lblNote.Location = new System.Drawing.Point(33, 205);
-            this.lblNote.Name = "lblNote";
-            this.lblNote.Size = new System.Drawing.Size(60, 13);
-            this.lblNote.TabIndex = 17;
-            this.lblNote.Text = "Notification";
-            // 
-            // cbFlashscreen
-            // 
-            this.cbFlashscreen.AutoSize = true;
-            this.cbFlashscreen.Checked = true;
-            this.cbFlashscreen.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbFlashscreen.Location = new System.Drawing.Point(36, 287);
-            this.cbFlashscreen.Name = "cbFlashscreen";
-            this.cbFlashscreen.Size = new System.Drawing.Size(88, 17);
-            this.cbFlashscreen.TabIndex = 18;
-            this.cbFlashscreen.Text = "Flash Screen";
-            this.cbFlashscreen.UseVisualStyleBackColor = true;
-            // 
-            // btnSave
-            // 
-            this.btnSave.Location = new System.Drawing.Point(296, 228);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(48, 23);
-            this.btnSave.TabIndex = 19;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
             // panelCountdown
             // 
             this.panelCountdown.Controls.Add(this.rb5min);
@@ -324,7 +236,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(506, 287);
+            this.btnStop.Location = new System.Drawing.Point(613, 301);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 23);
             this.btnStop.TabIndex = 21;
@@ -341,7 +253,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(347, 228);
+            this.btnDelete.Location = new System.Drawing.Point(344, 301);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(48, 23);
             this.btnDelete.TabIndex = 23;
@@ -351,23 +263,13 @@
             // 
             // btnDeleteAll
             // 
-            this.btnDeleteAll.Location = new System.Drawing.Point(398, 228);
+            this.btnDeleteAll.Location = new System.Drawing.Point(395, 301);
             this.btnDeleteAll.Name = "btnDeleteAll";
             this.btnDeleteAll.Size = new System.Drawing.Size(66, 23);
             this.btnDeleteAll.TabIndex = 24;
             this.btnDeleteAll.Text = "Delete List";
             this.btnDeleteAll.UseVisualStyleBackColor = true;
             this.btnDeleteAll.Click += new System.EventHandler(this.btnDeleteAll_Click);
-            // 
-            // cbShutdown
-            // 
-            this.cbShutdown.AutoSize = true;
-            this.cbShutdown.Location = new System.Drawing.Point(143, 287);
-            this.cbShutdown.Name = "cbShutdown";
-            this.cbShutdown.Size = new System.Drawing.Size(91, 17);
-            this.cbShutdown.TabIndex = 25;
-            this.cbShutdown.Text = "PC-Shutdown";
-            this.cbShutdown.UseVisualStyleBackColor = true;
             // 
             // contextMenuStripSystray
             // 
@@ -384,21 +286,9 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
             // 
-            // cbNoDoubleEntry
-            // 
-            this.cbNoDoubleEntry.AutoSize = true;
-            this.cbNoDoubleEntry.Checked = true;
-            this.cbNoDoubleEntry.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbNoDoubleEntry.Location = new System.Drawing.Point(347, 33);
-            this.cbNoDoubleEntry.Name = "cbNoDoubleEntry";
-            this.cbNoDoubleEntry.Size = new System.Drawing.Size(109, 17);
-            this.cbNoDoubleEntry.TabIndex = 27;
-            this.cbNoDoubleEntry.Text = "No double entries";
-            this.cbNoDoubleEntry.UseVisualStyleBackColor = true;
-            // 
             // btnAcivateAlarm
             // 
-            this.btnAcivateAlarm.Location = new System.Drawing.Point(400, 287);
+            this.btnAcivateAlarm.Location = new System.Drawing.Point(694, 301);
             this.btnAcivateAlarm.Name = "btnAcivateAlarm";
             this.btnAcivateAlarm.Size = new System.Drawing.Size(100, 23);
             this.btnAcivateAlarm.TabIndex = 10;
@@ -408,29 +298,38 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.dataGridView2);
             this.panel1.Controls.Add(this.dataGridView1);
-            this.panel1.Location = new System.Drawing.Point(36, 63);
+            this.panel1.Location = new System.Drawing.Point(36, 31);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(428, 135);
+            this.panel1.Size = new System.Drawing.Size(428, 264);
             this.panel1.TabIndex = 28;
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.AlarmISActive});
-            this.dataGridView1.Location = new System.Drawing.Point(4, 4);
+            this.dataGridView1.Location = new System.Drawing.Point(4, 3);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(194, 124);
+            this.dataGridView1.Size = new System.Drawing.Size(421, 258);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
+            this.dataGridView1.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridView1_DataBindingComplete);
             // 
-            // AlarmISActive
+            // dataGridView2
             // 
-            this.AlarmISActive.FillWeight = 50F;
-            this.AlarmISActive.HeaderText = "Active";
-            this.AlarmISActive.Name = "AlarmISActive";
-            this.AlarmISActive.Width = 50;
+            this.dataGridView2.AutoGenerateColumns = false;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column2525});
+            this.dataGridView2.DataSource = this.dataSet1;
+            this.dataGridView2.Location = new System.Drawing.Point(592, 59);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(206, 139);
+            this.dataGridView2.TabIndex = 1;
+            // 
+            // Column2525
+            // 
+            this.Column2525.HeaderText = "Column1";
+            this.Column2525.Name = "Column2525";
             // 
             // dataSet1
             // 
@@ -450,53 +349,28 @@
             this.dataColumn1.Caption = "AlarmActive2";
             this.dataColumn1.ColumnName = "AlarmActive";
             this.dataColumn1.DataType = typeof(bool);
-            this.dataColumn1.DefaultValue = "True";
-            // 
-            // dataGridView2
-            // 
-            this.dataGridView2.AutoGenerateColumns = false;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column2525});
-            this.dataGridView2.DataSource = this.dataSet1;
-            this.dataGridView2.Location = new System.Drawing.Point(205, 4);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(206, 124);
-            this.dataGridView2.TabIndex = 1;
+            this.dataColumn1.DefaultValue = true;
             // 
             // dataColumn2
             // 
             this.dataColumn2.ColumnName = "Column1";
             // 
-            // Column2525
-            // 
-            this.Column2525.HeaderText = "Column1";
-            this.Column2525.Name = "Column2525";
-            // 
             // Alarm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(589, 316);
+            this.ClientSize = new System.Drawing.Size(806, 336);
+            this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnAcivateAlarm);
-            this.Controls.Add(this.cbNoDoubleEntry);
-            this.Controls.Add(this.cbShutdown);
             this.Controls.Add(this.btnDeleteAll);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.lblCountdownTime);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.cbCountdown);
             this.Controls.Add(this.panelCountdown);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.cbFlashscreen);
-            this.Controls.Add(this.lblNote);
-            this.Controls.Add(this.tbNote);
             this.Controls.Add(this.lblHistory);
             this.Controls.Add(this.lbHistory);
-            this.Controls.Add(this.numAlarmMin);
-            this.Controls.Add(this.numAlarmHour);
-            this.Controls.Add(this.cbAlarm);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -505,8 +379,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Alarm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownHour)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownMin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numAlarmMin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numAlarmHour)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panelCountdown.ResumeLayout(false);
@@ -514,9 +386,9 @@
             this.contextMenuStripSystray.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTable1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -531,19 +403,12 @@
         private System.Windows.Forms.RadioButton rb30min;
         private System.Windows.Forms.RadioButton rb1hour;
         private System.Windows.Forms.RadioButton rbCustom;
-        private System.Windows.Forms.CheckBox cbAlarm;
         private System.Windows.Forms.Timer timerCountdown;
         private System.Windows.Forms.NumericUpDown numCountdownHour;
         private System.Windows.Forms.NumericUpDown numCountdownMin;
-        private System.Windows.Forms.NumericUpDown numAlarmMin;
-        private System.Windows.Forms.NumericUpDown numAlarmHour;
         private System.Windows.Forms.ListBox lbHistory;
         private System.Windows.Forms.Label lblHistory;
-        private System.Windows.Forms.TextBox tbNote;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.Label lblNote;
-        private System.Windows.Forms.CheckBox cbFlashscreen;
-        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem languageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem englishToolStripMenuItem;
@@ -552,14 +417,11 @@
         private System.Windows.Forms.Label lblCountdownTime;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnDeleteAll;
-        private System.Windows.Forms.CheckBox cbShutdown;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripSystray;
-        private System.Windows.Forms.CheckBox cbNoDoubleEntry;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.Button btnAcivateAlarm;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn AlarmISActive;
         private System.Data.DataSet dataSet1;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Data.DataTable dataTable1;

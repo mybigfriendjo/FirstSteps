@@ -28,23 +28,35 @@ namespace Alarm {
             DataSet ADS = new DataSet("ADS"); //AlarmDataSet (ADS)
             DataTable ADT = ADS.Tables.Add("ADT"); //AlarmDataTable (ADT)
             ADT.Columns.Add("Date");
-            ADT.Columns.Add("Hour");
-            ADT.Columns.Add("Minute");
-            ADT.Columns.Add("AlarmAktiv");
+            ADT.Columns.Add("Hour", typeof(int));
+            ADT.Columns.Add("Minute", typeof(int));
+            ADT.Columns.Add("AlarmActiv", typeof(bool));
             ADT.Columns.Add("Note");
-            ADT.Columns.Add("PathAktiv");
+            ADT.Columns.Add("PathActiv", typeof(bool));
             ADT.Columns.Add("ProgPath"); //Path to start Programm
-            ADT.Columns.Add("SoundAktive");
+            ADT.Columns.Add("SoundActive", typeof(bool));
             ADT.Columns.Add("SoundSource"); //Radiobtn "ringtone", "soundfile", "youtube"
             ADT.Columns.Add("ID");
+            DataColumn DCbool = new DataColumn("AActive",typeof(bool));
+            //ADT.Columns.Add(DCbool);
 
+            DataRow ADR = ADT.NewRow();
+            //ADR["AlarmISActive"] = true;
+            ADR["Note"] = "WhatsMyName";
+            ADR["SoundActive"] = true;
+            ADT.Rows.Add(ADR);
             dataGridView1.DataSource = ADS.Tables[0];
+
+
+            //dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            //dataGridView1.DataBindingComplete = 
+
             dataGridView2.DataSource = dataSet1.Tables[0];
 
 
             //Tooltips - if it would be bound to an Event like MouseEnter it would show up every few millisec
             System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
-            ToolTip1.SetToolTip(this.tbNote, "Please insert your Note that should be attatched to the Alarm.");
+            ToolTip1.SetToolTip(AlarmSettings.tbNote, "Please insert your Note that should be attatched to the Alarm.");
 
             //Loadlist - with Exceptionhandling (try/catch)
             try {
@@ -84,7 +96,7 @@ namespace Alarm {
                 //string[] Array = new string "a" [cnt];
                 cnt++;
             }
-            MessageBox.Show(DisplayInfo);
+            //MessageBox.Show(DisplayInfo);
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
@@ -300,6 +312,17 @@ namespace Alarm {
             else {
                 FrmRight.Show();
             }
+        }
+
+        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+            
+            dataGridView1.Columns["ID"].Visible = false; //hides ID Column in DataGridView
+            dataGridView1.RowHeadersVisible = false; //hides the first gray row in DataGridView
+            dataGridView1.AutoResizeColumns();
+        }
+
+        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e) {
+
         }
 
         //TODO

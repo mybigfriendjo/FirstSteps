@@ -91,6 +91,12 @@
     <Compile Include="Alarm.Designer.cs">
       <DependentUpon>Alarm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AlarmSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AlarmSettings.Designer.cs">
+      <DependentUpon>AlarmSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="ScreenOverlay\RightSide.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +125,9 @@
     </Compile>
     <EmbeddedResource Include="Alarm.resx">
       <DependentUpon>Alarm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AlarmSettings.resx">
+      <DependentUpon>AlarmSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
