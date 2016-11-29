@@ -57,6 +57,15 @@
             this.dataTable1 = new System.Data.DataTable();
             this.dataColumn1 = new System.Data.DataColumn();
             this.dataColumn2 = new System.Data.DataColumn();
+            this.cbAlarm = new System.Windows.Forms.CheckBox();
+            this.cbNoDoubleEntry = new System.Windows.Forms.CheckBox();
+            this.numAlarmMin = new System.Windows.Forms.NumericUpDown();
+            this.numAlarmHour = new System.Windows.Forms.NumericUpDown();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.lblNote = new System.Windows.Forms.Label();
+            this.tbNote = new System.Windows.Forms.TextBox();
+            this.cbShutdown = new System.Windows.Forms.CheckBox();
+            this.cbFlashscreen = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownMin)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -67,6 +76,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTable1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numAlarmMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numAlarmHour)).BeginInit();
             this.SuspendLayout();
             // 
             // cbCountdown
@@ -312,6 +323,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(421, 258);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
+            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView1.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridView1_DataBindingComplete);
             // 
             // dataGridView2
@@ -355,11 +367,116 @@
             // 
             this.dataColumn2.ColumnName = "Column1";
             // 
+            // cbAlarm
+            // 
+            this.cbAlarm.AutoSize = true;
+            this.cbAlarm.Location = new System.Drawing.Point(181, 487);
+            this.cbAlarm.Name = "cbAlarm";
+            this.cbAlarm.Size = new System.Drawing.Size(52, 17);
+            this.cbAlarm.TabIndex = 44;
+            this.cbAlarm.Text = "Alarm";
+            this.cbAlarm.UseVisualStyleBackColor = true;
+            // 
+            // cbNoDoubleEntry
+            // 
+            this.cbNoDoubleEntry.AutoSize = true;
+            this.cbNoDoubleEntry.Checked = true;
+            this.cbNoDoubleEntry.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbNoDoubleEntry.Location = new System.Drawing.Point(324, 378);
+            this.cbNoDoubleEntry.Name = "cbNoDoubleEntry";
+            this.cbNoDoubleEntry.Size = new System.Drawing.Size(109, 17);
+            this.cbNoDoubleEntry.TabIndex = 43;
+            this.cbNoDoubleEntry.Text = "No double entries";
+            this.cbNoDoubleEntry.UseVisualStyleBackColor = true;
+            // 
+            // numAlarmMin
+            // 
+            this.numAlarmMin.Enabled = false;
+            this.numAlarmMin.Location = new System.Drawing.Point(111, 375);
+            this.numAlarmMin.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
+            this.numAlarmMin.Name = "numAlarmMin";
+            this.numAlarmMin.Size = new System.Drawing.Size(37, 20);
+            this.numAlarmMin.TabIndex = 42;
+            // 
+            // numAlarmHour
+            // 
+            this.numAlarmHour.Enabled = false;
+            this.numAlarmHour.Location = new System.Drawing.Point(71, 375);
+            this.numAlarmHour.Maximum = new decimal(new int[] {
+            23,
+            0,
+            0,
+            0});
+            this.numAlarmHour.Name = "numAlarmHour";
+            this.numAlarmHour.Size = new System.Drawing.Size(35, 20);
+            this.numAlarmHour.TabIndex = 41;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(473, 545);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(48, 23);
+            this.btnSave.TabIndex = 40;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            // 
+            // lblNote
+            // 
+            this.lblNote.AutoSize = true;
+            this.lblNote.Location = new System.Drawing.Point(1, 520);
+            this.lblNote.Name = "lblNote";
+            this.lblNote.Size = new System.Drawing.Size(60, 13);
+            this.lblNote.TabIndex = 39;
+            this.lblNote.Text = "Notification";
+            // 
+            // tbNote
+            // 
+            this.tbNote.Enabled = false;
+            this.tbNote.Location = new System.Drawing.Point(62, 517);
+            this.tbNote.Name = "tbNote";
+            this.tbNote.Size = new System.Drawing.Size(370, 20);
+            this.tbNote.TabIndex = 38;
+            // 
+            // cbShutdown
+            // 
+            this.cbShutdown.AutoSize = true;
+            this.cbShutdown.Location = new System.Drawing.Point(111, 543);
+            this.cbShutdown.Name = "cbShutdown";
+            this.cbShutdown.Size = new System.Drawing.Size(91, 17);
+            this.cbShutdown.TabIndex = 37;
+            this.cbShutdown.Text = "PC-Shutdown";
+            this.cbShutdown.UseVisualStyleBackColor = true;
+            // 
+            // cbFlashscreen
+            // 
+            this.cbFlashscreen.AutoSize = true;
+            this.cbFlashscreen.Checked = true;
+            this.cbFlashscreen.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbFlashscreen.Location = new System.Drawing.Point(4, 543);
+            this.cbFlashscreen.Name = "cbFlashscreen";
+            this.cbFlashscreen.Size = new System.Drawing.Size(88, 17);
+            this.cbFlashscreen.TabIndex = 36;
+            this.cbFlashscreen.Text = "Flash Screen";
+            this.cbFlashscreen.UseVisualStyleBackColor = true;
+            // 
             // Alarm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(806, 336);
+            this.ClientSize = new System.Drawing.Size(806, 572);
+            this.Controls.Add(this.cbAlarm);
+            this.Controls.Add(this.cbNoDoubleEntry);
+            this.Controls.Add(this.numAlarmMin);
+            this.Controls.Add(this.numAlarmHour);
+            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.lblNote);
+            this.Controls.Add(this.tbNote);
+            this.Controls.Add(this.cbShutdown);
+            this.Controls.Add(this.cbFlashscreen);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnAcivateAlarm);
@@ -389,6 +506,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTable1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numAlarmMin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numAlarmHour)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -428,6 +547,15 @@
         private System.Data.DataColumn dataColumn1;
         private System.Data.DataColumn dataColumn2;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column2525;
+        private System.Windows.Forms.CheckBox cbAlarm;
+        private System.Windows.Forms.CheckBox cbNoDoubleEntry;
+        private System.Windows.Forms.NumericUpDown numAlarmMin;
+        private System.Windows.Forms.NumericUpDown numAlarmHour;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label lblNote;
+        private System.Windows.Forms.TextBox tbNote;
+        private System.Windows.Forms.CheckBox cbShutdown;
+        private System.Windows.Forms.CheckBox cbFlashscreen;
     }
 }
 

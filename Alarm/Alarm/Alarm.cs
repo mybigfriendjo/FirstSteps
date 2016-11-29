@@ -56,7 +56,7 @@ namespace Alarm {
 
             //Tooltips - if it would be bound to an Event like MouseEnter it would show up every few millisec
             System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
-            ToolTip1.SetToolTip(AlarmSettings.tbNote, "Please insert your Note that should be attatched to the Alarm.");
+            ToolTip1.SetToolTip(tbNote, "Please insert your Note that should be attatched to the Alarm.");
 
             //Loadlist - with Exceptionhandling (try/catch)
             try {
@@ -322,9 +322,38 @@ namespace Alarm {
         }
 
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e) {
-
+            //Form GridForm = new Form();
+            //GridForm.Controls.Add(tbNote);
+            //GridForm.Visible = true;
+            //GridForm.Show();
         }
 
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+            Form GridForm = new Form();
+            GridForm.Visible = true;
+            GridForm.Show();
+
+            //GridNote
+            TextBox GridNote = new TextBox();
+            //GridNote.Location = new Point(70, 5);
+            //GridNote.Size = new System.Drawing.Size(210, 25);
+            //GridNote.BackColor = Color.HotPink;
+            GridNote.Text = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            GridForm.Controls.Add(GridNote);
+
+            //GridNoteLabel
+            Label GlblNote = new Label();
+            GlblNote.Text = "Note:";
+            GlblNote.Location = new Point(5,5);
+            GridForm.Controls.Add(GlblNote);
+
+            AlarmSettings AlarmSettingsGui = new AlarmSettings();
+            //AlarmSettingsGui.Controls.get
+            //AlarmSettings.Show();
+            // AlarmSettings AlarmSettingsGui = new AlarmSettings("Muh");
+            AlarmSettingsGui.AccessToForm2("Bla");
+        }
+        
         //TODO
         /*
         SoundPath
@@ -341,6 +370,11 @@ namespace Alarm {
 
 
         Changelog
+
+        +choosing between manuall configured Form(ManualForm) and Form with Gui(created in project) "GuiForm"
+        +added controlls to both
+        -issues accessing new GuiForm
+
 
         +Added DataSet, DataTable, DataColumn, DataGridView
 

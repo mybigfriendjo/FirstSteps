@@ -12,6 +12,12 @@ namespace Alarm {
     public partial class AlarmSettings : Form {
         public AlarmSettings() {
             InitializeComponent();
+
+            textBox1.Text = "w/e";
+        }
+
+        public void AccessToForm2(string Contrl) {
+
         }
     }
 }
