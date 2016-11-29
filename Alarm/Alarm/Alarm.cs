@@ -60,10 +60,12 @@ namespace Alarm {
 
             //Loadlist - with Exceptionhandling (try/catch)
             try {
-                string[] HistoryListImport = File.ReadAllLines(DB_Path);
-                foreach (string History in HistoryListImport) {
-                    lbHistory.Items.Add(History);
-                }
+                if (File.Exists(DB_Path)) {
+                    string[] HistoryListImport = File.ReadAllLines(DB_Path);
+                    foreach (string History in HistoryListImport) {
+                        lbHistory.Items.Add(History);
+                    }
+                }  
             }
             catch (FileNotFoundException HistoryLoadError) {
                 // Write error.
@@ -328,6 +330,10 @@ namespace Alarm {
             //GridForm.Show();
         }
 
+        public void UpdateRowDetails(AlarmSettings settings) {
+            
+        }
+
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             Form GridForm = new Form();
             GridForm.Visible = true;
@@ -335,9 +341,9 @@ namespace Alarm {
 
             //GridNote
             TextBox GridNote = new TextBox();
-            //GridNote.Location = new Point(70, 5);
-            //GridNote.Size = new System.Drawing.Size(210, 25);
-            //GridNote.BackColor = Color.HotPink;
+            GridNote.Location = new Point(70, 5);
+            GridNote.Size = new System.Drawing.Size(210, 25);
+            GridNote.BackColor = Color.HotPink;
             GridNote.Text = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
             GridForm.Controls.Add(GridNote);
 
@@ -347,13 +353,23 @@ namespace Alarm {
             GlblNote.Location = new Point(5,5);
             GridForm.Controls.Add(GlblNote);
 
-            AlarmSettings AlarmSettingsGui = new AlarmSettings();
+            AlarmDetails details = new AlarmDetails();
+            details.Notification = "Test";
+            details.Hours = 10;
+            details.Minutes = 50;
+
+            AlarmSettings AlarmSettingsGui = new AlarmSettings(this);
+            
+            AlarmSettingsGui.Notification = "test";
+            AlarmSettingsGui.Show();
+            
+
             //AlarmSettingsGui.Controls.get
             //AlarmSettings.Show();
             // AlarmSettings AlarmSettingsGui = new AlarmSettings("Muh");
-            AlarmSettingsGui.AccessToForm2("Bla");
+            //AlarmSettingsGui.AccessToForm2("Bla");
         }
-        
+
         //TODO
         /*
         SoundPath
@@ -367,9 +383,15 @@ namespace Alarm {
         Warning - if Alarm/countdown changed while active -> MsgBox -> reload Alarm|keep active Alarm and changes|cancel changes
         repeat alarm - else deaktivate it after it was triggered
         Seperate Stopflash for Alarm and Counter else it will get overwritten if both are active(still works though)
+        **Code to get amount of Variables(Columns in Rows) still needs to be written.
+        **Code to get variable Type to set Fields in AlarmSettings Form as well
 
 
         Changelog
+
+
+        +Klomi code for data exchange between Alarm and Alarmsettings
+        -Code to get amount of Variables(Columns in Rows) still needs to be written.
 
         +choosing between manuall configured Form(ManualForm) and Form with Gui(created in project) "GuiForm"
         +added controlls to both

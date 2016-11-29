@@ -49,7 +49,6 @@
             this.contextMenuStripSystray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAcivateAlarm = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.Column2525 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -71,7 +70,6 @@
             this.menuStrip1.SuspendLayout();
             this.panelCountdown.SuspendLayout();
             this.contextMenuStripSystray.SuspendLayout();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
@@ -287,14 +285,14 @@
             this.contextMenuStripSystray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
             this.contextMenuStripSystray.Name = "contextMenuStrip1";
-            this.contextMenuStripSystray.Size = new System.Drawing.Size(138, 26);
+            this.contextMenuStripSystray.Size = new System.Drawing.Size(136, 26);
             this.contextMenuStripSystray.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripSystray_Opening);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
             // 
             // btnAcivateAlarm
@@ -307,18 +305,10 @@
             this.btnAcivateAlarm.UseVisualStyleBackColor = true;
             this.btnAcivateAlarm.Click += new System.EventHandler(this.btnAcivateAlarm_Click);
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.dataGridView1);
-            this.panel1.Location = new System.Drawing.Point(36, 31);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(428, 264);
-            this.panel1.TabIndex = 28;
-            // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(4, 3);
+            this.dataGridView1.Location = new System.Drawing.Point(40, 37);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(421, 258);
             this.dataGridView1.TabIndex = 0;
@@ -468,6 +458,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(806, 572);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.cbAlarm);
             this.Controls.Add(this.cbNoDoubleEntry);
             this.Controls.Add(this.numAlarmMin);
@@ -478,7 +469,6 @@
             this.Controls.Add(this.cbShutdown);
             this.Controls.Add(this.cbFlashscreen);
             this.Controls.Add(this.dataGridView2);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnAcivateAlarm);
             this.Controls.Add(this.btnDeleteAll);
             this.Controls.Add(this.btnDelete);
@@ -489,8 +479,11 @@
             this.Controls.Add(this.lblHistory);
             this.Controls.Add(this.lbHistory);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Alarm";
             this.Text = "Alarm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Alarm_FormClosing);
@@ -501,7 +494,6 @@
             this.panelCountdown.ResumeLayout(false);
             this.panelCountdown.PerformLayout();
             this.contextMenuStripSystray.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).EndInit();
@@ -539,7 +531,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripSystray;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.Button btnAcivateAlarm;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Data.DataSet dataSet1;
         private System.Windows.Forms.DataGridView dataGridView2;

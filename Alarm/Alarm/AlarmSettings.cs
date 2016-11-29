@@ -10,14 +10,37 @@ using System.Windows.Forms;
 
 namespace Alarm {
     public partial class AlarmSettings : Form {
-        public AlarmSettings() {
+
+        private Alarm mainWindow;
+        private static bool isOpen=false;
+
+        private string _notification;
+        public string Notification {
+            get {return _notification;}
+            set {
+                _notification = value;
+                textNotification.Text = value;
+            }
+        }
+              
+        
+        public AlarmSettings(Alarm alarmWindow) {
+            if (isOpen) {
+                return;
+            }
             InitializeComponent();
 
-            textBox1.Text = "w/e";
+            isOpen = true;
+            mainWindow = alarmWindow;
         }
 
-        public void AccessToForm2(string Contrl) {
 
+        private void button1_Click(object sender, EventArgs e) {
+            mainWindow.UpdateRowDetails(this);
+        }
+
+        private void AlarmSettings_FormClosing(object sender, FormClosingEventArgs e) {
+            isOpen = false;
         }
     }
 }

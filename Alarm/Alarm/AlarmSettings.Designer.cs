@@ -24,25 +24,56 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlarmSettings));
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textNotification = new System.Windows.Forms.TextBox();
+            this.textHour = new System.Windows.Forms.TextBox();
+            this.textMinute = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // textBox1
+            // textNotification
             // 
-            this.textBox1.Location = new System.Drawing.Point(48, 22);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(152, 20);
-            this.textBox1.TabIndex = 0;
+            this.textNotification.Location = new System.Drawing.Point(80, 35);
+            this.textNotification.Name = "textNotification";
+            this.textNotification.Size = new System.Drawing.Size(152, 20);
+            this.textNotification.TabIndex = 0;
+            // 
+            // textHour
+            // 
+            this.textHour.Location = new System.Drawing.Point(80, 115);
+            this.textHour.Name = "textHour";
+            this.textHour.Size = new System.Drawing.Size(100, 20);
+            this.textHour.TabIndex = 1;
+            // 
+            // textMinute
+            // 
+            this.textMinute.Location = new System.Drawing.Point(80, 199);
+            this.textMinute.Name = "textMinute";
+            this.textMinute.Size = new System.Drawing.Size(100, 20);
+            this.textMinute.TabIndex = 2;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(273, 179);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // AlarmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 270);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.textMinute);
+            this.Controls.Add(this.textHour);
+            this.Controls.Add(this.textNotification);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AlarmSettings";
             this.Text = "Alarm Settings";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AlarmSettings_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -50,6 +81,9 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textNotification;
+        private System.Windows.Forms.TextBox textHour;
+        private System.Windows.Forms.TextBox textMinute;
+        private System.Windows.Forms.Button button1;
     }
 }
