@@ -91,7 +91,6 @@
     <Compile Include="Alarm.Designer.cs">
       <DependentUpon>Alarm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AlarmDetails.cs" />
     <Compile Include="AlarmSettings.cs">
       <SubType>Form</SubType>
     </Compile>

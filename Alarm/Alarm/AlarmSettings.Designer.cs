@@ -24,52 +24,100 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlarmSettings));
-            this.textNotification = new System.Windows.Forms.TextBox();
+            this.tbASNote = new System.Windows.Forms.TextBox();
             this.textHour = new System.Windows.Forms.TextBox();
             this.textMinute = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnASOk = new System.Windows.Forms.Button();
+            this.lblASNote = new System.Windows.Forms.Label();
+            this.cbASFlash = new System.Windows.Forms.CheckBox();
+            this.cbASShutdown = new System.Windows.Forms.CheckBox();
+            this.cbASActive = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
-            // textNotification
+            // tbASNote
             // 
-            this.textNotification.Location = new System.Drawing.Point(80, 35);
-            this.textNotification.Name = "textNotification";
-            this.textNotification.Size = new System.Drawing.Size(152, 20);
-            this.textNotification.TabIndex = 0;
+            this.tbASNote.Location = new System.Drawing.Point(51, 173);
+            this.tbASNote.Multiline = true;
+            this.tbASNote.Name = "tbASNote";
+            this.tbASNote.Size = new System.Drawing.Size(350, 85);
+            this.tbASNote.TabIndex = 0;
             // 
             // textHour
             // 
-            this.textHour.Location = new System.Drawing.Point(80, 115);
+            this.textHour.Location = new System.Drawing.Point(356, 12);
             this.textHour.Name = "textHour";
             this.textHour.Size = new System.Drawing.Size(100, 20);
             this.textHour.TabIndex = 1;
             // 
             // textMinute
             // 
-            this.textMinute.Location = new System.Drawing.Point(80, 199);
+            this.textMinute.Location = new System.Drawing.Point(429, 38);
             this.textMinute.Name = "textMinute";
             this.textMinute.Size = new System.Drawing.Size(100, 20);
             this.textMinute.TabIndex = 2;
             // 
-            // button1
+            // btnASOk
             // 
-            this.button1.Location = new System.Drawing.Point(273, 179);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnASOk.Location = new System.Drawing.Point(454, 235);
+            this.btnASOk.Name = "btnASOk";
+            this.btnASOk.Size = new System.Drawing.Size(75, 23);
+            this.btnASOk.TabIndex = 3;
+            this.btnASOk.Text = "OK";
+            this.btnASOk.UseVisualStyleBackColor = true;
+            this.btnASOk.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // lblASNote
+            // 
+            this.lblASNote.AutoSize = true;
+            this.lblASNote.Location = new System.Drawing.Point(12, 173);
+            this.lblASNote.Name = "lblASNote";
+            this.lblASNote.Size = new System.Drawing.Size(33, 13);
+            this.lblASNote.TabIndex = 4;
+            this.lblASNote.Text = "Note:";
+            // 
+            // cbASFlash
+            // 
+            this.cbASFlash.AutoSize = true;
+            this.cbASFlash.Location = new System.Drawing.Point(429, 173);
+            this.cbASFlash.Name = "cbASFlash";
+            this.cbASFlash.Size = new System.Drawing.Size(88, 17);
+            this.cbASFlash.TabIndex = 5;
+            this.cbASFlash.Text = "Flash Screen";
+            this.cbASFlash.UseVisualStyleBackColor = true;
+            // 
+            // cbASShutdown
+            // 
+            this.cbASShutdown.AutoSize = true;
+            this.cbASShutdown.Location = new System.Drawing.Point(429, 196);
+            this.cbASShutdown.Name = "cbASShutdown";
+            this.cbASShutdown.Size = new System.Drawing.Size(77, 17);
+            this.cbASShutdown.TabIndex = 6;
+            this.cbASShutdown.Text = "Shut down";
+            this.cbASShutdown.UseVisualStyleBackColor = true;
+            // 
+            // cbASActive
+            // 
+            this.cbASActive.AutoSize = true;
+            this.cbASActive.Location = new System.Drawing.Point(12, 12);
+            this.cbASActive.Name = "cbASActive";
+            this.cbASActive.Size = new System.Drawing.Size(69, 17);
+            this.cbASActive.TabIndex = 7;
+            this.cbASActive.Text = "Alarm On";
+            this.cbASActive.UseVisualStyleBackColor = true;
             // 
             // AlarmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(541, 270);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(541, 280);
+            this.Controls.Add(this.cbASActive);
+            this.Controls.Add(this.cbASShutdown);
+            this.Controls.Add(this.cbASFlash);
+            this.Controls.Add(this.lblASNote);
+            this.Controls.Add(this.btnASOk);
             this.Controls.Add(this.textMinute);
             this.Controls.Add(this.textHour);
-            this.Controls.Add(this.textNotification);
+            this.Controls.Add(this.tbASNote);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AlarmSettings";
             this.Text = "Alarm Settings";
@@ -81,9 +129,13 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textNotification;
+        private System.Windows.Forms.TextBox tbASNote;
         private System.Windows.Forms.TextBox textHour;
         private System.Windows.Forms.TextBox textMinute;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnASOk;
+        private System.Windows.Forms.Label lblASNote;
+        private System.Windows.Forms.CheckBox cbASFlash;
+        private System.Windows.Forms.CheckBox cbASShutdown;
+        private System.Windows.Forms.CheckBox cbASActive;
     }
 }

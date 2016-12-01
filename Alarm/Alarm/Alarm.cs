@@ -20,6 +20,7 @@ namespace Alarm {
         DateTime CountdownTimeADD = DateTime.Now; //Get CurrentTime + CountdownTime
         DateTime StopFlash = DateTime.Now;
         string DisplayInfo = "";
+        //public int CellCnt; //Counts the Cells of the active Row
 
         public Alarm() {
             InitializeComponent();
@@ -317,57 +318,67 @@ namespace Alarm {
         }
 
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
-            
             dataGridView1.Columns["ID"].Visible = false; //hides ID Column in DataGridView
             dataGridView1.RowHeadersVisible = false; //hides the first gray row in DataGridView
             dataGridView1.AutoResizeColumns();
         }
-
-        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            //Form GridForm = new Form();
-            //GridForm.Controls.Add(tbNote);
-            //GridForm.Visible = true;
-            //GridForm.Show();
-        }
-
+        
         public void UpdateRowDetails(AlarmSettings settings) {
             
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            Form GridForm = new Form();
-            GridForm.Visible = true;
-            GridForm.Show();
-
-            //GridNote
-            TextBox GridNote = new TextBox();
-            GridNote.Location = new Point(70, 5);
-            GridNote.Size = new System.Drawing.Size(210, 25);
-            GridNote.BackColor = Color.HotPink;
-            GridNote.Text = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-            GridForm.Controls.Add(GridNote);
-
-            //GridNoteLabel
-            Label GlblNote = new Label();
-            GlblNote.Text = "Note:";
-            GlblNote.Location = new Point(5,5);
-            GridForm.Controls.Add(GlblNote);
-
-            AlarmDetails details = new AlarmDetails();
-            details.Notification = "Test";
-            details.Hours = 10;
-            details.Minutes = 50;
-
             AlarmSettings AlarmSettingsGui = new AlarmSettings(this);
-            
-            AlarmSettingsGui.Notification = "test";
-            AlarmSettingsGui.Show();
-            
 
-            //AlarmSettingsGui.Controls.get
-            //AlarmSettings.Show();
-            // AlarmSettings AlarmSettingsGui = new AlarmSettings("Muh");
-            //AlarmSettingsGui.AccessToForm2("Bla");
+            //AlarmSettingsGui.Notification = "test";
+
+            //AlarmSettingsGui.Date;
+            //AlarmSettingsGui.Hour", typeof(int));
+            //AlarmSettingsGui.Minute", typeof(int));
+            //AlarmSettingsGui.AlarmActiv", typeof(bool));
+            AlarmSettingsGui.Note = dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString();
+            //AlarmSettingsGui.PathActiv", typeof(bool));
+            //AlarmSettingsGui.ProgPath; //Path to start Programm
+            //AlarmSettingsGui.SoundActive", typeof(bool));
+            //AlarmSettingsGui.SoundSource; //Radiobtn "ringtone", "soundfile", "youtube"
+            //AlarmSettingsGui.ID;
+            AlarmSettingsGui.Show();
+
+
+            ////MASSASSIGNEMENT
+            ////Fill VarList
+            //AlarmSettingsGui.CellCnt = dataGridView1.Rows[e.RowIndex].Cells.Count;
+            //int i = 0;
+            //while (dataGridView1.Rows[e.RowIndex].Cells.Count > i) {
+            //    string VarValue = dataGridView1.Rows[e.RowIndex].Cells[i].Value.ToString();
+            //    i++;
+            //    if (VarValue != null && VarValue != "") {
+            //        AlarmSettingsGui.VarList.Items.Add(VarValue);
+            //    }
+            //}
+             
+
+
+            ///
+            // Manuel way to Set up a Form + Controls
+            ///
+            //Form GridForm = new Form();
+            //GridForm.Visible = true;
+            //GridForm.Show();
+
+            ////GridNote
+            //TextBox GridNote = new TextBox();
+            //GridNote.Location = new Point(70, 5);
+            //GridNote.Size = new System.Drawing.Size(210, 25);
+            //GridNote.BackColor = Color.HotPink;
+            //GridNote.Text = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            //GridForm.Controls.Add(GridNote);
+
+            ////GridNoteLabel
+            //Label GlblNote = new Label();
+            //GlblNote.Text = "Note:";
+            //GlblNote.Location = new Point(5,5);
+            //GridForm.Controls.Add(GlblNote);
         }
 
         //TODO
@@ -389,6 +400,8 @@ namespace Alarm {
 
         Changelog
 
+
+        +Added Controlls and Variables for Dataexchange betweem Alarm and AlarmSettings
 
         +Klomi code for data exchange between Alarm and Alarmsettings
         -Code to get amount of Variables(Columns in Rows) still needs to be written.
