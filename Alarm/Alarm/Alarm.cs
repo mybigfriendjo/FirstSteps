@@ -20,6 +20,7 @@ namespace Alarm {
         DateTime CountdownTimeADD = DateTime.Now; //Get CurrentTime + CountdownTime
         DateTime StopFlash = DateTime.Now;
         string DisplayInfo = "";
+        int LastRowIndex = 1000;
         //public int CellCnt; //Counts the Cells of the active Row
 
         public Alarm() {
@@ -332,7 +333,16 @@ namespace Alarm {
         }
         
         public void UpdateRowDetails(AlarmSettings settings) {
-            
+            dataGridView1.Rows[LastRowIndex].Cells[0].Value = settings.Date;
+            //AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+            //AlarmSettingsGui.Minute = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
+            //AlarmSettingsGui.AlarmActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
+            //AlarmSettingsGui.Note = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
+            //AlarmSettingsGui.ProgPathActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[5].Value);
+            //AlarmSettingsGui.ProgPath = dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString(); //Path to start Programm
+            //AlarmSettingsGui.SoundActive = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[7].Value);
+            //AlarmSettingsGui.SoundSource = dataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString(); //Radiobtn "ringtone", "soundfile", "youtube"
+            //AlarmSettingsGui.ID = dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString(); 
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
@@ -407,6 +417,8 @@ namespace Alarm {
 
 
         Changelog
+        +OK Button is closing Gui now.
+        +Started to code Datatransfer from AlarmSettings back to Alarm
 
         +Reworked AlarmSettings Gui
         +Cells Data is now shown in AlarmSettingsGui
