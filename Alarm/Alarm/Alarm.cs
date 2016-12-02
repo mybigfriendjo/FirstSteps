@@ -43,8 +43,16 @@ namespace Alarm {
 
             DataRow ADR = ADT.NewRow();
             //ADR["AlarmISActive"] = true;
+            ADR["Date"] = "02.12.2016 00:00:00";
+            ADR["Hour"] = 10;
+            ADR["Minute"] = 23;
+            ADR["AlarmActiv"] = true;
             ADR["Note"] = "WhatsMyName";
+            ADR["PathActiv"] = true;
+            ADR["ProgPath"] = "C:\\Temp";
             ADR["SoundActive"] = true;
+            ADR["SoundSource"] = "C:\\Smart\\Temp";
+            ADR["ID"] = "00001";
             ADT.Rows.Add(ADR);
             dataGridView1.DataSource = ADS.Tables[0];
 
@@ -332,16 +340,16 @@ namespace Alarm {
 
             //AlarmSettingsGui.Notification = "test";
 
-            //AlarmSettingsGui.Date;
-            //AlarmSettingsGui.Hour", typeof(int));
-            //AlarmSettingsGui.Minute", typeof(int));
-            //AlarmSettingsGui.AlarmActiv", typeof(bool));
-            AlarmSettingsGui.Note = dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString();
-            //AlarmSettingsGui.PathActiv", typeof(bool));
-            //AlarmSettingsGui.ProgPath; //Path to start Programm
-            //AlarmSettingsGui.SoundActive", typeof(bool));
-            //AlarmSettingsGui.SoundSource; //Radiobtn "ringtone", "soundfile", "youtube"
-            //AlarmSettingsGui.ID;
+            AlarmSettingsGui.Date = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+            AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
+            AlarmSettingsGui.Minute = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
+            AlarmSettingsGui.AlarmActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
+            AlarmSettingsGui.Note = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
+            AlarmSettingsGui.ProgPathActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[5].Value);
+            AlarmSettingsGui.ProgPath = dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString(); //Path to start Programm
+            AlarmSettingsGui.SoundActive = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[7].Value);
+            AlarmSettingsGui.SoundSource = dataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString(); //Radiobtn "ringtone", "soundfile", "youtube"
+            AlarmSettingsGui.ID = dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString(); ;
             AlarmSettingsGui.Show();
 
 
@@ -399,6 +407,10 @@ namespace Alarm {
 
 
         Changelog
+
+        +Reworked AlarmSettings Gui
+        +Cells Data is now shown in AlarmSettingsGui
+        +Addet Testbutton fopr paths - no function yet
 
 
         +Added Controlls and Variables for Dataexchange betweem Alarm and AlarmSettings

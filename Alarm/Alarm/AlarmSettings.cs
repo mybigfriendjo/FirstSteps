@@ -26,19 +26,20 @@ namespace Alarm {
         //AlarmSettingsGui.Hour", typeof(int));
         //AlarmSettingsGui.Minute", typeof(int));
         //AlarmSettingsGui.AlarmActiv", typeof(bool));
-        AlarmSettingsGui.Note = dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString();
-        //AlarmSettingsGui.PathActiv", typeof(bool));
+        //AlarmSettingsGui.Note = dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString();
+        //AlarmSettingsGui.ProgPathActiv", typeof(bool));
         //AlarmSettingsGui.ProgPath; //Path to start Programm
         //AlarmSettingsGui.SoundActive", typeof(bool));
         //AlarmSettingsGui.SoundSource; //Radiobtn "ringtone", "soundfile", "youtube"
         //AlarmSettingsGui.ID;
 
         //Var Notification (Cell 1)
-        private DateTime _Date;
-        public DateTime Date {
+        private string _Date;
+        public string Date {
             get { return _Date; }
             set {
                 _Date = value;
+                dtASDate.Value = Convert.ToDateTime(value);
             }
         }
         //Var Notification (Cell 2)
@@ -47,6 +48,7 @@ namespace Alarm {
             get { return _Hour; }
             set {
                 _Hour = value;
+                numASHour.Value = value;
             }
         }
         //Var Notification (Cell 3)
@@ -55,6 +57,7 @@ namespace Alarm {
             get { return _Minute; }
             set {
                 _Minute = value;
+                numASMin.Value = value;
             }
         }
         //Var Notification (Cell 4)
@@ -63,6 +66,7 @@ namespace Alarm {
             get { return _AlarmActiv; }
             set {
                 _AlarmActiv = value;
+                cbASActive.Checked = value;
             }
         }
         //Var Notification (Cell 5)
@@ -75,17 +79,59 @@ namespace Alarm {
             }
         }
     
-        //Var PathActiv (Cell 6)
-        private bool _PathActiv;
-        public bool PathActiv {
-            get { return _PathActiv; }
+        //Var ProgPathActiv (Cell 6)
+        private bool _ProgPathActiv;
+        public bool ProgPathActiv {
+            get { return _ProgPathActiv; }
             set {
-                _PathActiv = value;
+                _ProgPathActiv = value;
+                cbStartProg.Checked = value;
             }
         }
 
+        //Var ProgPath (Cell 7)
+        private string _ProgPath;
+        public string ProgPath {
+            get { return _ProgPath; }
+            set {
+                _ProgPath = value;
+                tbASProgPath.Text = value;
+            }
+        }
 
-public AlarmSettings(Alarm alarmWindow) {
+        //Var SoundActive (Cell 8)
+        private bool _SoundActive;
+        public bool SoundActive {
+            get { return _SoundActive; }
+            set {
+                _SoundActive = value;
+                if (value) {
+                    rbASSoundFilePath.Checked = value;
+                }
+            }
+        }
+
+        //Var SoundSource (Cell 9)
+        private string _SoundSource;
+        public string SoundSource {
+            get { return _SoundSource; }
+            set {
+                _SoundSource = value;
+                tbASFilePath.Text = value;
+            }
+        }
+
+        //Var ID (Cell 10)
+        private string _ID;
+        public string ID {
+            get { return _ID; }
+            set {
+                _ID = value;
+                
+            }
+        }
+
+        public AlarmSettings(Alarm alarmWindow) {
             if (isOpen) {
                 return;
             }
@@ -114,10 +160,23 @@ public AlarmSettings(Alarm alarmWindow) {
 
         private void button1_Click(object sender, EventArgs e) {
             mainWindow.UpdateRowDetails(this);
+            AlarmSettings_FormClosing(null,null);
         }
 
         private void AlarmSettings_FormClosing(object sender, FormClosingEventArgs e) {
             isOpen = false;
+        }
+
+        private void button2_Click(object sender, EventArgs e) {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e) {
+
+        }
+
+        private void btbASFileDialog_Click(object sender, EventArgs e) {
+
         }
     }
 }
