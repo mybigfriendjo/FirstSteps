@@ -22,6 +22,14 @@ namespace Alarm {
                 _CellCnt = value;
             }
         }
+
+        private int _LastRowIndex;
+        public int LastRowIndex {
+            get { return _LastRowIndex; }
+            set {
+                _LastRowIndex = value;
+            }
+        }
         //AlarmSettingsGui.Date;
         //AlarmSettingsGui.Hour", typeof(int));
         //AlarmSettingsGui.Minute", typeof(int));
@@ -39,7 +47,9 @@ namespace Alarm {
             get { return _Date; }
             set {
                 _Date = value;
-                dtASDate.Value = Convert.ToDateTime(value);
+                if(value != null && value != "") {
+                    dtASDate.Value = Convert.ToDateTime(value);
+                }
             }
         }
         //Var Notification (Cell 2)
@@ -105,9 +115,7 @@ namespace Alarm {
             get { return _SoundActive; }
             set {
                 _SoundActive = value;
-                if (value) {
-                    rbASSoundFilePath.Checked = value;
-                }
+                rbASSoundFilePath.Checked = value;
             }
         }
 
@@ -146,6 +154,22 @@ namespace Alarm {
             //    i++;
             //    string currentName = "Var" + i.ToString();
             //}
+
+            //Tooltips
+            System.Windows.Forms.ToolTip ToolTipdtASDate = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip ToolTipnumASHour = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip ToolTipnumASMin = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip ToolTiptbASYoutubePath = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip ToolTiptbASFilePath = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip ToolTipcbASAlarmSound = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip ToolTiptbASNote = new System.Windows.Forms.ToolTip();
+            ToolTipdtASDate.SetToolTip(dtASDate, "Please insert your Note that should be attatched to the Alarm.");
+            ToolTipnumASHour.SetToolTip(numASHour, "Here you can Set the Alarm hour.");
+            ToolTipnumASMin.SetToolTip(numASMin, "Here you can Set the Alarm minute.");
+            ToolTiptbASYoutubePath.SetToolTip(tbASYoutubePath, "Please insert your Note that should be attatched to the Alarm.");
+            ToolTiptbASFilePath.SetToolTip(tbASFilePath, "Please insert your Note that should be attatched to the Alarm.");
+            ToolTipcbASAlarmSound.SetToolTip(cbASAlarmSound, "Please insert your Note that should be attatched to the Alarm.");
+            ToolTiptbASNote.SetToolTip(tbASNote, "Please insert your Note that should be attatched to the Alarm.");
         }
 
         //Var VarList
@@ -159,8 +183,19 @@ namespace Alarm {
         //}
 
         private void button1_Click(object sender, EventArgs e) {
+            Date = dtASDate.Value.ToString();
+            Hour = Convert.ToInt32(numASHour.Value);
+            Minute = Convert.ToInt32(numASMin.Value);
+            AlarmActiv = cbASActive.Checked;
+            Note = tbASNote.Text;
+            ProgPathActiv = cbStartProg.Checked;
+            ProgPath = tbASProgPath.Text;
+            SoundActive = rbASSoundFilePath.Checked;
+            SoundSource = tbASFilePath.Text;
+
             mainWindow.UpdateRowDetails(this);
-            AlarmSettings_FormClosing(null,null);
+            isOpen = false;
+            Dispose();
         }
 
         private void AlarmSettings_FormClosing(object sender, FormClosingEventArgs e) {

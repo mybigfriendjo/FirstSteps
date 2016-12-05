@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
 namespace Alarm {
     public partial class Alarm : Form {
@@ -20,15 +22,23 @@ namespace Alarm {
         DateTime CountdownTimeADD = DateTime.Now; //Get CurrentTime + CountdownTime
         DateTime StopFlash = DateTime.Now;
         string DisplayInfo = "";
-        int LastRowIndex = 1000;
+        //int LastRowIndex = 1000;
         //public int CellCnt; //Counts the Cells of the active Row
+        DataSet ADS;
+        DataTable ADT;
+
+
+        //Old controlls - Vars
+        DateTime numAlarmHour = DateTime.Now;
+        DateTime numAlarmMin = DateTime.Now;
+        string tbNote = "";
 
         public Alarm() {
             InitializeComponent();
 
             //Dataset
-            DataSet ADS = new DataSet("ADS"); //AlarmDataSet (ADS)
-            DataTable ADT = ADS.Tables.Add("ADT"); //AlarmDataTable (ADT)
+            ADS = new DataSet("ADS"); //AlarmDataSet (ADS)
+            ADT= ADS.Tables.Add("ADT"); //AlarmDataTable (ADT)
             ADT.Columns.Add("Date");
             ADT.Columns.Add("Hour", typeof(int));
             ADT.Columns.Add("Minute", typeof(int));
@@ -65,8 +75,8 @@ namespace Alarm {
 
 
             //Tooltips - if it would be bound to an Event like MouseEnter it would show up every few millisec
-            System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
-            ToolTip1.SetToolTip(tbNote, "Please insert your Note that should be attatched to the Alarm.");
+            //System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
+            //ToolTip1.SetToolTip(tbNote, "Please insert your Note that should be attatched to the Alarm.");
 
             //Loadlist - with Exceptionhandling (try/catch)
             try {
@@ -83,8 +93,8 @@ namespace Alarm {
             }
 
             //Set startvalues
-            numAlarmHour.Value = DateTime.Now.Hour;
-            numAlarmMin.Value = DateTime.Now.Minute;
+            //numAlarmHour.Value = DateTime.Now.Hour;
+            //numAlarmMin.Value = DateTime.Now.Minute;
 
             //TimerSettings
             t = new Timer();
@@ -111,25 +121,25 @@ namespace Alarm {
             //MessageBox.Show(DisplayInfo);
         }
 
-        private void btnSave_Click(object sender, EventArgs e) {
+        //private void btnSave_Click(object sender, EventArgs e) {
 
-            //Save Historylist:  Foreach Item in lbHistory Append String to VarExport
-            string Space = new string(' ', 20);
-            string NewHistoryEntry = string.Format("{0:00}", numAlarmHour.Value) + ":" + numAlarmMin.Value.ToString("00") + Space + tbNote.Text + "";
-            //Check for double entries
-            int DoubleEntry = 0;
-            if (cbNoDoubleEntry.Checked) {
-                foreach (string History in lbHistory.Items) {
-                    if (History == NewHistoryEntry) {
-                        DoubleEntry = 1;
-                    }
-                }
-            }
-            if (DoubleEntry == 0) {
-                lbHistory.Items.Add(NewHistoryEntry);
-                HistoryExport();
-            }
-        }
+        //    //Save Historylist:  Foreach Item in lbHistory Append String to VarExport
+        //    string Space = new string(' ', 20);
+        //    string NewHistoryEntry = string.Format("{0:00}", numAlarmHour.Value) + ":" + numAlarmMin.Value.ToString("00") + Space + tbNote.Text + "";
+        //    //Check for double entries
+        //    int DoubleEntry = 0;
+        //    if (cbNoDoubleEntry.Checked) {
+        //        foreach (string History in lbHistory.Items) {
+        //            if (History == NewHistoryEntry) {
+        //                DoubleEntry = 1;
+        //            }
+        //        }
+        //    }
+        //    if (DoubleEntry == 0) {
+        //        lbHistory.Items.Add(NewHistoryEntry);
+        //        HistoryExport();
+        //    }
+        //}
 
         int CountdownChecked = 0;
         private void CountdownRadio(Object sender, EventArgs e) {
@@ -149,21 +159,21 @@ namespace Alarm {
                     MessageBox.Show(" U da CountdownMan");
                 }
             }
-            string TodaysDate = DateTime.Now.ToString("dd.MM.yyyy"); //As long as there is no DateField includet or it is NULL
-            string AlarmValue = TodaysDate + " " + numAlarmHour.Value.ToString("00") + ":" + numAlarmMin.Value.ToString("00") + ":00";
-            string CountdownValue = TodaysDate + " " + numCountdownHour.Value.ToString("00") + ":" + numCountdownMin.Value.ToString("00") + ":00";
-            if (DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") == AlarmValue && cbAlarm.Checked && AlarmActive) { //Format = "02.09.2016 15:29"
-                //File.AppendAllText("C:\\Temp\\Config.txt", Environment.NewLine + "WayToGo");
-                StopFlash = Convert.ToDateTime(AlarmValue);
-                StopFlash = StopFlash.AddSeconds(15);
+            //string TodaysDate = DateTime.Now.ToString("dd.MM.yyyy"); //As long as there is no DateField includet or it is NULL
+            //string AlarmValue = TodaysDate + " " + numAlarmHour.Value.ToString("00") + ":" + numAlarmMin.Value.ToString("00") + ":00";
+            //string CountdownValue = TodaysDate + " " + numCountdownHour.Value.ToString("00") + ":" + numCountdownMin.Value.ToString("00") + ":00";
+            //if (DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") == AlarmValue && cbAlarm.Checked && AlarmActive) { //Format = "02.09.2016 15:29"
+            //    //File.AppendAllText("C:\\Temp\\Config.txt", Environment.NewLine + "WayToGo");
+            //    StopFlash = Convert.ToDateTime(AlarmValue);
+            //    StopFlash = StopFlash.AddSeconds(15);
 
-                MessageBox.Show("It´s an Alarm! Watcha gonna do" + tbNote.Text);
-            }
+            //    MessageBox.Show("It´s an Alarm! Watcha gonna do" + tbNote.Text);
+            //}
             
-            //Alarm went off - FlashScreen Activated
-            if (cbAlarm.Checked && cbFlashscreen.Checked && DateTime.Now < StopFlash && AlarmActive && ( DateTime.Now > Convert.ToDateTime(AlarmValue))) { //If Time is between Alarm and Stopflash(Alarm +15sec)
-                FrameFlash(null, null);
-            }
+            ////Alarm went off - FlashScreen Activated
+            //if (cbAlarm.Checked && cbFlashscreen.Checked && DateTime.Now < StopFlash && AlarmActive && ( DateTime.Now > Convert.ToDateTime(AlarmValue))) { //If Time is between Alarm and Stopflash(Alarm +15sec)
+            //    FrameFlash(null, null);
+            //}
             //Countdown went off - FlashScreen Activated
             if (lblCountdownTime.Text != "") {
                 if (cbCountdown.Checked && cbFlashscreen.Checked && DateTime.Now < StopFlash && AlarmActive && (DateTime.Now > Convert.ToDateTime(lblCountdownTime.Text))) { //If Time is between Countdown and Stopflash(Alarm +15sec)
@@ -179,18 +189,18 @@ namespace Alarm {
             }
         }
 
-        private void cbAlarm_CheckedChanged(object sender, EventArgs e) {
-            if (cbAlarm.Checked) {
-                numAlarmHour.Enabled = true;
-                numAlarmMin.Enabled = true;
-                tbNote.Enabled = true;
-            }
-            else {
-                numAlarmHour.Enabled = false;
-                numAlarmMin.Enabled = false;
-                tbNote.Enabled = false;
-            }
-        }
+        //private void cbAlarm_CheckedChanged(object sender, EventArgs e) {
+        //    if (cbAlarm.Checked) {
+        //        numAlarmHour.Enabled = true;
+        //        numAlarmMin.Enabled = true;
+        //        tbNote.Enabled = true;
+        //    }
+        //    else {
+        //        numAlarmHour.Enabled = false;
+        //        numAlarmMin.Enabled = false;
+        //        tbNote.Enabled = false;
+        //    }
+        //}
 
         private void cbCountdown_CheckedChanged(object sender, EventArgs e) {
             //If a container like panel/Groupbox,... gets disabled all the contained controlls get disabled as well
@@ -333,7 +343,8 @@ namespace Alarm {
         }
         
         public void UpdateRowDetails(AlarmSettings settings) {
-            dataGridView1.Rows[LastRowIndex].Cells[0].Value = settings.Date;
+            //dataGridView1.Rows[LastRowIndex].Cells[0].Value = settings.Date;
+            dataGridView1.Rows[settings.LastRowIndex].Cells[1].Value = settings.Hour;
             //AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
             //AlarmSettingsGui.Minute = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
             //AlarmSettingsGui.AlarmActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
@@ -343,13 +354,25 @@ namespace Alarm {
             //AlarmSettingsGui.SoundActive = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[7].Value);
             //AlarmSettingsGui.SoundSource = dataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString(); //Radiobtn "ringtone", "soundfile", "youtube"
             //AlarmSettingsGui.ID = dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString(); 
+
+            StringBuilder sb = new StringBuilder();
+
+            IEnumerable<string> columnNames = ADT.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
+            sb.AppendLine(string.Join(",", columnNames));
+
+            foreach (DataRow row in ADT.Rows) {
+                IEnumerable<string> fields = row.ItemArray.Select(field => string.Concat("\"", field.ToString().Replace("\"", "\"\""), "\""));
+                sb.AppendLine(string.Join(";", fields));
+            }
+
+            File.WriteAllText("C:\\Temp\\AlarmList.csv", sb.ToString());
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             AlarmSettings AlarmSettingsGui = new AlarmSettings(this);
 
             //AlarmSettingsGui.Notification = "test";
-
+            AlarmSettingsGui.LastRowIndex = e.RowIndex;
             AlarmSettingsGui.Date = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
             AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
             AlarmSettingsGui.Minute = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
@@ -417,6 +440,9 @@ namespace Alarm {
 
 
         Changelog
+
+        +DataTable will now be stored in a csv.file
+
         +OK Button is closing Gui now.
         +Started to code Datatransfer from AlarmSettings back to Alarm
 
