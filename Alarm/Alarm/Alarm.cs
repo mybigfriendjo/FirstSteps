@@ -39,32 +39,63 @@ namespace Alarm {
             //Dataset
             ADS = new DataSet("ADS"); //AlarmDataSet (ADS)
             ADT= ADS.Tables.Add("ADT"); //AlarmDataTable (ADT)
-            ADT.Columns.Add("Date");
-            ADT.Columns.Add("Hour", typeof(int));
-            ADT.Columns.Add("Minute", typeof(int));
+            DataColumn ColDate = ADT.Columns.Add("Date");
+            ColDate.DefaultValue = DateTime.Now;
+            ColDate.AllowDBNull = false; //Date must not be empty
+            //ADT.Columns.Add("Date");
+            DataColumn ColHour = ADT.Columns.Add("Hour", typeof(int));
+            ColHour.DefaultValue = 10;
+            DataColumn ColMin = ADT.Columns.Add("Minute", typeof(int));
+            ColMin.DefaultValue = 00;
             ADT.Columns.Add("AlarmActiv", typeof(bool));
             ADT.Columns.Add("Note");
             ADT.Columns.Add("PathActiv", typeof(bool));
             ADT.Columns.Add("ProgPath"); //Path to start Programm
             ADT.Columns.Add("SoundActive", typeof(bool));
             ADT.Columns.Add("SoundSource"); //Radiobtn "ringtone", "soundfile", "youtube"
-            ADT.Columns.Add("ID");
-            DataColumn DCbool = new DataColumn("AActive",typeof(bool));
+            DataColumn ColID = ADT.Columns.Add("ID");
+            ColID.AllowDBNull = false;
+            ColID.DefaultValue = 000000;
+            //ColID.Unique = true;
+            //DataColumn DCbool = new DataColumn("AActive",typeof(bool));
             //ADT.Columns.Add(DCbool);
 
             DataRow ADR = ADT.NewRow();
             //ADR["AlarmISActive"] = true;
-            ADR["Date"] = "02.12.2016 00:00:00";
-            ADR["Hour"] = 10;
-            ADR["Minute"] = 23;
-            ADR["AlarmActiv"] = true;
-            ADR["Note"] = "WhatsMyName";
-            ADR["PathActiv"] = true;
-            ADR["ProgPath"] = "C:\\Temp";
-            ADR["SoundActive"] = true;
-            ADR["SoundSource"] = "C:\\Smart\\Temp";
-            ADR["ID"] = "00001";
-            ADT.Rows.Add(ADR);
+            //ADR["Date"] = "02.12.2016 00:00:00";
+            DataTable LoadData = new DataTable();
+            if (File.Exists("C:\\Temp\\AlarmList.csv")) {
+                LoadData =  CsvImport.GetDataTableFromCsv("C:\\Temp\\AlarmList.csv",true);
+
+                int RowCnt = 0;
+                foreach (DataRow Row in LoadData.Rows) {
+                    RowCnt++;
+                    DataRow RowName = ADT.NewRow();
+                    RowName["Hour"] = Row["Hour"];
+                    RowName["Minute"] = Row["Minute"];
+                    RowName["AlarmActiv"] = Row["AlarmActiv"];
+                    RowName["Note"] = Row["Note"];
+                    RowName["PathActiv"] = Row["PathActiv"];
+                    RowName["ProgPath"] = Row["ProgPath"];
+                    RowName["SoundActive"] = Row["SoundActive"];
+                    RowName["SoundSource"] = Row["SoundSource"];
+                    RowName["ID"] = Row["ID"];
+                    ADT.Rows.Add(RowName);
+                }
+            }
+            else {
+                ADR["Hour"] = 10;
+                ADR["Minute"] = 23;
+                ADR["AlarmActiv"] = true;
+                ADR["Note"] = "WhatsMyName";
+                ADR["PathActiv"] = true;
+                ADR["ProgPath"] = "C:\\Temp";
+                ADR["SoundActive"] = true;
+                ADR["SoundSource"] = "C:\\Smart\\Temp";
+                ADR["ID"] = "00001";
+                ADT.Rows.Add(ADR);
+            }
+            
             dataGridView1.DataSource = ADS.Tables[0];
 
 
@@ -337,6 +368,8 @@ namespace Alarm {
         }
 
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+            dataGridView1.Columns["Hour"].Visible = false; //hides ID Column in DataGridView
+            dataGridView1.Columns["Minute"].Visible = false; //hides ID Column in DataGridView
             dataGridView1.Columns["ID"].Visible = false; //hides ID Column in DataGridView
             dataGridView1.RowHeadersVisible = false; //hides the first gray row in DataGridView
             dataGridView1.AutoResizeColumns();
@@ -344,7 +377,7 @@ namespace Alarm {
         
         public void UpdateRowDetails(AlarmSettings settings) {
             //dataGridView1.Rows[LastRowIndex].Cells[0].Value = settings.Date;
-            dataGridView1.Rows[settings.LastRowIndex].Cells[1].Value = settings.Hour;
+            //dataGridView1.Rows[settings.LastRowIndex].Cells[1].Value = settings.Hour;
             //AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
             //AlarmSettingsGui.Minute = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
             //AlarmSettingsGui.AlarmActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
@@ -362,7 +395,7 @@ namespace Alarm {
 
             foreach (DataRow row in ADT.Rows) {
                 IEnumerable<string> fields = row.ItemArray.Select(field => string.Concat("\"", field.ToString().Replace("\"", "\"\""), "\""));
-                sb.AppendLine(string.Join(";", fields));
+                sb.AppendLine(string.Join(",", fields));
             }
 
             File.WriteAllText("C:\\Temp\\AlarmList.csv", sb.ToString());
@@ -373,9 +406,15 @@ namespace Alarm {
 
             //AlarmSettingsGui.Notification = "test";
             AlarmSettingsGui.LastRowIndex = e.RowIndex;
+            if( != null) {
+
+            }
             AlarmSettingsGui.Date = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-            AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
-            AlarmSettingsGui.Minute = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
+            if (dataGridView1.Rows[e.RowIndex].Cells[1].Value != null) {
+                AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value);
+            }
+            AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value);
+            AlarmSettingsGui.Minute = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value);
             AlarmSettingsGui.AlarmActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
             AlarmSettingsGui.Note = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
             AlarmSettingsGui.ProgPathActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[5].Value);
@@ -440,6 +479,8 @@ namespace Alarm {
 
 
         Changelog
+
+        +Csv will now be imported and loaded into AlarmSettings
 
         +DataTable will now be stored in a csv.file
 

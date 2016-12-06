@@ -97,6 +97,7 @@
     <Compile Include="AlarmSettings.Designer.cs">
       <DependentUpon>AlarmSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\CsvImport.cs" />
     <Compile Include="ScreenOverlay\RightSide.cs">
       <SubType>Form</SubType>
     </Compile>

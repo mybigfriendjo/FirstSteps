@@ -130,7 +130,7 @@
             // 
             // numASHour
             // 
-            this.numASHour.Location = new System.Drawing.Point(428, 12);
+            this.numASHour.Location = new System.Drawing.Point(395, 114);
             this.numASHour.Maximum = new decimal(new int[] {
             23,
             0,
@@ -139,10 +139,11 @@
             this.numASHour.Name = "numASHour";
             this.numASHour.Size = new System.Drawing.Size(42, 20);
             this.numASHour.TabIndex = 9;
+            this.numASHour.Visible = false;
             // 
             // numASMin
             // 
-            this.numASMin.Location = new System.Drawing.Point(476, 12);
+            this.numASMin.Location = new System.Drawing.Point(426, 114);
             this.numASMin.Maximum = new decimal(new int[] {
             59,
             0,
@@ -151,6 +152,7 @@
             this.numASMin.Name = "numASMin";
             this.numASMin.Size = new System.Drawing.Size(42, 20);
             this.numASMin.TabIndex = 10;
+            this.numASMin.Visible = false;
             // 
             // rbASYoutubepath
             // 
