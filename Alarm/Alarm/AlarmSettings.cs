@@ -168,7 +168,7 @@ namespace Alarm {
             ToolTipnumASMin.SetToolTip(numASMin, "Here you can Set the Alarm minute.");
             ToolTiptbASYoutubePath.SetToolTip(tbASYoutubePath, "Please insert your Note that should be attatched to the Alarm.");
             ToolTiptbASFilePath.SetToolTip(tbASFilePath, "Please insert your Note that should be attatched to the Alarm.");
-            ToolTipcbASAlarmSound.SetToolTip(cbASAlarmSound, "Please insert your Note that should be attatched to the Alarm.");
+            ToolTipcbASAlarmSound.SetToolTip(combASAlarmSound, "Please insert your Note that should be attatched to the Alarm.");
             ToolTiptbASNote.SetToolTip(tbASNote, "Please insert your Note that should be attatched to the Alarm.");
         }
 
@@ -202,16 +202,21 @@ namespace Alarm {
             isOpen = false;
         }
 
-        private void button2_Click(object sender, EventArgs e) {
-
-        }
-
-        private void button1_Click_1(object sender, EventArgs e) {
-
-        }
-
-        private void btbASFileDialog_Click(object sender, EventArgs e) {
-
+        private void btnASRingtone_Click(object sender, EventArgs e) {
+            if (combASAlarmSound.Items != null) {
+                if (combASAlarmSound.SelectedItem.ToString() == "Phonering") {
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\mywavfile.wav"); //@ means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
+                    player.Play();
+                }
+                else if (combASAlarmSound.SelectedItem.ToString() == "Applause") {
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\mywavfile.wav");
+                    player.Play();
+                }
+                else if (combASAlarmSound.SelectedItem.ToString() == "Callring") {
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Resources");
+                    player.Play();
+                }
+            }
         }
     }
 }

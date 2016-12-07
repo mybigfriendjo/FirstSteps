@@ -38,13 +38,14 @@
             this.rbASYoutubepath = new System.Windows.Forms.RadioButton();
             this.rbASSoundFilePath = new System.Windows.Forms.RadioButton();
             this.rbAlarmSound = new System.Windows.Forms.RadioButton();
-            this.cbASAlarmSound = new System.Windows.Forms.ComboBox();
+            this.combASAlarmSound = new System.Windows.Forms.ComboBox();
             this.tbASProgPath = new System.Windows.Forms.TextBox();
             this.cbStartProg = new System.Windows.Forms.CheckBox();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.btbASFileDialog = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.btnASRingtone = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numASHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numASMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
@@ -187,17 +188,17 @@
             this.rbAlarmSound.Text = "Ringtone";
             this.rbAlarmSound.UseVisualStyleBackColor = true;
             // 
-            // cbASAlarmSound
+            // combASAlarmSound
             // 
-            this.cbASAlarmSound.FormattingEnabled = true;
-            this.cbASAlarmSound.Items.AddRange(new object[] {
-            "Oh you touched my tralala",
-            "Wake up please Susi wake up",
-            "Hells Bells"});
-            this.cbASAlarmSound.Location = new System.Drawing.Point(116, 100);
-            this.cbASAlarmSound.Name = "cbASAlarmSound";
-            this.cbASAlarmSound.Size = new System.Drawing.Size(174, 21);
-            this.cbASAlarmSound.TabIndex = 16;
+            this.combASAlarmSound.FormattingEnabled = true;
+            this.combASAlarmSound.Items.AddRange(new object[] {
+            "Phonering",
+            "Applause",
+            "Callring"});
+            this.combASAlarmSound.Location = new System.Drawing.Point(116, 100);
+            this.combASAlarmSound.Name = "combASAlarmSound";
+            this.combASAlarmSound.Size = new System.Drawing.Size(174, 21);
+            this.combASAlarmSound.TabIndex = 16;
             // 
             // tbASProgPath
             // 
@@ -230,7 +231,6 @@
             this.btbASFileDialog.TabIndex = 19;
             this.btbASFileDialog.Text = "...";
             this.btbASFileDialog.UseVisualStyleBackColor = true;
-            this.btbASFileDialog.Click += new System.EventHandler(this.btbASFileDialog_Click);
             // 
             // button1
             // 
@@ -241,7 +241,6 @@
             this.button1.TabIndex = 20;
             this.button1.Text = "...";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // button2
             // 
@@ -252,19 +251,30 @@
             this.button2.TabIndex = 21;
             this.button2.Text = "...";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // btnASRingtone
+            // 
+            this.btnASRingtone.Image = global::Alarm.Properties.Resources.Play1;
+            this.btnASRingtone.Location = new System.Drawing.Point(296, 98);
+            this.btnASRingtone.Name = "btnASRingtone";
+            this.btnASRingtone.Size = new System.Drawing.Size(25, 23);
+            this.btnASRingtone.TabIndex = 22;
+            this.btnASRingtone.Text = "...";
+            this.btnASRingtone.UseVisualStyleBackColor = true;
+            this.btnASRingtone.Click += new System.EventHandler(this.btnASRingtone_Click);
             // 
             // AlarmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 277);
+            this.Controls.Add(this.btnASRingtone);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btbASFileDialog);
             this.Controls.Add(this.cbStartProg);
             this.Controls.Add(this.tbASProgPath);
-            this.Controls.Add(this.cbASAlarmSound);
+            this.Controls.Add(this.combASAlarmSound);
             this.Controls.Add(this.rbAlarmSound);
             this.Controls.Add(this.rbASSoundFilePath);
             this.Controls.Add(this.rbASYoutubepath);
@@ -307,12 +317,13 @@
         private System.Windows.Forms.RadioButton rbASYoutubepath;
         private System.Windows.Forms.RadioButton rbASSoundFilePath;
         private System.Windows.Forms.RadioButton rbAlarmSound;
-        private System.Windows.Forms.ComboBox cbASAlarmSound;
+        private System.Windows.Forms.ComboBox combASAlarmSound;
         private System.Windows.Forms.TextBox tbASProgPath;
         private System.Windows.Forms.CheckBox cbStartProg;
         private System.IO.FileSystemWatcher fileSystemWatcher1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btbASFileDialog;
+        private System.Windows.Forms.Button btnASRingtone;
     }
 }

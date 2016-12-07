@@ -31,7 +31,7 @@ namespace Alarm {
         //Old controlls - Vars
         DateTime numAlarmHour = DateTime.Now;
         DateTime numAlarmMin = DateTime.Now;
-        string tbNote = "";
+        //string tbNote = "";
 
         public Alarm() {
             InitializeComponent();
@@ -47,11 +47,14 @@ namespace Alarm {
             ColHour.DefaultValue = 10;
             DataColumn ColMin = ADT.Columns.Add("Minute", typeof(int));
             ColMin.DefaultValue = 00;
-            ADT.Columns.Add("AlarmActiv", typeof(bool));
+            DataColumn ColAlarmActive = ADT.Columns.Add("AlarmActiv", typeof(bool));
+            ColAlarmActive.DefaultValue = true;
             ADT.Columns.Add("Note");
-            ADT.Columns.Add("PathActiv", typeof(bool));
+            DataColumn ColPathActiv = ADT.Columns.Add("PathActiv", typeof(bool));
+            ColPathActiv.DefaultValue = false;
             ADT.Columns.Add("ProgPath"); //Path to start Programm
-            ADT.Columns.Add("SoundActive", typeof(bool));
+            DataColumn ColSoundActive = ADT.Columns.Add("SoundActive", typeof(bool));
+            ColSoundActive.DefaultValue = false;
             ADT.Columns.Add("SoundSource"); //Radiobtn "ringtone", "soundfile", "youtube"
             DataColumn ColID = ADT.Columns.Add("ID");
             ColID.AllowDBNull = false;
@@ -402,26 +405,42 @@ namespace Alarm {
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+            //Load DatagridView into AlarmSettings Form
             AlarmSettings AlarmSettingsGui = new AlarmSettings(this);
-
-            //AlarmSettingsGui.Notification = "test";
             AlarmSettingsGui.LastRowIndex = e.RowIndex;
-            if( != null) {
-
+            if(dataGridView1.Rows[e.RowIndex].Cells[0].Value != null) {
+                AlarmSettingsGui.Date = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
             }
-            AlarmSettingsGui.Date = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
             if (dataGridView1.Rows[e.RowIndex].Cells[1].Value != null) {
                 AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value);
             }
-            AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value);
-            AlarmSettingsGui.Minute = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value);
-            AlarmSettingsGui.AlarmActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
-            AlarmSettingsGui.Note = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
-            AlarmSettingsGui.ProgPathActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[5].Value);
-            AlarmSettingsGui.ProgPath = dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString(); //Path to start Programm
-            AlarmSettingsGui.SoundActive = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[7].Value);
-            AlarmSettingsGui.SoundSource = dataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString(); //Radiobtn "ringtone", "soundfile", "youtube"
-            AlarmSettingsGui.ID = dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString(); ;
+            if (dataGridView1.Rows[e.RowIndex].Cells[1].Value != null) {
+                AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value);
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[2].Value != null) {
+                AlarmSettingsGui.Minute = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value);
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[3].Value != null) {
+                AlarmSettingsGui.AlarmActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[4].Value != null) {
+                AlarmSettingsGui.Note = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[5].Value != null) {
+                AlarmSettingsGui.ProgPathActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[5].Value);
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[6].Value != null) {
+                AlarmSettingsGui.ProgPath = dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString(); //Path to start Programm
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[7].Value != null) {
+                AlarmSettingsGui.SoundActive = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[7].Value);
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[8].Value != null) {
+                AlarmSettingsGui.SoundSource = dataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString(); //Radiobtn "ringtone", "soundfile", "youtube"
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[9].Value != null) {
+                AlarmSettingsGui.ID = dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString(); ;
+            }
             AlarmSettingsGui.Show();
 
 
@@ -479,6 +498,9 @@ namespace Alarm {
 
 
         Changelog
+
+        +reworked Alarmsetting Buttons -> working on Function (Path/Playsound/noFileExists/load from resources)
+        +New Line without Values can now be loaded into AlarmSettingsFrame.
 
         +Csv will now be imported and loaded into AlarmSettings
 
