@@ -499,6 +499,11 @@ namespace Alarm {
 
         Changelog
 
+        +playing soundfiles over path is working now.
+        -Files need to be implemented into programm files
+        -Path needs to load from resources
+
+
         +reworked Alarmsetting Buttons -> working on Function (Path/Playsound/noFileExists/load from resources)
         +New Line without Values can now be loaded into AlarmSettingsFrame.
 

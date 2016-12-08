@@ -205,15 +205,15 @@ namespace Alarm {
         private void btnASRingtone_Click(object sender, EventArgs e) {
             if (combASAlarmSound.Items != null) {
                 if (combASAlarmSound.SelectedItem.ToString() == "Phonering") {
-                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\mywavfile.wav"); //@ means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Temp\alert1.wav"); //@ means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
                     player.Play();
                 }
                 else if (combASAlarmSound.SelectedItem.ToString() == "Applause") {
-                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\mywavfile.wav");
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Temp\alert2.wav");
                     player.Play();
                 }
                 else if (combASAlarmSound.SelectedItem.ToString() == "Callring") {
-                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Resources");
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Temp\alert3.wav");
                     player.Play();
                 }
             }
