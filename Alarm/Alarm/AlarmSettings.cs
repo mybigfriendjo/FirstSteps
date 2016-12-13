@@ -41,7 +41,7 @@ namespace Alarm {
         //AlarmSettingsGui.SoundSource; //Radiobtn "ringtone", "soundfile", "youtube"
         //AlarmSettingsGui.ID;
 
-        //Var Notification (Cell 1)
+        //Var Notification (Cell 0)
         private string _Date;
         public string Date {
             get { return _Date; }
@@ -52,7 +52,7 @@ namespace Alarm {
                 }
             }
         }
-        //Var Notification (Cell 2)
+        //Var Notification (Cell 1)
         private int _Hour;
         public int Hour {
             get { return _Hour; }
@@ -61,7 +61,7 @@ namespace Alarm {
                 numASHour.Value = value;
             }
         }
-        //Var Notification (Cell 3)
+        //Var Notification (Cell 2)
         private int _Minute;
         public int Minute {
             get { return _Minute; }
@@ -70,7 +70,7 @@ namespace Alarm {
                 numASMin.Value = value;
             }
         }
-        //Var Notification (Cell 4)
+        //Var Notification (Cell 3)
         private bool _AlarmActiv;
         public bool AlarmActiv {
             get { return _AlarmActiv; }
@@ -79,7 +79,7 @@ namespace Alarm {
                 cbASActive.Checked = value;
             }
         }
-        //Var Notification (Cell 5)
+        //Var Notification (Cell 4)
         private string _note;
         public string Note {
             get {return _note;}
@@ -89,7 +89,7 @@ namespace Alarm {
             }
         }
     
-        //Var ProgPathActiv (Cell 6)
+        //Var ProgPathActiv (Cell 5)
         private bool _ProgPathActiv;
         public bool ProgPathActiv {
             get { return _ProgPathActiv; }
@@ -99,7 +99,7 @@ namespace Alarm {
             }
         }
 
-        //Var ProgPath (Cell 7)
+        //Var ProgPath (Cell 6)
         private string _ProgPath;
         public string ProgPath {
             get { return _ProgPath; }
@@ -109,7 +109,7 @@ namespace Alarm {
             }
         }
 
-        //Var SoundActive (Cell 8)
+        //Var SoundActive (Cell 7)
         private bool _SoundActive;
         public bool SoundActive {
             get { return _SoundActive; }
@@ -119,7 +119,7 @@ namespace Alarm {
             }
         }
 
-        //Var SoundSource (Cell 9)
+        //Var SoundSource (Cell 8)
         private string _SoundSource;
         public string SoundSource {
             get { return _SoundSource; }
@@ -129,13 +129,32 @@ namespace Alarm {
             }
         }
 
-        //Var ID (Cell 10)
+        //Var ID (Cell 9)
         private string _ID;
         public string ID {
             get { return _ID; }
             set {
                 _ID = value;
-                
+            }
+        }
+
+        //Var YoutubePath (Cell 10)
+        private string _YoutubePath;
+        public string YoutubePath {
+            get { return _YoutubePath; }
+            set {
+                _YoutubePath = value;
+                tbASYoutubePath.Text = value;
+            }
+        }
+
+        //Var AlarmSound (Cell 11)
+        private string _AlarmSound;
+        public string AlarmSound {
+            get { return _AlarmSound; }
+            set {
+                _AlarmSound = value;
+                combASAlarmSound.SelectedItem = value;
             }
         }
 
@@ -192,6 +211,8 @@ namespace Alarm {
             ProgPath = tbASProgPath.Text;
             SoundActive = rbASSoundFilePath.Checked;
             SoundSource = tbASFilePath.Text;
+            YoutubePath = tbASYoutubePath.Text;
+            AlarmSound = combASAlarmSound.SelectedItem.ToString();
 
             mainWindow.UpdateRowDetails(this);
             isOpen = false;
@@ -203,17 +224,20 @@ namespace Alarm {
         }
 
         private void btnASRingtone_Click(object sender, EventArgs e) {
-            if (combASAlarmSound.Items != null) {
+            if (combASAlarmSound.SelectedItem != null) {
                 if (combASAlarmSound.SelectedItem.ToString() == "Phonering") {
-                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Temp\alert1.wav"); //@ means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
+                    //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Temp\alert1.wav"); //@ means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\calleering.wav");
                     player.Play();
                 }
                 else if (combASAlarmSound.SelectedItem.ToString() == "Applause") {
-                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Temp\alert2.wav");
+                    //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Temp\alert2.wav");
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\APPLAUSE.WAV");
                     player.Play();
                 }
                 else if (combASAlarmSound.SelectedItem.ToString() == "Callring") {
-                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Temp\alert3.wav");
+                    //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Temp\alert3.wav");
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\ELPHRG01.WAV");
                     player.Play();
                 }
             }

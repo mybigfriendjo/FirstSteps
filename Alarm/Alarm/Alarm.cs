@@ -59,6 +59,10 @@ namespace Alarm {
             DataColumn ColID = ADT.Columns.Add("ID");
             ColID.AllowDBNull = false;
             ColID.DefaultValue = 000000;
+            DataColumn ColYoutubePath = ADT.Columns.Add("YoutubePath");
+            ColYoutubePath.DefaultValue = "";
+            DataColumn ColAlarmSound = ADT.Columns.Add("AlarmSound");
+            ColAlarmSound.DefaultValue = "Applause";
             //ColID.Unique = true;
             //DataColumn DCbool = new DataColumn("AActive",typeof(bool));
             //ADT.Columns.Add(DCbool);
@@ -83,6 +87,8 @@ namespace Alarm {
                     RowName["SoundActive"] = Row["SoundActive"];
                     RowName["SoundSource"] = Row["SoundSource"];
                     RowName["ID"] = Row["ID"];
+                    RowName["YoutubePath"] = Row["YoutubePath"];
+                    RowName["AlarmSound"] = Row["AlarmSound"];
                     ADT.Rows.Add(RowName);
                 }
             }
@@ -379,8 +385,39 @@ namespace Alarm {
         }
         
         public void UpdateRowDetails(AlarmSettings settings) {
-            //dataGridView1.Rows[LastRowIndex].Cells[0].Value = settings.Date;
-            //dataGridView1.Rows[settings.LastRowIndex].Cells[1].Value = settings.Hour;
+            dataGridView1.Rows[settings.LastRowIndex].Cells[0].Value = settings.Date;
+            dataGridView1.Rows[settings.LastRowIndex].Cells[1].Value = settings.Hour;
+            if (dataGridView1.Rows[settings.LastRowIndex].Cells[2].Value != null) {
+                dataGridView1.Rows[settings.LastRowIndex].Cells[2].Value = settings.Minute;
+            }
+            if (dataGridView1.Rows[settings.LastRowIndex].Cells[3].Value != null) {
+                dataGridView1.Rows[settings.LastRowIndex].Cells[3].Value = settings.AlarmActiv;
+            }
+            //if (dataGridView1.Rows[settings.LastRowIndex].Cells[4].Value != null) {
+                dataGridView1.Rows[settings.LastRowIndex].Cells[4].Value = settings.Note;
+            //}
+            if (dataGridView1.Rows[settings.LastRowIndex].Cells[5].Value != null) {
+                dataGridView1.Rows[settings.LastRowIndex].Cells[5].Value = settings.ProgPathActiv;
+            }
+            //if (dataGridView1.Rows[settings.LastRowIndex].Cells[6].Value != null) {
+                dataGridView1.Rows[settings.LastRowIndex].Cells[6].Value = settings.ProgPath;
+            //}
+            if (dataGridView1.Rows[settings.LastRowIndex].Cells[7].Value != null) {
+                dataGridView1.Rows[settings.LastRowIndex].Cells[7].Value = settings.SoundActive;
+            }
+            //if (dataGridView1.Rows[settings.LastRowIndex].Cells[8].Value != null) {
+                dataGridView1.Rows[settings.LastRowIndex].Cells[8].Value = settings.SoundSource;
+            //}
+            if (dataGridView1.Rows[settings.LastRowIndex].Cells[9].Value != null) {
+                dataGridView1.Rows[settings.LastRowIndex].Cells[9].Value = settings.ID;
+            }
+            //if (dataGridView1.Rows[settings.LastRowIndex].Cells[10].Value != null) {
+                dataGridView1.Rows[settings.LastRowIndex].Cells[10].Value = settings.YoutubePath;
+            //}
+            if (dataGridView1.Rows[settings.LastRowIndex].Cells[11].Value != null) {
+                dataGridView1.Rows[settings.LastRowIndex].Cells[11].Value = settings.AlarmSound;
+            }
+
             //AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
             //AlarmSettingsGui.Minute = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
             //AlarmSettingsGui.AlarmActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
@@ -389,7 +426,7 @@ namespace Alarm {
             //AlarmSettingsGui.ProgPath = dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString(); //Path to start Programm
             //AlarmSettingsGui.SoundActive = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[7].Value);
             //AlarmSettingsGui.SoundSource = dataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString(); //Radiobtn "ringtone", "soundfile", "youtube"
-            //AlarmSettingsGui.ID = dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString(); 
+            //AlarmSettingsGui.ID = dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString();
 
             StringBuilder sb = new StringBuilder();
 
@@ -410,9 +447,6 @@ namespace Alarm {
             AlarmSettingsGui.LastRowIndex = e.RowIndex;
             if(dataGridView1.Rows[e.RowIndex].Cells[0].Value != null) {
                 AlarmSettingsGui.Date = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-            }
-            if (dataGridView1.Rows[e.RowIndex].Cells[1].Value != null) {
-                AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value);
             }
             if (dataGridView1.Rows[e.RowIndex].Cells[1].Value != null) {
                 AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value);
@@ -440,6 +474,12 @@ namespace Alarm {
             }
             if (dataGridView1.Rows[e.RowIndex].Cells[9].Value != null) {
                 AlarmSettingsGui.ID = dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString(); ;
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[10].Value != null) {
+                AlarmSettingsGui.YoutubePath = dataGridView1.Rows[e.RowIndex].Cells[10].Value.ToString();
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[11].Value != null) {
+                AlarmSettingsGui.AlarmSound = dataGridView1.Rows[e.RowIndex].Cells[11].Value.ToString();
             }
             AlarmSettingsGui.Show();
 
@@ -498,6 +538,9 @@ namespace Alarm {
 
 
         Changelog
+
+        +Values from AlarmSetting to Alarm are Ok - including Checkbox.
+        -DateTime Control needs to be reworked
 
         +playing soundfiles over path is working now.
         -Files need to be implemented into programm files

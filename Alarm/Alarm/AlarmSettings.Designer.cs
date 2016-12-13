@@ -46,6 +46,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.btnASRingtone = new System.Windows.Forms.Button();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.numASHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numASMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
@@ -124,9 +125,9 @@
             // 
             // dtASDate
             // 
-            this.dtASDate.Location = new System.Drawing.Point(222, 12);
+            this.dtASDate.Location = new System.Drawing.Point(256, 12);
             this.dtASDate.Name = "dtASDate";
-            this.dtASDate.Size = new System.Drawing.Size(200, 20);
+            this.dtASDate.Size = new System.Drawing.Size(189, 20);
             this.dtASDate.TabIndex = 8;
             // 
             // numASHour
@@ -263,11 +264,20 @@
             this.btnASRingtone.UseVisualStyleBackColor = true;
             this.btnASRingtone.Click += new System.EventHandler(this.btnASRingtone_Click);
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePicker1.Location = new System.Drawing.Point(451, 12);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(83, 20);
+            this.dateTimePicker1.TabIndex = 23;
+            // 
             // AlarmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 277);
+            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.btnASRingtone);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -325,5 +335,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btbASFileDialog;
         private System.Windows.Forms.Button btnASRingtone;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }
