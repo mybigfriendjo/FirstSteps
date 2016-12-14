@@ -40,14 +40,14 @@ namespace Alarm {
             ADS = new DataSet("ADS"); //AlarmDataSet (ADS)
             ADT= ADS.Tables.Add("ADT"); //AlarmDataTable (ADT)
             DataColumn ColDate = ADT.Columns.Add("Date");
-            ColDate.DefaultValue = DateTime.Now;
+            ColDate.DefaultValue = DateTime.Now.ToString("dd.MM.yyyy");
             ColDate.AllowDBNull = false; //Date must not be empty
             //ADT.Columns.Add("Date");
-            DataColumn ColHour = ADT.Columns.Add("Hour", typeof(int));
-            ColHour.DefaultValue = 10;
-            DataColumn ColMin = ADT.Columns.Add("Minute", typeof(int));
-            ColMin.DefaultValue = 00;
-            DataColumn ColAlarmActive = ADT.Columns.Add("AlarmActiv", typeof(bool));
+            DataColumn ColHour = ADT.Columns.Add("Hour"); //, typeof(int));
+            ColHour.DefaultValue = "10";
+            DataColumn ColMin = ADT.Columns.Add("Minute"); //, typeof(int));
+            ColMin.DefaultValue = "00";
+            DataColumn ColAlarmActive = ADT.Columns.Add("AlarmActive", typeof(bool));
             ColAlarmActive.DefaultValue = true;
             ADT.Columns.Add("Note");
             DataColumn ColPathActiv = ADT.Columns.Add("PathActiv", typeof(bool));
@@ -80,7 +80,7 @@ namespace Alarm {
                     DataRow RowName = ADT.NewRow();
                     RowName["Hour"] = Row["Hour"];
                     RowName["Minute"] = Row["Minute"];
-                    RowName["AlarmActiv"] = Row["AlarmActiv"];
+                    RowName["AlarmActive"] = Row["AlarmActive"];
                     RowName["Note"] = Row["Note"];
                     RowName["PathActiv"] = Row["PathActiv"];
                     RowName["ProgPath"] = Row["ProgPath"];
@@ -95,7 +95,7 @@ namespace Alarm {
             else {
                 ADR["Hour"] = 10;
                 ADR["Minute"] = 23;
-                ADR["AlarmActiv"] = true;
+                ADR["AlarmActive"] = true;
                 ADR["Note"] = "WhatsMyName";
                 ADR["PathActiv"] = true;
                 ADR["ProgPath"] = "C:\\Temp";
@@ -377,21 +377,22 @@ namespace Alarm {
         }
 
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
-            dataGridView1.Columns["Hour"].Visible = false; //hides ID Column in DataGridView
-            dataGridView1.Columns["Minute"].Visible = false; //hides ID Column in DataGridView
             dataGridView1.Columns["ID"].Visible = false; //hides ID Column in DataGridView
             dataGridView1.RowHeadersVisible = false; //hides the first gray row in DataGridView
             dataGridView1.AutoResizeColumns();
+            dataGridView1.Columns["Hour"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight; //Text of this Column will be alligned to the right side
+            dataGridView1.Columns["Hour"].Width = 35; //Sets Column Width
+            dataGridView1.Columns["Minute"].Width = 45;
         }
         
         public void UpdateRowDetails(AlarmSettings settings) {
-            dataGridView1.Rows[settings.LastRowIndex].Cells[0].Value = settings.Date;
+            dataGridView1.Rows[settings.LastRowIndex].Cells[0].Value = string.Format ("{0:dd.MM.yyyy}",settings.Date);
             dataGridView1.Rows[settings.LastRowIndex].Cells[1].Value = settings.Hour;
             if (dataGridView1.Rows[settings.LastRowIndex].Cells[2].Value != null) {
                 dataGridView1.Rows[settings.LastRowIndex].Cells[2].Value = settings.Minute;
             }
             if (dataGridView1.Rows[settings.LastRowIndex].Cells[3].Value != null) {
-                dataGridView1.Rows[settings.LastRowIndex].Cells[3].Value = settings.AlarmActiv;
+                dataGridView1.Rows[settings.LastRowIndex].Cells[3].Value = settings.AlarmActive;
             }
             //if (dataGridView1.Rows[settings.LastRowIndex].Cells[4].Value != null) {
                 dataGridView1.Rows[settings.LastRowIndex].Cells[4].Value = settings.Note;
@@ -420,7 +421,7 @@ namespace Alarm {
 
             //AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
             //AlarmSettingsGui.Minute = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
-            //AlarmSettingsGui.AlarmActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
+            //AlarmSettingsGui.AlarmActive = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
             //AlarmSettingsGui.Note = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
             //AlarmSettingsGui.ProgPathActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[5].Value);
             //AlarmSettingsGui.ProgPath = dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString(); //Path to start Programm
@@ -446,16 +447,16 @@ namespace Alarm {
             AlarmSettings AlarmSettingsGui = new AlarmSettings(this);
             AlarmSettingsGui.LastRowIndex = e.RowIndex;
             if(dataGridView1.Rows[e.RowIndex].Cells[0].Value != null) {
-                AlarmSettingsGui.Date = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+                AlarmSettingsGui.Date = string.Format("{0:dd.MM.yyyy}", dataGridView1.Rows[e.RowIndex].Cells[0].Value);
             }
             if (dataGridView1.Rows[e.RowIndex].Cells[1].Value != null) {
-                AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value);
+                AlarmSettingsGui.Hour = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
             }
             if (dataGridView1.Rows[e.RowIndex].Cells[2].Value != null) {
-                AlarmSettingsGui.Minute = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value);
+                AlarmSettingsGui.Minute = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
             }
             if (dataGridView1.Rows[e.RowIndex].Cells[3].Value != null) {
-                AlarmSettingsGui.AlarmActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
+                AlarmSettingsGui.AlarmActive = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
             }
             if (dataGridView1.Rows[e.RowIndex].Cells[4].Value != null) {
                 AlarmSettingsGui.Note = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
@@ -538,6 +539,20 @@ namespace Alarm {
 
 
         Changelog
+
+        +DateTime got Changed (splited into 3 fields)
+        +Hour and Min get stored with leading Zeros
+        +rewored Datagridtable width and alignment
+        +Combobox Value is now Shown in Datagridtable
+        +Combobox Value gets correctly selected on loading AlarmSettings Form
+        +renamed Buttons
+        +Youtube Button is now starting the default Browser and opens the containing link
+        +Programpathbtn is now opening the path or selected File
+        +if Programpathbtn is empty a OpenFileDialog will appear
+        -openfiledialog doesn't return Path yet
+        -openfiledialog errorhandling missing
+
+
 
         +Values from AlarmSetting to Alarm are Ok - including Checkbox.
         -DateTime Control needs to be reworked

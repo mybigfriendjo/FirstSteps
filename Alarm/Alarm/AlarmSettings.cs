@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -33,7 +34,7 @@ namespace Alarm {
         //AlarmSettingsGui.Date;
         //AlarmSettingsGui.Hour", typeof(int));
         //AlarmSettingsGui.Minute", typeof(int));
-        //AlarmSettingsGui.AlarmActiv", typeof(bool));
+        //AlarmSettingsGui.AlarmActive", typeof(bool));
         //AlarmSettingsGui.Note = dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString();
         //AlarmSettingsGui.ProgPathActiv", typeof(bool));
         //AlarmSettingsGui.ProgPath; //Path to start Programm
@@ -48,34 +49,36 @@ namespace Alarm {
             set {
                 _Date = value;
                 if(value != null && value != "") {
-                    dtASDate.Value = Convert.ToDateTime(value);
+                    dtASDate.Format = DateTimePickerFormat.Long;
+                    dtASDate.CustomFormat = "dd.MM.yyyy";
+                    dtASDate.Value = Convert.ToDateTime (value);
                 }
             }
         }
         //Var Notification (Cell 1)
-        private int _Hour;
-        public int Hour {
+        private string _Hour;
+        public string Hour {
             get { return _Hour; }
             set {
                 _Hour = value;
-                numASHour.Value = value;
+                numASHour.Value = Convert.ToInt32(value);
             }
         }
         //Var Notification (Cell 2)
-        private int _Minute;
-        public int Minute {
+        private string _Minute;
+        public string Minute {
             get { return _Minute; }
             set {
                 _Minute = value;
-                numASMin.Value = value;
+                numASMin.Value = Convert.ToInt32(value);
             }
         }
         //Var Notification (Cell 3)
-        private bool _AlarmActiv;
-        public bool AlarmActiv {
-            get { return _AlarmActiv; }
+        private bool _AlarmActive;
+        public bool AlarmActive {
+            get { return _AlarmActive; }
             set {
-                _AlarmActiv = value;
+                _AlarmActive = value;
                 cbASActive.Checked = value;
             }
         }
@@ -201,11 +204,12 @@ namespace Alarm {
         //    }
         //}
 
-        private void button1_Click(object sender, EventArgs e) {
-            Date = dtASDate.Value.ToString();
-            Hour = Convert.ToInt32(numASHour.Value);
-            Minute = Convert.ToInt32(numASMin.Value);
-            AlarmActiv = cbASActive.Checked;
+        private void btnASOk_Click(object sender, EventArgs e) {
+            Date = string.Format ("{0:dd.MM.yyyy}", dtASDate.Value.ToShortDateString());
+            Hour = string.Format("{0:00}", numASHour.Value);
+            //Minute = Convert.ToInt32(numASMin.Value);
+            Minute = string.Format("{0:00}", numASMin.Value);
+            AlarmActive = cbASActive.Checked;
             Note = tbASNote.Text;
             ProgPathActiv = cbStartProg.Checked;
             ProgPath = tbASProgPath.Text;
@@ -240,6 +244,33 @@ namespace Alarm {
                     System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\ELPHRG01.WAV");
                     player.Play();
                 }
+            }
+        }
+
+        private void btnASYoutube_Click(object sender, EventArgs e) {
+            if (tbASYoutubePath.Text != null && tbASYoutubePath.Text != "") {
+                Process.Start(@tbASYoutubePath.Text);
+            }
+            else {
+                MessageBox.Show("You have to enter a URL first.");
+            }
+        }
+
+        private void btnASstartProgram_Click(object sender, EventArgs e) {
+            if (tbASProgPath.Text != null && tbASProgPath.Text != "") {
+                Process.Start(@tbASProgPath.Text);
+            }
+            else {
+                OpenFileDialog ChooseFile = new OpenFileDialog();
+                DialogResult result = ChooseFile.ShowDialog();
+                if (result == DialogResult.OK) // Test result.
+                {
+                    //tbASProgPath.Text = ChooseFile
+                }
+                else {
+                    //Console.WriteLine(result); // <-- For debugging use.
+                }
+                
             }
         }
     }

@@ -42,11 +42,10 @@
             this.tbASProgPath = new System.Windows.Forms.TextBox();
             this.cbStartProg = new System.Windows.Forms.CheckBox();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
+            this.btbASYoutube = new System.Windows.Forms.Button();
             this.btbASFileDialog = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnASstartProgram = new System.Windows.Forms.Button();
             this.btnASRingtone = new System.Windows.Forms.Button();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.numASHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numASMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
@@ -82,7 +81,7 @@
             this.btnASOk.TabIndex = 3;
             this.btnASOk.Text = "OK";
             this.btnASOk.UseVisualStyleBackColor = true;
-            this.btnASOk.Click += new System.EventHandler(this.button1_Click);
+            this.btnASOk.Click += new System.EventHandler(this.btnASOk_Click);
             // 
             // lblASNote
             // 
@@ -132,7 +131,7 @@
             // 
             // numASHour
             // 
-            this.numASHour.Location = new System.Drawing.Point(395, 114);
+            this.numASHour.Location = new System.Drawing.Point(447, 12);
             this.numASHour.Maximum = new decimal(new int[] {
             23,
             0,
@@ -141,11 +140,10 @@
             this.numASHour.Name = "numASHour";
             this.numASHour.Size = new System.Drawing.Size(42, 20);
             this.numASHour.TabIndex = 9;
-            this.numASHour.Visible = false;
             // 
             // numASMin
             // 
-            this.numASMin.Location = new System.Drawing.Point(426, 114);
+            this.numASMin.Location = new System.Drawing.Point(492, 12);
             this.numASMin.Maximum = new decimal(new int[] {
             59,
             0,
@@ -154,7 +152,6 @@
             this.numASMin.Name = "numASMin";
             this.numASMin.Size = new System.Drawing.Size(42, 20);
             this.numASMin.TabIndex = 10;
-            this.numASMin.Visible = false;
             // 
             // rbASYoutubepath
             // 
@@ -223,35 +220,37 @@
             this.fileSystemWatcher1.EnableRaisingEvents = true;
             this.fileSystemWatcher1.SynchronizingObject = this;
             // 
+            // btbASYoutube
+            // 
+            this.btbASYoutube.Image = global::Alarm.Properties.Resources.Play1;
+            this.btbASYoutube.Location = new System.Drawing.Point(509, 46);
+            this.btbASYoutube.Name = "btbASYoutube";
+            this.btbASYoutube.Size = new System.Drawing.Size(25, 23);
+            this.btbASYoutube.TabIndex = 19;
+            this.btbASYoutube.Text = "...";
+            this.btbASYoutube.UseVisualStyleBackColor = true;
+            this.btbASYoutube.Click += new System.EventHandler(this.btnASYoutube_Click);
+            // 
             // btbASFileDialog
             // 
             this.btbASFileDialog.Image = global::Alarm.Properties.Resources.Play1;
-            this.btbASFileDialog.Location = new System.Drawing.Point(509, 46);
+            this.btbASFileDialog.Location = new System.Drawing.Point(509, 72);
             this.btbASFileDialog.Name = "btbASFileDialog";
             this.btbASFileDialog.Size = new System.Drawing.Size(25, 23);
-            this.btbASFileDialog.TabIndex = 19;
+            this.btbASFileDialog.TabIndex = 20;
             this.btbASFileDialog.Text = "...";
             this.btbASFileDialog.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btnASstartProgram
             // 
-            this.button1.Image = global::Alarm.Properties.Resources.Play1;
-            this.button1.Location = new System.Drawing.Point(509, 72);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(25, 23);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Image = global::Alarm.Properties.Resources.Play1;
-            this.button2.Location = new System.Drawing.Point(509, 138);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(25, 23);
-            this.button2.TabIndex = 21;
-            this.button2.Text = "...";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnASstartProgram.Image = global::Alarm.Properties.Resources.Play1;
+            this.btnASstartProgram.Location = new System.Drawing.Point(509, 138);
+            this.btnASstartProgram.Name = "btnASstartProgram";
+            this.btnASstartProgram.Size = new System.Drawing.Size(25, 23);
+            this.btnASstartProgram.TabIndex = 21;
+            this.btnASstartProgram.Text = "...";
+            this.btnASstartProgram.UseVisualStyleBackColor = true;
+            this.btnASstartProgram.Click += new System.EventHandler(this.btnASstartProgram_Click);
             // 
             // btnASRingtone
             // 
@@ -264,24 +263,15 @@
             this.btnASRingtone.UseVisualStyleBackColor = true;
             this.btnASRingtone.Click += new System.EventHandler(this.btnASRingtone_Click);
             // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker1.Location = new System.Drawing.Point(451, 12);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(83, 20);
-            this.dateTimePicker1.TabIndex = 23;
-            // 
             // AlarmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 277);
-            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.btnASRingtone);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnASstartProgram);
             this.Controls.Add(this.btbASFileDialog);
+            this.Controls.Add(this.btbASYoutube);
             this.Controls.Add(this.cbStartProg);
             this.Controls.Add(this.tbASProgPath);
             this.Controls.Add(this.combASAlarmSound);
@@ -331,10 +321,9 @@
         private System.Windows.Forms.TextBox tbASProgPath;
         private System.Windows.Forms.CheckBox cbStartProg;
         private System.IO.FileSystemWatcher fileSystemWatcher1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnASstartProgram;
         private System.Windows.Forms.Button btbASFileDialog;
+        private System.Windows.Forms.Button btbASYoutube;
         private System.Windows.Forms.Button btnASRingtone;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }
