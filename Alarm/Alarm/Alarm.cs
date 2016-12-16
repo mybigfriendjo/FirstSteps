@@ -88,7 +88,15 @@ namespace Alarm {
                     RowName["SoundSource"] = Row["SoundSource"];
                     RowName["ID"] = Row["ID"];
                     RowName["YoutubePath"] = Row["YoutubePath"];
-                    RowName["AlarmSound"] = Row["AlarmSound"];
+                    RowName["Mon"] = Row["Mon"];
+                    RowName["Tue"] = Row["Tue"];
+                    RowName["Wed"] = Row["Wed"];
+                    RowName["Thu"] = Row["Thu"];
+                    RowName["Fri"] = Row["Fri"];
+                    RowName["Sat"] = Row["Sat"];
+                    RowName["Sun"] = Row["Sun"];
+                    RowName["Repeat"] = Row["Repeat"];
+
                     ADT.Rows.Add(RowName);
                 }
             }
@@ -102,6 +110,17 @@ namespace Alarm {
                 ADR["SoundActive"] = true;
                 ADR["SoundSource"] = "C:\\Smart\\Temp";
                 ADR["ID"] = "00001";
+                ADR["YoutubePath"] = "";
+                ADR["Mon"] = false;
+                ADR["Tue"] = false;
+                ADR["Wed"] = false;
+                ADR["Thu"] = false;
+                ADR["Fri"] = false;
+                ADR["Sat"] = false;
+                ADR["Sun"] = false;
+                ADR["Repeat"] = false;
+
+
                 ADT.Rows.Add(ADR);
             }
             
@@ -418,6 +437,15 @@ namespace Alarm {
             if (dataGridView1.Rows[settings.LastRowIndex].Cells[11].Value != null) {
                 dataGridView1.Rows[settings.LastRowIndex].Cells[11].Value = settings.AlarmSound;
             }
+            dataGridView1.Rows[settings.LastRowIndex].Cells[12].Value = settings.Mon;
+            dataGridView1.Rows[settings.LastRowIndex].Cells[13].Value = settings.Tue;
+            dataGridView1.Rows[settings.LastRowIndex].Cells[14].Value = settings.Wed;
+            dataGridView1.Rows[settings.LastRowIndex].Cells[15].Value = settings.Thu;
+            dataGridView1.Rows[settings.LastRowIndex].Cells[16].Value = settings.Fri;
+            dataGridView1.Rows[settings.LastRowIndex].Cells[17].Value = settings.Sat;
+            dataGridView1.Rows[settings.LastRowIndex].Cells[18].Value = settings.Sun;
+            dataGridView1.Rows[settings.LastRowIndex].Cells[19].Value = settings.Repeat;
+
 
             //AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
             //AlarmSettingsGui.Minute = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
@@ -482,6 +510,30 @@ namespace Alarm {
             if (dataGridView1.Rows[e.RowIndex].Cells[11].Value != null) {
                 AlarmSettingsGui.AlarmSound = dataGridView1.Rows[e.RowIndex].Cells[11].Value.ToString();
             }
+            if (dataGridView1.Rows[e.RowIndex].Cells[12].Value != null) {
+                AlarmSettingsGui.Mon = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[12].Value);
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[13].Value != null) {
+                AlarmSettingsGui.Tue = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[13].Value);
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[14].Value != null) {
+                AlarmSettingsGui.Wed = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[14].Value);
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[15].Value != null) {
+                AlarmSettingsGui.Thu = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[15].Value);
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[16].Value != null) {
+                AlarmSettingsGui.Fri = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[16].Value);
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[17].Value != null) {
+                AlarmSettingsGui.Sat = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[17].Value);
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[18].Value != null) {
+                AlarmSettingsGui.Sun = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[18].Value);
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[19].Value != null) {
+                AlarmSettingsGui.Repeat = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[19].Value);
+            }
             AlarmSettingsGui.Show();
 
 
@@ -539,6 +591,11 @@ namespace Alarm {
 
 
         Changelog
+
+        +Day and Repeat checkbox values do now get stored in DB
+        +Playing SoundFile will work with otherFiles then wav as well.
+        +No Program will pop Up when playing SoundFiles
+        +openfiledialog does return Path+FileName now
 
         +DateTime got Changed (splited into 3 fields)
         +Hour and Min get stored with leading Zeros

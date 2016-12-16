@@ -126,5 +126,14 @@ namespace Alarm.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Windows_Logon_Sound {
+            get {
+                return ResourceManager.GetStream("Windows_Logon_Sound", resourceCulture);
+            }
+        }
     }
 }

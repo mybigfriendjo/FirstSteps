@@ -74,7 +74,7 @@
             // cbCountdown
             // 
             this.cbCountdown.AutoSize = true;
-            this.cbCountdown.Location = new System.Drawing.Point(488, 31);
+            this.cbCountdown.Location = new System.Drawing.Point(633, 37);
             this.cbCountdown.Name = "cbCountdown";
             this.cbCountdown.Size = new System.Drawing.Size(80, 17);
             this.cbCountdown.TabIndex = 0;
@@ -194,7 +194,7 @@
             this.optionsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(806, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(737, 24);
             this.menuStrip1.TabIndex = 16;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -231,7 +231,7 @@
             this.panelCountdown.Controls.Add(this.numCountdownHour);
             this.panelCountdown.Controls.Add(this.numCountdownMin);
             this.panelCountdown.Enabled = false;
-            this.panelCountdown.Location = new System.Drawing.Point(470, 59);
+            this.panelCountdown.Location = new System.Drawing.Point(615, 65);
             this.panelCountdown.Name = "panelCountdown";
             this.panelCountdown.Size = new System.Drawing.Size(116, 148);
             this.panelCountdown.TabIndex = 20;
@@ -248,14 +248,14 @@
             // lblCountdownTime
             // 
             this.lblCountdownTime.AutoSize = true;
-            this.lblCountdownTime.Location = new System.Drawing.Point(485, 210);
+            this.lblCountdownTime.Location = new System.Drawing.Point(630, 216);
             this.lblCountdownTime.Name = "lblCountdownTime";
             this.lblCountdownTime.Size = new System.Drawing.Size(0, 13);
             this.lblCountdownTime.TabIndex = 22;
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(341, 301);
+            this.btnDelete.Location = new System.Drawing.Point(489, 301);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(48, 23);
             this.btnDelete.TabIndex = 23;
@@ -265,7 +265,7 @@
             // 
             // btnDeleteAll
             // 
-            this.btnDeleteAll.Location = new System.Drawing.Point(395, 301);
+            this.btnDeleteAll.Location = new System.Drawing.Point(543, 301);
             this.btnDeleteAll.Name = "btnDeleteAll";
             this.btnDeleteAll.Size = new System.Drawing.Size(66, 23);
             this.btnDeleteAll.TabIndex = 24;
@@ -290,7 +290,7 @@
             // 
             // btnAcivateAlarm
             // 
-            this.btnAcivateAlarm.Location = new System.Drawing.Point(470, 213);
+            this.btnAcivateAlarm.Location = new System.Drawing.Point(615, 219);
             this.btnAcivateAlarm.Name = "btnAcivateAlarm";
             this.btnAcivateAlarm.Size = new System.Drawing.Size(100, 23);
             this.btnAcivateAlarm.TabIndex = 10;
@@ -301,9 +301,9 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(40, 37);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 37);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(421, 258);
+            this.dataGridView1.Size = new System.Drawing.Size(597, 258);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView1.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridView1_DataBindingComplete);
@@ -315,7 +315,7 @@
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column2525});
             this.dataGridView2.DataSource = this.dataSet1;
-            this.dataGridView2.Location = new System.Drawing.Point(592, 59);
+            this.dataGridView2.Location = new System.Drawing.Point(41, 427);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.Size = new System.Drawing.Size(206, 139);
             this.dataGridView2.TabIndex = 1;
@@ -396,7 +396,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(806, 572);
+            this.ClientSize = new System.Drawing.Size(737, 572);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.cbNoDoubleEntry);
             this.Controls.Add(this.btnSave);

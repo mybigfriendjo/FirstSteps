@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -161,6 +162,82 @@ namespace Alarm {
             }
         }
 
+        //Var Mon (Cell 12)
+        private bool _Mon;
+        public bool Mon {
+            get { return _Mon; }
+            set {
+                _Mon = value;
+                cbASMon.Checked = value;
+            }
+        }
+
+        //Var Tue (Cell 13)
+        private bool _Tue;
+        public bool Tue {
+            get { return _Tue; }
+            set {
+                _Tue = value;
+                cbASTue.Checked = value;
+            }
+        }
+        //Var Wed (Cell 14)
+        private bool _Wed;
+        public bool Wed {
+            get { return _Wed; }
+            set {
+                _Wed = value;
+                cbASWed.Checked = value;
+            }
+        }
+        //Var Thu (Cell 15)
+        private bool _Thu;
+        public bool Thu {
+            get { return _Thu; }
+            set {
+                _Thu = value;
+                cbASThu.Checked = value;
+            }
+        }
+        //Var Fri (Cell 16)
+        private bool _Fri;
+        public bool Fri {
+            get { return _Fri; }
+            set {
+                _Fri = value;
+                cbASFri.Checked = value;
+            }
+        }
+        //Var Sat (Cell 17)
+        private bool _Sat;
+        public bool Sat {
+            get { return _Sat; }
+            set {
+                _Sat = value;
+                cbASSat.Checked = value;
+            }
+        }
+        //Var Sun (Cell 18)
+        private bool _Sun;
+        public bool Sun {
+            get { return _Sun; }
+            set {
+                _Sun = value;
+                cbASSun.Checked = value;
+            }
+        }
+        //Var Repeat (Cell 19)
+        private bool _Repeat;
+        public bool Repeat {
+            get { return _Repeat; }
+            set {
+                _Repeat = value;
+                cbASRepeat.Checked = value;
+            }
+        }
+
+
+
         public AlarmSettings(Alarm alarmWindow) {
             if (isOpen) {
                 return;
@@ -247,6 +324,7 @@ namespace Alarm {
             }
         }
 
+        //Youtube
         private void btnASYoutube_Click(object sender, EventArgs e) {
             if (tbASYoutubePath.Text != null && tbASYoutubePath.Text != "") {
                 Process.Start(@tbASYoutubePath.Text);
@@ -256,6 +334,7 @@ namespace Alarm {
             }
         }
 
+        //ProgramPath
         private void btnASstartProgram_Click(object sender, EventArgs e) {
             if (tbASProgPath.Text != null && tbASProgPath.Text != "") {
                 Process.Start(@tbASProgPath.Text);
@@ -265,12 +344,49 @@ namespace Alarm {
                 DialogResult result = ChooseFile.ShowDialog();
                 if (result == DialogResult.OK) // Test result.
                 {
-                    //tbASProgPath.Text = ChooseFile
+                    tbASProgPath.Text = ChooseFile.InitialDirectory + ChooseFile.FileName;
                 }
                 else {
                     //Console.WriteLine(result); // <-- For debugging use.
                 }
-                
+            }
+        }
+
+        //Soundfile
+        private void btbASFileDialog_MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
+                if (tbASFilePath.Text != null && tbASFilePath.Text != "") {
+                    axWindowsMediaPlayerSoundFile.URL = tbASFilePath.Text;
+                    axWindowsMediaPlayerSoundFile.Visible = false;
+                    axWindowsMediaPlayerSoundFile.settings.setMode("loop", false);
+                    //System.Threading.Thread.Sleep(2000);
+
+                    //axWindowsMediaPlayerSoundFile.Ctlcontrols.play();
+                    //axWindowsMediaPlayerSoundFile.Ctlcontrols.stop();
+                    //axWindowsMediaPlayerSoundFile.settings.volume = 100; // 0 = kein Ton, 100 = volle Lautstärke
+                }
+                else {
+                    OpenFileDialog ChooseFile = new OpenFileDialog();
+                    DialogResult result = ChooseFile.ShowDialog();
+                    if (result == DialogResult.OK) // Test result.
+                    {
+                        tbASFilePath.Text = ChooseFile.InitialDirectory + ChooseFile.FileName;
+                    }
+                    else {
+                        //Console.WriteLine(result); // <-- For debugging use.
+                    }
+                }
+            }
+            else { //mouse rightclick
+                //contextMenuStripFileDialog.Text = "Select File";
+                //contextMenuStripFileDialog.Show(Cursor.Position);
+
+                OpenFileDialog ChooseFile = new OpenFileDialog();
+                DialogResult result = ChooseFile.ShowDialog();
+                if (result == DialogResult.OK) // Test result.
+                {
+                    tbASFilePath.Text = ChooseFile.InitialDirectory + ChooseFile.FileName;
+                }
             }
         }
     }
