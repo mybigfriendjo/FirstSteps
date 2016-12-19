@@ -262,6 +262,8 @@ namespace Alarm {
             System.Windows.Forms.ToolTip ToolTiptbASFilePath = new System.Windows.Forms.ToolTip();
             System.Windows.Forms.ToolTip ToolTipcbASAlarmSound = new System.Windows.Forms.ToolTip();
             System.Windows.Forms.ToolTip ToolTiptbASNote = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip ToolTipcbAlarmActive = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip ToolTiplblASHelp = new System.Windows.Forms.ToolTip();
             ToolTipdtASDate.SetToolTip(dtASDate, "Please insert your Note that should be attatched to the Alarm.");
             ToolTipnumASHour.SetToolTip(numASHour, "Here you can Set the Alarm hour.");
             ToolTipnumASMin.SetToolTip(numASMin, "Here you can Set the Alarm minute.");
@@ -269,6 +271,11 @@ namespace Alarm {
             ToolTiptbASFilePath.SetToolTip(tbASFilePath, "Please insert your Note that should be attatched to the Alarm.");
             ToolTipcbASAlarmSound.SetToolTip(combASAlarmSound, "Please insert your Note that should be attatched to the Alarm.");
             ToolTiptbASNote.SetToolTip(tbASNote, "Please insert your Note that should be attatched to the Alarm.");
+            ToolTipcbAlarmActive.SetToolTip(cbASActive, "Alarm will be triggered in the following cases: \n\n -Alarm Checkbox is checked\n\n    -a day checkbox is checked (makes Date field inactive)\n    -a day checkbox is checked AND the repeat checkbox as well (makes Date field inactive) \n    -no day checkbox is checked (makes Date field active) - and the Date+Time is in the future");
+            ToolTipcbAlarmActive.AutoPopDelay = 20000;
+            ToolTiplblASHelp.SetToolTip(lblASHelp, "Alarm will be triggered in the following cases: \n\n -Alarm Checkbox is checked\n\n    -a day checkbox is checked (makes Date field inactive)\n    -a day checkbox is checked AND the repeat checkbox as well (makes Date field inactive) \n    -no day checkbox is checked (makes Date field active) - and the Date+Time is in the future");
+            ToolTiplblASHelp.AutoPopDelay = 20000;
+            ToolTiplblASHelp.InitialDelay = 100;
         }
 
         //Var VarList

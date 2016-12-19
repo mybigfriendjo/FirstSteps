@@ -63,6 +63,22 @@ namespace Alarm {
             ColYoutubePath.DefaultValue = "";
             DataColumn ColAlarmSound = ADT.Columns.Add("AlarmSound");
             ColAlarmSound.DefaultValue = "Applause";
+            DataColumn ColMon = ADT.Columns.Add("Mon", typeof(bool));
+            ColMon.DefaultValue = false;
+            DataColumn ColTue = ADT.Columns.Add("Tue", typeof(bool));
+            ColTue.DefaultValue = false;
+            DataColumn ColWed = ADT.Columns.Add("Wed", typeof(bool));
+            ColWed.DefaultValue = false;
+            DataColumn ColThu = ADT.Columns.Add("Thu", typeof(bool));
+            ColThu.DefaultValue = false;
+            DataColumn ColFri = ADT.Columns.Add("Fri", typeof(bool));
+            ColFri.DefaultValue = false;
+            DataColumn ColSat = ADT.Columns.Add("Sat", typeof(bool));
+            ColSat.DefaultValue = false;
+            DataColumn ColSun = ADT.Columns.Add("Sun", typeof(bool));
+            ColSun.DefaultValue = false;
+            DataColumn ColRepeat = ADT.Columns.Add("Repeat", typeof(bool));
+            ColRepeat.DefaultValue = false;
             //ColID.Unique = true;
             //DataColumn DCbool = new DataColumn("AActive",typeof(bool));
             //ADT.Columns.Add(DCbool);
@@ -210,14 +226,93 @@ namespace Alarm {
 
         void tTick(object sender, EventArgs e) {
             Console.Write("tick");
-            //var CountdownChecked = Container.Co
-            if (cbCountdown.Checked && AlarmActive && CountdownChecked == 1) {
-                if (DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") == lblCountdownTime.Text) { //Format = "02.09.2016 15:29"    
-                    StopFlash = Convert.ToDateTime(lblCountdownTime.Text);
-                    StopFlash = StopFlash.AddSeconds(15);
-                    MessageBox.Show(" U da CountdownMan");
+
+            foreach (DataGridViewRow Row in dataGridView1.Rows) {
+                if(Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[3].Value)) {
+                    //MessageBox.Show("Alarm on for Row: " + Row.Index);
+                    string CurrentAlarmDate = dataGridView1.Rows[Row.Index].Cells[0].Value.ToString()+ " " + dataGridView1.Rows[Row.Index].Cells[1].Value.ToString() + ":" + dataGridView1.Rows[Row.Index].Cells[2].Value.ToString() + ":00";
+                    String CurrentTime = string.Format("{0:dd.MM.yyyy HH:mm}", DateTime.Now.ToString());
+                    if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[12].Value) == false &&
+                        Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[13].Value) == false &&
+                        Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[14].Value) == false &&
+                        Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[15].Value) == false &&
+                        Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[16].Value) == false &&
+                        Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[17].Value) == false &&
+                        Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[18].Value) == false) {
+                            //if Alarm Active and all Days are inactive.
+                            dataGridView1.Rows[Row.Index].Cells[3].Value = false; //deaktivate Alarm
+                            //AlarmGoesOff
+                    }
+                    else if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[19].Value) == true) {
+                        //At least one Day is active - repeat is on as well
+                        //AlarmGoesOff
+                    }
+                    else {
+                        //At least on Day is active - repeat is not
+                        string currentday = DateTime.Now.DayOfWeek.ToString();
+                        
+                        if (currentday == "monday") {
+                            if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[12].Value) == true){
+                                dataGridView1.Rows[Row.Index].Cells[12].Value = false; //Deaktivates cbMon
+                            }
+                        }
+                        else if (currentday == "tuesday") {
+                            if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[13].Value) == true) {
+                                dataGridView1.Rows[Row.Index].Cells[13].Value = false;
+                            }
+                        }
+                        else if (currentday == "wednesday") {
+                            if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[14].Value) == true) {
+                                dataGridView1.Rows[Row.Index].Cells[14].Value = false;
+                            }
+                        }
+                        else if (currentday == "thursday") {
+                            if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[15].Value) == true) {
+                                dataGridView1.Rows[Row.Index].Cells[15].Value = false;
+                            }
+                        }
+                        else if (currentday == "friday") {
+                            if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[16].Value) == true) {
+                                dataGridView1.Rows[Row.Index].Cells[16].Value = false;
+                            }
+                        }
+                        else if (currentday == "saturday") {
+                            if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[17].Value) == true) {
+                                dataGridView1.Rows[Row.Index].Cells[17].Value = false;
+                            }
+                        }
+                        else if (currentday == "sunday") {
+                            if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[18].Value) == true) {
+                                dataGridView1.Rows[Row.Index].Cells[18].Value = false;
+                            }
+                        }
+                    }
                 }
             }
+
+            // Flash
+            // ADD CountDownActive Field
+            // AlarmGoesOFF
+
+
+
+            //if (DateTime.Now > StopFlash.AddSeconds(2)) {
+            //    //Hide all BoarderForms
+            //    FrmBottm.Hide();
+            //    FrmLeft.Hide();
+            //    FrmRight.Hide();
+            //    FrmTop.Hide();
+            //}
+            // <<<<<< OLD >>>>>>>
+            //var CountdownChecked = Container.Co
+            //if (cbCountdown.Checked && AlarmActive && CountdownChecked == 1) {
+            //    if (DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") == lblCountdownTime.Text) { //Format = "02.09.2016 15:29"    
+            //        StopFlash = Convert.ToDateTime(lblCountdownTime.Text);
+            //        StopFlash = StopFlash.AddSeconds(15);
+            //        MessageBox.Show(" U da CountdownMan");
+            //    }
+            //}
+
             //string TodaysDate = DateTime.Now.ToString("dd.MM.yyyy"); //As long as there is no DateField includet or it is NULL
             //string AlarmValue = TodaysDate + " " + numAlarmHour.Value.ToString("00") + ":" + numAlarmMin.Value.ToString("00") + ":00";
             //string CountdownValue = TodaysDate + " " + numCountdownHour.Value.ToString("00") + ":" + numCountdownMin.Value.ToString("00") + ":00";
@@ -233,19 +328,12 @@ namespace Alarm {
             //if (cbAlarm.Checked && cbFlashscreen.Checked && DateTime.Now < StopFlash && AlarmActive && ( DateTime.Now > Convert.ToDateTime(AlarmValue))) { //If Time is between Alarm and Stopflash(Alarm +15sec)
             //    FrameFlash(null, null);
             //}
-            //Countdown went off - FlashScreen Activated
-            if (lblCountdownTime.Text != "") {
-                if (cbCountdown.Checked && cbFlashscreen.Checked && DateTime.Now < StopFlash && AlarmActive && (DateTime.Now > Convert.ToDateTime(lblCountdownTime.Text))) { //If Time is between Countdown and Stopflash(Alarm +15sec)
-                    FrameFlash(null, null);
-                }
-            }
-            if (DateTime.Now > StopFlash.AddSeconds(2)) {
-                //Hide all BoarderForms
-                FrmBottm.Hide();
-                FrmLeft.Hide();
-                FrmRight.Hide();
-                FrmTop.Hide();
-            }
+            ////Countdown went off - FlashScreen Activated
+            //if (lblCountdownTime.Text != "") {
+            //    if (cbCountdown.Checked && cbFlashscreen.Checked && DateTime.Now < StopFlash && AlarmActive && (DateTime.Now > Convert.ToDateTime(lblCountdownTime.Text))) { //If Time is between Countdown and Stopflash(Alarm +15sec)
+            //        FrameFlash(null, null);
+            //    }
+            //}
         }
 
         //private void cbAlarm_CheckedChanged(object sender, EventArgs e) {
@@ -536,21 +624,6 @@ namespace Alarm {
             }
             AlarmSettingsGui.Show();
 
-
-            ////MASSASSIGNEMENT
-            ////Fill VarList
-            //AlarmSettingsGui.CellCnt = dataGridView1.Rows[e.RowIndex].Cells.Count;
-            //int i = 0;
-            //while (dataGridView1.Rows[e.RowIndex].Cells.Count > i) {
-            //    string VarValue = dataGridView1.Rows[e.RowIndex].Cells[i].Value.ToString();
-            //    i++;
-            //    if (VarValue != null && VarValue != "") {
-            //        AlarmSettingsGui.VarList.Items.Add(VarValue);
-            //    }
-            //}
-             
-
-
             ///
             // Manuel way to Set up a Form + Controls
             ///
@@ -575,22 +648,25 @@ namespace Alarm {
 
         //TODO
         /*
-        SoundPath
-        YoutubePath
+        
         config/registry -> save Properties.Settings.Default.Save();
         Activate Alarm/Countdown Button
-        start programm @ Alarm
         option -> raidobutton -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
         ~~~doubleclick List Entry -> activate Alarm and set hour/min/note
         Change List into a List Containing Alarm + chkbox, days, + upcomming alarms for example: http://freealarmclocksoftware.com/images/alarmclock.png
         Warning - if Alarm/countdown changed while active -> MsgBox -> reload Alarm|keep active Alarm and changes|cancel changes
         repeat alarm - else deaktivate it after it was triggered
         Seperate Stopflash for Alarm and Counter else it will get overwritten if both are active(still works though)
-        **Code to get amount of Variables(Columns in Rows) still needs to be written.
-        **Code to get variable Type to set Fields in AlarmSettings Form as well
+        Method that will be triggered when AlarmGoesOff
+        Check for double entries on OK button
 
 
         Changelog
+
+        +Added AlarmtriggerConcept (explained in tooltips on AlarmSettings Form)
+        +Inclueds a Repeat Alarm function now if a Weekday is choosen (not working with a Date)
+        +Current Date and Time (Hr+Min) does now get returned correctly
+
 
         +Day and Repeat checkbox values do now get stored in DB
         +Playing SoundFile will work with otherFiles then wav as well.

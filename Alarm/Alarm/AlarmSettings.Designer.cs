@@ -59,6 +59,7 @@
             this.cbASSat = new System.Windows.Forms.CheckBox();
             this.cbASSun = new System.Windows.Forms.CheckBox();
             this.cbASRepeat = new System.Windows.Forms.CheckBox();
+            this.lblASHelp = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numASHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numASMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
@@ -386,11 +387,21 @@
             this.cbASRepeat.Text = "Repeat every Week";
             this.cbASRepeat.UseVisualStyleBackColor = true;
             // 
+            // lblASHelp
+            // 
+            this.lblASHelp.AutoSize = true;
+            this.lblASHelp.Location = new System.Drawing.Point(110, 13);
+            this.lblASHelp.Name = "lblASHelp";
+            this.lblASHelp.Size = new System.Drawing.Size(52, 13);
+            this.lblASHelp.TabIndex = 34;
+            this.lblASHelp.Text = "\"HowTo\"";
+            // 
             // AlarmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 296);
+            this.Controls.Add(this.lblASHelp);
             this.Controls.Add(this.cbASRepeat);
             this.Controls.Add(this.cbASSun);
             this.Controls.Add(this.cbASSat);
@@ -424,7 +435,6 @@
             this.Controls.Add(this.tbASNote);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AlarmSettings";
-            this.Text = "Alarm Settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AlarmSettings_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.numASHour)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numASMin)).EndInit();
@@ -472,5 +482,6 @@
         private System.Windows.Forms.CheckBox cbASWed;
         private System.Windows.Forms.CheckBox cbASTue;
         private System.Windows.Forms.CheckBox cbASMon;
+        private System.Windows.Forms.Label lblASHelp;
     }
 }
