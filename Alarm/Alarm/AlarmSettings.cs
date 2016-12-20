@@ -32,16 +32,6 @@ namespace Alarm {
                 _LastRowIndex = value;
             }
         }
-        //AlarmSettingsGui.Date;
-        //AlarmSettingsGui.Hour", typeof(int));
-        //AlarmSettingsGui.Minute", typeof(int));
-        //AlarmSettingsGui.AlarmActive", typeof(bool));
-        //AlarmSettingsGui.Note = dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString();
-        //AlarmSettingsGui.ProgPathActiv", typeof(bool));
-        //AlarmSettingsGui.ProgPath; //Path to start Programm
-        //AlarmSettingsGui.SoundActive", typeof(bool));
-        //AlarmSettingsGui.SoundSource; //Radiobtn "ringtone", "soundfile", "youtube"
-        //AlarmSettingsGui.ID;
 
         //Var Notification (Cell 0)
         private string _Date;
@@ -232,10 +222,34 @@ namespace Alarm {
             get { return _Repeat; }
             set {
                 _Repeat = value;
-                cbASRepeat.Checked = value;
+                if (cbASOverwrite.Checked == false) {
+                    cbASRepeat.Checked = value;
+                }
             }
         }
 
+
+        //Var Repeat (Cell 20)
+        private bool _Flash;
+        public bool Flash {
+            get { return _Flash; }
+            set {
+                _Flash = value;
+                if (cbASOverwrite.Checked == false) {
+                    cbASFlash.Checked = value;
+                }
+            }
+        }
+
+        //Var Repeat (Cell 21)
+        private bool _Shutdown;
+        public bool Shutdown {
+            get { return _Shutdown; }
+            set {
+                _Shutdown = value;
+                cbASShutdown.Checked = value;
+            }
+        }
 
 
         public AlarmSettings(Alarm alarmWindow) {
@@ -244,15 +258,11 @@ namespace Alarm {
             }
             InitializeComponent();
 
+
+            cbASFlash.Enabled = false;
+            cbASShutdown.Enabled = false;
             isOpen = true;
             mainWindow = alarmWindow;
-
-            ////Create Amount of X Variables
-            //int i = 0;
-            //while (CellCnt >= i) {
-            //    i++;
-            //    string currentName = "Var" + i.ToString();
-            //}
 
             //Tooltips
             System.Windows.Forms.ToolTip ToolTipdtASDate = new System.Windows.Forms.ToolTip();
@@ -264,6 +274,7 @@ namespace Alarm {
             System.Windows.Forms.ToolTip ToolTiptbASNote = new System.Windows.Forms.ToolTip();
             System.Windows.Forms.ToolTip ToolTipcbAlarmActive = new System.Windows.Forms.ToolTip();
             System.Windows.Forms.ToolTip ToolTiplblASHelp = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip ToolTipcbASRepeat = new System.Windows.Forms.ToolTip();
             ToolTipdtASDate.SetToolTip(dtASDate, "Please insert your Note that should be attatched to the Alarm.");
             ToolTipnumASHour.SetToolTip(numASHour, "Here you can Set the Alarm hour.");
             ToolTipnumASMin.SetToolTip(numASMin, "Here you can Set the Alarm minute.");
@@ -276,17 +287,8 @@ namespace Alarm {
             ToolTiplblASHelp.SetToolTip(lblASHelp, "Alarm will be triggered in the following cases: \n\n -Alarm Checkbox is checked\n\n    -a day checkbox is checked (makes Date field inactive)\n    -a day checkbox is checked AND the repeat checkbox as well (makes Date field inactive) \n    -no day checkbox is checked (makes Date field active) - and the Date+Time is in the future");
             ToolTiplblASHelp.AutoPopDelay = 20000;
             ToolTiplblASHelp.InitialDelay = 100;
+            ToolTipcbASRepeat.SetToolTip(cbASRepeat, "Attention! Repeat function is only working if a Day is selected\nDate won't be affected by the option.");
         }
-
-        //Var VarList
-        //private List<string> _VarList;
-        //private ListBox _VarList;
-        //public ListBox VarList {
-        //    get { return _VarList; }
-        //    set {
-        //        _VarList = value;
-        //    }
-        //}
 
         private void btnASOk_Click(object sender, EventArgs e) {
             Date = string.Format ("{0:dd.MM.yyyy}", dtASDate.Value.ToShortDateString());
@@ -314,17 +316,14 @@ namespace Alarm {
         private void btnASRingtone_Click(object sender, EventArgs e) {
             if (combASAlarmSound.SelectedItem != null) {
                 if (combASAlarmSound.SelectedItem.ToString() == "Phonering") {
-                    //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Temp\alert1.wav"); //@ means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
-                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\calleering.wav");
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\calleering.wav"); //@ means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
                     player.Play();
                 }
                 else if (combASAlarmSound.SelectedItem.ToString() == "Applause") {
-                    //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Temp\alert2.wav");
                     System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\APPLAUSE.WAV");
                     player.Play();
                 }
                 else if (combASAlarmSound.SelectedItem.ToString() == "Callring") {
-                    //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Temp\alert3.wav");
                     System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\ELPHRG01.WAV");
                     player.Play();
                 }
@@ -394,6 +393,13 @@ namespace Alarm {
                 {
                     tbASFilePath.Text = ChooseFile.InitialDirectory + ChooseFile.FileName;
                 }
+            }
+        }
+
+        private void cbASOverwrite_CheckedChanged(object sender, EventArgs e) {
+            if (cbASOverwrite.Checked) {
+                cbASFlash.Enabled = true;
+                cbASShutdown.Enabled = true;
             }
         }
     }

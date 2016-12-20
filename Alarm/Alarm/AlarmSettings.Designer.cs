@@ -60,6 +60,7 @@
             this.cbASSun = new System.Windows.Forms.CheckBox();
             this.cbASRepeat = new System.Windows.Forms.CheckBox();
             this.lblASHelp = new System.Windows.Forms.Label();
+            this.cbASOverwrite = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numASHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numASMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
@@ -69,10 +70,10 @@
             // 
             // tbASNote
             // 
-            this.tbASNote.Location = new System.Drawing.Point(45, 206);
+            this.tbASNote.Location = new System.Drawing.Point(50, 200);
             this.tbASNote.Multiline = true;
             this.tbASNote.Name = "tbASNote";
-            this.tbASNote.Size = new System.Drawing.Size(350, 85);
+            this.tbASNote.Size = new System.Drawing.Size(350, 89);
             this.tbASNote.TabIndex = 0;
             // 
             // tbASYoutubePath
@@ -102,7 +103,7 @@
             // lblASNote
             // 
             this.lblASNote.AutoSize = true;
-            this.lblASNote.Location = new System.Drawing.Point(6, 206);
+            this.lblASNote.Location = new System.Drawing.Point(9, 200);
             this.lblASNote.Name = "lblASNote";
             this.lblASNote.Size = new System.Drawing.Size(33, 13);
             this.lblASNote.TabIndex = 4;
@@ -111,7 +112,7 @@
             // cbASFlash
             // 
             this.cbASFlash.AutoSize = true;
-            this.cbASFlash.Location = new System.Drawing.Point(423, 206);
+            this.cbASFlash.Location = new System.Drawing.Point(423, 222);
             this.cbASFlash.Name = "cbASFlash";
             this.cbASFlash.Size = new System.Drawing.Size(88, 17);
             this.cbASFlash.TabIndex = 5;
@@ -121,7 +122,7 @@
             // cbASShutdown
             // 
             this.cbASShutdown.AutoSize = true;
-            this.cbASShutdown.Location = new System.Drawing.Point(423, 229);
+            this.cbASShutdown.Location = new System.Drawing.Point(423, 245);
             this.cbASShutdown.Name = "cbASShutdown";
             this.cbASShutdown.Size = new System.Drawing.Size(77, 17);
             this.cbASShutdown.TabIndex = 6;
@@ -298,10 +299,10 @@
             // axWindowsMediaPlayerSoundFile
             // 
             this.axWindowsMediaPlayerSoundFile.Enabled = true;
-            this.axWindowsMediaPlayerSoundFile.Location = new System.Drawing.Point(401, 258);
+            this.axWindowsMediaPlayerSoundFile.Location = new System.Drawing.Point(8, 266);
             this.axWindowsMediaPlayerSoundFile.Name = "axWindowsMediaPlayerSoundFile";
             this.axWindowsMediaPlayerSoundFile.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayerSoundFile.OcxState")));
-            this.axWindowsMediaPlayerSoundFile.Size = new System.Drawing.Size(40, 33);
+            this.axWindowsMediaPlayerSoundFile.Size = new System.Drawing.Size(21, 21);
             this.axWindowsMediaPlayerSoundFile.TabIndex = 23;
             this.axWindowsMediaPlayerSoundFile.Visible = false;
             // 
@@ -396,11 +397,23 @@
             this.lblASHelp.TabIndex = 34;
             this.lblASHelp.Text = "\"HowTo\"";
             // 
+            // cbASOverwrite
+            // 
+            this.cbASOverwrite.AutoSize = true;
+            this.cbASOverwrite.Location = new System.Drawing.Point(407, 199);
+            this.cbASOverwrite.Name = "cbASOverwrite";
+            this.cbASOverwrite.Size = new System.Drawing.Size(112, 17);
+            this.cbASOverwrite.TabIndex = 35;
+            this.cbASOverwrite.Text = "Overwrite Settings";
+            this.cbASOverwrite.UseVisualStyleBackColor = true;
+            this.cbASOverwrite.CheckedChanged += new System.EventHandler(this.cbASOverwrite_CheckedChanged);
+            // 
             // AlarmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 296);
+            this.Controls.Add(this.cbASOverwrite);
             this.Controls.Add(this.lblASHelp);
             this.Controls.Add(this.cbASRepeat);
             this.Controls.Add(this.cbASSun);
@@ -483,5 +496,6 @@
         private System.Windows.Forms.CheckBox cbASTue;
         private System.Windows.Forms.CheckBox cbASMon;
         private System.Windows.Forms.Label lblASHelp;
+        private System.Windows.Forms.CheckBox cbASOverwrite;
     }
 }

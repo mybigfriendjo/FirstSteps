@@ -79,6 +79,10 @@ namespace Alarm {
             ColSun.DefaultValue = false;
             DataColumn ColRepeat = ADT.Columns.Add("Repeat", typeof(bool));
             ColRepeat.DefaultValue = false;
+            DataColumn ColFlash = ADT.Columns.Add("Flash", typeof(bool));
+            ColFlash.DefaultValue = false;
+            DataColumn ColShutdown = ADT.Columns.Add("Shutdown", typeof(bool));
+            ColShutdown.DefaultValue = false;
             //ColID.Unique = true;
             //DataColumn DCbool = new DataColumn("AActive",typeof(bool));
             //ADT.Columns.Add(DCbool);
@@ -112,6 +116,8 @@ namespace Alarm {
                     RowName["Sat"] = Row["Sat"];
                     RowName["Sun"] = Row["Sun"];
                     RowName["Repeat"] = Row["Repeat"];
+                    RowName["Flash"] = Row["Flash"];
+                    RowName["Shutdown"] = Row["Shutdown"];
 
                     ADT.Rows.Add(RowName);
                 }
@@ -135,6 +141,8 @@ namespace Alarm {
                 ADR["Sat"] = false;
                 ADR["Sun"] = false;
                 ADR["Repeat"] = false;
+                ADR["Flash"] = false;
+                ADR["Shutdown"] = false;
 
 
                 ADT.Rows.Add(ADR);
@@ -146,7 +154,7 @@ namespace Alarm {
             //dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             //dataGridView1.DataBindingComplete = 
 
-            dataGridView2.DataSource = dataSet1.Tables[0];
+            //dataGridView2.DataSource = dataSet1.Tables[0];
 
 
             //Tooltips - if it would be bound to an Event like MouseEnter it would show up every few millisec
@@ -228,10 +236,13 @@ namespace Alarm {
             Console.Write("tick");
 
             foreach (DataGridViewRow Row in dataGridView1.Rows) {
-                if(Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[3].Value)) {
-                    //MessageBox.Show("Alarm on for Row: " + Row.Index);
+                if(Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[3].Value)) { 
+                    //If AlarmActive = 1
                     string CurrentAlarmDate = dataGridView1.Rows[Row.Index].Cells[0].Value.ToString()+ " " + dataGridView1.Rows[Row.Index].Cells[1].Value.ToString() + ":" + dataGridView1.Rows[Row.Index].Cells[2].Value.ToString() + ":00";
-                    String CurrentTime = string.Format("{0:dd.MM.yyyy HH:mm}", DateTime.Now.ToString());
+                    string CurrentTime = string.Format("{0:dd.MM.yyyy HH:mm}", DateTime.Now.ToString());
+                    //CurrentTime = CurrentTime.Remove(16, 3);
+                    string currentday = DateTime.Now.DayOfWeek.ToString();
+                    string DateString = string.Format("{0:dd.MM.yyyy}", DateTime.Now.ToString());
                     if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[12].Value) == false &&
                         Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[13].Value) == false &&
                         Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[14].Value) == false &&
@@ -239,51 +250,99 @@ namespace Alarm {
                         Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[16].Value) == false &&
                         Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[17].Value) == false &&
                         Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[18].Value) == false) {
-                            //if Alarm Active and all Days are inactive.
+                        //if Alarm Active and all Days are inactive.
+                        if (MergeAlarm("DateTime", dataGridView1.Rows[Row.Index].Cells[0].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()) == CurrentTime) {
                             dataGridView1.Rows[Row.Index].Cells[3].Value = false; //deaktivate Alarm
-                            //AlarmGoesOff
+                            AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                        }
                     }
                     else if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[19].Value) == true) {
                         //At least one Day is active - repeat is on as well
-                        //AlarmGoesOff
+                        //if (MergeAlarm("Repeat", string.Format("{0:dd.MM.yyyy}", DateTime.Now.ToString()), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()) == CurrentTime){
+                        //string AlarmDateTime = string.Format("{0:dd.MM.yyyy}", DateTime.Now.ToString());
+                        //AlarmDateTime = AlarmDateTime.Remove(10, 9) + ;
+                        if (MergeAlarm("Repeat", string.Format("{0:dd.MM.yyyy}", DateTime.Now.ToString()), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()) == CurrentTime) {
+                            if (currentday == "Monday") {
+                                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[12].Value) == true) {
+                                    AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                                }
+                            }
+                            else if (currentday == "Tuesday") {
+                                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[13].Value) == true) {
+                                    AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                                }
+                            }
+                            else if (currentday == "Wednesday") {
+                                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[14].Value) == true) {
+                                    AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                                }
+                            }
+                            else if (currentday == "Thursday") {
+                                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[15].Value) == true) {
+                                    AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                                }
+                            }
+                            else if (currentday == "Friday") {
+                                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[16].Value) == true) {
+                                    AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                                }
+                            }
+                            else if (currentday == "Saturday") {
+                                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[17].Value) == true) {
+                                    AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                                }
+                            }
+                            else if (currentday == "Sunday") {
+                                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[18].Value) == true) {
+                                    AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                                }
+                            }
+                        }
                     }
                     else {
                         //At least on Day is active - repeat is not
-                        string currentday = DateTime.Now.DayOfWeek.ToString();
-                        
-                        if (currentday == "monday") {
-                            if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[12].Value) == true){
-                                dataGridView1.Rows[Row.Index].Cells[12].Value = false; //Deaktivates cbMon
+                        if (MergeAlarm("NoRepeat", DateString, dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()) == CurrentTime) {
+                            if (currentday == "Monday") {
+                                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[12].Value) == true) {
+                                    dataGridView1.Rows[Row.Index].Cells[12].Value = false; //Deaktivates cbMon
+                                    AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                                }
                             }
-                        }
-                        else if (currentday == "tuesday") {
-                            if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[13].Value) == true) {
-                                dataGridView1.Rows[Row.Index].Cells[13].Value = false;
+                            else if (currentday == "Tuesday") {
+                                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[13].Value) == true) {
+                                    dataGridView1.Rows[Row.Index].Cells[13].Value = false;
+                                    AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                                }
                             }
-                        }
-                        else if (currentday == "wednesday") {
-                            if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[14].Value) == true) {
-                                dataGridView1.Rows[Row.Index].Cells[14].Value = false;
+                            else if (currentday == "Wednesday") {
+                                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[14].Value) == true) {
+                                    dataGridView1.Rows[Row.Index].Cells[14].Value = false;
+                                    AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                                }
                             }
-                        }
-                        else if (currentday == "thursday") {
-                            if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[15].Value) == true) {
-                                dataGridView1.Rows[Row.Index].Cells[15].Value = false;
+                            else if (currentday == "Thursday") {
+                                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[15].Value) == true) {
+                                    dataGridView1.Rows[Row.Index].Cells[15].Value = false;
+                                    AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                                }
                             }
-                        }
-                        else if (currentday == "friday") {
-                            if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[16].Value) == true) {
-                                dataGridView1.Rows[Row.Index].Cells[16].Value = false;
+                            else if (currentday == "Friday") {
+                                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[16].Value) == true) {
+                                    dataGridView1.Rows[Row.Index].Cells[16].Value = false;
+                                    AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                                }
                             }
-                        }
-                        else if (currentday == "saturday") {
-                            if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[17].Value) == true) {
-                                dataGridView1.Rows[Row.Index].Cells[17].Value = false;
+                            else if (currentday == "Saturday") {
+                                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[17].Value) == true) {
+                                    dataGridView1.Rows[Row.Index].Cells[17].Value = false;
+                                    AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                                }
                             }
-                        }
-                        else if (currentday == "sunday") {
-                            if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[18].Value) == true) {
-                                dataGridView1.Rows[Row.Index].Cells[18].Value = false;
+                            else if (currentday == "Sunday") {
+                                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[18].Value) == true) {
+                                    dataGridView1.Rows[Row.Index].Cells[18].Value = false;
+                                    AlarmGoesOff("Alarm", null, currentday, Row.Index);
+                                }
                             }
                         }
                     }
@@ -335,6 +394,37 @@ namespace Alarm {
             //    }
             //}
         }
+        private string MergeAlarm (string source, string DateDay, string Hour, string Minute) {
+            string AlarmTime = "";
+            if (source == "DateTime") {
+                AlarmTime = DateDay + " " + Hour + ":" + Minute + ":00";
+            }
+            else if (source == "Repeat") {
+                AlarmTime = DateDay.Remove(10, 9) + " " + Hour + ":" + Minute + ":00";
+            }
+            else if (source == "NoRepeat") {
+                AlarmTime = DateDay.Remove(10, 9) + " " + Hour + ":" + Minute + ":00";
+            }
+            return AlarmTime;
+        }
+
+        private void AlarmGoesOff (string sender, EventArgs e, string day, int index) {
+            if (sender ==  "Alarm") {
+                MessageBox.Show("sender: " + sender.ToString() + "\n Day: " + day + "\n Index: " + index);
+                if ()
+                    if (Convert.ToBoolean(dataGridView1.Rows[index].Cells[20].Value)) {
+                        //If Flash is activated
+                        FrameFlash(null, null);
+                    }
+                    if (Convert.ToBoolean(dataGridView1.Rows[index].Cells[21].Value)) {
+                        //If Shutdown is activated
+
+                    }
+            }
+            else { //sender == "Countdown"
+
+            }
+        }
 
         //private void cbAlarm_CheckedChanged(object sender, EventArgs e) {
         //    if (cbAlarm.Checked) {
@@ -357,7 +447,6 @@ namespace Alarm {
             else {
                 panelCountdown.Enabled = false;
             }
-
         }
 
         private void btnDeleteAll_Click(object sender, EventArgs e) {
@@ -374,7 +463,6 @@ namespace Alarm {
         }
 
         //method HistoryListExport
-        //int cnt = 0;
         private void HistoryExport() {
             string HistoryListExport = "";
             foreach (string History in lbHistory.Items) {
@@ -501,27 +589,19 @@ namespace Alarm {
             if (dataGridView1.Rows[settings.LastRowIndex].Cells[3].Value != null) {
                 dataGridView1.Rows[settings.LastRowIndex].Cells[3].Value = settings.AlarmActive;
             }
-            //if (dataGridView1.Rows[settings.LastRowIndex].Cells[4].Value != null) {
-                dataGridView1.Rows[settings.LastRowIndex].Cells[4].Value = settings.Note;
-            //}
+            dataGridView1.Rows[settings.LastRowIndex].Cells[4].Value = settings.Note;
             if (dataGridView1.Rows[settings.LastRowIndex].Cells[5].Value != null) {
                 dataGridView1.Rows[settings.LastRowIndex].Cells[5].Value = settings.ProgPathActiv;
             }
-            //if (dataGridView1.Rows[settings.LastRowIndex].Cells[6].Value != null) {
-                dataGridView1.Rows[settings.LastRowIndex].Cells[6].Value = settings.ProgPath;
-            //}
+            dataGridView1.Rows[settings.LastRowIndex].Cells[6].Value = settings.ProgPath;
             if (dataGridView1.Rows[settings.LastRowIndex].Cells[7].Value != null) {
                 dataGridView1.Rows[settings.LastRowIndex].Cells[7].Value = settings.SoundActive;
             }
-            //if (dataGridView1.Rows[settings.LastRowIndex].Cells[8].Value != null) {
-                dataGridView1.Rows[settings.LastRowIndex].Cells[8].Value = settings.SoundSource;
-            //}
+            dataGridView1.Rows[settings.LastRowIndex].Cells[8].Value = settings.SoundSource;
             if (dataGridView1.Rows[settings.LastRowIndex].Cells[9].Value != null) {
                 dataGridView1.Rows[settings.LastRowIndex].Cells[9].Value = settings.ID;
             }
-            //if (dataGridView1.Rows[settings.LastRowIndex].Cells[10].Value != null) {
-                dataGridView1.Rows[settings.LastRowIndex].Cells[10].Value = settings.YoutubePath;
-            //}
+            dataGridView1.Rows[settings.LastRowIndex].Cells[10].Value = settings.YoutubePath;
             if (dataGridView1.Rows[settings.LastRowIndex].Cells[11].Value != null) {
                 dataGridView1.Rows[settings.LastRowIndex].Cells[11].Value = settings.AlarmSound;
             }
@@ -533,17 +613,8 @@ namespace Alarm {
             dataGridView1.Rows[settings.LastRowIndex].Cells[17].Value = settings.Sat;
             dataGridView1.Rows[settings.LastRowIndex].Cells[18].Value = settings.Sun;
             dataGridView1.Rows[settings.LastRowIndex].Cells[19].Value = settings.Repeat;
-
-
-            //AlarmSettingsGui.Hour = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString());
-            //AlarmSettingsGui.Minute = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString());
-            //AlarmSettingsGui.AlarmActive = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
-            //AlarmSettingsGui.Note = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
-            //AlarmSettingsGui.ProgPathActiv = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[5].Value);
-            //AlarmSettingsGui.ProgPath = dataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString(); //Path to start Programm
-            //AlarmSettingsGui.SoundActive = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[7].Value);
-            //AlarmSettingsGui.SoundSource = dataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString(); //Radiobtn "ringtone", "soundfile", "youtube"
-            //AlarmSettingsGui.ID = dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString();
+            dataGridView1.Rows[settings.LastRowIndex].Cells[20].Value = settings.Flash;
+            dataGridView1.Rows[settings.LastRowIndex].Cells[21].Value = settings.Shutdown;
 
             StringBuilder sb = new StringBuilder();
 
@@ -622,6 +693,12 @@ namespace Alarm {
             if (dataGridView1.Rows[e.RowIndex].Cells[19].Value != null) {
                 AlarmSettingsGui.Repeat = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[19].Value);
             }
+            if (dataGridView1.Rows[e.RowIndex].Cells[20].Value != null) {
+                AlarmSettingsGui.Flash = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[19].Value);
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[21].Value != null) {
+                AlarmSettingsGui.Shutdown = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[19].Value);
+            }
             AlarmSettingsGui.Show();
 
             ///
@@ -652,16 +729,23 @@ namespace Alarm {
         config/registry -> save Properties.Settings.Default.Save();
         Activate Alarm/Countdown Button
         option -> raidobutton -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
-        ~~~doubleclick List Entry -> activate Alarm and set hour/min/note
         Change List into a List Containing Alarm + chkbox, days, + upcomming alarms for example: http://freealarmclocksoftware.com/images/alarmclock.png
         Warning - if Alarm/countdown changed while active -> MsgBox -> reload Alarm|keep active Alarm and changes|cancel changes
         repeat alarm - else deaktivate it after it was triggered
         Seperate Stopflash for Alarm and Counter else it will get overwritten if both are active(still works though)
-        Method that will be triggered when AlarmGoesOff
         Check for double entries on OK button
+        Fix Flashtrigger
 
 
         Changelog
+
+        +flash and shutdown settings will now be loaded from Alarm
+        +Option to overwrite flash and shutdown for each alarm
+        +Method AlarmGoesOff added
+        +depending on how the alarm was configured the Date will be merged together in diffrent ways
+        +MergedTime does now get compared with current DateTime which does make the Alarmtrigger working again
+        +Added Flash Trigger for alarm - not correct yet!!
+
 
         +Added AlarmtriggerConcept (explained in tooltips on AlarmSettings Form)
         +Inclueds a Repeat Alarm function now if a Weekday is choosen (not working with a Date)
