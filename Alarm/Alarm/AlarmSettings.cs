@@ -251,6 +251,16 @@ namespace Alarm {
             }
         }
 
+        //Var Repeat (Cell 22)
+        private bool _Overwrite;
+        public bool Overwrite {
+            get { return _Overwrite; }
+            set {
+                _Overwrite = value;
+                cbASOverwrite.Checked = value;
+            }
+        }
+
 
         public AlarmSettings(Alarm alarmWindow) {
             if (isOpen) {
@@ -259,8 +269,8 @@ namespace Alarm {
             InitializeComponent();
 
 
-            cbASFlash.Enabled = false;
-            cbASShutdown.Enabled = false;
+            cbASFlash.Enabled = Flash;
+            cbASShutdown.Enabled = Shutdown;
             isOpen = true;
             mainWindow = alarmWindow;
 
@@ -293,7 +303,6 @@ namespace Alarm {
         private void btnASOk_Click(object sender, EventArgs e) {
             Date = string.Format ("{0:dd.MM.yyyy}", dtASDate.Value.ToShortDateString());
             Hour = string.Format("{0:00}", numASHour.Value);
-            //Minute = Convert.ToInt32(numASMin.Value);
             Minute = string.Format("{0:00}", numASMin.Value);
             AlarmActive = cbASActive.Checked;
             Note = tbASNote.Text;
@@ -303,6 +312,17 @@ namespace Alarm {
             SoundSource = tbASFilePath.Text;
             YoutubePath = tbASYoutubePath.Text;
             AlarmSound = combASAlarmSound.SelectedItem.ToString();
+            Mon = cbASMon.Checked;
+            Tue = cbASTue.Checked;
+            Wed = cbASWed.Checked;
+            Thu = cbASThu.Checked;
+            Fri = cbASFri.Checked;
+            Sat = cbASSat.Checked;
+            Sun = cbASSun.Checked;
+            Flash = cbASFlash.Checked;
+            Shutdown = cbASShutdown.Checked;
+            Repeat = cbASRepeat.Checked;
+            Overwrite = cbASOverwrite.Checked;
 
             mainWindow.UpdateRowDetails(this);
             isOpen = false;

@@ -373,7 +373,7 @@
             // cbShutdown
             // 
             this.cbShutdown.AutoSize = true;
-            this.cbShutdown.Location = new System.Drawing.Point(156, 378);
+            this.cbShutdown.Location = new System.Drawing.Point(156, 307);
             this.cbShutdown.Name = "cbShutdown";
             this.cbShutdown.Size = new System.Drawing.Size(91, 17);
             this.cbShutdown.TabIndex = 37;
@@ -385,7 +385,7 @@
             this.cbFlashscreen.AutoSize = true;
             this.cbFlashscreen.Checked = true;
             this.cbFlashscreen.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbFlashscreen.Location = new System.Drawing.Point(40, 378);
+            this.cbFlashscreen.Location = new System.Drawing.Point(41, 307);
             this.cbFlashscreen.Name = "cbFlashscreen";
             this.cbFlashscreen.Size = new System.Drawing.Size(88, 17);
             this.cbFlashscreen.TabIndex = 36;

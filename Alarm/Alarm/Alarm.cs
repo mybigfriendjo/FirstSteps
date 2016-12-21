@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
+using System.Diagnostics;
 
 namespace Alarm {
     public partial class Alarm : Form {
@@ -20,7 +21,9 @@ namespace Alarm {
         string DB_Path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Alarm\\AlarmHistory.db");
         bool AlarmActive = false; //ActivateAlarm Button pressed = ?
         DateTime CountdownTimeADD = DateTime.Now; //Get CurrentTime + CountdownTime
-        DateTime StopFlash = DateTime.Now;
+        DateTime StopFlash = DateTime.Now.AddYears(-2000); //Var for the Alarm+15sec to stop flashing
+        //bool FlashActive; //when alarm goes off FlashActive gets "true". When StopFlash time is reached FlashActive will be set "false".
+        string AlarmTime = "";
         string DisplayInfo = "";
         //int LastRowIndex = 1000;
         //public int CellCnt; //Counts the Cells of the active Row
@@ -83,6 +86,8 @@ namespace Alarm {
             ColFlash.DefaultValue = false;
             DataColumn ColShutdown = ADT.Columns.Add("Shutdown", typeof(bool));
             ColShutdown.DefaultValue = false;
+            DataColumn ColOverwrite = ADT.Columns.Add("Overwrite", typeof(bool));
+            ColOverwrite.DefaultValue = false;
             //ColID.Unique = true;
             //DataColumn DCbool = new DataColumn("AActive",typeof(bool));
             //ADT.Columns.Add(DCbool);
@@ -118,6 +123,7 @@ namespace Alarm {
                     RowName["Repeat"] = Row["Repeat"];
                     RowName["Flash"] = Row["Flash"];
                     RowName["Shutdown"] = Row["Shutdown"];
+                    RowName["Overwrite"] = Row["Overwrite"];
 
                     ADT.Rows.Add(RowName);
                 }
@@ -143,6 +149,7 @@ namespace Alarm {
                 ADR["Repeat"] = false;
                 ADR["Flash"] = false;
                 ADR["Shutdown"] = false;
+                ADR["Overwrite"] = false;
 
 
                 ADT.Rows.Add(ADR);
@@ -236,13 +243,15 @@ namespace Alarm {
             Console.Write("tick");
 
             foreach (DataGridViewRow Row in dataGridView1.Rows) {
-                if(Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[3].Value)) { 
+                string source = "";
+                string DateString = string.Format("{0:dd.MM.yyyy}", DateTime.Now.ToString());
+                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[3].Value)) {
                     //If AlarmActive = 1
-                    string CurrentAlarmDate = dataGridView1.Rows[Row.Index].Cells[0].Value.ToString()+ " " + dataGridView1.Rows[Row.Index].Cells[1].Value.ToString() + ":" + dataGridView1.Rows[Row.Index].Cells[2].Value.ToString() + ":00";
+                    string CurrentAlarmDate = dataGridView1.Rows[Row.Index].Cells[0].Value.ToString() + " " + dataGridView1.Rows[Row.Index].Cells[1].Value.ToString() + ":" + dataGridView1.Rows[Row.Index].Cells[2].Value.ToString() + ":00";
                     string CurrentTime = string.Format("{0:dd.MM.yyyy HH:mm}", DateTime.Now.ToString());
                     //CurrentTime = CurrentTime.Remove(16, 3);
                     string currentday = DateTime.Now.DayOfWeek.ToString();
-                    string DateString = string.Format("{0:dd.MM.yyyy}", DateTime.Now.ToString());
+                    
                     if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[12].Value) == false &&
                         Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[13].Value) == false &&
                         Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[14].Value) == false &&
@@ -251,7 +260,8 @@ namespace Alarm {
                         Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[17].Value) == false &&
                         Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[18].Value) == false) {
                         //if Alarm Active and all Days are inactive.
-                        if (MergeAlarm("DateTime", dataGridView1.Rows[Row.Index].Cells[0].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()) == CurrentTime) {
+                        source = "DateTime";
+                        if (MergeAlarm(source, dataGridView1.Rows[Row.Index].Cells[0].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()) == CurrentTime) {
                             dataGridView1.Rows[Row.Index].Cells[3].Value = false; //deaktivate Alarm
                             AlarmGoesOff("Alarm", null, currentday, Row.Index);
                         }
@@ -261,7 +271,8 @@ namespace Alarm {
                         //if (MergeAlarm("Repeat", string.Format("{0:dd.MM.yyyy}", DateTime.Now.ToString()), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()) == CurrentTime){
                         //string AlarmDateTime = string.Format("{0:dd.MM.yyyy}", DateTime.Now.ToString());
                         //AlarmDateTime = AlarmDateTime.Remove(10, 9) + ;
-                        if (MergeAlarm("Repeat", string.Format("{0:dd.MM.yyyy}", DateTime.Now.ToString()), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()) == CurrentTime) {
+                        source = "Repeat";
+                        if (MergeAlarm(source, string.Format("{0:dd.MM.yyyy}", DateTime.Now.ToString()), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()) == CurrentTime) {
                             if (currentday == "Monday") {
                                 if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[12].Value) == true) {
                                     AlarmGoesOff("Alarm", null, currentday, Row.Index);
@@ -301,7 +312,8 @@ namespace Alarm {
                     }
                     else {
                         //At least on Day is active - repeat is not
-                        if (MergeAlarm("NoRepeat", DateString, dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()) == CurrentTime) {
+                        source = "NoRepeat";
+                        if (MergeAlarm(source, DateString, dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()) == CurrentTime) {
                             if (currentday == "Monday") {
                                 if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[12].Value) == true) {
                                     dataGridView1.Rows[Row.Index].Cells[12].Value = false; //Deaktivates cbMon
@@ -346,7 +358,26 @@ namespace Alarm {
                             }
                         }
                     }
+                    //File.AppendAllText("C:\\Temp\\Check.log","\n" + DateTime.Now.ToString() + " " + CurrentTime + " vs " + AlarmTime + " " + source);
                 }
+            }
+
+            //if(StopFlash == null) {
+            //    StopFlash = Convert.ToDateTime(MergeAlarm(source, DateString, dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()));
+            //    StopFlash = StopFlash.AddSeconds(15);
+            //}
+
+            if ( DateTime.Now < StopFlash && DateTime.Now > StopFlash.AddSeconds(-15)) {
+                FrameFlash(null, null);
+            }
+
+            if (StopFlash > DateTime.Now.AddYears(-1) && DateTime.Now > StopFlash.AddSeconds(2)) {
+                //Hide all BoarderForms
+                StopFlash = DateTime.Now.AddYears(-2000);
+                FrmBottm.Hide();
+                FrmLeft.Hide();
+                FrmRight.Hide();
+                FrmTop.Hide();
             }
 
             // Flash
@@ -382,7 +413,7 @@ namespace Alarm {
 
             //    MessageBox.Show("It´s an Alarm! Watcha gonna do" + tbNote.Text);
             //}
-            
+
             ////Alarm went off - FlashScreen Activated
             //if (cbAlarm.Checked && cbFlashscreen.Checked && DateTime.Now < StopFlash && AlarmActive && ( DateTime.Now > Convert.ToDateTime(AlarmValue))) { //If Time is between Alarm and Stopflash(Alarm +15sec)
             //    FrameFlash(null, null);
@@ -395,7 +426,6 @@ namespace Alarm {
             //}
         }
         private string MergeAlarm (string source, string DateDay, string Hour, string Minute) {
-            string AlarmTime = "";
             if (source == "DateTime") {
                 AlarmTime = DateDay + " " + Hour + ":" + Minute + ":00";
             }
@@ -409,17 +439,31 @@ namespace Alarm {
         }
 
         private void AlarmGoesOff (string sender, EventArgs e, string day, int index) {
-            if (sender ==  "Alarm") {
-                MessageBox.Show("sender: " + sender.ToString() + "\n Day: " + day + "\n Index: " + index);
-                if ()
+            if (sender == "Alarm") {
+                //if Overwrite is enabled
+                if (Convert.ToBoolean(dataGridView1.Rows[index].Cells[22].Value) == true){
+                    //load Settings from Alarm
                     if (Convert.ToBoolean(dataGridView1.Rows[index].Cells[20].Value)) {
                         //If Flash is activated
-                        FrameFlash(null, null);
+                        StopFlash = DateTime.Now;
+                        StopFlash = StopFlash.AddSeconds(15);
+                        
                     }
                     if (Convert.ToBoolean(dataGridView1.Rows[index].Cells[21].Value)) {
                         //If Shutdown is activated
 
                     }
+                }
+                else {
+                    if (cbFlashscreen.Checked) {
+                        StopFlash = DateTime.Now;
+                        StopFlash = StopFlash.AddSeconds(15);
+                    }
+                    if (cbShutdown.Checked) {
+                        Process.Start(System.Environment.SystemDirectory + "\\shutdown.exe", "-s -t 600");
+                    }
+                }
+                MessageBox.Show("sender: " + sender.ToString() + "\n Day: " + day + "\n Index: " + index);
             }
             else { //sender == "Countdown"
 
@@ -454,12 +498,18 @@ namespace Alarm {
             if (result == System.Windows.Forms.DialogResult.OK) {
                 lbHistory.Items.Clear();
                 HistoryExport();
+                
             }
         }
 
         private void btnDelete_Click(object sender, EventArgs e) {
-            lbHistory.Items.RemoveAt(lbHistory.SelectedIndex);
-            HistoryExport();
+            //lbHistory.Items.RemoveAt(lbHistory.SelectedIndex);
+            //HistoryExport();
+            foreach (DataGridViewRow item in this.dataGridView1.SelectedRows) {
+                if (item.IsNewRow == false) {
+                    dataGridView1.Rows.RemoveAt(item.Index);
+                }
+            }
         }
 
         //method HistoryListExport
@@ -573,11 +623,16 @@ namespace Alarm {
 
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
             dataGridView1.Columns["ID"].Visible = false; //hides ID Column in DataGridView
-            dataGridView1.RowHeadersVisible = false; //hides the first gray row in DataGridView
+            dataGridView1.RowHeadersVisible = true; //hides the first gray row in DataGridView
+            dataGridView1.RowHeadersWidth = 10;
             dataGridView1.AutoResizeColumns();
+            dataGridView1.Sort(dataGridView1.Columns["Hour"], ListSortDirection.Ascending);
             dataGridView1.Columns["Hour"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight; //Text of this Column will be alligned to the right side
             dataGridView1.Columns["Hour"].Width = 35; //Sets Column Width
             dataGridView1.Columns["Minute"].Width = 45;
+            dataGridView1.Columns["Flash"].Visible = false;
+            dataGridView1.Columns["Shutdown"].Visible = false;
+            dataGridView1.Columns["Overwrite"].Visible = false;
         }
         
         public void UpdateRowDetails(AlarmSettings settings) {
@@ -614,7 +669,8 @@ namespace Alarm {
             dataGridView1.Rows[settings.LastRowIndex].Cells[18].Value = settings.Sun;
             dataGridView1.Rows[settings.LastRowIndex].Cells[19].Value = settings.Repeat;
             dataGridView1.Rows[settings.LastRowIndex].Cells[20].Value = settings.Flash;
-            dataGridView1.Rows[settings.LastRowIndex].Cells[21].Value = settings.Shutdown;
+            dataGridView1.Rows[settings.LastRowIndex].Cells[21].Value = settings.Shutdown; 
+            dataGridView1.Rows[settings.LastRowIndex].Cells[22].Value = settings.Overwrite;
 
             StringBuilder sb = new StringBuilder();
 
@@ -694,10 +750,13 @@ namespace Alarm {
                 AlarmSettingsGui.Repeat = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[19].Value);
             }
             if (dataGridView1.Rows[e.RowIndex].Cells[20].Value != null) {
-                AlarmSettingsGui.Flash = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[19].Value);
+                AlarmSettingsGui.Flash = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[20].Value);
             }
             if (dataGridView1.Rows[e.RowIndex].Cells[21].Value != null) {
-                AlarmSettingsGui.Shutdown = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[19].Value);
+                AlarmSettingsGui.Shutdown = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[21].Value);
+            }
+            if (dataGridView1.Rows[e.RowIndex].Cells[22].Value != null) {
+                AlarmSettingsGui.Overwrite = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[22].Value); 
             }
             AlarmSettingsGui.Show();
 
@@ -734,10 +793,17 @@ namespace Alarm {
         repeat alarm - else deaktivate it after it was triggered
         Seperate Stopflash for Alarm and Counter else it will get overwritten if both are active(still works though)
         Check for double entries on OK button
-        Fix Flashtrigger
+        enable or delete "delete all" button
+        add tooltips to the delte buttons
+        Add icon and usefull information to AlarmMsg (AlarmTime,Note
+        order by - new field combinded of date/time/allways active
 
 
         Changelog
+
+        +Flash does now get triggered on Alarm and blinks for 15 Sec before it gets disabled
+        +RowHeader is now visible again since he is required to select a row
+        +selected rows can now be deleted with the Delete button
 
         +flash and shutdown settings will now be loaded from Alarm
         +Option to overwrite flash and shutdown for each alarm
