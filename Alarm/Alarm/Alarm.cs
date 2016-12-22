@@ -88,6 +88,8 @@ namespace Alarm {
             ColShutdown.DefaultValue = false;
             DataColumn ColOverwrite = ADT.Columns.Add("Overwrite", typeof(bool));
             ColOverwrite.DefaultValue = false;
+            DataColumn ColNextAlarm = ADT.Columns.Add("NextAlarm");
+            ColNextAlarm.DefaultValue = "";
             //ColID.Unique = true;
             //DataColumn DCbool = new DataColumn("AActive",typeof(bool));
             //ADT.Columns.Add(DCbool);
@@ -124,6 +126,7 @@ namespace Alarm {
                     RowName["Flash"] = Row["Flash"];
                     RowName["Shutdown"] = Row["Shutdown"];
                     RowName["Overwrite"] = Row["Overwrite"];
+                    RowName["NextAlarm"] = Row["NextAlarm"];
 
                     ADT.Rows.Add(RowName);
                 }
@@ -150,13 +153,13 @@ namespace Alarm {
                 ADR["Flash"] = false;
                 ADR["Shutdown"] = false;
                 ADR["Overwrite"] = false;
+                ADR["NextAlarm"] = "";
 
 
                 ADT.Rows.Add(ADR);
             }
             
             dataGridView1.DataSource = ADS.Tables[0];
-
 
             //dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             //dataGridView1.DataBindingComplete = 
@@ -209,6 +212,9 @@ namespace Alarm {
                 cnt++;
             }
             //MessageBox.Show(DisplayInfo);
+
+            //GetNextAlarm();
+
         }
 
         //private void btnSave_Click(object sender, EventArgs e) {
@@ -425,6 +431,76 @@ namespace Alarm {
             //    }
             //}
         }
+
+        private void GetNextAlarm() {
+            foreach (DataGridViewRow Row in dataGridView1.Rows) {
+                //string NextAlarm = "";
+                DateTime firstDate = DateTime.Now.AddYears(-2000);
+                DateTime Today = DateTime.Now;
+                int cnt = 0;
+                string source = "Repeat";
+                if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[12].Value) == false &&
+                            Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[13].Value) == false &&
+                            Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[14].Value) == false &&
+                            Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[15].Value) == false &&
+                            Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[16].Value) == false &&
+                            Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[17].Value) == false &&
+                            Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[18].Value) == false) {
+                    //if Alarm Active and all Days are inactive.
+                    source = "DateTime";
+                }
+
+                while (cnt < 7) {
+                    Today.AddDays(cnt);
+                    if (Today.DayOfWeek.ToString() == "Monday" && Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[12].Value) == true) {
+                        if (firstDate < DateTime.Now.AddYears(-1200) || DateTime.Now < firstDate) { //if firstDate is empty
+                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.AddDays(cnt).ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
+                            break;
+                        }
+                    }
+                    else if (Today.DayOfWeek.ToString() == "Tuesday" && Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[13].Value) == true) {
+                        if (firstDate < DateTime.Now.AddYears(-1200) || DateTime.Now < firstDate) { //if firstDate is empty
+                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.AddDays(cnt).ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
+                            break;
+                        }
+                    }
+                    else if (Today.DayOfWeek.ToString() == "Wednesday" && Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[14].Value) == true) {
+                        if (firstDate < DateTime.Now.AddYears(-1200) || DateTime.Now < firstDate) { //if firstDate is empty
+                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.AddDays(cnt).ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
+                            break;
+                        }
+                    }
+                    else if (Today.DayOfWeek.ToString() == "Thursday" && Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[15].Value) == true) {
+                        if (firstDate < DateTime.Now.AddYears(-1200) || DateTime.Now < firstDate) { //if firstDate is empty
+                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.AddDays(cnt).ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
+                            break;
+                        }
+                    }
+                    else if (Today.DayOfWeek.ToString() == "Friday" && Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[16].Value) == true) {
+                        if (firstDate < DateTime.Now.AddYears(-1200) || DateTime.Now < firstDate) { //if firstDate is empty
+                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.AddDays(cnt).ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
+                            break;
+                        }
+                    }
+                    else if (Today.DayOfWeek.ToString() == "Saturday" && Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[17].Value) == true) {
+                        if (firstDate < DateTime.Now.AddYears(-1200) || DateTime.Now < firstDate) { //if firstDate is empty
+                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.AddDays(cnt).ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
+                            break;
+                        }
+                    }
+                    else if (Today.DayOfWeek.ToString() == "Sunday" && Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[18].Value) == true) {
+                        if (firstDate < DateTime.Now.AddYears(-1200) || DateTime.Now < firstDate) { //if firstDate is empty
+                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.AddDays(cnt).ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //return NextAlarm;
+        }
+
+        //Merges Date variables to a DateString with correct Format
         private string MergeAlarm (string source, string DateDay, string Hour, string Minute) {
             if (source == "DateTime") {
                 AlarmTime = DateDay + " " + Hour + ":" + Minute + ":00";
@@ -796,10 +872,13 @@ namespace Alarm {
         enable or delete "delete all" button
         add tooltips to the delte buttons
         Add icon and usefull information to AlarmMsg (AlarmTime,Note
-        order by - new field combinded of date/time/allways active
+        order by - new field combinded of date/time/allways active - vorraussetzung um überschreiben von NextAlarm zu verhindern noch nicht gegeben
 
 
         Changelog
+
+        +Addet new column for NextAlarm
+        +Most of the Code to Calculate NextAlarm is done
 
         +Flash does now get triggered on Alarm and blinks for 15 Sec before it gets disabled
         +RowHeader is now visible again since he is required to select a row
