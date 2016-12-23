@@ -90,6 +90,8 @@ namespace Alarm {
             ColOverwrite.DefaultValue = false;
             DataColumn ColNextAlarm = ADT.Columns.Add("NextAlarm");
             ColNextAlarm.DefaultValue = "";
+            DataColumn ColActSoundSource = ADT.Columns.Add("ActSoundSource");
+            ColActSoundSource.DefaultValue = "";
             //ColID.Unique = true;
             //DataColumn DCbool = new DataColumn("AActive",typeof(bool));
             //ADT.Columns.Add(DCbool);
@@ -98,8 +100,8 @@ namespace Alarm {
             //ADR["AlarmISActive"] = true;
             //ADR["Date"] = "02.12.2016 00:00:00";
             DataTable LoadData = new DataTable();
-            if (File.Exists("C:\\Temp\\AlarmList.csv")) {
-                LoadData =  CsvImport.GetDataTableFromCsv("C:\\Temp\\AlarmList.csv",true);
+            if (File.Exists("C:\\MyTemp\\VS\\AlarmList.csv")) {
+                LoadData =  CsvImport.GetDataTableFromCsv("C:\\MyTemp\\VS\\AlarmList.csv",true);
 
                 int RowCnt = 0;
                 foreach (DataRow Row in LoadData.Rows) {
@@ -127,6 +129,7 @@ namespace Alarm {
                     RowName["Shutdown"] = Row["Shutdown"];
                     RowName["Overwrite"] = Row["Overwrite"];
                     RowName["NextAlarm"] = Row["NextAlarm"];
+                    RowName["ActSoundSource"] = Row["ActSoundSource"];
 
                     ADT.Rows.Add(RowName);
                 }
@@ -154,6 +157,7 @@ namespace Alarm {
                 ADR["Shutdown"] = false;
                 ADR["Overwrite"] = false;
                 ADR["NextAlarm"] = "";
+                ADR["ActSoundSource"] = "";
 
 
                 ADT.Rows.Add(ADR);
@@ -161,29 +165,19 @@ namespace Alarm {
             
             dataGridView1.DataSource = ADS.Tables[0];
 
-            //dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            //dataGridView1.DataBindingComplete = 
-
-            //dataGridView2.DataSource = dataSet1.Tables[0];
-
-
-            //Tooltips - if it would be bound to an Event like MouseEnter it would show up every few millisec
-            //System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
-            //ToolTip1.SetToolTip(tbNote, "Please insert your Note that should be attatched to the Alarm.");
-
-            //Loadlist - with Exceptionhandling (try/catch)
-            try {
-                if (File.Exists(DB_Path)) {
-                    string[] HistoryListImport = File.ReadAllLines(DB_Path);
-                    foreach (string History in HistoryListImport) {
-                        lbHistory.Items.Add(History);
-                    }
-                }  
-            }
-            catch (FileNotFoundException HistoryLoadError) {
-                // Write error.
-                Console.WriteLine(HistoryLoadError);
-            }
+            ////Loadlist - with Exceptionhandling (try/catch)
+            //try {
+            //    if (File.Exists(DB_Path)) {
+            //        string[] HistoryListImport = File.ReadAllLines(DB_Path);
+            //        foreach (string History in HistoryListImport) {
+            //            lbHistory.Items.Add(History);
+            //        }
+            //    }
+            //}
+            //catch (FileNotFoundException HistoryLoadError) {
+            //    // Write error.
+            //    Console.WriteLine(HistoryLoadError);
+            //}
 
             //Set startvalues
             //numAlarmHour.Value = DateTime.Now.Hour;
@@ -376,6 +370,14 @@ namespace Alarm {
             if ( DateTime.Now < StopFlash && DateTime.Now > StopFlash.AddSeconds(-15)) {
                 FrameFlash(null, null);
             }
+            
+            //if (cbCountdown.Checked && AlarmActive && CountdownChecked == 1) {
+            //    if (DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") == lblCountdownTime.Text) { //Format = "02.09.2016 15:29"    
+            //        StopFlash = Convert.ToDateTime(lblCountdownTime.Text);
+            //        StopFlash = StopFlash.AddSeconds(15);
+            //        MessageBox.Show(" U da CountdownMan");
+            //    }
+            //}
 
             if (StopFlash > DateTime.Now.AddYears(-1) && DateTime.Now > StopFlash.AddSeconds(2)) {
                 //Hide all BoarderForms
@@ -384,30 +386,16 @@ namespace Alarm {
                 FrmLeft.Hide();
                 FrmRight.Hide();
                 FrmTop.Hide();
+
+                //DateTime CountdownTime = Convert.ToDateTime(lblCountdownTime.Text);
+                //MessageBox.Show("CntTimeText: " + lblCountdownTime.Text + "\n" + "CntTimeTime: " + CountdownTime.ToString() + "\n" + "Now: " + DateTime.Now.ToString());
+                //if (lblCountdownTime.Text == "" || CountdownTime < DateTime.Now) {
+                //    btnAcivateAlarm.Text = "Activate Countdown";
+                //    AlarmActive = false;
+                //    //t.Enabled = false; //disables Timer
+                //    lblCountdownTime.Text = "";
+                //}
             }
-
-            // Flash
-            // ADD CountDownActive Field
-            // AlarmGoesOFF
-
-
-
-            //if (DateTime.Now > StopFlash.AddSeconds(2)) {
-            //    //Hide all BoarderForms
-            //    FrmBottm.Hide();
-            //    FrmLeft.Hide();
-            //    FrmRight.Hide();
-            //    FrmTop.Hide();
-            //}
-            // <<<<<< OLD >>>>>>>
-            //var CountdownChecked = Container.Co
-            //if (cbCountdown.Checked && AlarmActive && CountdownChecked == 1) {
-            //    if (DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") == lblCountdownTime.Text) { //Format = "02.09.2016 15:29"    
-            //        StopFlash = Convert.ToDateTime(lblCountdownTime.Text);
-            //        StopFlash = StopFlash.AddSeconds(15);
-            //        MessageBox.Show(" U da CountdownMan");
-            //    }
-            //}
 
             //string TodaysDate = DateTime.Now.ToString("dd.MM.yyyy"); //As long as there is no DateField includet or it is NULL
             //string AlarmValue = TodaysDate + " " + numAlarmHour.Value.ToString("00") + ":" + numAlarmMin.Value.ToString("00") + ":00";
@@ -523,11 +511,10 @@ namespace Alarm {
                         //If Flash is activated
                         StopFlash = DateTime.Now;
                         StopFlash = StopFlash.AddSeconds(15);
-                        
                     }
                     if (Convert.ToBoolean(dataGridView1.Rows[index].Cells[21].Value)) {
                         //If Shutdown is activated
-
+                        Process.Start(System.Environment.SystemDirectory + "\\shutdown.exe", "-s -t 600");
                     }
                 }
                 else {
@@ -542,7 +529,49 @@ namespace Alarm {
                 MessageBox.Show("sender: " + sender.ToString() + "\n Day: " + day + "\n Index: " + index);
             }
             else { //sender == "Countdown"
+                if (cbFlashscreen.Checked) {
+                    StopFlash = DateTime.Now;
+                    StopFlash = StopFlash.AddSeconds(15);
+                }
+                if (cbShutdown.Checked) {
+                    Process.Start(System.Environment.SystemDirectory + "\\shutdown.exe", "-s -t 600");
+                }
+                MessageBox.Show("sender: " + sender.ToString() + "\n Day: " + day + "\n Index: " + index);
+            }
+            if (dataGridView1.Rows[index].Cells[23].Value.ToString() == "Alarm") { //ProgPathActiv
+                //if (combASAlarmSound.SelectedItem != null) {
+                //    if (combASAlarmSound.SelectedItem.ToString() == "Phonering") {
+                //        System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\calleering.wav"); //@ means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
+                //        player.Play();
+                //    }
+                //    else if (combASAlarmSound.SelectedItem.ToString() == "Applause") {
+                //        System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\APPLAUSE.WAV");
+                //        player.Play();
+                //    }
+                //    else if (combASAlarmSound.SelectedItem.ToString() == "Callring") {
+                //        System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\ELPHRG01.WAV");
+                //        player.Play();
+                //    }
+                //}
+            }
+            else if (dataGridView1.Rows[index].Cells[23].Value.ToString() == "File") { //SoundActive
+                //if (e.Button == MouseButtons.Left) {
+                //    if (tbASFilePath.Text != null && tbASFilePath.Text != "") {
+                //        axWindowsMediaPlayerSoundFile.URL = tbASFilePath.Text;
+                //        axWindowsMediaPlayerSoundFile.Visible = false;
+                //        axWindowsMediaPlayerSoundFile.settings.setMode("loop", false);
+                //        //System.Threading.Thread.Sleep(2000);
 
+                //        //axWindowsMediaPlayerSoundFile.Ctlcontrols.play();
+                //        //axWindowsMediaPlayerSoundFile.Ctlcontrols.stop();
+                //        //axWindowsMediaPlayerSoundFile.settings.volume = 100; // 0 = kein Ton, 100 = volle Lautstärke
+                //    }
+                //}
+            }
+            else if (dataGridView1.Rows[index].Cells[23].Value.ToString() == "Youtube") { //ProgPathActiv
+                //if (tbASYoutubePath.Text != null && tbASYoutubePath.Text != "") {
+                //    Process.Start(@tbASYoutubePath.Text);
+                //}  
             }
         }
 
@@ -569,15 +598,6 @@ namespace Alarm {
             }
         }
 
-        private void btnDeleteAll_Click(object sender, EventArgs e) {
-            DialogResult result = MessageBox.Show("\"Ok\" will remove all entries in the Alarmlist!", "Clear whole List?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (result == System.Windows.Forms.DialogResult.OK) {
-                lbHistory.Items.Clear();
-                HistoryExport();
-                
-            }
-        }
-
         private void btnDelete_Click(object sender, EventArgs e) {
             //lbHistory.Items.RemoveAt(lbHistory.SelectedIndex);
             //HistoryExport();
@@ -588,17 +608,17 @@ namespace Alarm {
             }
         }
 
-        //method HistoryListExport
-        private void HistoryExport() {
-            string HistoryListExport = "";
-            foreach (string History in lbHistory.Items) {
-                HistoryListExport += History + "\n";
-            }
-            if (!Directory.Exists(Path.GetDirectoryName(DB_Path))) { //this removes the Filepattern from the pathfile and checkes if directory does NOT exist then create it.
-                Directory.CreateDirectory(Path.GetDirectoryName(DB_Path));
-            }
-            File.WriteAllText(DB_Path, HistoryListExport);
-        }
+        ////method HistoryListExport
+        //private void HistoryExport() {
+        //    string HistoryListExport = "";
+        //    foreach (string History in lbHistory.Items) {
+        //        HistoryListExport += History + "\n";
+        //    }
+        //    if (!Directory.Exists(Path.GetDirectoryName(DB_Path))) { //this removes the Filepattern from the pathfile and checkes if directory does NOT exist then create it.
+        //        Directory.CreateDirectory(Path.GetDirectoryName(DB_Path));
+        //    }
+        //    File.WriteAllText(DB_Path, HistoryListExport);
+        //}
 
         //Systray + RestoreFromTray
         private void Alarm_FormClosing(object sender, FormClosingEventArgs e) {
@@ -621,13 +641,13 @@ namespace Alarm {
         //AlarmActive button toggle
         private void btnAcivateAlarm_Click(object sender, EventArgs e) {
             if (AlarmActive) {
-                btnAcivateAlarm.Text = "Activate Alarm";
+                btnAcivateAlarm.Text = "Activate Countdown";
                 AlarmActive = false;
                 t.Enabled = false; //disables Timer
                 lblCountdownTime.Text = "";
             }
             else {
-                btnAcivateAlarm.Text = "Deactivate Alarm";
+                btnAcivateAlarm.Text = "Deactivate Countdown";
                 AlarmActive = true;
                 t.Enabled = true; //enables Timer
 
@@ -702,7 +722,8 @@ namespace Alarm {
             dataGridView1.RowHeadersVisible = true; //hides the first gray row in DataGridView
             dataGridView1.RowHeadersWidth = 10;
             dataGridView1.AutoResizeColumns();
-            dataGridView1.Sort(dataGridView1.Columns["Hour"], ListSortDirection.Ascending);
+            //dataGridView1.Sort(dataGridView1.Columns["Hour"], ListSortDirection.Ascending);
+            //dataGridView1.Sort(dataGridView1.Columns["NextAlarm"], ListSortDirection.Ascending);
             dataGridView1.Columns["Hour"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight; //Text of this Column will be alligned to the right side
             dataGridView1.Columns["Hour"].Width = 35; //Sets Column Width
             dataGridView1.Columns["Minute"].Width = 45;
@@ -747,8 +768,9 @@ namespace Alarm {
             dataGridView1.Rows[settings.LastRowIndex].Cells[20].Value = settings.Flash;
             dataGridView1.Rows[settings.LastRowIndex].Cells[21].Value = settings.Shutdown; 
             dataGridView1.Rows[settings.LastRowIndex].Cells[22].Value = settings.Overwrite;
+            dataGridView1.Rows[settings.LastRowIndex].Cells[23].Value = settings.ActSoundSource;
 
-            StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder();
 
             IEnumerable<string> columnNames = ADT.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
             sb.AppendLine(string.Join(",", columnNames));
@@ -758,7 +780,7 @@ namespace Alarm {
                 sb.AppendLine(string.Join(",", fields));
             }
 
-            File.WriteAllText("C:\\Temp\\AlarmList.csv", sb.ToString());
+            File.WriteAllText("C:\\MyTemp\\VS\\AlarmList.csv", sb.ToString());
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
@@ -876,6 +898,11 @@ namespace Alarm {
 
 
         Changelog
+
+        +Alarm for Countdown working now
+        ~started on Radiobtn soundsourcefield
+        +removed dead code and controls
+
 
         +Addet new column for NextAlarm
         +Most of the Code to Calculate NextAlarm is done

@@ -25,6 +25,8 @@ namespace Alarm {
             }
         }
 
+        
+
         private int _LastRowIndex;
         public int LastRowIndex {
             get { return _LastRowIndex; }
@@ -251,13 +253,32 @@ namespace Alarm {
             }
         }
 
-        //Var Repeat (Cell 22)
+        //Var Overwrite (Cell 22)
         private bool _Overwrite;
         public bool Overwrite {
             get { return _Overwrite; }
             set {
                 _Overwrite = value;
                 cbASOverwrite.Checked = value;
+            }
+        }
+
+        //Var ActSoundSource (Cell 23)
+        private string _ActSoundSource;
+        public string ActSoundSource {
+            get { return _ActSoundSource; }
+            set {
+                _ActSoundSource = value;
+                //if source fits and the path aint empty...
+                if (value.ToString() == "Alarm" && AlarmSound != "") {
+                    rbAlarmSound.Checked = true;
+                }
+                else if (value.ToString() == "File" && SoundSource != "") {
+                    rbASSoundFilePath.Checked = true;
+                }
+                else if (value.ToString() == "Youtube" && YoutubePath != "") {
+                    rbASYoutubepath.Checked = true;
+                }
             }
         }
 
@@ -298,6 +319,20 @@ namespace Alarm {
             ToolTiplblASHelp.AutoPopDelay = 20000;
             ToolTiplblASHelp.InitialDelay = 100;
             ToolTipcbASRepeat.SetToolTip(cbASRepeat, "Attention! Repeat function is only working if a Day is selected\nDate won't be affected by the option.");
+        }
+
+        private string ActiveSoundSource() {
+            string ActiveSoundSource = "";
+            if (rbAlarmSound.Checked) {
+                ActiveSoundSource = "Alarm";
+            }
+            else if (rbASSoundFilePath.Checked) {
+                ActiveSoundSource = "File";
+            }
+            else if (rbASYoutubepath.Checked) {
+                ActiveSoundSource = "Youtube";
+            }
+            return ActiveSoundSource;
         }
 
         private void btnASOk_Click(object sender, EventArgs e) {
