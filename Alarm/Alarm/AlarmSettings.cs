@@ -264,20 +264,25 @@ namespace Alarm {
         }
 
         //Var ActSoundSource (Cell 23)
+
+        //Var ActSoundSource (Cell 24)
         private string _ActSoundSource;
         public string ActSoundSource {
             get { return _ActSoundSource; }
             set {
                 _ActSoundSource = value;
                 //if source fits and the path aint empty...
-                if (value.ToString() == "Alarm" && AlarmSound != "") {
+                if (value.ToString() == "Alarm") { // && AlarmSound != "") {
                     rbAlarmSound.Checked = true;
+                    //ActSoundSource = "Alarm";
                 }
-                else if (value.ToString() == "File" && SoundSource != "") {
-                    rbASSoundFilePath.Checked = true;
+                else if (value.ToString() == "File") { // && SoundSource != "") {
+                        rbASSoundFilePath.Checked = true;
+                    //ActSoundSource = "File";
                 }
-                else if (value.ToString() == "Youtube" && YoutubePath != "") {
+                else if (value.ToString() == "Youtube") { // && YoutubePath != "") {
                     rbASYoutubepath.Checked = true;
+                    //ActSoundSource = "Youtube";
                 }
             }
         }
@@ -321,18 +326,17 @@ namespace Alarm {
             ToolTipcbASRepeat.SetToolTip(cbASRepeat, "Attention! Repeat function is only working if a Day is selected\nDate won't be affected by the option.");
         }
 
-        private string ActiveSoundSource() {
-            string ActiveSoundSource = "";
+        private void ActiveSoundSource(object sender, EventArgs e) {
             if (rbAlarmSound.Checked) {
-                ActiveSoundSource = "Alarm";
+                ActSoundSource = "Alarm";
             }
             else if (rbASSoundFilePath.Checked) {
-                ActiveSoundSource = "File";
+                ActSoundSource = "File";
             }
             else if (rbASYoutubepath.Checked) {
-                ActiveSoundSource = "Youtube";
+                ActSoundSource = "Youtube";
             }
-            return ActiveSoundSource;
+            //return ActiveSoundSource;
         }
 
         private void btnASOk_Click(object sender, EventArgs e) {
@@ -358,6 +362,7 @@ namespace Alarm {
             Shutdown = cbASShutdown.Checked;
             Repeat = cbASRepeat.Checked;
             Overwrite = cbASOverwrite.Checked;
+            
 
             mainWindow.UpdateRowDetails(this);
             isOpen = false;
@@ -371,15 +376,15 @@ namespace Alarm {
         private void btnASRingtone_Click(object sender, EventArgs e) {
             if (combASAlarmSound.SelectedItem != null) {
                 if (combASAlarmSound.SelectedItem.ToString() == "Phonering") {
-                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\calleering.wav"); //@ means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.calleering); //@ means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
                     player.Play();
                 }
                 else if (combASAlarmSound.SelectedItem.ToString() == "Applause") {
-                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\APPLAUSE.WAV");
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.APPLAUSE);
                     player.Play();
                 }
                 else if (combASAlarmSound.SelectedItem.ToString() == "Callring") {
-                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\ELPHRG01.WAV");
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.ELPHRG01);
                     player.Play();
                 }
             }

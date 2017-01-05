@@ -181,6 +181,7 @@
             this.rbASYoutubepath.TabStop = true;
             this.rbASYoutubepath.Text = "Youtube URL";
             this.rbASYoutubepath.UseVisualStyleBackColor = true;
+            this.rbASYoutubepath.CheckedChanged += new System.EventHandler(this.ActiveSoundSource);
             // 
             // rbASSoundFilePath
             // 
@@ -192,6 +193,7 @@
             this.rbASSoundFilePath.TabStop = true;
             this.rbASSoundFilePath.Text = "Soundfile Path";
             this.rbASSoundFilePath.UseVisualStyleBackColor = true;
+            this.rbASSoundFilePath.CheckedChanged += new System.EventHandler(this.ActiveSoundSource);
             // 
             // rbAlarmSound
             // 
@@ -203,6 +205,7 @@
             this.rbAlarmSound.TabStop = true;
             this.rbAlarmSound.Text = "Ringtone";
             this.rbAlarmSound.UseVisualStyleBackColor = true;
+            this.rbAlarmSound.CheckedChanged += new System.EventHandler(this.ActiveSoundSource);
             // 
             // combASAlarmSound
             // 

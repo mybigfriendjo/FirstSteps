@@ -18,7 +18,7 @@ namespace Alarm {
         //Important Variables
         private Timer t = null;
         NotifyIcon MyNotifyIcon = new NotifyIcon();
-        string DB_Path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Alarm\\AlarmHistory.db");
+        string DB_Path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Alarm\\AlarmHistory.csv");
         bool AlarmActive = false; //ActivateAlarm Button pressed = ?
         DateTime CountdownTimeADD = DateTime.Now; //Get CurrentTime + CountdownTime
         DateTime StopFlash = DateTime.Now.AddYears(-2000); //Var for the Alarm+15sec to stop flashing
@@ -100,8 +100,9 @@ namespace Alarm {
             //ADR["AlarmISActive"] = true;
             //ADR["Date"] = "02.12.2016 00:00:00";
             DataTable LoadData = new DataTable();
-            if (File.Exists("C:\\MyTemp\\VS\\AlarmList.csv")) {
-                LoadData =  CsvImport.GetDataTableFromCsv("C:\\MyTemp\\VS\\AlarmList.csv",true);
+            //if (File.Exists("C:\\MyTemp\\VS\\AlarmList.csv")) {
+            if (File.Exists(DB_Path)) {
+                LoadData =  CsvImport.GetDataTableFromCsv(DB_Path, true);
 
                 int RowCnt = 0;
                 foreach (DataRow Row in LoadData.Rows) {
@@ -178,10 +179,6 @@ namespace Alarm {
             //    // Write error.
             //    Console.WriteLine(HistoryLoadError);
             //}
-
-            //Set startvalues
-            //numAlarmHour.Value = DateTime.Now.Hour;
-            //numAlarmMin.Value = DateTime.Now.Minute;
 
             //TimerSettings
             t = new Timer();
@@ -442,46 +439,47 @@ namespace Alarm {
                     Today.AddDays(cnt);
                     if (Today.DayOfWeek.ToString() == "Monday" && Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[12].Value) == true) {
                         if (firstDate < DateTime.Now.AddYears(-1200) || DateTime.Now < firstDate) { //if firstDate is empty
-                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.AddDays(cnt).ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
+                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
                             break;
                         }
                     }
                     else if (Today.DayOfWeek.ToString() == "Tuesday" && Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[13].Value) == true) {
                         if (firstDate < DateTime.Now.AddYears(-1200) || DateTime.Now < firstDate) { //if firstDate is empty
-                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.AddDays(cnt).ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
+                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
                             break;
                         }
                     }
                     else if (Today.DayOfWeek.ToString() == "Wednesday" && Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[14].Value) == true) {
                         if (firstDate < DateTime.Now.AddYears(-1200) || DateTime.Now < firstDate) { //if firstDate is empty
-                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.AddDays(cnt).ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
+                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
                             break;
                         }
                     }
                     else if (Today.DayOfWeek.ToString() == "Thursday" && Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[15].Value) == true) {
                         if (firstDate < DateTime.Now.AddYears(-1200) || DateTime.Now < firstDate) { //if firstDate is empty
-                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.AddDays(cnt).ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
+                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
                             break;
                         }
                     }
                     else if (Today.DayOfWeek.ToString() == "Friday" && Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[16].Value) == true) {
                         if (firstDate < DateTime.Now.AddYears(-1200) || DateTime.Now < firstDate) { //if firstDate is empty
-                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.AddDays(cnt).ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
+                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
                             break;
                         }
                     }
                     else if (Today.DayOfWeek.ToString() == "Saturday" && Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[17].Value) == true) {
                         if (firstDate < DateTime.Now.AddYears(-1200) || DateTime.Now < firstDate) { //if firstDate is empty
-                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.AddDays(cnt).ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
+                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
                             break;
                         }
                     }
                     else if (Today.DayOfWeek.ToString() == "Sunday" && Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[18].Value) == true) {
                         if (firstDate < DateTime.Now.AddYears(-1200) || DateTime.Now < firstDate) { //if firstDate is empty
-                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.AddDays(cnt).ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
+                            dataGridView1.Rows[Row.Index].Cells[23].Value = MergeAlarm(source, Today.ToString(), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString());
                             break;
                         }
                     }
+                    cnt++;
                 }
             }
 
@@ -504,6 +502,35 @@ namespace Alarm {
 
         private void AlarmGoesOff (string sender, EventArgs e, string day, int index) {
             if (sender == "Alarm") {
+                if (dataGridView1.Rows[index].Cells[24].Value.ToString() == "Alarm") { //ProgPathActiv is active
+                    if (dataGridView1.Rows[index].Cells[11].Value.ToString() != "" && dataGridView1.Rows[index].Cells[11].Value.ToString() != null) {
+                        if (dataGridView1.Rows[index].Cells[11].Value.ToString() == "Phonering") {
+                            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.calleering); //@"string" means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
+                            player.Play();
+                        }
+                        else if (dataGridView1.Rows[index].Cells[11].Value.ToString() == "Applause") {
+                            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.APPLAUSE);
+                            player.Play();
+                        }
+                        else if (dataGridView1.Rows[index].Cells[11].Value.ToString() == "Callring") {
+                            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.ELPHRG01);
+                            player.Play();
+                        }
+                    }
+                }
+                else if (dataGridView1.Rows[index].Cells[24].Value.ToString() == "File") { //SoundActive is active
+                    if (dataGridView1.Rows[index].Cells[8].Value.ToString() != "" || dataGridView1.Rows[index].Cells[8].Value.ToString() != null) { //SoundSource-tbASFilePath = the chosen soundfile path  -> is not empty
+                        AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayerSoundFile = new AxWMPLib.AxWindowsMediaPlayer();
+                        axWindowsMediaPlayerSoundFile.URL = dataGridView1.Rows[index].Cells[8].Value.ToString();
+                        axWindowsMediaPlayerSoundFile.Visible = false;
+                        axWindowsMediaPlayerSoundFile.settings.setMode("loop", false);
+                    }
+                }
+                else if (dataGridView1.Rows[index].Cells[24].Value.ToString() == "Youtube") { //YoutubePath is active
+                    if (dataGridView1.Rows[index].Cells[10].Value.ToString() != "" || dataGridView1.Rows[index].Cells[10].Value.ToString() != null) { //Youtubepath-tbASYoutubepath = the youtube Url  -> is not empty
+                        Process.Start(dataGridView1.Rows[index].Cells[10].Value.ToString());
+                    }
+                }
                 //if Overwrite is enabled
                 if (Convert.ToBoolean(dataGridView1.Rows[index].Cells[22].Value) == true){
                     //load Settings from Alarm
@@ -538,55 +565,7 @@ namespace Alarm {
                 }
                 MessageBox.Show("sender: " + sender.ToString() + "\n Day: " + day + "\n Index: " + index);
             }
-            if (dataGridView1.Rows[index].Cells[23].Value.ToString() == "Alarm") { //ProgPathActiv
-                //if (combASAlarmSound.SelectedItem != null) {
-                //    if (combASAlarmSound.SelectedItem.ToString() == "Phonering") {
-                //        System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\calleering.wav"); //@ means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
-                //        player.Play();
-                //    }
-                //    else if (combASAlarmSound.SelectedItem.ToString() == "Applause") {
-                //        System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\APPLAUSE.WAV");
-                //        player.Play();
-                //    }
-                //    else if (combASAlarmSound.SelectedItem.ToString() == "Callring") {
-                //        System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\rsci060\Source\Repos\FirstSteps\Alarm\Alarm\Resources\ELPHRG01.WAV");
-                //        player.Play();
-                //    }
-                //}
-            }
-            else if (dataGridView1.Rows[index].Cells[23].Value.ToString() == "File") { //SoundActive
-                //if (e.Button == MouseButtons.Left) {
-                //    if (tbASFilePath.Text != null && tbASFilePath.Text != "") {
-                //        axWindowsMediaPlayerSoundFile.URL = tbASFilePath.Text;
-                //        axWindowsMediaPlayerSoundFile.Visible = false;
-                //        axWindowsMediaPlayerSoundFile.settings.setMode("loop", false);
-                //        //System.Threading.Thread.Sleep(2000);
-
-                //        //axWindowsMediaPlayerSoundFile.Ctlcontrols.play();
-                //        //axWindowsMediaPlayerSoundFile.Ctlcontrols.stop();
-                //        //axWindowsMediaPlayerSoundFile.settings.volume = 100; // 0 = kein Ton, 100 = volle Lautstärke
-                //    }
-                //}
-            }
-            else if (dataGridView1.Rows[index].Cells[23].Value.ToString() == "Youtube") { //ProgPathActiv
-                //if (tbASYoutubePath.Text != null && tbASYoutubePath.Text != "") {
-                //    Process.Start(@tbASYoutubePath.Text);
-                //}  
-            }
         }
-
-        //private void cbAlarm_CheckedChanged(object sender, EventArgs e) {
-        //    if (cbAlarm.Checked) {
-        //        numAlarmHour.Enabled = true;
-        //        numAlarmMin.Enabled = true;
-        //        tbNote.Enabled = true;
-        //    }
-        //    else {
-        //        numAlarmHour.Enabled = false;
-        //        numAlarmMin.Enabled = false;
-        //        tbNote.Enabled = false;
-        //    }
-        //}
 
         private void cbCountdown_CheckedChanged(object sender, EventArgs e) {
             //If a container like panel/Groupbox,... gets disabled all the contained controlls get disabled as well
@@ -599,26 +578,12 @@ namespace Alarm {
         }
 
         private void btnDelete_Click(object sender, EventArgs e) {
-            //lbHistory.Items.RemoveAt(lbHistory.SelectedIndex);
-            //HistoryExport();
             foreach (DataGridViewRow item in this.dataGridView1.SelectedRows) {
                 if (item.IsNewRow == false) {
                     dataGridView1.Rows.RemoveAt(item.Index);
                 }
             }
         }
-
-        ////method HistoryListExport
-        //private void HistoryExport() {
-        //    string HistoryListExport = "";
-        //    foreach (string History in lbHistory.Items) {
-        //        HistoryListExport += History + "\n";
-        //    }
-        //    if (!Directory.Exists(Path.GetDirectoryName(DB_Path))) { //this removes the Filepattern from the pathfile and checkes if directory does NOT exist then create it.
-        //        Directory.CreateDirectory(Path.GetDirectoryName(DB_Path));
-        //    }
-        //    File.WriteAllText(DB_Path, HistoryListExport);
-        //}
 
         //Systray + RestoreFromTray
         private void Alarm_FormClosing(object sender, FormClosingEventArgs e) {
@@ -768,9 +733,10 @@ namespace Alarm {
             dataGridView1.Rows[settings.LastRowIndex].Cells[20].Value = settings.Flash;
             dataGridView1.Rows[settings.LastRowIndex].Cells[21].Value = settings.Shutdown; 
             dataGridView1.Rows[settings.LastRowIndex].Cells[22].Value = settings.Overwrite;
-            dataGridView1.Rows[settings.LastRowIndex].Cells[23].Value = settings.ActSoundSource;
+            //23 = Nextalarm
+            dataGridView1.Rows[settings.LastRowIndex].Cells[24].Value = settings.ActSoundSource;
 
-    StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 
             IEnumerable<string> columnNames = ADT.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
             sb.AppendLine(string.Join(",", columnNames));
@@ -780,7 +746,10 @@ namespace Alarm {
                 sb.AppendLine(string.Join(",", fields));
             }
 
-            File.WriteAllText("C:\\MyTemp\\VS\\AlarmList.csv", sb.ToString());
+            if (!Directory.Exists(Path.GetDirectoryName(DB_Path))) { //this removes the Filepattern from the pathfile and checkes if directory does NOT exist then create it.
+                 Directory.CreateDirectory(Path.GetDirectoryName(DB_Path));
+            }
+            File.WriteAllText(DB_Path, sb.ToString());
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
@@ -856,9 +825,71 @@ namespace Alarm {
             if (dataGridView1.Rows[e.RowIndex].Cells[22].Value != null) {
                 AlarmSettingsGui.Overwrite = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[22].Value); 
             }
+            //23 = NextAlarm
+            if (dataGridView1.Rows[e.RowIndex].Cells[24].Value != null) {
+                AlarmSettingsGui.ActSoundSource = dataGridView1.Rows[e.RowIndex].Cells[24].Value.ToString();
+            }
             AlarmSettingsGui.Show();
 
-            ///
+            
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e) {
+            Dispose();
+        }
+
+        private void btnMinimize_Click(object sender, EventArgs e) {
+            StringBuilder sb = new StringBuilder();
+
+            IEnumerable<string> columnNames = ADT.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
+            sb.AppendLine(string.Join(",", columnNames));
+
+            foreach (DataRow row in ADT.Rows) {
+                IEnumerable<string> fields = row.ItemArray.Select(field => string.Concat("\"", field.ToString().Replace("\"", "\"\""), "\""));
+                sb.AppendLine(string.Join(",", fields));
+            }
+
+            if (!Directory.Exists(Path.GetDirectoryName(DB_Path))) { //this removes the Filepattern from the pathfile and checkes if directory does NOT exist then create it.
+                Directory.CreateDirectory(Path.GetDirectoryName(DB_Path));
+            }
+            File.WriteAllText(DB_Path, sb.ToString());
+            Hide();
+        }
+        
+        /*TODO
+        
+        config/registry -> save Properties.Settings.Default.Save();
+        Activate Alarm/Countdown Button
+        option -> raidobutton -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
+        Change List into a List Containing Alarm + chkbox, days, + upcomming alarms for example: http://freealarmclocksoftware.com/images/alarmclock.png
+        Warning - if Alarm/countdown changed while active -> MsgBox -> reload Alarm|keep active Alarm and changes|cancel changes
+        repeat alarm - else deaktivate it after it was triggered
+        Seperate Stopflash for Alarm and Counter else it will get overwritten if both are active(still works though)
+        Check for double entries on OK button
+        enable or delete "delete all" button
+        add tooltips to the delte buttons
+        Add icon and usefull information to AlarmMsg (AlarmTime,Note
+        order by - new field combinded of date/time/allways active - vorraussetzung um überschreiben von NextAlarm zu verhindern noch nicht gegeben
+        -choose soundoutput for Countdown?
+        -Stop Flashing On AlarmMsgBox - OK
+
+
+        Changelog
+
+        +cleaned comments
+        +Usefull stuff gathered in Snigget to be moved into a seperate project
+        +ActSoundSource does now get calculated correctly
+        +Sound playing on Alarm works now for Ringtone (rest not tested yet)
+        +selected Radiobtns do now get stored and loaded out of Datatable
+
+        +Alarm for Countdown working now
+        ~started on Radiobtn soundsourcefield
+        +removed dead code and controls
+        
+        */
+
+        /* Snigget
+        
             // Manuel way to Set up a Form + Controls
             ///
             //Form GridForm = new Form();
@@ -878,125 +909,13 @@ namespace Alarm {
             //GlblNote.Text = "Note:";
             //GlblNote.Location = new Point(5,5);
             //GridForm.Controls.Add(GlblNote);
-        }
-
-        //TODO
-        /*
-        
-        config/registry -> save Properties.Settings.Default.Save();
-        Activate Alarm/Countdown Button
-        option -> raidobutton -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
-        Change List into a List Containing Alarm + chkbox, days, + upcomming alarms for example: http://freealarmclocksoftware.com/images/alarmclock.png
-        Warning - if Alarm/countdown changed while active -> MsgBox -> reload Alarm|keep active Alarm and changes|cancel changes
-        repeat alarm - else deaktivate it after it was triggered
-        Seperate Stopflash for Alarm and Counter else it will get overwritten if both are active(still works though)
-        Check for double entries on OK button
-        enable or delete "delete all" button
-        add tooltips to the delte buttons
-        Add icon and usefull information to AlarmMsg (AlarmTime,Note
-        order by - new field combinded of date/time/allways active - vorraussetzung um überschreiben von NextAlarm zu verhindern noch nicht gegeben
-
-
-        Changelog
-
-        +Alarm for Countdown working now
-        ~started on Radiobtn soundsourcefield
-        +removed dead code and controls
-
-
-        +Addet new column for NextAlarm
-        +Most of the Code to Calculate NextAlarm is done
-
-        +Flash does now get triggered on Alarm and blinks for 15 Sec before it gets disabled
-        +RowHeader is now visible again since he is required to select a row
-        +selected rows can now be deleted with the Delete button
-
-        +flash and shutdown settings will now be loaded from Alarm
-        +Option to overwrite flash and shutdown for each alarm
-        +Method AlarmGoesOff added
-        +depending on how the alarm was configured the Date will be merged together in diffrent ways
-        +MergedTime does now get compared with current DateTime which does make the Alarmtrigger working again
-        +Added Flash Trigger for alarm - not correct yet!!
-
-
-        +Added AlarmtriggerConcept (explained in tooltips on AlarmSettings Form)
-        +Inclueds a Repeat Alarm function now if a Weekday is choosen (not working with a Date)
-        +Current Date and Time (Hr+Min) does now get returned correctly
-
-
-        +Day and Repeat checkbox values do now get stored in DB
-        +Playing SoundFile will work with otherFiles then wav as well.
-        +No Program will pop Up when playing SoundFiles
-        +openfiledialog does return Path+FileName now
-
-        +DateTime got Changed (splited into 3 fields)
-        +Hour and Min get stored with leading Zeros
-        +rewored Datagridtable width and alignment
-        +Combobox Value is now Shown in Datagridtable
-        +Combobox Value gets correctly selected on loading AlarmSettings Form
-        +renamed Buttons
-        +Youtube Button is now starting the default Browser and opens the containing link
-        +Programpathbtn is now opening the path or selected File
-        +if Programpathbtn is empty a OpenFileDialog will appear
-        -openfiledialog doesn't return Path yet
-        -openfiledialog errorhandling missing
-
-
-
-        +Values from AlarmSetting to Alarm are Ok - including Checkbox.
-        -DateTime Control needs to be reworked
-
-        +playing soundfiles over path is working now.
-        -Files need to be implemented into programm files
-        -Path needs to load from resources
-
-
-        +reworked Alarmsetting Buttons -> working on Function (Path/Playsound/noFileExists/load from resources)
-        +New Line without Values can now be loaded into AlarmSettingsFrame.
-
-        +Csv will now be imported and loaded into AlarmSettings
-
-        +DataTable will now be stored in a csv.file
-
-        +OK Button is closing Gui now.
-        +Started to code Datatransfer from AlarmSettings back to Alarm
-
-        +Reworked AlarmSettings Gui
-        +Cells Data is now shown in AlarmSettingsGui
-        +Addet Testbutton fopr paths - no function yet
-
-
-        +Added Controlls and Variables for Dataexchange betweem Alarm and AlarmSettings
-
-        +Klomi code for data exchange between Alarm and Alarmsettings
-        -Code to get amount of Variables(Columns in Rows) still needs to be written.
-
-        +choosing between manuall configured Form(ManualForm) and Form with Gui(created in project) "GuiForm"
-        +added controlls to both
-        -issues accessing new GuiForm
-
-
-        +Added DataSet, DataTable, DataColumn, DataGridView
-
-        +Alarm trigger can seperate countdown from Alarm now.
-        +Started to implement multiple monitor support
-        +Added ScreenFlashing - For 1 Monitor
-        +Countdown now working
-
-        +Check Path if exists - else create path
-        +DB-file will be stored in User\mydocuments
-        +Startvalues are now set directly in GUI
-        +SystrayIcon is now correctly shown
-        +reopen programm out of systray is now working
-        +added menu to systray
-        +added menu shortcuts (Alt+ .....)
-        -DB-file won´t be stored with the *exe
-
-        +Alarm Time startValue is changed to current time at start
-        +new funktion "No double entries"
-        -systray in progress
-        +notiz is now show in AlarmMsg
-        
+         
+            ////Create FileDirectory (MyDocuments)
+            //  string DB_Path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Alarm\\AlarmHistory.csv");
+            //    if (!Directory.Exists(Path.GetDirectoryName(DB_Path))) { //this removes the Filepattern from the pathfile and checkes if directory does NOT exist then create it.
+            //        Directory.CreateDirectory(Path.GetDirectoryName(DB_Path));
+            //    }
+            //    File.WriteAllText(DB_Path, HistoryListExport);
         */
     }
 }
