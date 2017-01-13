@@ -25,7 +25,24 @@ namespace Alarm {
             }
         }
 
-        
+        //Var DayActive
+        //contains the value if any day checkbox is active
+        private bool _DayActive;
+        public bool DayActive {
+            get { return _DayActive; }
+            set {
+                _DayActive = value;
+
+                if (value == true) {
+                    dtASDate.Enabled = false;
+                }
+                else {
+                    dtASDate.Enabled = true;
+                }
+            }
+        }
+
+
 
         private int _LastRowIndex;
         public int LastRowIndex {
@@ -311,13 +328,13 @@ namespace Alarm {
             System.Windows.Forms.ToolTip ToolTipcbAlarmActive = new System.Windows.Forms.ToolTip();
             System.Windows.Forms.ToolTip ToolTiplblASHelp = new System.Windows.Forms.ToolTip();
             System.Windows.Forms.ToolTip ToolTipcbASRepeat = new System.Windows.Forms.ToolTip();
-            ToolTipdtASDate.SetToolTip(dtASDate, "Please insert your Note that should be attatched to the Alarm.");
-            ToolTipnumASHour.SetToolTip(numASHour, "Here you can Set the Alarm hour.");
-            ToolTipnumASMin.SetToolTip(numASMin, "Here you can Set the Alarm minute.");
-            ToolTiptbASYoutubePath.SetToolTip(tbASYoutubePath, "Please insert your Note that should be attatched to the Alarm.");
-            ToolTiptbASFilePath.SetToolTip(tbASFilePath, "Please insert your Note that should be attatched to the Alarm.");
-            ToolTipcbASAlarmSound.SetToolTip(combASAlarmSound, "Please insert your Note that should be attatched to the Alarm.");
-            ToolTiptbASNote.SetToolTip(tbASNote, "Please insert your Note that should be attatched to the Alarm.");
+            ToolTipdtASDate.SetToolTip(dtASDate, "Set your Date for the Alarm. If you check a Weekday on the right the Datefield will get disabled.");
+            ToolTipnumASHour.SetToolTip(numASHour, "Here you can set the Alarm hour.");
+            ToolTipnumASMin.SetToolTip(numASMin, "Here you can set the Alarm minute.");
+            ToolTiptbASYoutubePath.SetToolTip(tbASYoutubePath, "Here you can insert a Youtube URL that should be opend and played on alarm.");
+            ToolTiptbASFilePath.SetToolTip(tbASFilePath, "Here you can insert a path to a program.exe\nfor example \" C:\\Windows\\System32\\Calc.exe\"");
+            ToolTipcbASAlarmSound.SetToolTip(combASAlarmSound, "Here you can choose a sound that should be opend and played on alarm.");
+            ToolTiptbASNote.SetToolTip(tbASNote, "Please insert your Note that should be shown on Alarm.");
             ToolTipcbAlarmActive.SetToolTip(cbASActive, "Alarm will be triggered in the following cases: \n\n -Alarm Checkbox is checked\n\n    -a day checkbox is checked (makes Date field inactive)\n    -a day checkbox is checked AND the repeat checkbox as well (makes Date field inactive) \n    -no day checkbox is checked (makes Date field active) - and the Date+Time is in the future");
             ToolTipcbAlarmActive.AutoPopDelay = 20000;
             ToolTiplblASHelp.SetToolTip(lblASHelp, "Alarm will be triggered in the following cases: \n\n -Alarm Checkbox is checked\n\n    -a day checkbox is checked (makes Date field inactive)\n    -a day checkbox is checked AND the repeat checkbox as well (makes Date field inactive) \n    -no day checkbox is checked (makes Date field active) - and the Date+Time is in the future");
@@ -418,6 +435,17 @@ namespace Alarm {
             }
         }
 
+        private void onchanged_checkedWeekday (object sender, EventArgs e) {
+            //if any Weekday is checked then the Date field will be hidden
+            if (cbASMon.Checked || cbASTue.Checked || cbASWed.Checked ||  cbASThu.Checked || cbASFri.Checked || cbASSat.Checked || cbASSun.Checked) {
+                //dtASDate.Enabled = false;
+                DayActive = true;
+            }
+            else {
+                DayActive = false;
+            }
+        }
+
         //Soundfile
         private void btbASFileDialog_MouseDown(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
@@ -460,6 +488,10 @@ namespace Alarm {
             if (cbASOverwrite.Checked) {
                 cbASFlash.Enabled = true;
                 cbASShutdown.Enabled = true;
+            }
+            else {
+                cbASFlash.Enabled = false;
+                cbASShutdown.Enabled = false;
             }
         }
     }

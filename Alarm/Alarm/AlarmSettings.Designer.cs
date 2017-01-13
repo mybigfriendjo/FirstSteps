@@ -143,12 +143,12 @@
             // 
             this.dtASDate.Location = new System.Drawing.Point(9, 49);
             this.dtASDate.Name = "dtASDate";
-            this.dtASDate.Size = new System.Drawing.Size(189, 20);
+            this.dtASDate.Size = new System.Drawing.Size(178, 20);
             this.dtASDate.TabIndex = 8;
             // 
             // numASHour
             // 
-            this.numASHour.Location = new System.Drawing.Point(200, 49);
+            this.numASHour.Location = new System.Drawing.Point(190, 49);
             this.numASHour.Maximum = new decimal(new int[] {
             23,
             0,
@@ -161,7 +161,7 @@
             // 
             // numASMin
             // 
-            this.numASMin.Location = new System.Drawing.Point(245, 49);
+            this.numASMin.Location = new System.Drawing.Point(235, 49);
             this.numASMin.Maximum = new decimal(new int[] {
             59,
             0,
@@ -326,6 +326,7 @@
             this.cbASMon.Size = new System.Drawing.Size(15, 14);
             this.cbASMon.TabIndex = 26;
             this.cbASMon.UseVisualStyleBackColor = true;
+            this.cbASMon.CheckedChanged += new System.EventHandler(this.onchanged_checkedWeekday);
             // 
             // cbASTue
             // 
@@ -335,6 +336,7 @@
             this.cbASTue.Size = new System.Drawing.Size(15, 14);
             this.cbASTue.TabIndex = 27;
             this.cbASTue.UseVisualStyleBackColor = true;
+            this.cbASTue.CheckedChanged += new System.EventHandler(this.onchanged_checkedWeekday);
             // 
             // cbASWed
             // 
@@ -344,6 +346,7 @@
             this.cbASWed.Size = new System.Drawing.Size(15, 14);
             this.cbASWed.TabIndex = 28;
             this.cbASWed.UseVisualStyleBackColor = true;
+            this.cbASWed.CheckedChanged += new System.EventHandler(this.onchanged_checkedWeekday);
             // 
             // cbASThu
             // 
@@ -353,6 +356,7 @@
             this.cbASThu.Size = new System.Drawing.Size(15, 14);
             this.cbASThu.TabIndex = 29;
             this.cbASThu.UseVisualStyleBackColor = true;
+            this.cbASThu.CheckedChanged += new System.EventHandler(this.onchanged_checkedWeekday);
             // 
             // cbASFri
             // 
@@ -362,6 +366,7 @@
             this.cbASFri.Size = new System.Drawing.Size(15, 14);
             this.cbASFri.TabIndex = 30;
             this.cbASFri.UseVisualStyleBackColor = true;
+            this.cbASFri.CheckedChanged += new System.EventHandler(this.onchanged_checkedWeekday);
             // 
             // cbASSat
             // 
@@ -371,6 +376,7 @@
             this.cbASSat.Size = new System.Drawing.Size(15, 14);
             this.cbASSat.TabIndex = 31;
             this.cbASSat.UseVisualStyleBackColor = true;
+            this.cbASSat.CheckedChanged += new System.EventHandler(this.onchanged_checkedWeekday);
             // 
             // cbASSun
             // 
@@ -380,6 +386,7 @@
             this.cbASSun.Size = new System.Drawing.Size(15, 14);
             this.cbASSun.TabIndex = 32;
             this.cbASSun.UseVisualStyleBackColor = true;
+            this.cbASSun.CheckedChanged += new System.EventHandler(this.onchanged_checkedWeekday);
             // 
             // cbASRepeat
             // 

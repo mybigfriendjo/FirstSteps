@@ -108,6 +108,7 @@ namespace Alarm {
                 foreach (DataRow Row in LoadData.Rows) {
                     RowCnt++;
                     DataRow RowName = ADT.NewRow();
+                    RowName["Date"] = Row["Date"];
                     RowName["Hour"] = Row["Hour"];
                     RowName["Minute"] = Row["Minute"];
                     RowName["AlarmActive"] = Row["AlarmActive"];
@@ -756,7 +757,8 @@ namespace Alarm {
             //Load DatagridView into AlarmSettings Form
             AlarmSettings AlarmSettingsGui = new AlarmSettings(this);
             AlarmSettingsGui.LastRowIndex = e.RowIndex;
-            if(dataGridView1.Rows[e.RowIndex].Cells[0].Value != null) {
+
+            if (dataGridView1.Rows[e.RowIndex].Cells[0].Value != null) {
                 AlarmSettingsGui.Date = string.Format("{0:dd.MM.yyyy}", dataGridView1.Rows[e.RowIndex].Cells[0].Value);
             }
             if (dataGridView1.Rows[e.RowIndex].Cells[1].Value != null) {
@@ -829,9 +831,17 @@ namespace Alarm {
             if (dataGridView1.Rows[e.RowIndex].Cells[24].Value != null) {
                 AlarmSettingsGui.ActSoundSource = dataGridView1.Rows[e.RowIndex].Cells[24].Value.ToString();
             }
+
+            if (AlarmSettingsGui.Mon == true || AlarmSettingsGui.Mon == true || AlarmSettingsGui.Mon == true || AlarmSettingsGui.Mon == true || AlarmSettingsGui.Mon == true || AlarmSettingsGui.Mon == true || AlarmSettingsGui.Mon == true) {
+                AlarmSettingsGui.DayActive = true;
+            }
+            else {
+                AlarmSettingsGui.DayActive = false;
+            }
+
             AlarmSettingsGui.Show();
 
-            
+           
         }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -872,6 +882,7 @@ namespace Alarm {
         order by - new field combinded of date/time/allways active - vorraussetzung um überschreiben von NextAlarm zu verhindern noch nicht gegeben
         -choose soundoutput for Countdown?
         -Stop Flashing On AlarmMsgBox - OK
+        -Add SetNow button for Date/Time
 
 
         Changelog
@@ -881,6 +892,7 @@ namespace Alarm {
         +ActSoundSource does now get calculated correctly
         +Sound playing on Alarm works now for Ringtone (rest not tested yet)
         +selected Radiobtns do now get stored and loaded out of Datatable
+        +Datefield does no get disabled when there is a checked day
 
         +Alarm for Countdown working now
         ~started on Radiobtn soundsourcefield
