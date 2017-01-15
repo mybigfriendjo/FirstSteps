@@ -892,7 +892,7 @@ namespace Alarm {
         +ActSoundSource does now get calculated correctly
         +Sound playing on Alarm works now for Ringtone (rest not tested yet)
         +selected Radiobtns do now get stored and loaded out of Datatable
-        +Datefield does no get disabled when there is a checked day
+        +Datefield does no get disabled when there is a checked day 
 
         +Alarm for Countdown working now
         ~started on Radiobtn soundsourcefield
