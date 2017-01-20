@@ -167,20 +167,6 @@ namespace Alarm {
             
             dataGridView1.DataSource = ADS.Tables[0];
 
-            ////Loadlist - with Exceptionhandling (try/catch)
-            //try {
-            //    if (File.Exists(DB_Path)) {
-            //        string[] HistoryListImport = File.ReadAllLines(DB_Path);
-            //        foreach (string History in HistoryListImport) {
-            //            lbHistory.Items.Add(History);
-            //        }
-            //    }
-            //}
-            //catch (FileNotFoundException HistoryLoadError) {
-            //    // Write error.
-            //    Console.WriteLine(HistoryLoadError);
-            //}
-
             //TimerSettings
             t = new Timer();
             t.Tick += new EventHandler(tTick);
@@ -203,31 +189,11 @@ namespace Alarm {
                 //string[] Array = new string "a" [cnt];
                 cnt++;
             }
-            //MessageBox.Show(DisplayInfo);
+            MessageBox.Show(DisplayInfo);
 
             //GetNextAlarm();
 
         }
-
-        //private void btnSave_Click(object sender, EventArgs e) {
-
-        //    //Save Historylist:  Foreach Item in lbHistory Append String to VarExport
-        //    string Space = new string(' ', 20);
-        //    string NewHistoryEntry = string.Format("{0:00}", numAlarmHour.Value) + ":" + numAlarmMin.Value.ToString("00") + Space + tbNote.Text + "";
-        //    //Check for double entries
-        //    int DoubleEntry = 0;
-        //    if (cbNoDoubleEntry.Checked) {
-        //        foreach (string History in lbHistory.Items) {
-        //            if (History == NewHistoryEntry) {
-        //                DoubleEntry = 1;
-        //            }
-        //        }
-        //    }
-        //    if (DoubleEntry == 0) {
-        //        lbHistory.Items.Add(NewHistoryEntry);
-        //        HistoryExport();
-        //    }
-        //}
 
         int CountdownChecked = 0;
         private void CountdownRadio(Object sender, EventArgs e) {
@@ -266,9 +232,6 @@ namespace Alarm {
                     }
                     else if (Convert.ToBoolean(dataGridView1.Rows[Row.Index].Cells[19].Value) == true) {
                         //At least one Day is active - repeat is on as well
-                        //if (MergeAlarm("Repeat", string.Format("{0:dd.MM.yyyy}", DateTime.Now.ToString()), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()) == CurrentTime){
-                        //string AlarmDateTime = string.Format("{0:dd.MM.yyyy}", DateTime.Now.ToString());
-                        //AlarmDateTime = AlarmDateTime.Remove(10, 9) + ;
                         source = "Repeat";
                         if (MergeAlarm(source, string.Format("{0:dd.MM.yyyy}", DateTime.Now.ToString()), dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()) == CurrentTime) {
                             if (currentday == "Monday") {
@@ -360,22 +323,15 @@ namespace Alarm {
                 }
             }
 
-            //if(StopFlash == null) {
-            //    StopFlash = Convert.ToDateTime(MergeAlarm(source, DateString, dataGridView1.Rows[Row.Index].Cells[1].Value.ToString(), dataGridView1.Rows[Row.Index].Cells[2].Value.ToString()));
-            //    StopFlash = StopFlash.AddSeconds(15);
-            //}
-
             if ( DateTime.Now < StopFlash && DateTime.Now > StopFlash.AddSeconds(-15)) {
                 FrameFlash(null, null);
             }
-            
-            //if (cbCountdown.Checked && AlarmActive && CountdownChecked == 1) {
-            //    if (DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") == lblCountdownTime.Text) { //Format = "02.09.2016 15:29"    
-            //        StopFlash = Convert.ToDateTime(lblCountdownTime.Text);
-            //        StopFlash = StopFlash.AddSeconds(15);
-            //        MessageBox.Show(" U da CountdownMan");
-            //    }
-            //}
+
+            if (cbCountdown.Checked && AlarmActive && CountdownChecked == 1) {
+                if (DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") == lblCountdownTime.Text) { //Format = "02.09.2016 15:29"
+                    AlarmGoesOff("Countdown", null, CountdownTimeADD.ToString(), 0);
+                }
+            }
 
             if (StopFlash > DateTime.Now.AddYears(-1) && DateTime.Now > StopFlash.AddSeconds(2)) {
                 //Hide all BoarderForms
@@ -384,38 +340,7 @@ namespace Alarm {
                 FrmLeft.Hide();
                 FrmRight.Hide();
                 FrmTop.Hide();
-
-                //DateTime CountdownTime = Convert.ToDateTime(lblCountdownTime.Text);
-                //MessageBox.Show("CntTimeText: " + lblCountdownTime.Text + "\n" + "CntTimeTime: " + CountdownTime.ToString() + "\n" + "Now: " + DateTime.Now.ToString());
-                //if (lblCountdownTime.Text == "" || CountdownTime < DateTime.Now) {
-                //    btnAcivateAlarm.Text = "Activate Countdown";
-                //    AlarmActive = false;
-                //    //t.Enabled = false; //disables Timer
-                //    lblCountdownTime.Text = "";
-                //}
             }
-
-            //string TodaysDate = DateTime.Now.ToString("dd.MM.yyyy"); //As long as there is no DateField includet or it is NULL
-            //string AlarmValue = TodaysDate + " " + numAlarmHour.Value.ToString("00") + ":" + numAlarmMin.Value.ToString("00") + ":00";
-            //string CountdownValue = TodaysDate + " " + numCountdownHour.Value.ToString("00") + ":" + numCountdownMin.Value.ToString("00") + ":00";
-            //if (DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") == AlarmValue && cbAlarm.Checked && AlarmActive) { //Format = "02.09.2016 15:29"
-            //    //File.AppendAllText("C:\\Temp\\Config.txt", Environment.NewLine + "WayToGo");
-            //    StopFlash = Convert.ToDateTime(AlarmValue);
-            //    StopFlash = StopFlash.AddSeconds(15);
-
-            //    MessageBox.Show("It´s an Alarm! Watcha gonna do" + tbNote.Text);
-            //}
-
-            ////Alarm went off - FlashScreen Activated
-            //if (cbAlarm.Checked && cbFlashscreen.Checked && DateTime.Now < StopFlash && AlarmActive && ( DateTime.Now > Convert.ToDateTime(AlarmValue))) { //If Time is between Alarm and Stopflash(Alarm +15sec)
-            //    FrameFlash(null, null);
-            //}
-            ////Countdown went off - FlashScreen Activated
-            //if (lblCountdownTime.Text != "") {
-            //    if (cbCountdown.Checked && cbFlashscreen.Checked && DateTime.Now < StopFlash && AlarmActive && (DateTime.Now > Convert.ToDateTime(lblCountdownTime.Text))) { //If Time is between Countdown and Stopflash(Alarm +15sec)
-            //        FrameFlash(null, null);
-            //    }
-            //}
         }
 
         private void GetNextAlarm() {
@@ -865,27 +790,27 @@ namespace Alarm {
             File.WriteAllText(DB_Path, sb.ToString());
             Hide();
         }
-        
+
         /*TODO
         
-        config/registry -> save Properties.Settings.Default.Save();
-        Activate Alarm/Countdown Button
-        option -> raidobutton -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
-        Change List into a List Containing Alarm + chkbox, days, + upcomming alarms for example: http://freealarmclocksoftware.com/images/alarmclock.png
-        Warning - if Alarm/countdown changed while active -> MsgBox -> reload Alarm|keep active Alarm and changes|cancel changes
-        repeat alarm - else deaktivate it after it was triggered
-        Seperate Stopflash for Alarm and Counter else it will get overwritten if both are active(still works though)
-        Check for double entries on OK button
-        enable or delete "delete all" button
-        add tooltips to the delte buttons
-        Add icon and usefull information to AlarmMsg (AlarmTime,Note
         order by - new field combinded of date/time/allways active - vorraussetzung um überschreiben von NextAlarm zu verhindern noch nicht gegeben
+        -Check for double entries on OK button
+            >Function: Check for double entries on OK button
+            >Menustring 
+        -Warning - if Alarm/countdown changed while active -> MsgBox -> reload Alarm|keep active Alarm and changes|cancel changes
         -choose soundoutput for Countdown?
+        -Add icon and usefull information to AlarmMsg (AlarmTime,Note
+        -add tooltips to the delte buttons
+        -option -> raidobutton -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
         -Stop Flashing On AlarmMsgBox - OK
         -Add SetNow button for Date/Time
 
 
         Changelog
+
+        +further comments cleaning
+        +repeat alarm - else deaktivate it after it was triggered
+        +added Countdown into AlarmGoesOff function
 
         +cleaned comments
         +Usefull stuff gathered in Snigget to be moved into a seperate project
