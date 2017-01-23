@@ -280,7 +280,7 @@ namespace Alarm {
             }
         }
 
-        //Var ActSoundSource (Cell 23)
+        //Var NextAlarm (Cell 23)
 
         //Var ActSoundSource (Cell 24)
         private string _ActSoundSource;
@@ -328,9 +328,9 @@ namespace Alarm {
             System.Windows.Forms.ToolTip ToolTipcbAlarmActive = new System.Windows.Forms.ToolTip();
             System.Windows.Forms.ToolTip ToolTiplblASHelp = new System.Windows.Forms.ToolTip();
             System.Windows.Forms.ToolTip ToolTipcbASRepeat = new System.Windows.Forms.ToolTip();
-            ToolTipdtASDate.SetToolTip(dtASDate, "Set your Date for the Alarm. If you check a Weekday on the right the Datefield will get disabled.");
-            ToolTipnumASHour.SetToolTip(numASHour, "Here you can set the Alarm hour.");
-            ToolTipnumASMin.SetToolTip(numASMin, "Here you can set the Alarm minute.");
+            ToolTipdtASDate.SetToolTip(dtASDate, "Set your Date for the Alarm. If you check a Weekday on the right the Datefield will get disabled.\nRight click will set the current Date.");
+            ToolTipnumASHour.SetToolTip(numASHour, "Here you can set the Alarm hour.\nRight click will set the current Date.");
+            ToolTipnumASMin.SetToolTip(numASMin, "Here you can set the Alarm minute.\nRight click will set the current Date.");
             ToolTiptbASYoutubePath.SetToolTip(tbASYoutubePath, "Here you can insert a Youtube URL that should be opend and played on alarm.");
             ToolTiptbASFilePath.SetToolTip(tbASFilePath, "Here you can insert a path to a program.exe\nfor example \" C:\\Windows\\System32\\Calc.exe\"");
             ToolTipcbASAlarmSound.SetToolTip(combASAlarmSound, "Here you can choose a sound that should be opend and played on alarm.");
@@ -443,6 +443,19 @@ namespace Alarm {
             }
             else {
                 DayActive = false;
+            }
+        }
+
+        //DateSetnow on rightclick
+        private void btbDateTime_MouseDown(object sender, MouseEventArgs e) {
+            if (sender == dtASDate && e.Button == MouseButtons.Right) {
+                dtASDate.Value = DateTime.Now;
+            }
+            else if (sender ==  numASHour && e.Button == MouseButtons.Right) {
+                numASHour.Value = DateTime.Now.Hour;
+            }
+            else if (sender == numASMin && e.Button == MouseButtons.Right) {
+                numASMin.Value = DateTime.Now.Minute;
             }
         }
 

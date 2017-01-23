@@ -182,6 +182,11 @@ namespace Alarm {
             MyNotifyIcon.Text = "double leftclick to maximize Program."; //systray helptext
             MyNotifyIcon.DoubleClick += MyNotifyIcon_MouseDoubleClick; //Easy create method when first set += Methodname -> rightclick it afterwards "create method". //At doubleclick load methode
 
+            //Set Tooltip
+            System.Windows.Forms.ToolTip ToolTipbtnDelete = new System.Windows.Forms.ToolTip();
+            ToolTipbtnDelete.SetToolTip(btnDelete, "This will delete the selected row.");
+
+
             //Gather DisplayInfo
             int cnt = 0;
             foreach (var screen in Screen.AllScreens) {
@@ -189,7 +194,7 @@ namespace Alarm {
                 //string[] Array = new string "a" [cnt];
                 cnt++;
             }
-            MessageBox.Show(DisplayInfo);
+            //MessageBox.Show(DisplayInfo);
 
             //GetNextAlarm();
 
@@ -479,7 +484,8 @@ namespace Alarm {
                         Process.Start(System.Environment.SystemDirectory + "\\shutdown.exe", "-s -t 600");
                     }
                 }
-                MessageBox.Show("sender: " + sender.ToString() + "\n Day: " + day + "\n Index: " + index);
+                //MessageBox.Show("sender: " + sender.ToString() + "\nDay: " + day + "\nIndex: " + index, "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Day: " + day + "\n\n" + dataGridView1.Rows[index].Cells[4].Value.ToString(), "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             else { //sender == "Countdown"
                 if (cbFlashscreen.Checked) {
@@ -489,7 +495,7 @@ namespace Alarm {
                 if (cbShutdown.Checked) {
                     Process.Start(System.Environment.SystemDirectory + "\\shutdown.exe", "-s -t 600");
                 }
-                MessageBox.Show("sender: " + sender.ToString() + "\n Day: " + day + "\n Index: " + index);
+                MessageBox.Show(/* "sender: " + sender.ToString() + "\n*/"Day: " + day /*+ "\nIndex: " + index*/,"Countdown",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -800,29 +806,22 @@ namespace Alarm {
         -Warning - if Alarm/countdown changed while active -> MsgBox -> reload Alarm|keep active Alarm and changes|cancel changes
         -choose soundoutput for Countdown?
         -Add icon and usefull information to AlarmMsg (AlarmTime,Note
-        -add tooltips to the delte buttons
         -option -> raidobutton -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
         -Stop Flashing On AlarmMsgBox - OK
-        -Add SetNow button for Date/Time
+        -Adjust flashing for multiple Screens
+        
 
 
         Changelog
 
+        +Add SetNow button for Date/Time
+        +Adjusted tooltip for Hour/Min field
+        +Added tooltips to the delete buttons
+        +Added more Info to Alarm MsgBox
+
         +further comments cleaning
         +repeat alarm - else deaktivate it after it was triggered
         +added Countdown into AlarmGoesOff function
-
-        +cleaned comments
-        +Usefull stuff gathered in Snigget to be moved into a seperate project
-        +ActSoundSource does now get calculated correctly
-        +Sound playing on Alarm works now for Ringtone (rest not tested yet)
-        +selected Radiobtns do now get stored and loaded out of Datatable
-        +Datefield does no get disabled when there is a checked day 
-
-        +Alarm for Countdown working now
-        ~started on Radiobtn soundsourcefield
-        +removed dead code and controls
-        
         */
 
         /* Snigget

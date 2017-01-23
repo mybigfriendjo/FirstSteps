@@ -145,6 +145,7 @@
             this.dtASDate.Name = "dtASDate";
             this.dtASDate.Size = new System.Drawing.Size(178, 20);
             this.dtASDate.TabIndex = 8;
+            this.dtASDate.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btbDateTime_MouseDown);
             // 
             // numASHour
             // 
@@ -158,6 +159,7 @@
             this.numASHour.Size = new System.Drawing.Size(42, 20);
             this.numASHour.TabIndex = 9;
             this.numASHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numASHour.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btbDateTime_MouseDown);
             // 
             // numASMin
             // 
@@ -170,6 +172,7 @@
             this.numASMin.Name = "numASMin";
             this.numASMin.Size = new System.Drawing.Size(42, 20);
             this.numASMin.TabIndex = 10;
+            this.numASMin.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btbDateTime_MouseDown);
             // 
             // rbASYoutubepath
             // 
