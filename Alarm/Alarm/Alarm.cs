@@ -30,6 +30,10 @@ namespace Alarm {
         DataSet ADS;
         DataTable ADT;
 
+        //Gather DisplayInfo
+        int ScreenCnt = 0;
+        List<Screen> Myscreens = new List<Screen>(); //creates a new list containing objects of type "Screen"
+
 
         //Old controlls - Vars
         DateTime numAlarmHour = DateTime.Now;
@@ -188,14 +192,14 @@ namespace Alarm {
 
 
             //Gather DisplayInfo
-            int cnt = 0;
             foreach (var screen in Screen.AllScreens) {
-                DisplayInfo += screen.DeviceName + "\n" + screen.Bounds.ToString() + "\n" + screen.Bounds.X.ToString() + "\n" + screen.Bounds.Y.ToString() + "\n" + screen.Bounds.Width.ToString() + "\n" + screen.Bounds.Height.ToString() + "\n" + screen.GetType().ToString() + "\n" + screen.WorkingArea.ToString() + "\n" + screen.Primary.ToString() + "\n\n\n";
+                DisplayInfo += screen.DeviceName + "\n" + screen.Bounds.ToString() + "\n" + screen.Bounds.X.ToString() + "\n" + screen.Bounds.Y.ToString() + "\n" + screen.Bounds.Width.ToString() + "\n" + screen.Bounds.Height.ToString() + "\n" + screen.GetType().ToString() + "\n" + screen.WorkingArea.ToString() + "\n" + screen.Primary.ToString() + "\n" + screen.WorkingArea.ToString() + "\n\n\n";
                 //string[] Array = new string "a" [cnt];
-                cnt++;
+                ScreenCnt++;
+                Myscreens.Add(screen);
             }
-            //MessageBox.Show(DisplayInfo);
-
+            MessageBox.Show(DisplayInfo);
+            //MessageBox.Show()
             //GetNextAlarm();
 
         }
@@ -329,7 +333,7 @@ namespace Alarm {
             }
 
             if ( DateTime.Now < StopFlash && DateTime.Now > StopFlash.AddSeconds(-15)) {
-                FrameFlash(null, null);
+                FrameFlash(null, null,Myscreens,Myscreens.Count);
             }
 
             if (cbCountdown.Checked && AlarmActive && CountdownChecked == 1) {
@@ -345,6 +349,14 @@ namespace Alarm {
                 FrmLeft.Hide();
                 FrmRight.Hide();
                 FrmTop.Hide();
+                FrmBottm2.Hide();
+                FrmLeft2.Hide();
+                FrmRight2.Hide();
+                FrmTop2.Hide();
+                FrmBottm3.Hide();
+                FrmLeft3.Hide();
+                FrmRight3.Hide();
+                FrmTop3.Hide();
             }
         }
 
@@ -495,7 +507,10 @@ namespace Alarm {
                 if (cbShutdown.Checked) {
                     Process.Start(System.Environment.SystemDirectory + "\\shutdown.exe", "-s -t 600");
                 }
-                MessageBox.Show(/* "sender: " + sender.ToString() + "\n*/"Day: " + day /*+ "\nIndex: " + index*/,"Countdown",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                DialogResult AlarmMsgResult = MessageBox.Show("Day: " + day, "Countdown", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                if (AlarmMsgResult == DialogResult.OK) {
+                    StopFlash = StopFlash.AddSeconds(-15);
+                }
             }
         }
 
@@ -579,38 +594,88 @@ namespace Alarm {
         Top FrmTop = new Top();
         LeftSide FrmLeft = new LeftSide();
         RightSide FrmRight = new RightSide();
-        private void FrameFlash(object sender, EventArgs e) {
-            
-           //Bottom
-            if (FrmBottm.Visible) {
-                FrmBottm.Hide();
-            }
-            else {
-                FrmBottm.Show();
-            }
+        //ScreenOverlay2
+        Bottom FrmBottm2 = new Bottom();
+        Top FrmTop2 = new Top();
+        LeftSide FrmLeft2 = new LeftSide();
+        RightSide FrmRight2 = new RightSide();
+        //ScreenOverlay3
+        Bottom FrmBottm3 = new Bottom();
+        Top FrmTop3 = new Top();
+        LeftSide FrmLeft3 = new LeftSide();
+        RightSide FrmRight3 = new RightSide();
 
-            //Top
-            if (FrmTop.Visible) {
-                FrmTop.Hide();
-            }
-            else {
-                FrmTop.Show();
-            }
+        Bottom[] bottomArray = { new Bottom(), new Bottom(), new Bottom() };
+        Top[] topArray = { new Top(), new Top(), new Top() };
+        LeftSide[] leftArray = { new LeftSide(), new LeftSide(), new LeftSide() };
+        RightSide[] rightArray = { new RightSide(), new RightSide(), new RightSide() };
 
-            //Left
-            if (FrmLeft.Visible) {
-                FrmLeft.Hide();
-            }
-            else {
-                FrmLeft.Show();
-            }
 
-            //Right
-            if (FrmRight.Visible) {
-                FrmRight.Hide();
-            }
-            else {
-                FrmRight.Show();
+
+        private void FrameFlash(object sender, EventArgs e, List<Screen> MyScreens, int ScreenCounter) {
+            for (int i = 0; i < MyScreens.Count; i++) {
+                //Bottom
+                if (bottomArray[i].Visible) {
+                    bottomArray[i].Hide();
+                }
+                else {
+                    bottomArray[i].Show();
+                }
+
+                //Top
+                if (topArray[i].Visible) {
+                    topArray[i].Hide();
+                }
+                else {
+                    topArray[i].Show();
+                }
+
+                //Left
+                if (leftArray[i].Visible) {
+                    leftArray[i].Hide();
+                }
+                else {
+                    leftArray[i].Show();
+                }
+
+                //Right
+                if (rightArray[i].Visible) {
+                    rightArray[i].Hide();
+                }
+                else {
+                    rightArray[i].Show();
+                }
+                ////Bottom
+                //if (FrmBottm.Visible) {
+                //    FrmBottm.Hide();
+                //}
+                //else {
+                //    FrmBottm.Show();
+                //}
+
+                ////Top
+                //if (FrmTop.Visible) {
+                //    FrmTop.Hide();
+                //}
+                //else {
+                //    FrmTop.Show();
+                //}
+
+                ////Left
+                //if (FrmLeft.Visible) {
+                //    FrmLeft.Hide();
+                //}
+                //else {
+                //    FrmLeft.Show();
+                //}
+
+                ////Right
+                //if (FrmRight.Visible) {
+                //    FrmRight.Hide();
+                //}
+                //else {
+                //    FrmRight.Show();
+                //}
             }
         }
 
@@ -807,17 +872,18 @@ namespace Alarm {
         -choose soundoutput for Countdown?
         -Add icon and usefull information to AlarmMsg (AlarmTime,Note
         -option -> raidobutton -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
-        -Stop Flashing On AlarmMsgBox - OK
-        -Adjust flashing for multiple Screens
+        -Screen Flashing Frame positioning
         
 
 
         Changelog
+        +Adjust flashing for multiple Screens -> Frame positioning is missing.
 
         +Add SetNow button for Date/Time
         +Adjusted tooltip for Hour/Min field
         +Added tooltips to the delete buttons
         +Added more Info to Alarm MsgBox
+        +Stop Flashing On AlarmMsgBox - OK
 
         +further comments cleaning
         +repeat alarm - else deaktivate it after it was triggered
