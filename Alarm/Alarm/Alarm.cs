@@ -895,6 +895,7 @@ namespace Alarm {
         -choose soundoutput for Countdown?
         -Add Note to Countdown
         -Add icon and usefull information to AlarmMsg (AlarmTime,Note
+        -Counter Note field tooltip
         
 
 
