@@ -381,9 +381,9 @@ namespace Alarm {
             Overwrite = cbASOverwrite.Checked;
             
 
-            mainWindow.UpdateRowDetails(this);
             isOpen = false;
             Dispose();
+            mainWindow.UpdateRowDetails(this);
         }
 
         private void AlarmSettings_FormClosing(object sender, FormClosingEventArgs e) {

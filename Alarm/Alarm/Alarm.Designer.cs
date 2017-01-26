@@ -54,6 +54,10 @@
             this.cbShutdown = new System.Windows.Forms.CheckBox();
             this.cbFlashscreen = new System.Windows.Forms.CheckBox();
             this.btnMinimize = new System.Windows.Forms.Button();
+            this.alarmTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.userDocumentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.programmPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownMin)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -176,6 +180,8 @@
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.languageToolStripMenuItem,
+            this.alarmTestToolStripMenuItem,
+            this.configPathToolStripMenuItem,
             this.quitToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
@@ -191,6 +197,8 @@
             // 
             // englishToolStripMenuItem
             // 
+            this.englishToolStripMenuItem.Checked = true;
+            this.englishToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
             this.englishToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.englishToolStripMenuItem.Text = "&English";
@@ -327,6 +335,39 @@
             this.btnMinimize.UseVisualStyleBackColor = true;
             this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
             // 
+            // alarmTestToolStripMenuItem
+            // 
+            this.alarmTestToolStripMenuItem.Name = "alarmTestToolStripMenuItem";
+            this.alarmTestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.alarmTestToolStripMenuItem.Text = "&Alarm Test";
+            this.alarmTestToolStripMenuItem.Click += new System.EventHandler(this.AlarmTestToolStripMenuItem_Click);
+            // 
+            // configPathToolStripMenuItem
+            // 
+            this.configPathToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.userDocumentsToolStripMenuItem,
+            this.programmPathToolStripMenuItem});
+            this.configPathToolStripMenuItem.Name = "configPathToolStripMenuItem";
+            this.configPathToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.configPathToolStripMenuItem.Text = "Database Path";
+            // 
+            // userDocumentsToolStripMenuItem
+            // 
+            this.userDocumentsToolStripMenuItem.Checked = true;
+            this.userDocumentsToolStripMenuItem.CheckOnClick = true;
+            this.userDocumentsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.userDocumentsToolStripMenuItem.Name = "userDocumentsToolStripMenuItem";
+            this.userDocumentsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.userDocumentsToolStripMenuItem.Text = "User Documents";
+            this.userDocumentsToolStripMenuItem.Click += new System.EventHandler(this.DatabasePathToolStripMenuItem_Click);
+            // 
+            // programmPathToolStripMenuItem
+            // 
+            this.programmPathToolStripMenuItem.Name = "programmPathToolStripMenuItem";
+            this.programmPathToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.programmPathToolStripMenuItem.Text = "Programm Path";
+            this.programmPathToolStripMenuItem.Click += new System.EventHandler(this.DatabasePathToolStripMenuItem_Click);
+            // 
             // Alarm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -396,6 +437,10 @@
         private System.Windows.Forms.CheckBox cbFlashscreen;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.Button btnMinimize;
+        private System.Windows.Forms.ToolStripMenuItem alarmTestToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem configPathToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem userDocumentsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem programmPathToolStripMenuItem;
     }
 }
 

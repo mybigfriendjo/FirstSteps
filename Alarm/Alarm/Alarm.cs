@@ -100,6 +100,17 @@ namespace Alarm {
             //DataColumn DCbool = new DataColumn("AActive",typeof(bool));
             //ADT.Columns.Add(DCbool);
 
+            //Get DBpath without storing a value.
+            if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Alarm\\AlarmHistory.csv"))) {
+                DB_Path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Alarm\\AlarmHistory.csv");
+
+            }
+            else if (File.Exists(Application.StartupPath + "\\AlarmHistory.csv")) {
+                DB_Path = Application.StartupPath + "\\AlarmHistory.csv";
+                programmPathToolStripMenuItem.Checked = true;
+                userDocumentsToolStripMenuItem.Checked = false;
+            }
+
             DataRow ADR = ADT.NewRow();
             //ADR["AlarmISActive"] = true;
             //ADR["Date"] = "02.12.2016 00:00:00";
@@ -198,8 +209,7 @@ namespace Alarm {
                 ScreenCnt++;
                 Myscreens.Add(screen);
             }
-            MessageBox.Show(DisplayInfo);
-            //MessageBox.Show()
+            //MessageBox.Show(DisplayInfo);
             //GetNextAlarm();
 
         }
@@ -345,18 +355,12 @@ namespace Alarm {
             if (StopFlash > DateTime.Now.AddYears(-1) && DateTime.Now > StopFlash.AddSeconds(2)) {
                 //Hide all BoarderForms
                 StopFlash = DateTime.Now.AddYears(-2000);
-                FrmBottm.Hide();
-                FrmLeft.Hide();
-                FrmRight.Hide();
-                FrmTop.Hide();
-                FrmBottm2.Hide();
-                FrmLeft2.Hide();
-                FrmRight2.Hide();
-                FrmTop2.Hide();
-                FrmBottm3.Hide();
-                FrmLeft3.Hide();
-                FrmRight3.Hide();
-                FrmTop3.Hide();
+                for (int i = 0; i < Myscreens.Count; i++) {
+                    bottomArray[i].Hide();
+                    topArray[i].Hide();
+                    leftArray[i].Hide();
+                    rightArray[i].Hide();
+                }
             }
         }
 
@@ -616,66 +620,55 @@ namespace Alarm {
             for (int i = 0; i < MyScreens.Count; i++) {
                 //Bottom
                 if (bottomArray[i].Visible) {
+                    Point MyLoc = new Point(Myscreens[i].Bounds.Location.X, bottomArray[i].Location.Y);
+                    bottomArray[i].Location = MyLoc;
                     bottomArray[i].Hide();
                 }
                 else {
+                    Point MyLoc = new Point(Myscreens[i].Bounds.Location.X, bottomArray[i].Location.Y);
+                    bottomArray[i].Location = MyLoc;
                     bottomArray[i].Show();
+                    bottomArray[i].TopMost = true;
                 }
 
                 //Top
                 if (topArray[i].Visible) {
+                    Point MyLoc = new Point(Myscreens[i].Bounds.Location.X, topArray[i].Location.Y);
+                    topArray[i].Location = MyLoc;
                     topArray[i].Hide();
                 }
                 else {
+                    Point MyLoc = new Point(Myscreens[i].Bounds.Location.X, topArray[i].Location.Y);
+                    topArray[i].Location = MyLoc;
                     topArray[i].Show();
+                    topArray[i].TopMost = true;
                 }
 
                 //Left
                 if (leftArray[i].Visible) {
+                    Point MyLoc = new Point(Myscreens[i].Bounds.Location.X, leftArray[i].Location.Y);
+                    leftArray[i].Location = MyLoc;
                     leftArray[i].Hide();
                 }
                 else {
+                    Point MyLoc = new Point(Myscreens[i].Bounds.Location.X, leftArray[i].Location.Y);
+                    leftArray[i].Location = MyLoc;
                     leftArray[i].Show();
+                    leftArray[i].TopMost = true;
                 }
 
                 //Right
                 if (rightArray[i].Visible) {
+                    Point MyLoc = new Point(Myscreens[i].Bounds.Location.X + 1905, rightArray[i].Location.Y);
+                    rightArray[i].Location = MyLoc;
                     rightArray[i].Hide();
                 }
                 else {
+                    Point MyLoc = new Point(Myscreens[i].Bounds.Location.X + 1905, rightArray[i].Location.Y);
+                    rightArray[i].Location = MyLoc;
                     rightArray[i].Show();
+                    rightArray[i].TopMost = true;
                 }
-                ////Bottom
-                //if (FrmBottm.Visible) {
-                //    FrmBottm.Hide();
-                //}
-                //else {
-                //    FrmBottm.Show();
-                //}
-
-                ////Top
-                //if (FrmTop.Visible) {
-                //    FrmTop.Hide();
-                //}
-                //else {
-                //    FrmTop.Show();
-                //}
-
-                ////Left
-                //if (FrmLeft.Visible) {
-                //    FrmLeft.Hide();
-                //}
-                //else {
-                //    FrmLeft.Show();
-                //}
-
-                ////Right
-                //if (FrmRight.Visible) {
-                //    FrmRight.Hide();
-                //}
-                //else {
-                //    FrmRight.Show();
-                //}
             }
         }
 
@@ -840,8 +833,34 @@ namespace Alarm {
            
         }
 
+        //Menu Strings
         private void quitToolStripMenuItem_Click(object sender, EventArgs e) {
             Dispose();
+        }
+        private void AlarmTestToolStripMenuItem_Click(object sender, EventArgs e) {
+            AlarmGoesOff("Countdown", null, CountdownTimeADD.ToString(), 0);
+        }
+        private void DatabasePathToolStripMenuItem_Click(object sender, EventArgs e) {
+            if(sender == userDocumentsToolStripMenuItem) {
+                userDocumentsToolStripMenuItem.Checked = true;
+                programmPathToolStripMenuItem.Checked = false;
+                DB_Path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Alarm\\AlarmHistory.csv");
+                if (!File.Exists(DB_Path)) {
+                    if (File.Exists(Application.StartupPath + "\\AlarmHistory.csv")) {
+                        File.Move(Application.StartupPath + "\\AlarmHistory.csv", DB_Path);
+                    }
+                }
+            }
+            else if (sender == programmPathToolStripMenuItem) {
+                userDocumentsToolStripMenuItem.Checked = false;
+                programmPathToolStripMenuItem.Checked = true;
+                DB_Path = Application.StartupPath + "\\AlarmHistory.csv";
+                if (!File.Exists(DB_Path)) {
+                    if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Alarm\\AlarmHistory.csv"))) {
+                        File.Move(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Alarm\\AlarmHistory.csv"), DB_Path);
+                    }
+                }
+            }
         }
 
         private void btnMinimize_Click(object sender, EventArgs e) {
@@ -862,6 +881,10 @@ namespace Alarm {
             Hide();
         }
 
+        private void toolStripComboBox1_Click(object sender, EventArgs e) {
+
+        }
+
         /*TODO
         
         order by - new field combinded of date/time/allways active - vorraussetzung um überschreiben von NextAlarm zu verhindern noch nicht gegeben
@@ -870,24 +893,17 @@ namespace Alarm {
             >Menustring 
         -Warning - if Alarm/countdown changed while active -> MsgBox -> reload Alarm|keep active Alarm and changes|cancel changes
         -choose soundoutput for Countdown?
+        -Add Note to Countdown
         -Add icon and usefull information to AlarmMsg (AlarmTime,Note
-        -option -> raidobutton -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
-        -Screen Flashing Frame positioning
         
 
 
         Changelog
+
+        +Screen Flashing is now working for All horizontal alligned screens
+        +Added Option -> DB-Path -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
+
         +Adjust flashing for multiple Screens -> Frame positioning is missing.
-
-        +Add SetNow button for Date/Time
-        +Adjusted tooltip for Hour/Min field
-        +Added tooltips to the delete buttons
-        +Added more Info to Alarm MsgBox
-        +Stop Flashing On AlarmMsgBox - OK
-
-        +further comments cleaning
-        +repeat alarm - else deaktivate it after it was triggered
-        +added Countdown into AlarmGoesOff function
         */
 
         /* Snigget
