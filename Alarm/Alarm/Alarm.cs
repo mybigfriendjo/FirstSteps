@@ -559,7 +559,7 @@ namespace Alarm {
             if( e.Button == MouseButtons.Right) {
                 //new contextMenuStripSystray();
                 //MyNotifyIcon.Visible = false; //do remove systray icon at close
-                //Application.Exit(); //Exits programm
+                //Application.Exit(); //Exits programm 
             }
         }
 
