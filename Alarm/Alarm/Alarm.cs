@@ -40,6 +40,11 @@ namespace Alarm {
         DateTime numAlarmMin = DateTime.Now;
         //string tbNote = "";
 
+        private void contextMenuStripSystray(object sender, CancelEventArgs e) {
+            MyNotifyIcon.Visible = false; //do remove systray icon at close
+            Application.Exit(); //Exits programm
+        }
+
         public Alarm() {
             InitializeComponent();
 
@@ -190,6 +195,9 @@ namespace Alarm {
             t.Start();
 
             //Systray
+            ContextMenu trayMenu = new ContextMenu();   //Creates the Contextmenu (will automaticly show up on richtclick as soon as it gets assigned to a notifyIcon
+            trayMenu.MenuItems.Add("Quit", contextMenuStripSystrayWorking); //Adds a Menuitem "Quit" which triggers the method "contextMenuStripSystray"
+
             MyNotifyIcon.Icon = Properties.Resources.Alarm;
             MyNotifyIcon.Visible = true;
             MyNotifyIcon.BalloonTipText = "minimized"; //noclue - GPO disables it at copany
@@ -197,6 +205,7 @@ namespace Alarm {
             MyNotifyIcon.Text = "double leftclick to maximize Program."; //systray helptext
             MyNotifyIcon.DoubleClick += MyNotifyIcon_MouseDoubleClick; //Easy create method when first set += Methodname -> rightclick it afterwards "create method". //At doubleclick load methode
             MyNotifyIcon.MouseDown += contextMenuStripSystray_MouseDown;
+            MyNotifyIcon.ContextMenu = trayMenu; //assignes the trayMenu to the NotifyIcon (==SystrayIcon)
 
             //Set Tooltip
             System.Windows.Forms.ToolTip ToolTipbtnDelete = new System.Windows.Forms.ToolTip();
@@ -213,6 +222,11 @@ namespace Alarm {
             //MessageBox.Show(DisplayInfo);
             //GetNextAlarm();
 
+        }
+
+        private void contextMenuStripSystrayWorking(object sender, EventArgs e) {
+            MyNotifyIcon.Visible = false; //do remove systray icon at close
+            Application.Exit(); //Exits programm
         }
 
         int CountdownChecked = 0;

@@ -48,7 +48,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.lblCountdownTime = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.contextMenuStripSystray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAcivateAlarm = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -63,7 +62,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownMin)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.panelCountdown.SuspendLayout();
-            this.contextMenuStripSystray.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTable1)).BeginInit();
@@ -286,14 +284,6 @@
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // contextMenuStripSystray
-            // 
-            this.contextMenuStripSystray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exitToolStripMenuItem});
-            this.contextMenuStripSystray.Name = "contextMenuStrip1";
-            this.contextMenuStripSystray.Size = new System.Drawing.Size(153, 48);
-            this.contextMenuStripSystray.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripSystray_Opening);
-            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
@@ -407,7 +397,6 @@
             this.menuStrip1.PerformLayout();
             this.panelCountdown.ResumeLayout(false);
             this.panelCountdown.PerformLayout();
-            this.contextMenuStripSystray.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTable1)).EndInit();
@@ -435,7 +424,6 @@
         private System.Windows.Forms.Panel panelCountdown;
         private System.Windows.Forms.Label lblCountdownTime;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripSystray;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.Button btnAcivateAlarm;
         private System.Windows.Forms.DataGridView dataGridView1;
