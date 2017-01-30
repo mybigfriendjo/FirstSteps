@@ -45,6 +45,7 @@
             this.programmPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelCountdown = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.lblCountdownTime = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
             this.contextMenuStripSystray = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -58,7 +59,6 @@
             this.cbShutdown = new System.Windows.Forms.CheckBox();
             this.cbFlashscreen = new System.Windows.Forms.CheckBox();
             this.btnMinimize = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownMin)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -193,7 +193,7 @@
             this.languageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.englishToolStripMenuItem});
             this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
-            this.languageToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.languageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.languageToolStripMenuItem.Text = "&Language";
             // 
             // englishToolStripMenuItem
@@ -207,7 +207,7 @@
             // alarmTestToolStripMenuItem
             // 
             this.alarmTestToolStripMenuItem.Name = "alarmTestToolStripMenuItem";
-            this.alarmTestToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.alarmTestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.alarmTestToolStripMenuItem.Text = "&Alarm Test";
             this.alarmTestToolStripMenuItem.Click += new System.EventHandler(this.AlarmTestToolStripMenuItem_Click);
             // 
@@ -217,7 +217,7 @@
             this.userDocumentsToolStripMenuItem,
             this.programmPathToolStripMenuItem});
             this.configPathToolStripMenuItem.Name = "configPathToolStripMenuItem";
-            this.configPathToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.configPathToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.configPathToolStripMenuItem.Text = "Database Path";
             // 
             // userDocumentsToolStripMenuItem
@@ -240,7 +240,7 @@
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.quitToolStripMenuItem.Text = "&Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -260,6 +260,13 @@
             this.panelCountdown.Name = "panelCountdown";
             this.panelCountdown.Size = new System.Drawing.Size(116, 165);
             this.panelCountdown.TabIndex = 20;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(10, 22);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 10;
             // 
             // lblCountdownTime
             // 
@@ -284,15 +291,16 @@
             this.contextMenuStripSystray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
             this.contextMenuStripSystray.Name = "contextMenuStrip1";
-            this.contextMenuStripSystray.Size = new System.Drawing.Size(138, 26);
+            this.contextMenuStripSystray.Size = new System.Drawing.Size(153, 48);
             this.contextMenuStripSystray.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripSystray_Opening);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
             // btnAcivateAlarm
             // 
@@ -369,13 +377,6 @@
             this.btnMinimize.Text = "Minimize";
             this.btnMinimize.UseVisualStyleBackColor = true;
             this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(10, 22);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 10;
             // 
             // Alarm
             // 

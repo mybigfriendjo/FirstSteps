@@ -196,6 +196,7 @@ namespace Alarm {
             MyNotifyIcon.ShowBalloonTip(500); //Time Systray helptext is shown - GPO disables it at copany
             MyNotifyIcon.Text = "double leftclick to maximize Program."; //systray helptext
             MyNotifyIcon.DoubleClick += MyNotifyIcon_MouseDoubleClick; //Easy create method when first set += Methodname -> rightclick it afterwards "create method". //At doubleclick load methode
+            MyNotifyIcon.MouseDown += contextMenuStripSystray_MouseDown;
 
             //Set Tooltip
             System.Windows.Forms.ToolTip ToolTipbtnDelete = new System.Windows.Forms.ToolTip();
@@ -552,6 +553,14 @@ namespace Alarm {
         private void contextMenuStripSystray_Opening(object sender, CancelEventArgs e) {
             MyNotifyIcon.Visible = false; //do remove systray icon at close
             Application.Exit(); //Exits programm
+        }
+
+        private void contextMenuStripSystray_MouseDown(object sender, MouseEventArgs e) {
+            if( e.Button == MouseButtons.Right) {
+                //new contextMenuStripSystray();
+                //MyNotifyIcon.Visible = false; //do remove systray icon at close
+                //Application.Exit(); //Exits programm
+            }
         }
 
         //AlarmActive button toggle
