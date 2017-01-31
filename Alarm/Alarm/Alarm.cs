@@ -200,8 +200,7 @@ namespace Alarm {
 
             MyNotifyIcon.Icon = Properties.Resources.Alarm;
             MyNotifyIcon.Visible = true;
-            MyNotifyIcon.BalloonTipText = "minimized"; //noclue - GPO disables it at copany
-            MyNotifyIcon.ShowBalloonTip(500); //Time Systray helptext is shown - GPO disables it at copany
+            
             MyNotifyIcon.Text = "double leftclick to maximize Program."; //systray helptext
             MyNotifyIcon.DoubleClick += MyNotifyIcon_MouseDoubleClick; //Easy create method when first set += Methodname -> rightclick it afterwards "create method". //At doubleclick load methode
             MyNotifyIcon.MouseDown += contextMenuStripSystray_MouseDown;
@@ -529,6 +528,7 @@ namespace Alarm {
                 DialogResult AlarmMsgResult = MessageBox.Show("Day: " + day, "Countdown", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 if (AlarmMsgResult == DialogResult.OK) {
                     StopFlash = StopFlash.AddSeconds(-15);
+                    btnAcivateAlarm_Click(null,null);
                 }
             }
         }
@@ -902,6 +902,8 @@ namespace Alarm {
             }
             File.WriteAllText(DB_Path, sb.ToString());
             Hide();
+            MyNotifyIcon.BalloonTipText = "minimized"; //noclue - GPO disables it at copany
+            MyNotifyIcon.ShowBalloonTip(500); //Time Systray helptext is shown - GPO disables it at copany
         }
 
         private void toolStripComboBox1_Click(object sender, EventArgs e) {
@@ -923,6 +925,9 @@ namespace Alarm {
 
 
         Changelog
+
+        +Fixed Systray Minimized Msg
+        +Coundown does now get deactivated after Ok again.
 
         +Screen Flashing is now working for All horizontal alligned screens
         +Added Option -> DB-Path -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
