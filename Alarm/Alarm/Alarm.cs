@@ -208,7 +208,11 @@ namespace Alarm {
 
             //Set Tooltip
             System.Windows.Forms.ToolTip ToolTipbtnDelete = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip ToolTiptbCountdownName = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip ToolTipcombAlarmSound = new System.Windows.Forms.ToolTip();
             ToolTipbtnDelete.SetToolTip(btnDelete, "This will delete the selected row.");
+            ToolTiptbCountdownName.SetToolTip(tbCountdownName, "Insert your Countdown Title");
+            ToolTipcombAlarmSound.SetToolTip(combAlarmSound, "Pick the sound that should be played");
 
 
             //Gather DisplayInfo
@@ -525,7 +529,21 @@ namespace Alarm {
                 if (cbShutdown.Checked) {
                     Process.Start(System.Environment.SystemDirectory + "\\shutdown.exe", "-s -t 600");
                 }
-                DialogResult AlarmMsgResult = MessageBox.Show("Day: " + day, "Countdown", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                if (combAlarmSound.SelectedItem.ToString() != "" && combAlarmSound.SelectedItem.ToString() != null) {
+                    if (combAlarmSound.SelectedItem.ToString() == "Phonering") {
+                        System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.calleering); //@"string" means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
+                        player.Play();
+                    }
+                    else if (combAlarmSound.SelectedItem.ToString() == "Applause") {
+                        System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.APPLAUSE);
+                        player.Play();
+                    }
+                    else if (combAlarmSound.SelectedItem.ToString() == "Callring") {
+                        System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.ELPHRG01);
+                        player.Play();
+                    }
+                }
+                DialogResult AlarmMsgResult = MessageBox.Show(tbCountdownName.Text + "\n\n" + "Day: " + day, "Countdown", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 if (AlarmMsgResult == DialogResult.OK) {
                     StopFlash = StopFlash.AddSeconds(-15);
                     btnAcivateAlarm_Click(null,null);
@@ -926,6 +944,9 @@ namespace Alarm {
 
         Changelog
 
+        +Countdown Gui adjusted
+        +Added Titlefield
+        +Alarmsound will now be played at Countdown
         +Fixed Systray Minimized Msg
         +Coundown does now get deactivated after Ok again.
 
