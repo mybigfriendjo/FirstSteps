@@ -529,7 +529,7 @@ namespace Alarm {
                 if (cbShutdown.Checked) {
                     Process.Start(System.Environment.SystemDirectory + "\\shutdown.exe", "-s -t 600");
                 }
-                if (combAlarmSound.SelectedItem.ToString() != "" && combAlarmSound.SelectedItem.ToString() != null) {
+                if (combAlarmSound.SelectedItem != null && combAlarmSound.SelectedItem.ToString() != "") {
                     if (combAlarmSound.SelectedItem.ToString() == "Phonering") {
                         System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.calleering); //@"string" means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
                         player.Play();
@@ -943,6 +943,8 @@ namespace Alarm {
 
 
         Changelog
+
+        +fixed error when no countdown soundfile was selected
 
         +Countdown Gui adjusted
         +Added Titlefield
