@@ -932,28 +932,16 @@ namespace Alarm {
             >Function: Check for double entries on OK button
             >Menustring 
         -Warning - if Alarm/countdown changed while active -> MsgBox -> reload Alarm|keep active Alarm and changes|cancel changes
-        -choose soundoutput for Countdown?
-        -Add Note to Countdown
-        -Add icon and usefull information to AlarmMsg (AlarmTime,Note
-        -Counter Note field tooltip
         
-
 
         Changelog
 
+        +Counter Note field tooltip
+        +Added Note to Countdown
+        +Added usefull information to AlarmMsg (AlarmTime,Note) (Icon not possible)
+        +choose soundoutput for Countdown?
+
         +fixed error when no countdown soundfile was selected
-
-        +Countdown Gui adjusted
-        +Added Titlefield
-        +Alarmsound will now be played at Countdown
-        +Fixed Systray Minimized Msg
-        +Coundown does now get deactivated after Ok again.
-
-        +Screen Flashing is now working for All horizontal alligned screens
-        +Added Option -> DB-Path -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
-
-        +Adjust flashing for multiple Screens -> Frame positioning is missing.
-        */
 
         /* Snigget
         
