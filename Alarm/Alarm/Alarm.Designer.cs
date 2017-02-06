@@ -58,7 +58,7 @@
             this.cbShutdown = new System.Windows.Forms.CheckBox();
             this.cbFlashscreen = new System.Windows.Forms.CheckBox();
             this.btnMinimize = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbCountdownName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownMin)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -72,7 +72,7 @@
             // cbCountdown
             // 
             this.cbCountdown.AutoSize = true;
-            this.cbCountdown.Location = new System.Drawing.Point(633, 37);
+            this.cbCountdown.Location = new System.Drawing.Point(630, 37);
             this.cbCountdown.Name = "cbCountdown";
             this.cbCountdown.Size = new System.Drawing.Size(80, 17);
             this.cbCountdown.TabIndex = 0;
@@ -83,7 +83,7 @@
             // rb5min
             // 
             this.rb5min.AutoSize = true;
-            this.rb5min.Location = new System.Drawing.Point(18, 48);
+            this.rb5min.Location = new System.Drawing.Point(18, 32);
             this.rb5min.Name = "rb5min";
             this.rb5min.Size = new System.Drawing.Size(51, 17);
             this.rb5min.TabIndex = 1;
@@ -95,7 +95,7 @@
             // rb10min
             // 
             this.rb10min.AutoSize = true;
-            this.rb10min.Location = new System.Drawing.Point(18, 66);
+            this.rb10min.Location = new System.Drawing.Point(18, 50);
             this.rb10min.Name = "rb10min";
             this.rb10min.Size = new System.Drawing.Size(57, 17);
             this.rb10min.TabIndex = 2;
@@ -107,7 +107,7 @@
             // rb15min
             // 
             this.rb15min.AutoSize = true;
-            this.rb15min.Location = new System.Drawing.Point(18, 84);
+            this.rb15min.Location = new System.Drawing.Point(18, 68);
             this.rb15min.Name = "rb15min";
             this.rb15min.Size = new System.Drawing.Size(57, 17);
             this.rb15min.TabIndex = 3;
@@ -119,7 +119,7 @@
             // rb30min
             // 
             this.rb30min.AutoSize = true;
-            this.rb30min.Location = new System.Drawing.Point(18, 102);
+            this.rb30min.Location = new System.Drawing.Point(18, 86);
             this.rb30min.Name = "rb30min";
             this.rb30min.Size = new System.Drawing.Size(57, 17);
             this.rb30min.TabIndex = 4;
@@ -131,7 +131,7 @@
             // rb1hour
             // 
             this.rb1hour.AutoSize = true;
-            this.rb1hour.Location = new System.Drawing.Point(18, 120);
+            this.rb1hour.Location = new System.Drawing.Point(18, 104);
             this.rb1hour.Name = "rb1hour";
             this.rb1hour.Size = new System.Drawing.Size(57, 17);
             this.rb1hour.TabIndex = 5;
@@ -143,7 +143,7 @@
             // rbCustom
             // 
             this.rbCustom.AutoSize = true;
-            this.rbCustom.Location = new System.Drawing.Point(18, 139);
+            this.rbCustom.Location = new System.Drawing.Point(18, 123);
             this.rbCustom.Name = "rbCustom";
             this.rbCustom.Size = new System.Drawing.Size(14, 13);
             this.rbCustom.TabIndex = 6;
@@ -153,7 +153,7 @@
             // 
             // numCountdownHour
             // 
-            this.numCountdownHour.Location = new System.Drawing.Point(36, 140);
+            this.numCountdownHour.Location = new System.Drawing.Point(36, 124);
             this.numCountdownHour.Name = "numCountdownHour";
             this.numCountdownHour.Size = new System.Drawing.Size(35, 20);
             this.numCountdownHour.TabIndex = 8;
@@ -161,7 +161,7 @@
             // 
             // numCountdownMin
             // 
-            this.numCountdownMin.Location = new System.Drawing.Point(76, 140);
+            this.numCountdownMin.Location = new System.Drawing.Point(76, 124);
             this.numCountdownMin.Name = "numCountdownMin";
             this.numCountdownMin.Size = new System.Drawing.Size(37, 20);
             this.numCountdownMin.TabIndex = 9;
@@ -193,7 +193,7 @@
             this.languageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.englishToolStripMenuItem});
             this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
-            this.languageToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.languageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.languageToolStripMenuItem.Text = "&Language";
             // 
             // englishToolStripMenuItem
@@ -201,13 +201,13 @@
             this.englishToolStripMenuItem.Checked = true;
             this.englishToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            this.englishToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.englishToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.englishToolStripMenuItem.Text = "&English";
             // 
             // alarmTestToolStripMenuItem
             // 
             this.alarmTestToolStripMenuItem.Name = "alarmTestToolStripMenuItem";
-            this.alarmTestToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.alarmTestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.alarmTestToolStripMenuItem.Text = "&Alarm Test";
             this.alarmTestToolStripMenuItem.Click += new System.EventHandler(this.AlarmTestToolStripMenuItem_Click);
             // 
@@ -217,7 +217,7 @@
             this.userDocumentsToolStripMenuItem,
             this.programmPathToolStripMenuItem});
             this.configPathToolStripMenuItem.Name = "configPathToolStripMenuItem";
-            this.configPathToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.configPathToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.configPathToolStripMenuItem.Text = "Database Path";
             // 
             // userDocumentsToolStripMenuItem
@@ -240,13 +240,13 @@
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.quitToolStripMenuItem.Text = "&Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
             // panelCountdown
             // 
-            this.panelCountdown.Controls.Add(this.textBox1);
+            this.panelCountdown.Controls.Add(this.tbCountdownName);
             this.panelCountdown.Controls.Add(this.rb5min);
             this.panelCountdown.Controls.Add(this.rb10min);
             this.panelCountdown.Controls.Add(this.rb15min);
@@ -258,13 +258,13 @@
             this.panelCountdown.Enabled = false;
             this.panelCountdown.Location = new System.Drawing.Point(615, 60);
             this.panelCountdown.Name = "panelCountdown";
-            this.panelCountdown.Size = new System.Drawing.Size(116, 165);
+            this.panelCountdown.Size = new System.Drawing.Size(116, 153);
             this.panelCountdown.TabIndex = 20;
             // 
             // lblCountdownTime
             // 
             this.lblCountdownTime.AutoSize = true;
-            this.lblCountdownTime.Location = new System.Drawing.Point(630, 216);
+            this.lblCountdownTime.Location = new System.Drawing.Point(627, 216);
             this.lblCountdownTime.Name = "lblCountdownTime";
             this.lblCountdownTime.Size = new System.Drawing.Size(0, 13);
             this.lblCountdownTime.TabIndex = 22;
@@ -370,12 +370,12 @@
             this.btnMinimize.UseVisualStyleBackColor = true;
             this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
             // 
-            // textBox1
+            // tbCountdownName
             // 
-            this.textBox1.Location = new System.Drawing.Point(10, 22);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 10;
+            this.tbCountdownName.Location = new System.Drawing.Point(10, 6);
+            this.tbCountdownName.Name = "tbCountdownName";
+            this.tbCountdownName.Size = new System.Drawing.Size(100, 20);
+            this.tbCountdownName.TabIndex = 10;
             // 
             // Alarm
             // 
@@ -450,7 +450,7 @@
         private System.Windows.Forms.ToolStripMenuItem configPathToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem userDocumentsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem programmPathToolStripMenuItem;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbCountdownName;
     }
 }
 

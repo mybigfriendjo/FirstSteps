@@ -196,10 +196,13 @@ namespace Alarm {
             MyNotifyIcon.ShowBalloonTip(500); //Time Systray helptext is shown - GPO disables it at copany
             MyNotifyIcon.Text = "double leftclick to maximize Program."; //systray helptext
             MyNotifyIcon.DoubleClick += MyNotifyIcon_MouseDoubleClick; //Easy create method when first set += Methodname -> rightclick it afterwards "create method". //At doubleclick load methode
-
+            
             //Set Tooltip
             System.Windows.Forms.ToolTip ToolTipbtnDelete = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip ToolTiptbCountdownName = new System.Windows.Forms.ToolTip();
             ToolTipbtnDelete.SetToolTip(btnDelete, "This will delete the selected row.");
+            ToolTiptbCountdownName.SetToolTip(tbCountdownName, "The Text in this field will be shown when the countdown is triggered.");
+
 
 
             //Gather DisplayInfo
@@ -511,7 +514,9 @@ namespace Alarm {
                 if (cbShutdown.Checked) {
                     Process.Start(System.Environment.SystemDirectory + "\\shutdown.exe", "-s -t 600");
                 }
-                DialogResult AlarmMsgResult = MessageBox.Show("Day: " + day, "Countdown", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.ELPHRG01);
+                player.Play();
+                DialogResult AlarmMsgResult = MessageBox.Show(tbCountdownName.Text + "\n\n" + "Day: " + day, "Countdown" , MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 if (AlarmMsgResult == DialogResult.OK) {
                     StopFlash = StopFlash.AddSeconds(-15);
                 }
@@ -879,10 +884,6 @@ namespace Alarm {
             }
             File.WriteAllText(DB_Path, sb.ToString());
             Hide();
-        }
-
-        private void toolStripComboBox1_Click(object sender, EventArgs e) {
-
         }
 
         /*TODO
