@@ -40,6 +40,11 @@ namespace Alarm {
         DateTime numAlarmMin = DateTime.Now;
         //string tbNote = "";
 
+        private void contextMenuStripSystray(object sender, CancelEventArgs e) {
+            MyNotifyIcon.Visible = false; //do remove systray icon at close
+            Application.Exit(); //Exits programm
+        }
+
         public Alarm() {
             InitializeComponent();
 
@@ -190,18 +195,24 @@ namespace Alarm {
             t.Start();
 
             //Systray
+            ContextMenu trayMenu = new ContextMenu();   //Creates the Contextmenu (will automaticly show up on richtclick as soon as it gets assigned to a notifyIcon
+            trayMenu.MenuItems.Add("Quit", contextMenuStripSystrayWorking); //Adds a Menuitem "Quit" which triggers the method "contextMenuStripSystray"
+
             MyNotifyIcon.Icon = Properties.Resources.Alarm;
             MyNotifyIcon.Visible = true;
-            MyNotifyIcon.BalloonTipText = "minimized"; //noclue - GPO disables it at copany
-            MyNotifyIcon.ShowBalloonTip(500); //Time Systray helptext is shown - GPO disables it at copany
+            
             MyNotifyIcon.Text = "double leftclick to maximize Program."; //systray helptext
             MyNotifyIcon.DoubleClick += MyNotifyIcon_MouseDoubleClick; //Easy create method when first set += Methodname -> rightclick it afterwards "create method". //At doubleclick load methode
-            
+            MyNotifyIcon.MouseDown += contextMenuStripSystray_MouseDown;
+            MyNotifyIcon.ContextMenu = trayMenu; //assignes the trayMenu to the NotifyIcon (==SystrayIcon)
+
             //Set Tooltip
             System.Windows.Forms.ToolTip ToolTipbtnDelete = new System.Windows.Forms.ToolTip();
             System.Windows.Forms.ToolTip ToolTiptbCountdownName = new System.Windows.Forms.ToolTip();
+            System.Windows.Forms.ToolTip ToolTipcombAlarmSound = new System.Windows.Forms.ToolTip();
             ToolTipbtnDelete.SetToolTip(btnDelete, "This will delete the selected row.");
-            ToolTiptbCountdownName.SetToolTip(tbCountdownName, "The Text in this field will be shown when the countdown is triggered.");
+            ToolTiptbCountdownName.SetToolTip(tbCountdownName, "Insert your Countdown Title");
+            ToolTipcombAlarmSound.SetToolTip(combAlarmSound, "Pick the sound that should be played");
 
 
 
@@ -215,6 +226,11 @@ namespace Alarm {
             //MessageBox.Show(DisplayInfo);
             //GetNextAlarm();
 
+        }
+
+        private void contextMenuStripSystrayWorking(object sender, EventArgs e) {
+            MyNotifyIcon.Visible = false; //do remove systray icon at close
+            Application.Exit(); //Exits programm
         }
 
         int CountdownChecked = 0;
@@ -514,11 +530,24 @@ namespace Alarm {
                 if (cbShutdown.Checked) {
                     Process.Start(System.Environment.SystemDirectory + "\\shutdown.exe", "-s -t 600");
                 }
-                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.ELPHRG01);
-                player.Play();
-                DialogResult AlarmMsgResult = MessageBox.Show(tbCountdownName.Text + "\n\n" + "Day: " + day, "Countdown" , MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                if (combAlarmSound.SelectedItem != null && combAlarmSound.SelectedItem.ToString() != "") {
+                    if (combAlarmSound.SelectedItem.ToString() == "Phonering") {
+                        System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.calleering); //@"string" means interpret the following string as literal. Meaning, the \ in the string will actually be a "\" in the output, rather than having to put "\\" to mean the literal character
+                        player.Play();
+                    }
+                    else if (combAlarmSound.SelectedItem.ToString() == "Applause") {
+                        System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.APPLAUSE);
+                        player.Play();
+                    }
+                    else if (combAlarmSound.SelectedItem.ToString() == "Callring") {
+                        System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.ELPHRG01);
+                        player.Play();
+                    }
+                }
+                DialogResult AlarmMsgResult = MessageBox.Show(tbCountdownName.Text + "\n\n" + "Day: " + day, "Countdown", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 if (AlarmMsgResult == DialogResult.OK) {
                     StopFlash = StopFlash.AddSeconds(-15);
+                    btnAcivateAlarm_Click(null,null);
                 }
             }
         }
@@ -557,6 +586,14 @@ namespace Alarm {
         private void contextMenuStripSystray_Opening(object sender, CancelEventArgs e) {
             MyNotifyIcon.Visible = false; //do remove systray icon at close
             Application.Exit(); //Exits programm
+        }
+
+        private void contextMenuStripSystray_MouseDown(object sender, MouseEventArgs e) {
+            if( e.Button == MouseButtons.Right) {
+                //new contextMenuStripSystray();
+                //MyNotifyIcon.Visible = false; //do remove systray icon at close
+                //Application.Exit(); //Exits programm 
+            }
         }
 
         //AlarmActive button toggle
@@ -884,6 +921,8 @@ namespace Alarm {
             }
             File.WriteAllText(DB_Path, sb.ToString());
             Hide();
+            MyNotifyIcon.BalloonTipText = "minimized"; //noclue - GPO disables it at copany
+            MyNotifyIcon.ShowBalloonTip(500); //Time Systray helptext is shown - GPO disables it at copany
         }
 
         /*TODO
@@ -901,6 +940,14 @@ namespace Alarm {
 
 
         Changelog
+
+        +fixed error when no countdown soundfile was selected
+
+        +Countdown Gui adjusted
+        +Added Titlefield
+        +Alarmsound will now be played at Countdown
+        +Fixed Systray Minimized Msg
+        +Coundown does now get deactivated after Ok again.
 
         +Screen Flashing is now working for All horizontal alligned screens
         +Added Option -> DB-Path -> store *.db in Userfolder |  store *.db at same path as Alarm.exe
