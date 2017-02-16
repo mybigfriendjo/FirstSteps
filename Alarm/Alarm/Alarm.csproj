@@ -14,7 +14,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
-    <PublishUrl>C:\Program Files %28x86%29\Alarm\</PublishUrl>
+    <PublishUrl>L:\TECHIBK\MacN\tools\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -24,8 +24,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
+    <ProductName>Alarm</ProductName>
+    <PublisherName>Alarm</PublisherName>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -168,7 +170,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Alarm.ico" />
-    <None Include="bin\Release\Alarm.ico" />
     <None Include="Resources\Alarm.ico.bmp" />
   </ItemGroup>
   <ItemGroup>

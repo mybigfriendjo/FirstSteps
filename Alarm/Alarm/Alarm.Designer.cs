@@ -45,6 +45,7 @@
             this.programmPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelCountdown = new System.Windows.Forms.Panel();
+            this.combAlarmSound = new System.Windows.Forms.ComboBox();
             this.tbCountdownName = new System.Windows.Forms.TextBox();
             this.lblCountdownTime = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -58,7 +59,6 @@
             this.cbShutdown = new System.Windows.Forms.CheckBox();
             this.cbFlashscreen = new System.Windows.Forms.CheckBox();
             this.btnMinimize = new System.Windows.Forms.Button();
-            this.combAlarmSound = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownMin)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -192,7 +192,7 @@
             this.languageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.englishToolStripMenuItem});
             this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
-            this.languageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.languageToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.languageToolStripMenuItem.Text = "&Language";
             // 
             // englishToolStripMenuItem
@@ -200,13 +200,13 @@
             this.englishToolStripMenuItem.Checked = true;
             this.englishToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            this.englishToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.englishToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.englishToolStripMenuItem.Text = "&English";
             // 
             // alarmTestToolStripMenuItem
             // 
             this.alarmTestToolStripMenuItem.Name = "alarmTestToolStripMenuItem";
-            this.alarmTestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.alarmTestToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.alarmTestToolStripMenuItem.Text = "&Alarm Test";
             this.alarmTestToolStripMenuItem.Click += new System.EventHandler(this.AlarmTestToolStripMenuItem_Click);
             // 
@@ -216,7 +216,7 @@
             this.userDocumentsToolStripMenuItem,
             this.programmPathToolStripMenuItem});
             this.configPathToolStripMenuItem.Name = "configPathToolStripMenuItem";
-            this.configPathToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.configPathToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.configPathToolStripMenuItem.Text = "Database Path";
             // 
             // userDocumentsToolStripMenuItem
@@ -239,7 +239,7 @@
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.quitToolStripMenuItem.Text = "&Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -260,6 +260,18 @@
             this.panelCountdown.Name = "panelCountdown";
             this.panelCountdown.Size = new System.Drawing.Size(116, 162);
             this.panelCountdown.TabIndex = 20;
+            // 
+            // combAlarmSound
+            // 
+            this.combAlarmSound.FormattingEnabled = true;
+            this.combAlarmSound.Items.AddRange(new object[] {
+            "Phonering",
+            "Applause",
+            "Callring"});
+            this.combAlarmSound.Location = new System.Drawing.Point(10, 27);
+            this.combAlarmSound.Name = "combAlarmSound";
+            this.combAlarmSound.Size = new System.Drawing.Size(99, 21);
+            this.combAlarmSound.TabIndex = 17;
             // 
             // tbCountdownName
             // 
@@ -312,6 +324,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(597, 219);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
+            this.dataGridView1.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView1_CurrentCellDirtyStateChanged);
             this.dataGridView1.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridView1_DataBindingComplete);
             // 
             // dataSet1
@@ -369,18 +382,6 @@
             this.btnMinimize.Text = "Minimize";
             this.btnMinimize.UseVisualStyleBackColor = true;
             this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
-            // 
-            // combAlarmSound
-            // 
-            this.combAlarmSound.FormattingEnabled = true;
-            this.combAlarmSound.Items.AddRange(new object[] {
-            "Phonering",
-            "Applause",
-            "Callring"});
-            this.combAlarmSound.Location = new System.Drawing.Point(10, 27);
-            this.combAlarmSound.Name = "combAlarmSound";
-            this.combAlarmSound.Size = new System.Drawing.Size(99, 21);
-            this.combAlarmSound.TabIndex = 17;
             // 
             // Alarm
             // 

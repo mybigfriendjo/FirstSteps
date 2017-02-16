@@ -59,9 +59,11 @@ namespace Alarm {
             set {
                 _Date = value;
                 if(value != null && value != "") {
+                    if(dtASDate != null) {
                     dtASDate.Format = DateTimePickerFormat.Long;
                     dtASDate.CustomFormat = "dd.MM.yyyy";
                     dtASDate.Value = Convert.ToDateTime (value);
+                    }
                 }
             }
         }
@@ -70,8 +72,10 @@ namespace Alarm {
         public string Hour {
             get { return _Hour; }
             set {
-                _Hour = value;
-                numASHour.Value = Convert.ToInt32(value);
+                if (numASHour != null) {
+                    _Hour = value;
+                    numASHour.Value = Convert.ToInt32(value);
+                }
             }
         }
         //Var Notification (Cell 2)
