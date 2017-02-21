@@ -31,13 +31,15 @@ namespace Alarm {
         public bool DayActive {
             get { return _DayActive; }
             set {
-                _DayActive = value;
+                if (dtASDate != null) {
+                    _DayActive = value;
 
-                if (value == true) {
-                    dtASDate.Enabled = false;
-                }
-                else {
-                    dtASDate.Enabled = true;
+                    if (value == true) {
+                        dtASDate.Enabled = false;
+                    }
+                    else {
+                        dtASDate.Enabled = true;
+                    }
                 }
             }
         }
@@ -83,8 +85,10 @@ namespace Alarm {
         public string Minute {
             get { return _Minute; }
             set {
-                _Minute = value;
-                numASMin.Value = Convert.ToInt32(value);
+                if (numASMin != null) {
+                    _Minute = value;
+                    numASMin.Value = Convert.ToInt32(value);
+                }
             }
         }
         //Var Notification (Cell 3)
@@ -92,8 +96,10 @@ namespace Alarm {
         public bool AlarmActive {
             get { return _AlarmActive; }
             set {
-                _AlarmActive = value;
-                cbASActive.Checked = value;
+                if (cbASActive != null) {
+                    _AlarmActive = value;
+                    cbASActive.Checked = value;
+                }
             }
         }
         //Var Notification (Cell 4)
@@ -101,8 +107,10 @@ namespace Alarm {
         public string Note {
             get {return _note;}
             set {
-                _note = value;
-                tbASNote.Text = value;
+                if (tbASNote != null) {
+                    _note = value;
+                    tbASNote.Text = value;
+                }
             }
         }
     
@@ -111,8 +119,10 @@ namespace Alarm {
         public bool ProgPathActiv {
             get { return _ProgPathActiv; }
             set {
-                _ProgPathActiv = value;
-                cbStartProg.Checked = value;
+                if (cbStartProg != null) {
+                    _ProgPathActiv = value;
+                    cbStartProg.Checked = value;
+                }
             }
         }
 
@@ -121,8 +131,10 @@ namespace Alarm {
         public string ProgPath {
             get { return _ProgPath; }
             set {
-                _ProgPath = value;
-                tbASProgPath.Text = value;
+                if (tbASProgPath != null) {
+                    _ProgPath = value;
+                    tbASProgPath.Text = value;
+                }
             }
         }
 
@@ -131,8 +143,10 @@ namespace Alarm {
         public bool SoundActive {
             get { return _SoundActive; }
             set {
-                _SoundActive = value;
-                rbASSoundFilePath.Checked = value;
+                if (rbASSoundFilePath != null) {
+                    _SoundActive = value;
+                    rbASSoundFilePath.Checked = value;
+                }
             }
         }
 
@@ -141,8 +155,10 @@ namespace Alarm {
         public string SoundSource {
             get { return _SoundSource; }
             set {
-                _SoundSource = value;
-                tbASFilePath.Text = value;
+                if (tbASFilePath != null) {
+                    _SoundSource = value;
+                    tbASFilePath.Text = value;
+                }
             }
         }
 
@@ -160,8 +176,10 @@ namespace Alarm {
         public string YoutubePath {
             get { return _YoutubePath; }
             set {
-                _YoutubePath = value;
-                tbASYoutubePath.Text = value;
+                if (tbASFilePath != null) {
+                    _YoutubePath = value;
+                    tbASYoutubePath.Text = value;
+                }
             }
         }
 
@@ -170,8 +188,10 @@ namespace Alarm {
         public string AlarmSound {
             get { return _AlarmSound; }
             set {
-                _AlarmSound = value;
-                combASAlarmSound.SelectedItem = value;
+                if (combASAlarmSound != null) {
+                    _AlarmSound = value;
+                    combASAlarmSound.SelectedItem = value;
+                }
             }
         }
 
@@ -180,8 +200,10 @@ namespace Alarm {
         public bool Mon {
             get { return _Mon; }
             set {
-                _Mon = value;
-                cbASMon.Checked = value;
+                if (cbASMon != null) {
+                    _Mon = value;
+                    cbASMon.Checked = value;
+                }
             }
         }
 
@@ -190,8 +212,10 @@ namespace Alarm {
         public bool Tue {
             get { return _Tue; }
             set {
-                _Tue = value;
-                cbASTue.Checked = value;
+                if (cbASTue != null) {
+                    _Tue = value;
+                    cbASTue.Checked = value;
+                }
             }
         }
         //Var Wed (Cell 14)
@@ -199,8 +223,10 @@ namespace Alarm {
         public bool Wed {
             get { return _Wed; }
             set {
-                _Wed = value;
-                cbASWed.Checked = value;
+                if (cbASWed != null) {
+                    _Wed = value;
+                    cbASWed.Checked = value;
+                }
             }
         }
         //Var Thu (Cell 15)
@@ -208,8 +234,10 @@ namespace Alarm {
         public bool Thu {
             get { return _Thu; }
             set {
-                _Thu = value;
-                cbASThu.Checked = value;
+                if (cbASThu != null) {
+                    _Thu = value;
+                    cbASThu.Checked = value;
+                }
             }
         }
         //Var Fri (Cell 16)
@@ -217,8 +245,10 @@ namespace Alarm {
         public bool Fri {
             get { return _Fri; }
             set {
-                _Fri = value;
-                cbASFri.Checked = value;
+                if (cbASFri != null) {
+                    _Fri = value;
+                    cbASFri.Checked = value;
+                }
             }
         }
         //Var Sat (Cell 17)
@@ -226,8 +256,10 @@ namespace Alarm {
         public bool Sat {
             get { return _Sat; }
             set {
-                _Sat = value;
-                cbASSat.Checked = value;
+                if (cbASSat != null) {
+                    _Sat = value;
+                    cbASSat.Checked = value;
+                }
             }
         }
         //Var Sun (Cell 18)
@@ -235,8 +267,10 @@ namespace Alarm {
         public bool Sun {
             get { return _Sun; }
             set {
-                _Sun = value;
-                cbASSun.Checked = value;
+                if (cbASSun != null) {
+                    _Sun = value;
+                    cbASSun.Checked = value;
+                }
             }
         }
         //Var Repeat (Cell 19)
@@ -244,9 +278,11 @@ namespace Alarm {
         public bool Repeat {
             get { return _Repeat; }
             set {
-                _Repeat = value;
-                if (cbASOverwrite.Checked == false) {
-                    cbASRepeat.Checked = value;
+                if (cbASRepeat != null) {
+                    _Repeat = value;
+                    if (cbASOverwrite.Checked == false) {
+                        cbASRepeat.Checked = value;
+                    }
                 }
             }
         }
@@ -257,9 +293,11 @@ namespace Alarm {
         public bool Flash {
             get { return _Flash; }
             set {
-                _Flash = value;
-                if (cbASOverwrite.Checked == false) {
-                    cbASFlash.Checked = value;
+                if (cbASFlash != null) {
+                    _Flash = value;
+                    if (cbASOverwrite.Checked == false) {
+                        cbASFlash.Checked = value;
+                    }
                 }
             }
         }
@@ -269,8 +307,10 @@ namespace Alarm {
         public bool Shutdown {
             get { return _Shutdown; }
             set {
-                _Shutdown = value;
-                cbASShutdown.Checked = value;
+                if (cbASShutdown != null) {
+                    _Shutdown = value;
+                    cbASShutdown.Checked = value;
+                }
             }
         }
 
@@ -279,8 +319,10 @@ namespace Alarm {
         public bool Overwrite {
             get { return _Overwrite; }
             set {
-                _Overwrite = value;
-                cbASOverwrite.Checked = value;
+                if (cbASOverwrite != null) {
+                    _Overwrite = value;
+                    cbASOverwrite.Checked = value;
+                }
             }
         }
 
@@ -291,19 +333,21 @@ namespace Alarm {
         public string ActSoundSource {
             get { return _ActSoundSource; }
             set {
-                _ActSoundSource = value;
-                //if source fits and the path aint empty...
-                if (value.ToString() == "Alarm") { // && AlarmSound != "") {
-                    rbAlarmSound.Checked = true;
-                    //ActSoundSource = "Alarm";
-                }
-                else if (value.ToString() == "File") { // && SoundSource != "") {
+                if (rbAlarmSound != null) {
+                    _ActSoundSource = value;
+                    //if source fits and the path aint empty...
+                    if (value.ToString() == "Alarm") { // && AlarmSound != "") {
+                        rbAlarmSound.Checked = true;
+                        //ActSoundSource = "Alarm";
+                    }
+                    else if (value.ToString() == "File") { // && SoundSource != "") {
                         rbASSoundFilePath.Checked = true;
-                    //ActSoundSource = "File";
-                }
-                else if (value.ToString() == "Youtube") { // && YoutubePath != "") {
-                    rbASYoutubepath.Checked = true;
-                    //ActSoundSource = "Youtube";
+                        //ActSoundSource = "File";
+                    }
+                    else if (value.ToString() == "Youtube") { // && YoutubePath != "") {
+                        rbASYoutubepath.Checked = true;
+                        //ActSoundSource = "Youtube";
+                    }
                 }
             }
         }

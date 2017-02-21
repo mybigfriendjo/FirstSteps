@@ -29,6 +29,7 @@ namespace Alarm {
         //public int CellCnt; //Counts the Cells of the active Row
         DataSet ADS;
         DataTable ADT;
+        bool SortMode = false; //Contains the Value if the Datagridview "Order by" is currently active or not.
 
         //Gather DisplayInfo
         int ScreenCnt = 0;
@@ -224,7 +225,7 @@ namespace Alarm {
             }
             //MessageBox.Show(DisplayInfo);
             GetNextAlarm();
-
+            
         }
 
         private void contextMenuStripSystrayWorking(object sender, EventArgs e) {
@@ -731,11 +732,6 @@ namespace Alarm {
             dataGridView1.Columns["Overwrite"].Visible = false;
         }
 
-        private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e) {
-            
-        }
-
-
         public void UpdateRowDetails(AlarmSettings settings) {
             dataGridView1.Rows[settings.LastRowIndex].Cells[0].Value = string.Format ("{0:dd.MM.yyyy}",settings.Date);
             dataGridView1.Rows[settings.LastRowIndex].Cells[1].Value = settings.Hour;
@@ -879,6 +875,7 @@ namespace Alarm {
                 AlarmSettingsGui.DayActive = false;
             }
 
+            AlarmSettingsGui.Location = new Point(ActiveForm.Location.X + 25, ActiveForm.Location.Y + 25); //Sets the AlarmSettingsGui Position regarding to the MainWindow.
             AlarmSettingsGui.ShowDialog(this); //ShowDialog(this) instead of Show() lockes the Mainwindow while the other window is open.
         }
 
@@ -932,26 +929,29 @@ namespace Alarm {
             MyNotifyIcon.ShowBalloonTip(500); //Time Systray helptext is shown - GPO disables it at copany
         }
 
+        //Throws
+        private void dataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
+            if(SortMode == false) {
+                MessageBox.Show("SortMode is now ascending");
+                SortMode = true;
+            }
+            else {
+                MessageBox.Show("SortMode is now descending");
+            }
+        }
+
 
 
         /*TODO
-        
-        order by - new field combinded of date/time/allways active - vorraussetzung um überschreiben von NextAlarm zu verhindern noch nicht gegeben
-        -Check for double entries on OK button
-            >Function: Check for double entries on OK button
-            >Menustring 
-        +SortMode not working correct yet
-        +AlarmSettings Frame Position should be in x,y +  fixed value
-        
-        
-
+              
         Changelog
 
-        +fixed error when new frame open
+        +fixed further errors when fast clicking
+        +added exception handling for Null cases
+        +added Delay by MsgShown for Sort (Dirty Workaround to avoid error created by fast cloumnheader clicking -> and then try to open a new Windowform)
         +Nextalarm gets cleared when alarm not active.
+        +AlarmSettings Window Position is now on top of the main Window.
 
-        +NextAlarm does now get calculated
-        
         */
 
         /* Snigget

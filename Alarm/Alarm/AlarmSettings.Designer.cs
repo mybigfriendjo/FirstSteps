@@ -459,8 +459,12 @@
             this.Controls.Add(this.tbASFilePath);
             this.Controls.Add(this.tbASYoutubePath);
             this.Controls.Add(this.tbASNote);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AlarmSettings";
+            this.ShowInTaskbar = false;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AlarmSettings_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.numASHour)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numASMin)).EndInit();
