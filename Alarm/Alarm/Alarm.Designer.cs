@@ -59,6 +59,7 @@
             this.cbShutdown = new System.Windows.Forms.CheckBox();
             this.cbFlashscreen = new System.Windows.Forms.CheckBox();
             this.btnMinimize = new System.Windows.Forms.Button();
+            this.startWithWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCountdownMin)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -182,7 +183,8 @@
             this.languageToolStripMenuItem,
             this.alarmTestToolStripMenuItem,
             this.configPathToolStripMenuItem,
-            this.quitToolStripMenuItem});
+            this.quitToolStripMenuItem,
+            this.startWithWindowsToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "&Options";
@@ -192,7 +194,7 @@
             this.languageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.englishToolStripMenuItem});
             this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
-            this.languageToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.languageToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.languageToolStripMenuItem.Text = "&Language";
             // 
             // englishToolStripMenuItem
@@ -206,7 +208,7 @@
             // alarmTestToolStripMenuItem
             // 
             this.alarmTestToolStripMenuItem.Name = "alarmTestToolStripMenuItem";
-            this.alarmTestToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.alarmTestToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.alarmTestToolStripMenuItem.Text = "&Alarm Test";
             this.alarmTestToolStripMenuItem.Click += new System.EventHandler(this.AlarmTestToolStripMenuItem_Click);
             // 
@@ -216,7 +218,7 @@
             this.userDocumentsToolStripMenuItem,
             this.programmPathToolStripMenuItem});
             this.configPathToolStripMenuItem.Name = "configPathToolStripMenuItem";
-            this.configPathToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.configPathToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.configPathToolStripMenuItem.Text = "Database Path";
             // 
             // userDocumentsToolStripMenuItem
@@ -239,7 +241,7 @@
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.quitToolStripMenuItem.Text = "&Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -383,6 +385,14 @@
             this.btnMinimize.UseVisualStyleBackColor = true;
             this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
             // 
+            // startWithWindowsToolStripMenuItem
+            // 
+            this.startWithWindowsToolStripMenuItem.CheckOnClick = true;
+            this.startWithWindowsToolStripMenuItem.Name = "startWithWindowsToolStripMenuItem";
+            this.startWithWindowsToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.startWithWindowsToolStripMenuItem.Text = "Start with &Windows";
+            this.startWithWindowsToolStripMenuItem.Click += new System.EventHandler(this.startWithWindowsToolStripMenuItem_Click);
+            // 
             // Alarm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -456,6 +466,7 @@
         private System.Windows.Forms.ToolStripMenuItem programmPathToolStripMenuItem;
         private System.Windows.Forms.TextBox tbCountdownName;
         private System.Windows.Forms.ComboBox combAlarmSound;
+        private System.Windows.Forms.ToolStripMenuItem startWithWindowsToolStripMenuItem;
     }
 }
 

@@ -30,6 +30,7 @@ namespace Alarm {
         DataSet ADS;
         DataTable ADT;
         bool SortMode = false; //Contains the Value if the Datagridview "Order by" is currently active or not.
+        bool StartWithWin = false;
 
         //Gather DisplayInfo
         int ScreenCnt = 0;
@@ -214,7 +215,13 @@ namespace Alarm {
             ToolTiptbCountdownName.SetToolTip(tbCountdownName, "Insert your Countdown Title");
             ToolTipcombAlarmSound.SetToolTip(combAlarmSound, "Pick the sound that should be played");
 
+            //
+            if (!StartWithWin) {
+                
+            }
+            else {
 
+            }
 
             //Gather DisplayInfo
             foreach (var screen in Screen.AllScreens) {
@@ -886,6 +893,21 @@ namespace Alarm {
         private void AlarmTestToolStripMenuItem_Click(object sender, EventArgs e) {
             AlarmGoesOff("Countdown", null, CountdownTimeADD.ToString(), 0);
         }
+        private void startWithWindowsToolStripMenuItem_Click(object sender, EventArgs e) {
+            Microsoft.Win32.RegistryKey key;
+            if (startWithWindowsToolStripMenuItem.Checked) {
+                key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
+                key.SetValue("AlarmStartWithWindows", Application.StartupPath + "\\Alarm.exe");
+                key.Close();
+            }
+            else {
+                key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
+                if (key != null) {
+                    key.DeleteValue("AlarmStartWithWindows");
+                }
+            }
+        }
+
         private void DatabasePathToolStripMenuItem_Click(object sender, EventArgs e) {
             if(sender == userDocumentsToolStripMenuItem) {
                 userDocumentsToolStripMenuItem.Checked = true;
@@ -939,6 +961,8 @@ namespace Alarm {
                 MessageBox.Show("SortMode is now descending");
             }
         }
+
+        
 
 
 
