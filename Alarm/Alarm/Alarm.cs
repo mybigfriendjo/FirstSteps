@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Win32;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
@@ -30,7 +31,7 @@ namespace Alarm {
         DataSet ADS;
         DataTable ADT;
         bool SortMode = false; //Contains the Value if the Datagridview "Order by" is currently active or not.
-        bool StartWithWin = false;
+
 
         //Gather DisplayInfo
         int ScreenCnt = 0;
@@ -215,12 +216,19 @@ namespace Alarm {
             ToolTiptbCountdownName.SetToolTip(tbCountdownName, "Insert your Countdown Title");
             ToolTipcombAlarmSound.SetToolTip(combAlarmSound, "Pick the sound that should be played");
 
-            //
-            if (!StartWithWin) {
-                
+            //Set checked for StartWithWindows - menu on Program start
+            RegistryKey Key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
+            if (Key != null) {
+                string val = (string) Key.GetValue("AlarmStartWithWindows");
+                if (val == null) {
+                    startWithWindowsToolStripMenuItem.Checked = false;
+                }
+                else {
+                    startWithWindowsToolStripMenuItem.Checked = true;
+                }
             }
             else {
-
+                MessageBox.Show("Registry path \"Software\\Microsoft\\Windows\\CurrentVersion\\Run\" not found or couldnt be opened.");
             }
 
             //Gather DisplayInfo
@@ -230,6 +238,10 @@ namespace Alarm {
                 ScreenCnt++;
                 Myscreens.Add(screen);
             }
+
+            //Sets default value for Countdown Sound
+            combAlarmSound.SelectedItem = "Callring";
+
             //MessageBox.Show(DisplayInfo);
             GetNextAlarm();
             
@@ -970,11 +982,8 @@ namespace Alarm {
               
         Changelog
 
-        +fixed further errors when fast clicking
-        +added exception handling for Null cases
-        +added Delay by MsgShown for Sort (Dirty Workaround to avoid error created by fast cloumnheader clicking -> and then try to open a new Windowform)
-        +Nextalarm gets cleared when alarm not active.
-        +AlarmSettings Window Position is now on top of the main Window.
+        +Program got a new option to start with windows
+        +Countdown has now a default sound selected
 
         */
 
