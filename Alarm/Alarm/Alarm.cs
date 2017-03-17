@@ -31,6 +31,7 @@ namespace Alarm {
         DataSet ADS;
         DataTable ADT;
         bool SortMode = false; //Contains the Value if the Datagridview "Order by" is currently active or not.
+        bool allowVisible = true; // defines if Form beeing Visible is allowed or not.
 
 
         //Gather DisplayInfo
@@ -244,7 +245,25 @@ namespace Alarm {
 
             //MessageBox.Show(DisplayInfo);
             GetNextAlarm();
+
+            bool isAutoStart = false;
+            string[] args = AppDomain.CurrentDomain.SetupInformation.ActivationArguments.ActivationData; //writes the parameters into the array
+            if (args != null && args.Length > 0) {
+                isAutoStart = args[0].ToLower().Equals("autostart");
+                Hide();
+                allowVisible = false;
+
+            }
             
+    }
+
+        
+        protected override void SetVisibleCore(bool value) {
+            if (!allowVisible) {
+                value = false;
+                if (!this.IsHandleCreated) CreateHandle();
+            }
+            base.SetVisibleCore(value);
         }
 
         private void contextMenuStripSystrayWorking(object sender, EventArgs e) {
@@ -608,6 +627,7 @@ namespace Alarm {
         }
 
         void MyNotifyIcon_MouseDoubleClick(object sender, EventArgs e) {
+            allowVisible = true;
             this.WindowState = FormWindowState.Normal;
             Show();
         }
@@ -909,7 +929,7 @@ namespace Alarm {
             Microsoft.Win32.RegistryKey key;
             if (startWithWindowsToolStripMenuItem.Checked) {
                 key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
-                key.SetValue("AlarmStartWithWindows", Application.StartupPath + "\\Alarm.exe");
+                key.SetValue("AlarmStartWithWindows", "\"%USERPROFILE%\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Alarm\\alarm.appref-ms\" autostart");
                 key.Close();
             }
             else {
@@ -981,6 +1001,8 @@ namespace Alarm {
         /*TODO
               
         Changelog
+
+        +Program does now start minimized when started with parameter autostart
 
         +Program got a new option to start with windows
         +Countdown has now a default sound selected
