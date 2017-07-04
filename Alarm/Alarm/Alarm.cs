@@ -12,9 +12,12 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using System.Diagnostics;
+using NLog;
 
 namespace Alarm {
     public partial class Alarm : Form {
+
+        private Logger logger = LogManager.GetCurrentClassLogger();
 
         //Important Variables
         private Timer t = null;
@@ -26,6 +29,7 @@ namespace Alarm {
         //bool FlashActive; //when alarm goes off FlashActive gets "true". When StopFlash time is reached FlashActive will be set "false".
         string AlarmTime = "";
         string DisplayInfo = "";
+        string CurrentUser = "";
         //int LastRowIndex = 1000;
         //public int CellCnt; //Counts the Cells of the active Row
         DataSet ADS;
@@ -50,6 +54,7 @@ namespace Alarm {
         }
 
         public Alarm() {
+            logger.Debug("Test");
             InitializeComponent();
 
             //Dataset
@@ -220,15 +225,18 @@ namespace Alarm {
             //Set checked for StartWithWindows - menu on Program start
             RegistryKey Key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
             if (Key != null) {
+                logger.Debug("RegKey AlarmStartWithWindow exist");
                 string val = (string) Key.GetValue("AlarmStartWithWindows");
                 if (val == null) {
                     startWithWindowsToolStripMenuItem.Checked = false;
                 }
                 else {
+                    logger.Debug("RegKey AlarmStartWithWindow is true");
                     startWithWindowsToolStripMenuItem.Checked = true;
                 }
             }
             else {
+                logger.Debug("RegKey AlarmStartWithWindow Path not found");
                 MessageBox.Show("Registry path \"Software\\Microsoft\\Windows\\CurrentVersion\\Run\" not found or couldnt be opened.");
             }
 
@@ -246,16 +254,21 @@ namespace Alarm {
             //MessageBox.Show(DisplayInfo);
             GetNextAlarm();
 
+            //Check Autostart Variable
             bool isAutoStart = false;
-            string[] args = AppDomain.CurrentDomain.SetupInformation.ActivationArguments.ActivationData; //writes the parameters into the array
-            if (args != null && args.Length > 0) {
-                isAutoStart = args[0].ToLower().Equals("autostart");
-                Hide();
-                allowVisible = false;
+            if (AppDomain.CurrentDomain.SetupInformation.ActivationArguments != null){
+                string[] args = AppDomain.CurrentDomain.SetupInformation.ActivationArguments.ActivationData; //writes the parameters into the array
+                if (args != null && args.Length > 0)
+                {
+                    isAutoStart = args[0].ToLower().Equals("autostart");
+                    Hide();
+                    allowVisible = false;
 
+                }
             }
-            
-    }
+            //Get CurrentUser
+            CurrentUser = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        }
 
         
         protected override void SetVisibleCore(bool value) {
@@ -929,7 +942,7 @@ namespace Alarm {
             Microsoft.Win32.RegistryKey key;
             if (startWithWindowsToolStripMenuItem.Checked) {
                 key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
-                key.SetValue("AlarmStartWithWindows", "\"%USERPROFILE%\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Alarm\\alarm.appref-ms\" autostart");
+                key.SetValue("AlarmStartWithWindows", "\"" + CurrentUser + "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Alarm\\alarm.appref-ms\" autostart");
                 key.Close();
             }
             else {

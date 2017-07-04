@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alarm.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace Alarm
         [STAThread]
         static void Main()
         {
+            LoggingConfig.Initialize();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Alarm());

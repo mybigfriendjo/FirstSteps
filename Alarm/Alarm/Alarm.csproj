@@ -27,7 +27,7 @@
     <ProductName>Alarm</ProductName>
     <PublisherName>Alarm</PublisherName>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>21</ApplicationRevision>
+    <ApplicationRevision>23</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -74,6 +74,10 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.9\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -100,6 +104,7 @@
       <DependentUpon>AlarmSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\CsvImport.cs" />
+    <Compile Include="Helper\LoggingConfig.cs" />
     <Compile Include="ScreenOverlay\RightSide.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,6 +159,7 @@
     <EmbeddedResource Include="ScreenOverlay\Top.resx">
       <DependentUpon>Top.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
