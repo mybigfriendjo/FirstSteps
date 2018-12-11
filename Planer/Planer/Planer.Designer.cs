@@ -28,21 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Node1");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Node2");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Node6");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Node5", new System.Windows.Forms.TreeNode[] {
-            treeNode3});
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Node7");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Node4", new System.Windows.Forms.TreeNode[] {
-            treeNode4,
-            treeNode5});
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Node3", new System.Windows.Forms.TreeNode[] {
-            treeNode6});
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Node0", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode7});
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Node1");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Node2");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Node6");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Node5", new System.Windows.Forms.TreeNode[] {
+            treeNode11});
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Node7");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Node4", new System.Windows.Forms.TreeNode[] {
+            treeNode12,
+            treeNode13});
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Node3", new System.Windows.Forms.TreeNode[] {
+            treeNode14});
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Node0", new System.Windows.Forms.TreeNode[] {
+            treeNode9,
+            treeNode10,
+            treeNode15});
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.chkboxDone = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tbDiscribtion = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -110,24 +110,24 @@
             this.treeViewTasks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewTasks.Location = new System.Drawing.Point(3, 28);
             this.treeViewTasks.Name = "treeViewTasks";
-            treeNode1.Name = "Node1";
-            treeNode1.Text = "Node1";
-            treeNode2.Name = "Node2";
-            treeNode2.Text = "Node2";
-            treeNode3.Name = "Node6";
-            treeNode3.Text = "Node6";
-            treeNode4.Name = "Node5";
-            treeNode4.Text = "Node5";
-            treeNode5.Name = "Node7";
-            treeNode5.Text = "Node7";
-            treeNode6.Name = "Node4";
-            treeNode6.Text = "Node4";
-            treeNode7.Name = "Node3";
-            treeNode7.Text = "Node3";
-            treeNode8.Name = "Node0";
-            treeNode8.Text = "Node0";
+            treeNode9.Name = "Node1";
+            treeNode9.Text = "Node1";
+            treeNode10.Name = "Node2";
+            treeNode10.Text = "Node2";
+            treeNode11.Name = "Node6";
+            treeNode11.Text = "Node6";
+            treeNode12.Name = "Node5";
+            treeNode12.Text = "Node5";
+            treeNode13.Name = "Node7";
+            treeNode13.Text = "Node7";
+            treeNode14.Name = "Node4";
+            treeNode14.Text = "Node4";
+            treeNode15.Name = "Node3";
+            treeNode15.Text = "Node3";
+            treeNode16.Name = "Node0";
+            treeNode16.Text = "Node0";
             this.treeViewTasks.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode8});
+            treeNode16});
             this.tableLayoutPanel1.SetRowSpan(this.treeViewTasks, 4);
             this.treeViewTasks.Size = new System.Drawing.Size(252, 604);
             this.treeViewTasks.TabIndex = 5;
