@@ -19,11 +19,11 @@ namespace WinVolumeControler
             InitializeComponent();
         }
 
-        public void iwas()
+        public void iwas(int input)
         {
             CoreAudioDevice defaultPlaybackDevice = new CoreAudioController().DefaultPlaybackDevice;
             Debug.WriteLine("Current Volume:" + defaultPlaybackDevice.Volume);
-            defaultPlaybackDevice.Volume = 80;
+            defaultPlaybackDevice.Volume = input;
 
         }
     }
