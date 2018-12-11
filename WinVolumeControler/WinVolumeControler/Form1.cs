@@ -24,13 +24,20 @@ namespace WinVolumeControler
         public Form1()
         {
             InitializeComponent();
-            iwas();
+            
 
             hook.KeyPressed += hook_KeyPressed;
-            hook.RegisterHotKey((WinVolumeControler.ModifierKeys.Alt | WinVolumeControler.ModifierKeys.Control), Keys.F9);
+            /*hook.RegisterHotKey((WinVolumeControler.ModifierKeys.Alt | WinVolumeControler.ModifierKeys.Control), Keys.F9);
             hook.RegisterHotKey((WinVolumeControler.ModifierKeys.Alt | WinVolumeControler.ModifierKeys.Control), Keys.F10);
             hook.RegisterHotKey((WinVolumeControler.ModifierKeys.Alt | WinVolumeControler.ModifierKeys.Control), Keys.F11);
-            hook.RegisterHotKey((WinVolumeControler.ModifierKeys.Alt | WinVolumeControler.ModifierKeys.Control), Keys.F12);
+            hook.RegisterHotKey((WinVolumeControler.ModifierKeys.Alt | WinVolumeControler.ModifierKeys.Control), Keys.F12);*/
+
+            hook.RegisterHotKey(WinVolumeControler.ModifierKeys.None, Keys.F10);
+            hook.RegisterHotKey(WinVolumeControler.ModifierKeys.None, Keys.F11);
+            //hook.RegisterHotKey(WinVolumeControler.ModifierKeys.None, Keys.F12);
+            hook.RegisterHotKey(WinVolumeControler.ModifierKeys.None, Keys.F9);
+
+            iwas();
         }
         
         /*########################  2do ########################
@@ -42,7 +49,7 @@ namespace WinVolumeControler
          * 
          *###################### 2do End ########################*/
 
-        public void iwas()
+            public void iwas()
         {   //Get Audio Devices
             CoreAudioController controller = new CoreAudioController();
             foreach (CoreAudioDevice device in controller.GetPlaybackDevices())
@@ -74,7 +81,7 @@ namespace WinVolumeControler
 
         private void hook_KeyPressed(object sender, KeyPressedEventArgs e)
         {
-            if (e.Key == Keys.F9 && e.Modifier.Equals( Keys.Control | Keys.Alt ))
+            if (e.Key == Keys.F9)// && e.Modifier.Equals( Keys.Control | Keys.Alt ))
             {
                 if (numUpDownVol1.Value >= 5)
                 {
@@ -85,7 +92,7 @@ namespace WinVolumeControler
                     numUpDownVol1.Value = 0;
                 }
             }
-            else if (e.Key == Keys.F10 && e.Modifier.Equals(Keys.Control | Keys.Alt))
+            else if (e.Key == Keys.F10)// && e.Modifier.Equals(Keys.Control | Keys.Alt))
             {
                 if (numUpDownVol1.Value <= 95)
                 {
