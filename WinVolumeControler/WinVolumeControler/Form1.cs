@@ -19,16 +19,20 @@ namespace WinVolumeControler
         CoreAudioDevice InputVaio;
         CoreAudioDevice InputVaioAux;
 
+        KeyboardHook hook = new KeyboardHook();
+
         public Form1()
         {
             InitializeComponent();
             iwas();
+
+            hook.KeyPressed += hook_KeyPressed;
+            hook.RegisterHotKey((WinVolumeControler.ModifierKeys.Alt | WinVolumeControler.ModifierKeys.Control), Keys.F9);
+            hook.RegisterHotKey((WinVolumeControler.ModifierKeys.Alt | WinVolumeControler.ModifierKeys.Control), Keys.F10);
+            hook.RegisterHotKey((WinVolumeControler.ModifierKeys.Alt | WinVolumeControler.ModifierKeys.Control), Keys.F11);
+            hook.RegisterHotKey((WinVolumeControler.ModifierKeys.Alt | WinVolumeControler.ModifierKeys.Control), Keys.F12);
         }
-
-        /*CoreAudioDevice defaultPlaybackDevice = new CoreAudioController().DefaultPlaybackDevice;
-            Debug.WriteLine("Current Volume:" + defaultPlaybackDevice.Volume);
-            defaultPlaybackDevice.Volume = (double)numUpDownVol1.Value;*/
-
+        
         /*########################  2do ########################
          * Start Voice meeter BANANA
          * Last Volume / Default Vol if no last Volume (RegistryCurrentUser)
@@ -39,13 +43,10 @@ namespace WinVolumeControler
          *###################### 2do End ########################*/
 
         public void iwas()
-        {
+        {   //Get Audio Devices
             CoreAudioController controller = new CoreAudioController();
             foreach (CoreAudioDevice device in controller.GetPlaybackDevices())
-            {
-                // Console.WriteLine(device.FullName + " " + device.InterfaceName);
-                DeviceName = DeviceName + device.InterfaceName + "\n\n";
-
+            {   
                 if (device.InterfaceName == "VB-Audio VoiceMeeter VAIO")
                 {
                     InputVaio = device;
@@ -55,21 +56,10 @@ namespace WinVolumeControler
                     InputVaioAux = device;
                 }
             }
-            Debug.WriteLine(DeviceName);
 
             //initial Value
             numUpDownVol1.Value = 30;
             numUpDownVol2.Value = 30;
-
-            InputVaio.Volume = 30;
-            InputVaioAux.Volume = 30;
-        }
-
-        
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            iwas();
         }
 
         private void numUpDownVol1_ValueChanged(object sender, EventArgs e)
@@ -80,6 +70,66 @@ namespace WinVolumeControler
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
             InputVaioAux.Volume = (double)numUpDownVol2.Value;
+        }
+
+        private void hook_KeyPressed(object sender, KeyPressedEventArgs e)
+        {
+            if (e.Key == Keys.F9 && e.Modifier.Equals( Keys.Control | Keys.Alt ))
+            {
+                if (numUpDownVol1.Value >= 5)
+                {
+                    numUpDownVol1.Value += -5;  
+                }
+                else
+                {
+                    numUpDownVol1.Value = 0;
+                }
+            }
+            else if (e.Key == Keys.F10 && e.Modifier.Equals(Keys.Control | Keys.Alt))
+            {
+                if (numUpDownVol1.Value <= 95)
+                {
+                    numUpDownVol1.Value += 5;
+                }
+                else
+                {
+                    numUpDownVol1.Value = 100;
+                }
+            }
+            else if (e.Key == Keys.F11 && e.Modifier.Equals(Keys.Control | Keys.Alt))
+            {
+                if (numUpDownVol2.Value >= 5)
+                {
+                    numUpDownVol2.Value += -5;
+                }
+                else
+                {
+                    numUpDownVol2.Value = 0;
+                }
+            }
+            else if (e.Key == Keys.F12 && e.Modifier.Equals(Keys.Control | Keys.Alt))
+            {
+                if (numUpDownVol2.Value <= 95)
+                {
+                    numUpDownVol2.Value += 5;
+                }
+                else
+                {
+                    numUpDownVol2.Value = 100;
+                }
+            }
+        }
+
+        public void Main(string[] args)
+        {
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
+            // Do something here
+            hook.Dispose();
+        }
+
+        static void OnProcessExit(object sender, EventArgs e)
+        {
+            // Console.WriteLine("I'm out of here");
         }
     }
 }
