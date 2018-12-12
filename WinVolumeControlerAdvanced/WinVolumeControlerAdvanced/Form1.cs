@@ -16,13 +16,15 @@ namespace WinVolumeControler
         private bool controlPressed;
         private bool altPressed;
 
-       /* public Form1()
+        public Form1()
         {
             hook.OnKeyPressed += hook_KeyPressed;
             hook.OnKeyUnpressed += hook_KeyUnpressed;
             hook.HookKeyboard();
             this.WindowState = FormWindowState.Minimized;
             this.ShowInTaskbar = false;
+
+            bla();
         }
 
         //*########################  2do ########################
@@ -92,9 +94,9 @@ namespace WinVolumeControler
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             hook.UnHookKeyboard();
-        }*/
+        }
 
-        static void bla(string[] args)
+        static void bla()
         {
             const string app = "Mozilla Firefox";
 
