@@ -25,6 +25,7 @@ namespace WinVolumeControler
             this.ShowInTaskbar = false;
 
             setVolume();
+            
         }
 
         //*########################  2do ########################
@@ -107,7 +108,7 @@ namespace WinVolumeControler
         static void setVolume()
         {
             //var hWnd = FindWindow("SpotifyMainWindow", "Spotify");
-            var hWnd = FindWindow("SpotifyMainWindow", "Google Chrome");
+            var hWnd = FindWindow("StarCraft II", "StarCraft II");
             if (hWnd == IntPtr.Zero)
                 return;
 
@@ -118,7 +119,6 @@ namespace WinVolumeControler
 
             VolumeMixer.SetApplicationVolume((int)pID, 50f);
         }
-
     }      
 }
     

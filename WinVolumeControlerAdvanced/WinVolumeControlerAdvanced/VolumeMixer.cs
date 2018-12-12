@@ -58,7 +58,8 @@ namespace WinVolumeControler
         private static ISimpleAudioVolume GetVolumeObject(int pid)
         {
             // get the speakers (1st render + multimedia) device
-            IMMDeviceEnumerator deviceEnumerator = (IMMDeviceEnumerator)(new MMDeviceEnumerator());
+            //IMMDeviceEnumerator deviceEnumerator = (IMMDeviceEnumerator)(new MMDeviceEnumerator());
+            IMMDeviceEnumerator deviceEnumerator = MMDeviceEnumeratorFactory.CreateInstance();
             IMMDevice speakers;
             deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia, out speakers);
 
@@ -130,6 +131,17 @@ namespace WinVolumeControler
         int GetDefaultAudioEndpoint(EDataFlow dataFlow, ERole role, out IMMDevice ppDevice);
 
         // the rest is not implemented
+    }
+
+    internal static class MMDeviceEnumeratorFactory
+    {
+        private static readonly Guid MMDeviceEnumerator = new Guid("BCDE0395-E52F-467C-8E3D-C4579291692E");
+
+        public static IMMDeviceEnumerator CreateInstance()
+        {
+            var type = Type.GetTypeFromCLSID(MMDeviceEnumerator);
+            return (IMMDeviceEnumerator)Activator.CreateInstance(type);
+        }
     }
 
     [Guid("D666063F-1587-4E43-81F1-B948E807363F"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
