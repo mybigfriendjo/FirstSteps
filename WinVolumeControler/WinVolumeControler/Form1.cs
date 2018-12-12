@@ -32,10 +32,10 @@ namespace WinVolumeControler
             hook.RegisterHotKey((WinVolumeControler.ModifierKeys.Alt | WinVolumeControler.ModifierKeys.Control), Keys.F11);
             hook.RegisterHotKey((WinVolumeControler.ModifierKeys.Alt | WinVolumeControler.ModifierKeys.Control), Keys.F12);*/
 
-            hook.RegisterHotKey(WinVolumeControler.ModifierKeys.None, Keys.F10);
+            //hook.RegisterHotKey(WinVolumeControler.ModifierKeys.None, Keys.F10);
             hook.RegisterHotKey(WinVolumeControler.ModifierKeys.None, Keys.F11);
             //hook.RegisterHotKey(WinVolumeControler.ModifierKeys.None, Keys.F12);
-            hook.RegisterHotKey(WinVolumeControler.ModifierKeys.None, Keys.F9);
+            //hook.RegisterHotKey(WinVolumeControler.ModifierKeys.None, Keys.F9);
 
             iwas();
         }
