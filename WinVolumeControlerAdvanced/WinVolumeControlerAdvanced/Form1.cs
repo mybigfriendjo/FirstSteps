@@ -41,14 +41,7 @@ namespace WinVolumeControler
         {
             base.OnLoad(e);
 
-            var allProcesses = Process.GetProcesses();
-            foreach (Process singleProcess in allProcesses)
-            {
-                if (singleProcess.ProcessName == "chrome")
-                {
-                    handleArray += singleProcess.Handle;
-                }
-            }
+          
             ////setVolume();
             //Application.Exit();
         }
@@ -58,6 +51,19 @@ namespace WinVolumeControler
 
         // *###################### 2do End ########################
 
+        private List<Process> getProcessByName (string processName)
+        {
+            var allProcesses = Process.GetProcesses();
+            List<Process> chromeProcessList = new List<Process>();
+            foreach (Process singleProcess in allProcesses)
+            {
+                if (singleProcess.ProcessName .Equals(processName,StringComparison.OrdinalIgnoreCase)) //.Equal is another option for stings with aditional options like CaseInsensitive(OrdinalIgnoreCase)
+                {
+                    chromeProcessList.Add(singleProcess);
+                }
+            }
+            return chromeProcessList;
+        }
 
         private void hook_KeyUnpressed(object sender, Keys e)
         {
@@ -100,19 +106,31 @@ namespace WinVolumeControler
                         //    currentVolume = 0;
                         //}
 
-                        setVolume("StarCraft II", "StarCraft II", "decrease");
+                        //setVolume("StarCraft II", "StarCraft II", "decrease");
+                        //foreach(Process Processname in getProcessByName("Chrome"))
+                        //{
+                        //    setVolume("", "", "decrease", (IntPtr)Processname.Id);
+                        //}
+                        setVolume("", "", "decrease", (IntPtr)14472);
                     }
                     break;
-                case Keys.F10: //App1 raise Vol
+                case Keys.F10: //App1 increase Vol
                     if (controlPressed && altPressed)
                     {
                         currentVolume = controller.DefaultPlaybackDevice.Volume + 10;
-                        //if (currentVolume > 100)
-                        //{
-                        //    currentVolume = 100;
-                        //}
-
-                        setVolume("StarCraft II", "StarCraft II", "raise");
+                        if (currentVolume > 100)
+                        {
+                            currentVolume = 100;
+                        }
+                        //Stopwatch myClock = new Stopwatch();
+                        //myClock.Start();
+                        //setVolume("StarCraft II", "StarCraft II", "increase");
+                        foreach (Process Processname in getProcessByName("Chrome"))
+                        {
+                            setVolume("", "", "increase", (IntPtr)Processname.Id);
+                        }
+                        //myClock.Stop();
+                        //MessageBox.Show(myClock.Elapsed.ToString());
                     }
                     break;
                 case Keys.F11: //App2 lower Vol
@@ -121,10 +139,10 @@ namespace WinVolumeControler
                         setVolume("StarCraft II", "StarCraft II", "decrease");
                     }
                     break;
-                case Keys.F12: //App2 raise Vol
+                case Keys.F12: //App2 increase Vol
                     if (controlPressed && altPressed)
                     {
-                        setVolume("StarCraft II", "StarCraft II", "raise");
+                        setVolume("StarCraft II", "StarCraft II", "increase");
                     }
                     break;
             }
@@ -139,22 +157,34 @@ namespace WinVolumeControler
 
 
 
-        static void setVolume(string programmClass, string windowName, string changeAppVolume)
+        static void setVolume(string programmClass , string windowName, string changeAppVolume , IntPtr? processHandle = null)    //as soon as a parameter have a default value they become OPTIONAL, multiple Optional parameters require an argument 
         {
-            var hWnd = FindWindow(programmClass, windowName);
-            if (hWnd == IntPtr.Zero)
-                return;
-
             uint pID;
-            GetWindowThreadProcessId(hWnd, out pID);
-            if (pID == 0)
-                return;
+            if (processHandle == null)
+            {
+                var hWnd = FindWindow(programmClass, windowName);
+                if (hWnd == IntPtr.Zero)
+                    return;
 
+                GetWindowThreadProcessId(hWnd, out pID);
+                if (pID == 0)
+                    return;
+            }
+            else
+            {
+                pID = (uint)processHandle;
+            }
             float newApplicationVolume = -1;            //float? is a float accepting also NULL as value exists for every Datatype (except string which can be NULL allready)
-            if ( changeAppVolume == "raise" ){
-                if (VolumeMixer.GetApplicationVolume((int)pID) <= 95)
+                var Test = VolumeMixer.GetApplicationVolume((int)pID);
+         if (VolumeMixer.GetApplicationVolume((int)pID) == null)
+            {
+                return;
+            }
+            if ( changeAppVolume == "increase" )
+            {
+                if (VolumeMixer.GetApplicationVolume((int)pID) <= 90f)
                 {
-                    newApplicationVolume = (float)VolumeMixer.GetApplicationVolume((int)pID) + 5;
+                    newApplicationVolume = (float)VolumeMixer.GetApplicationVolume((int)pID) + 10f;
                 }
                 else
                 {
@@ -163,9 +193,16 @@ namespace WinVolumeControler
             }
             else if ( changeAppVolume == "decrease" )
             {
-                newApplicationVolume = (float)VolumeMixer.GetApplicationVolume((int)pID) - 5;
+                if (VolumeMixer.GetApplicationVolume((int)pID) >= 10f)
+                {
+                    newApplicationVolume = (float)VolumeMixer.GetApplicationVolume((int)pID) - 10f;
+                }
+                else
+                {
+                    newApplicationVolume = 0f;
+                }
             }
-            if (newApplicationVolume == -1)
+            if (newApplicationVolume != -1)
             {
                 VolumeMixer.SetApplicationVolume((int)pID, newApplicationVolume);
             }
