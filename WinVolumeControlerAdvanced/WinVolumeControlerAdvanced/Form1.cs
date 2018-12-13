@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace WinVolumeControler
 {
@@ -16,6 +17,7 @@ namespace WinVolumeControler
         private bool controlPressed;
         private bool altPressed;
 
+        
         // ---Dll Imports---
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string strClassName, string strWindowName);
@@ -39,12 +41,21 @@ namespace WinVolumeControler
         {
             base.OnLoad(e);
 
+            var allProcesses = Process.GetProcesses();
+            foreach (Process singleProcess in allProcesses)
+            {
+                if (singleProcess.ProcessName == "chrome")
+                {
+                    handleArray += singleProcess.Handle;
+                }
+            }
             ////setVolume();
             //Application.Exit();
         }
 
         // *########################  2do ########################
-        // * 
+        // * create handleList
+
         // *###################### 2do End ########################
 
 
@@ -89,8 +100,7 @@ namespace WinVolumeControler
                         //    currentVolume = 0;
                         //}
 
-                        //setVolume("StarCraft II", "StarCraft II", "decrease");
-                        MessageBox.Show("F9");
+                        setVolume("StarCraft II", "StarCraft II", "decrease");
                     }
                     break;
                 case Keys.F10: //App1 raise Vol
@@ -102,8 +112,7 @@ namespace WinVolumeControler
                         //    currentVolume = 100;
                         //}
 
-                        //setVolume("StarCraft II", "StarCraft II", "raise");
-                        MessageBox.Show("F10");
+                        setVolume("StarCraft II", "StarCraft II", "raise");
                     }
                     break;
                 case Keys.F11: //App2 lower Vol
