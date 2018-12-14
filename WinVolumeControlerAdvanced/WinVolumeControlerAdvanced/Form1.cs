@@ -19,8 +19,14 @@ namespace WinVolumeControler
         private bool controlPressed;
         private bool altPressed;
 
-
         private static List<float?> pIDsWithVolume = new List<float?>();
+
+        private DateTime dateF9F10Old = DateTime.Now;
+        private static float currentVolumeF9F10 = 50;
+        private static float currentVolumeF11F12 = 50;
+        private static int adjustVolume = -1;
+
+
 
         // ---Dll Imports---
         [DllImport("user32.dll")]
@@ -37,9 +43,12 @@ namespace WinVolumeControler
             hook.OnKeyUnpressed += hook_KeyUnpressed;
             hook.HookKeyboard();
 
-            //Timer
+            //3Second Intervall
+            DateTime dateTimeTest = DateTime.FromOADate(0);  //Sets dateTimeTest to 0 (untested)
+            
 
 
+            //hide Form  (Form is required for HotKeys and can't be closed)
             this.WindowState = FormWindowState.Minimized;
             this.ShowInTaskbar = false;
 
@@ -77,18 +86,20 @@ namespace WinVolumeControler
         {
             
             //DateTime currentDateTime = DateTime.Now;
-            DateTime datek9K10Old = DateTime.Now -   ;
+            
             if (Key == "F9" || Key == "F10"){
-                DateTime datek9K10Now = DateTime.Now;
-                if( datek9K10Old )
+                if(dateF9F10Old <= DateTime.Now.AddSeconds(-3)) // If old Time was set at least 3 Sec ago 
                 {
-                    DateTime datek9K10Old = datek9K10Now;
+                    adjustVolume = 1;
                 }
-
+                else
+                {
+                    adjustVolume = 0;
+                }
             }
             if (Key == "F10" || Key == "F11")
             {
-                DateTime datek11K12Now = DateTime.Now;
+                DateTime dateF11F12Now = DateTime.Now;
             }
         }
 
@@ -141,14 +152,22 @@ namespace WinVolumeControler
                     {
                         //Stopwatch myClockdecrease = new Stopwatch();
                         //myClockdecrease.Start();
-                        var tempClockProcceses = getProcessByName("Chrome");
+                        //var tempClockProcceses = getProcessByName("Chrome");
                         //myClockdecrease.Stop();
                         //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-deacease " + myClockdecrease.Elapsed.ToString());
                         //Stopwatch myClockdecreaseVol = new Stopwatch();
                         //myClockdecreaseVol.Start();
-                        foreach (Process Processname in tempClockProcceses)
+                        if (currentVolumeF9F10 >= 10f)
                         {
-                            setVolume("", "", "decrease", (IntPtr)Processname.Id);
+                            currentVolumeF9F10 = currentVolumeF9F10 - 10f;
+                        }
+                        else
+                        {
+                            currentVolumeF9F10 = 0f;
+                        }
+                        foreach (Process Processname in getProcessByName("Chrome"))
+                        {
+                            setVolume("F9", "", currentVolumeF9F10, (IntPtr)Processname.Id);
                         }
                         //myClockdecreaseVol.Stop();
                         //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-deaceaseVol " + myClockdecreaseVol.Elapsed.ToString());
@@ -159,14 +178,22 @@ namespace WinVolumeControler
                     {
                         //Stopwatch myClockincrease = new Stopwatch();
                         //myClockincrease.Start();
-                        var tempClockProcceses = getProcessByName("Chrome");
+                        //var tempClockProcceses =;
                         //myClockincrease.Stop();
                         //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-increase " + myClockincrease.Elapsed.ToString());
                         //Stopwatch myClockincreaseVol = new Stopwatch();
                         //myClockincreaseVol.Start();
-                        foreach (Process Processname in tempClockProcceses)
+                        if (currentVolumeF9F10 <= 90f)
                         {
-                            setVolume("", "", "increase", (IntPtr)Processname.Id);
+                            currentVolumeF9F10 = currentVolumeF9F10 + 10f;
+                        }
+                        else
+                        {
+                            currentVolumeF9F10 = 100f;
+                        }
+                        foreach (Process Processname in getProcessByName("Chrome"))
+                        {
+                            setVolume("F10", "", currentVolumeF9F10, (IntPtr)Processname.Id);
                         }
                         //myClockincreaseVol.Stop();
                         //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-increaseVol " + myClockincreaseVol.Elapsed.ToString());
@@ -175,13 +202,29 @@ namespace WinVolumeControler
                 case Keys.F11: //App2 lower Vol
                     if (controlPressed && altPressed)
                     {
-                        setVolume("StarCraft II", "StarCraft II", "decrease");
+                        if (currentVolumeF11F12 >= 10f)
+                        {
+                            currentVolumeF11F12 = currentVolumeF11F12 - 10f;
+                        }
+                        else
+                        {
+                            currentVolumeF11F12 = 0f;
+                        }
+                        setVolume("StarCraft II", "StarCraft II", currentVolumeF11F12);
                     }
                     break;
                 case Keys.F12: //App2 increase Vol
+                    if (currentVolumeF11F12 <= 90f)
+                    {
+                        currentVolumeF11F12 = currentVolumeF11F12 + 10f;
+                    }
+                    else
+                    {
+                        currentVolumeF11F12 = 100f;
+                    }
                     if (controlPressed && altPressed)
                     {
-                        setVolume("StarCraft II", "StarCraft II", "increase");
+                        setVolume("StarCraft II", "StarCraft II", currentVolumeF11F12);
                     }
                     break;
             }
@@ -195,7 +238,7 @@ namespace WinVolumeControler
 
         // ################################ (End) ofTheHook ################################
 
-        static void setVolume(string programmClass, string windowName, string changeAppVolume, IntPtr? processHandle = null)    //as soon as a parameter have a default value they become OPTIONAL, multiple Optional parameters require an argument 
+        static void setVolume(string programmClass, string windowName, float changeAppVolume, IntPtr? processHandle = null)    //as soon as a parameter have a default value they become OPTIONAL, multiple Optional parameters require an argument 
         {
             uint pID;
             if (processHandle == null)
@@ -210,37 +253,46 @@ namespace WinVolumeControler
             }
             else
             {
+                
                 pID = (uint)processHandle;
             }
             float newApplicationVolume = -1;            //float? is a float accepting also NULL as value exists for every Datatype (except string which can be NULL allready)
-            if (VolumeMixer.GetApplicationVolume((int)pID) == null)
-            {
-                return;
-            }
-            else
-            {
-                pIDsWithVolume.Add(pID);
-            }
-            if (changeAppVolume == "increase")
-            {
-                if (VolumeMixer.GetApplicationVolume((int)pID) <= 90f)
+            if(adjustVolume == 1)
+            {   
+                //Get valid pID's/pID-List
+                if (VolumeMixer.GetApplicationVolume((int)pID) == null)
                 {
-                    newApplicationVolume = (float)VolumeMixer.GetApplicationVolume((int)pID) + 10f;
+                    return;
                 }
                 else
                 {
-                    newApplicationVolume = 100f;
+                    if (programmClass == "F9" || programmClass == "F10")
+                    {
+                        //currentVolumeF9F10
+                    }
+                    pIDsWithVolume.Add(pID);
                 }
-            }
-            else if (changeAppVolume == "decrease")
-            {
-                if (VolumeMixer.GetApplicationVolume((int)pID) >= 10f)
+                if (changeAppVolume == "increase")
                 {
-                    newApplicationVolume = (float)VolumeMixer.GetApplicationVolume((int)pID) - 10f;
+                    if (VolumeMixer.GetApplicationVolume((int)pID) <= 90f)
+                    {
+                        newApplicationVolume = (float)VolumeMixer.GetApplicationVolume((int)pID) + 10f;
+                    }
+                    else
+                    {
+                        newApplicationVolume = 100f;
+                    }
                 }
-                else
+                else if (changeAppVolume == "decrease")
                 {
-                    newApplicationVolume = 0f;
+                    if (VolumeMixer.GetApplicationVolume((int)pID) >= 10f)
+                    {
+                        newApplicationVolume = (float)VolumeMixer.GetApplicationVolume((int)pID) - 10f;
+                    }
+                    else
+                    {
+                        newApplicationVolume = 0f;
+                    }
                 }
             }
             if (newApplicationVolume != -1)
