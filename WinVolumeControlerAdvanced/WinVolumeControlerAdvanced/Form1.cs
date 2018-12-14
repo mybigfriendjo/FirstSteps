@@ -21,7 +21,7 @@ namespace WinVolumeControler
 
 
         private static List<float?> pIDsWithVolume = new List<float?>();
-        
+
         // ---Dll Imports---
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string strClassName, string strWindowName);
@@ -42,7 +42,7 @@ namespace WinVolumeControler
 
             this.WindowState = FormWindowState.Minimized;
             this.ShowInTaskbar = false;
-            
+
         }
 
         protected override void OnLoad(EventArgs e)
@@ -73,13 +73,33 @@ namespace WinVolumeControler
             Console.WriteLine("Hello World!");
         }
 
-        private List<Process> getProcessByName (string processName)
+        private void keyPressTime(string Key)
+        {
+            
+            //DateTime currentDateTime = DateTime.Now;
+            DateTime datek9K10Old = DateTime.Now -   ;
+            if (Key == "F9" || Key == "F10"){
+                DateTime datek9K10Now = DateTime.Now;
+                if( datek9K10Old )
+                {
+                    DateTime datek9K10Old = datek9K10Now;
+                }
+
+            }
+            if (Key == "F10" || Key == "F11")
+            {
+                DateTime datek11K12Now = DateTime.Now;
+            }
+        }
+
+
+        private List<Process> getProcessByName(string processName)
         {
             var allProcesses = Process.GetProcesses();
             List<Process> chromeProcessList = new List<Process>();
             foreach (Process singleProcess in allProcesses)
             {
-                if (singleProcess.ProcessName .Equals(processName,StringComparison.OrdinalIgnoreCase)) //.Equal is another option for stings with aditional options like CaseInsensitive(OrdinalIgnoreCase)
+                if (singleProcess.ProcessName.Equals(processName, StringComparison.OrdinalIgnoreCase)) //.Equal is another option for stings with aditional options like CaseInsensitive(OrdinalIgnoreCase)
                 {
                     chromeProcessList.Add(singleProcess);
                 }
@@ -121,15 +141,15 @@ namespace WinVolumeControler
                     {
                         //Stopwatch myClockdecrease = new Stopwatch();
                         //myClockdecrease.Start();
-                            var tempClockProcceses = getProcessByName("Chrome");
+                        var tempClockProcceses = getProcessByName("Chrome");
                         //myClockdecrease.Stop();
                         //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-deacease " + myClockdecrease.Elapsed.ToString());
                         //Stopwatch myClockdecreaseVol = new Stopwatch();
                         //myClockdecreaseVol.Start();
-                            foreach (Process Processname in tempClockProcceses)
-                            {
-                                setVolume("", "", "decrease", (IntPtr)Processname.Id);
-                            }
+                        foreach (Process Processname in tempClockProcceses)
+                        {
+                            setVolume("", "", "decrease", (IntPtr)Processname.Id);
+                        }
                         //myClockdecreaseVol.Stop();
                         //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-deaceaseVol " + myClockdecreaseVol.Elapsed.ToString());
                     }
@@ -139,15 +159,15 @@ namespace WinVolumeControler
                     {
                         //Stopwatch myClockincrease = new Stopwatch();
                         //myClockincrease.Start();
-                            var tempClockProcceses = getProcessByName("Chrome");
+                        var tempClockProcceses = getProcessByName("Chrome");
                         //myClockincrease.Stop();
                         //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-increase " + myClockincrease.Elapsed.ToString());
                         //Stopwatch myClockincreaseVol = new Stopwatch();
                         //myClockincreaseVol.Start();
-                            foreach (Process Processname in tempClockProcceses)
-                            {
-                                setVolume("", "", "increase", (IntPtr)Processname.Id);
-                            }
+                        foreach (Process Processname in tempClockProcceses)
+                        {
+                            setVolume("", "", "increase", (IntPtr)Processname.Id);
+                        }
                         //myClockincreaseVol.Stop();
                         //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-increaseVol " + myClockincreaseVol.Elapsed.ToString());
                     }
@@ -175,7 +195,7 @@ namespace WinVolumeControler
 
         // ################################ (End) ofTheHook ################################
 
-        static void setVolume(string programmClass , string windowName, string changeAppVolume , IntPtr? processHandle = null)    //as soon as a parameter have a default value they become OPTIONAL, multiple Optional parameters require an argument 
+        static void setVolume(string programmClass, string windowName, string changeAppVolume, IntPtr? processHandle = null)    //as soon as a parameter have a default value they become OPTIONAL, multiple Optional parameters require an argument 
         {
             uint pID;
             if (processHandle == null)
@@ -193,15 +213,15 @@ namespace WinVolumeControler
                 pID = (uint)processHandle;
             }
             float newApplicationVolume = -1;            //float? is a float accepting also NULL as value exists for every Datatype (except string which can be NULL allready)
-         if (VolumeMixer.GetApplicationVolume((int)pID) == null)
+            if (VolumeMixer.GetApplicationVolume((int)pID) == null)
             {
                 return;
             }
-         else
+            else
             {
                 pIDsWithVolume.Add(pID);
             }
-            if ( changeAppVolume == "increase" )
+            if (changeAppVolume == "increase")
             {
                 if (VolumeMixer.GetApplicationVolume((int)pID) <= 90f)
                 {
@@ -212,7 +232,7 @@ namespace WinVolumeControler
                     newApplicationVolume = 100f;
                 }
             }
-            else if ( changeAppVolume == "decrease" )
+            else if (changeAppVolume == "decrease")
             {
                 if (VolumeMixer.GetApplicationVolume((int)pID) >= 10f)
                 {
