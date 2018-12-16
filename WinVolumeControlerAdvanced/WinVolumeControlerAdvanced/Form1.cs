@@ -22,10 +22,18 @@ namespace WinVolumeControler
         private static List<float?> pIDsWithVolume = new List<float?>();
 
         private DateTime dateF9F10Old = DateTime.Now;
+        private DateTime dateF11F12Old = DateTime.Now;
         private static float currentVolumeF9F10 = 50;
         private static float currentVolumeF11F12 = 50;
         private static int adjustVolume = -1;
+        private static uint pID;
+        private static int validProcessF9F10 = 0;
+        private static int validProcessF11F12 = 0;
 
+        //ProcessNames
+        private static string processNameF9F10 = "Chrome";          
+        private static string programmClassF11F12 = "StarCraft II";   
+        private static string windowNameF11F12 = "StarCraft II";   
 
 
         // ---Dll Imports---
@@ -45,7 +53,6 @@ namespace WinVolumeControler
 
             //3Second Intervall
             DateTime dateTimeTest = DateTime.FromOADate(0);  //Sets dateTimeTest to 0 (untested)
-            
 
 
             //hide Form  (Form is required for HotKeys and can't be closed)
@@ -58,9 +65,41 @@ namespace WinVolumeControler
         {//this will be executed right on start
             base.OnLoad(e);
 
-            System.Timers.Timer listTimer = new System.Timers.Timer();
-            listTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            listTimer.Interval = 3000;
+            //System.Timers.Timer listTimer = new System.Timers.Timer();
+            //listTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            //listTimer.Interval = 3000;
+
+            //Get Current Applications Volume
+            foreach (Process Processname in getProcessByName(processNameF9F10))
+            {
+                if (VolumeMixer.GetApplicationVolume((int)Processname.Id) == null)
+                {
+                    //return;
+                }
+                else
+                {
+                    currentVolumeF9F10 = (float)VolumeMixer.GetApplicationVolume((int)Processname.Id);
+                    validProcessF9F10 = 1;
+                }
+            }
+            var hWnd = FindWindow(programmClassF11F12, windowNameF11F12);
+            if (hWnd == IntPtr.Zero)
+            {
+                //return;
+            }
+            else
+            {
+                GetWindowThreadProcessId(hWnd, out pID);
+                if (pID == 0)
+                {
+                    //return;
+                }
+                else
+                {
+                    currentVolumeF11F12 = (float)VolumeMixer.GetApplicationVolume((int)pID);
+                    validProcessF11F12 = 1;
+                }
+            }
         }
 
         /* *########################  2do ########################
@@ -79,7 +118,7 @@ namespace WinVolumeControler
 
         private static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            Console.WriteLine("Hello World!");
+            //Console.WriteLine("Hello World!");
         }
 
         private void keyPressTime(string Key)
@@ -88,9 +127,10 @@ namespace WinVolumeControler
             //DateTime currentDateTime = DateTime.Now;
             
             if (Key == "F9" || Key == "F10"){
-                if(dateF9F10Old <= DateTime.Now.AddSeconds(-3)) // If old Time was set at least 3 Sec ago 
-                {
-                    adjustVolume = 1;
+                if((dateF9F10Old <= DateTime.Now.AddSeconds(-3)) || (validProcessF9F10 == 0)) // If old Time was set at least 3 Sec ago  OR no validProcess was found so far
+                {//Try to get a curret Volume and set Time for last try to Now
+                    adjustVolume = 1; 
+                    dateF9F10Old = DateTime.Now;
                 }
                 else
                 {
@@ -99,7 +139,15 @@ namespace WinVolumeControler
             }
             if (Key == "F10" || Key == "F11")
             {
-                DateTime dateF11F12Now = DateTime.Now;
+                if ((dateF11F12Old <= DateTime.Now.AddSeconds(-3)) || (validProcessF11F12 == 0)) // If old Time was set at least 3 Sec ago   OR no validProcess was found so far
+                {
+                    adjustVolume = 1;
+                    dateF11F12Old = DateTime.Now;
+                }
+                else
+                {
+                    adjustVolume = 0;
+                }
             }
         }
 
@@ -157,6 +205,7 @@ namespace WinVolumeControler
                         //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-deacease " + myClockdecrease.Elapsed.ToString());
                         //Stopwatch myClockdecreaseVol = new Stopwatch();
                         //myClockdecreaseVol.Start();
+                        keyPressTime("F9");
                         if (currentVolumeF9F10 >= 10f)
                         {
                             currentVolumeF9F10 = currentVolumeF9F10 - 10f;
@@ -165,10 +214,11 @@ namespace WinVolumeControler
                         {
                             currentVolumeF9F10 = 0f;
                         }
-                        foreach (Process Processname in getProcessByName("Chrome"))
+                        foreach (Process Processname in getProcessByName(processNameF9F10))
                         {
                             setVolume("F9", "", currentVolumeF9F10, (IntPtr)Processname.Id);
                         }
+                        
                         //myClockdecreaseVol.Stop();
                         //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-deaceaseVol " + myClockdecreaseVol.Elapsed.ToString());
                     }
@@ -183,6 +233,7 @@ namespace WinVolumeControler
                         //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-increase " + myClockincrease.Elapsed.ToString());
                         //Stopwatch myClockincreaseVol = new Stopwatch();
                         //myClockincreaseVol.Start();
+                        keyPressTime("F10");
                         if (currentVolumeF9F10 <= 90f)
                         {
                             currentVolumeF9F10 = currentVolumeF9F10 + 10f;
@@ -191,7 +242,7 @@ namespace WinVolumeControler
                         {
                             currentVolumeF9F10 = 100f;
                         }
-                        foreach (Process Processname in getProcessByName("Chrome"))
+                        foreach (Process Processname in getProcessByName(processNameF9F10))
                         {
                             setVolume("F10", "", currentVolumeF9F10, (IntPtr)Processname.Id);
                         }
@@ -202,6 +253,7 @@ namespace WinVolumeControler
                 case Keys.F11: //App2 lower Vol
                     if (controlPressed && altPressed)
                     {
+                        keyPressTime("F11");
                         if (currentVolumeF11F12 >= 10f)
                         {
                             currentVolumeF11F12 = currentVolumeF11F12 - 10f;
@@ -210,10 +262,11 @@ namespace WinVolumeControler
                         {
                             currentVolumeF11F12 = 0f;
                         }
-                        setVolume("StarCraft II", "StarCraft II", currentVolumeF11F12);
+                        setVolume(programmClassF11F12, windowNameF11F12, currentVolumeF11F12);
                     }
                     break;
                 case Keys.F12: //App2 increase Vol
+                    keyPressTime("F12");
                     if (currentVolumeF11F12 <= 90f)
                     {
                         currentVolumeF11F12 = currentVolumeF11F12 + 10f;
@@ -224,7 +277,7 @@ namespace WinVolumeControler
                     }
                     if (controlPressed && altPressed)
                     {
-                        setVolume("StarCraft II", "StarCraft II", currentVolumeF11F12);
+                        setVolume(programmClassF11F12, windowNameF11F12, currentVolumeF11F12);
                     }
                     break;
             }
@@ -240,7 +293,7 @@ namespace WinVolumeControler
 
         static void setVolume(string programmClass, string windowName, float changeAppVolume, IntPtr? processHandle = null)    //as soon as a parameter have a default value they become OPTIONAL, multiple Optional parameters require an argument 
         {
-            uint pID;
+            
             if (processHandle == null)
             {
                 var hWnd = FindWindow(programmClass, windowName);
@@ -268,32 +321,38 @@ namespace WinVolumeControler
                 {
                     if (programmClass == "F9" || programmClass == "F10")
                     {
-                        //currentVolumeF9F10
+                        newApplicationVolume = currentVolumeF9F10;
+                        adjustVolume = 0;
+                    }
+                    else if (programmClass == "F11" || programmClass == "F12")
+                    {
+                        newApplicationVolume = currentVolumeF11F12;
+                        adjustVolume = 0;
                     }
                     pIDsWithVolume.Add(pID);
                 }
-                if (changeAppVolume == "increase")
-                {
-                    if (VolumeMixer.GetApplicationVolume((int)pID) <= 90f)
-                    {
-                        newApplicationVolume = (float)VolumeMixer.GetApplicationVolume((int)pID) + 10f;
-                    }
-                    else
-                    {
-                        newApplicationVolume = 100f;
-                    }
-                }
-                else if (changeAppVolume == "decrease")
-                {
-                    if (VolumeMixer.GetApplicationVolume((int)pID) >= 10f)
-                    {
-                        newApplicationVolume = (float)VolumeMixer.GetApplicationVolume((int)pID) - 10f;
-                    }
-                    else
-                    {
-                        newApplicationVolume = 0f;
-                    }
-                }
+                //if (changeAppVolume == "increase")
+                //{
+                //    if (VolumeMixer.GetApplicationVolume((int)pID) <= 90f)
+                //    {
+                //        newApplicationVolume = (float)VolumeMixer.GetApplicationVolume((int)pID) + 10f;
+                //    }
+                //    else
+                //    {
+                //        newApplicationVolume = 100f;
+                //    }
+                //}
+                //else if (changeAppVolume == "decrease")
+                //{
+                //    if (VolumeMixer.GetApplicationVolume((int)pID) >= 10f)
+                //    {
+                //        newApplicationVolume = (float)VolumeMixer.GetApplicationVolume((int)pID) - 10f;
+                //    }
+                //    else
+                //    {
+                //        newApplicationVolume = 0f;
+                //    }
+                //}
             }
             if (newApplicationVolume != -1)
             {
