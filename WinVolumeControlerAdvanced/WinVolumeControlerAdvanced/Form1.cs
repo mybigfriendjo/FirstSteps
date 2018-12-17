@@ -27,13 +27,13 @@ namespace WinVolumeControler
         private static float currentVolumeF11F12 = 50;
         private static int adjustVolume = -1;
         private static uint pID;
-        private static int validProcessF9F10 = 0;
+        private static List<Process> listpID = new List<Process>();
         private static int validProcessF11F12 = 0;
 
         //ProcessNames
-        private static string processNameF9F10 = "Chrome";          
-        private static string programmClassF11F12 = "StarCraft II";   
-        private static string windowNameF11F12 = "StarCraft II";   
+        private static string processNameF9F10 = "Chrome";
+        private static string programmClassF11F12 = "StarCraft II";
+        private static string windowNameF11F12 = "StarCraft II";
 
 
         // ---Dll Imports---
@@ -59,6 +59,8 @@ namespace WinVolumeControler
             this.WindowState = FormWindowState.Minimized;
             this.ShowInTaskbar = false;
 
+            //Get Current Applications Volume
+
         }
 
         protected override void OnLoad(EventArgs e)
@@ -69,7 +71,24 @@ namespace WinVolumeControler
             //listTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             //listTimer.Interval = 3000;
 
-            //Get Current Applications Volume
+        }
+
+        /* *########################  2do ########################
+        //  get current time on press key time.now()
+            on next keypress get time again -> if newTime - oldTime > 3sec { to this }
+            
+        // * get Vol for F9/F10 and F11/F12 right away -> store it in defaultVol
+        // * now setVolume and adjust defaultVol -> no more need for getVol
+
+        //  * gather Vol increases and set them only once
+
+            Timer maybe not neccesary?
+
+
+        // *###################### 2do End ########################*/
+
+        private static void renewF9F10vol()
+        {
             foreach (Process Processname in getProcessByName(processNameF9F10))
             {
                 if (VolumeMixer.GetApplicationVolume((int)Processname.Id) == null)
@@ -79,9 +98,12 @@ namespace WinVolumeControler
                 else
                 {
                     currentVolumeF9F10 = (float)VolumeMixer.GetApplicationVolume((int)Processname.Id);
-                    validProcessF9F10 = 1;
+                    listpID.Add(Processname);
                 }
             }
+        }
+        private static void renewF11F12vol()
+        {
             var hWnd = FindWindow(programmClassF11F12, windowNameF11F12);
             if (hWnd == IntPtr.Zero)
             {
@@ -101,21 +123,6 @@ namespace WinVolumeControler
                 }
             }
         }
-
-        /* *########################  2do ########################
-        //  get current time on press key time.now()
-            on next keypress get time again -> if newTime - oldTime > 3sec { to this }
-            
-        // * get Vol for F9/F10 and F11/F12 right away -> store it in defaultVol
-        // * now setVolume and adjust defaultVol -> no more need for getVol
-
-        //  * gather Vol increases and set them only once
-
-            Timer maybe not neccesary?
-
-
-        // *###################### 2do End ########################*/
-
         private static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             //Console.WriteLine("Hello World!");
@@ -123,13 +130,15 @@ namespace WinVolumeControler
 
         private void keyPressTime(string Key)
         {
-            
+
             //DateTime currentDateTime = DateTime.Now;
-            
-            if (Key == "F9" || Key == "F10"){
-                if((dateF9F10Old <= DateTime.Now.AddSeconds(-3)) || (validProcessF9F10 == 0)) // If old Time was set at least 3 Sec ago  OR no validProcess was found so far
+
+            if (Key == "F9" || Key == "F10")
+            {
+                if ((dateF9F10Old <= DateTime.Now.AddSeconds(-3)) || (listpID.Count == 0)) // If old Time was set at least 3 Sec ago  OR valid entry was stored in ProcessList.
                 {//Try to get a curret Volume and set Time for last try to Now
-                    adjustVolume = 1; 
+                    adjustVolume = 1;
+                    renewF9F10vol();
                     dateF9F10Old = DateTime.Now;
                 }
                 else
@@ -142,6 +151,7 @@ namespace WinVolumeControler
                 if ((dateF11F12Old <= DateTime.Now.AddSeconds(-3)) || (validProcessF11F12 == 0)) // If old Time was set at least 3 Sec ago   OR no validProcess was found so far
                 {
                     adjustVolume = 1;
+                    renewF11F12vol();
                     dateF11F12Old = DateTime.Now;
                 }
                 else
@@ -152,7 +162,7 @@ namespace WinVolumeControler
         }
 
 
-        private List<Process> getProcessByName(string processName)
+        private static List<Process> getProcessByName(string processName)
         {
             var allProcesses = Process.GetProcesses();
             List<Process> chromeProcessList = new List<Process>();
@@ -198,86 +208,91 @@ namespace WinVolumeControler
                 case Keys.F9: //App1 lower Vol
                     if (controlPressed && altPressed)
                     {
-                        //Stopwatch myClockdecrease = new Stopwatch();
-                        //myClockdecrease.Start();
-                        //var tempClockProcceses = getProcessByName("Chrome");
-                        //myClockdecrease.Stop();
-                        //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-deacease " + myClockdecrease.Elapsed.ToString());
-                        //Stopwatch myClockdecreaseVol = new Stopwatch();
-                        //myClockdecreaseVol.Start();
                         keyPressTime("F9");
-                        if (currentVolumeF9F10 >= 10f)
+                        if (currentVolumeF9F10 != 0f)
                         {
-                            currentVolumeF9F10 = currentVolumeF9F10 - 10f;
+                            if (currentVolumeF9F10 >= 10f)
+                            {
+                                currentVolumeF9F10 = currentVolumeF9F10 - 10f;
+                            }
+                            else
+                            {
+                                currentVolumeF9F10 = 0f;
+                            }
+                            if (listpID.Count != 0)
+                            {
+                                foreach (Process Processname in listpID)
+                                {
+                                    setVolume("F9", "", currentVolumeF9F10, (IntPtr)Processname.Id);
+                                }
+                            }
+                            else
+                            {
+                                foreach (Process Processname in getProcessByName(processNameF9F10))
+                                {
+                                    setVolume("F9", "", currentVolumeF9F10, (IntPtr)Processname.Id);
+                                }
+                            }
                         }
-                        else
-                        {
-                            currentVolumeF9F10 = 0f;
-                        }
-                        foreach (Process Processname in getProcessByName(processNameF9F10))
-                        {
-                            setVolume("F9", "", currentVolumeF9F10, (IntPtr)Processname.Id);
-                        }
-                        
-                        //myClockdecreaseVol.Stop();
-                        //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-deaceaseVol " + myClockdecreaseVol.Elapsed.ToString());
                     }
                     break;
                 case Keys.F10: //App1 increase Vol
                     if (controlPressed && altPressed)
                     {
-                        //Stopwatch myClockincrease = new Stopwatch();
-                        //myClockincrease.Start();
-                        //var tempClockProcceses =;
-                        //myClockincrease.Stop();
-                        //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-increase " + myClockincrease.Elapsed.ToString());
-                        //Stopwatch myClockincreaseVol = new Stopwatch();
-                        //myClockincreaseVol.Start();
                         keyPressTime("F10");
-                        if (currentVolumeF9F10 <= 90f)
+                        if (currentVolumeF9F10 != 100f)
                         {
-                            currentVolumeF9F10 = currentVolumeF9F10 + 10f;
+                            if (currentVolumeF9F10 <= 90f)
+                            {
+                                currentVolumeF9F10 = currentVolumeF9F10 + 10f;
+                            }
+                            else
+                            {
+
+                                currentVolumeF9F10 = 100f;
+                            }
+                            foreach (Process Processname in getProcessByName(processNameF9F10))
+                            {
+                                setVolume("F10", "", currentVolumeF9F10, (IntPtr)Processname.Id);
+                            }
                         }
-                        else
-                        {
-                            currentVolumeF9F10 = 100f;
-                        }
-                        foreach (Process Processname in getProcessByName(processNameF9F10))
-                        {
-                            setVolume("F10", "", currentVolumeF9F10, (IntPtr)Processname.Id);
-                        }
-                        //myClockincreaseVol.Stop();
-                        //File.AppendAllText("C:\\temp\\WinVolPerf.log", "\nF9-increaseVol " + myClockincreaseVol.Elapsed.ToString());
                     }
                     break;
                 case Keys.F11: //App2 lower Vol
                     if (controlPressed && altPressed)
                     {
                         keyPressTime("F11");
-                        if (currentVolumeF11F12 >= 10f)
+                        if (currentVolumeF11F12 != 0f)
                         {
-                            currentVolumeF11F12 = currentVolumeF11F12 - 10f;
+                            if (currentVolumeF11F12 >= 10f)
+                            {
+                                currentVolumeF11F12 = currentVolumeF11F12 - 10f;
+                            }
+                            else
+                            {
+
+                                currentVolumeF11F12 = 0f;
+                            }
+                            setVolume(programmClassF11F12, windowNameF11F12, currentVolumeF11F12);
                         }
-                        else
-                        {
-                            currentVolumeF11F12 = 0f;
-                        }
-                        setVolume(programmClassF11F12, windowNameF11F12, currentVolumeF11F12);
                     }
                     break;
                 case Keys.F12: //App2 increase Vol
-                    keyPressTime("F12");
-                    if (currentVolumeF11F12 <= 90f)
-                    {
-                        currentVolumeF11F12 = currentVolumeF11F12 + 10f;
-                    }
-                    else
-                    {
-                        currentVolumeF11F12 = 100f;
-                    }
                     if (controlPressed && altPressed)
                     {
-                        setVolume(programmClassF11F12, windowNameF11F12, currentVolumeF11F12);
+                        keyPressTime("F12");
+                        if (currentVolumeF11F12 != 100f)
+                        {
+                            if (currentVolumeF11F12 <= 90f)
+                            {
+                                currentVolumeF11F12 = currentVolumeF11F12 + 10f;
+                            }
+                            else
+                            {
+                                currentVolumeF11F12 = 100f;
+                            }
+                            setVolume(programmClassF11F12, windowNameF11F12, currentVolumeF11F12);
+                        }
                     }
                     break;
             }
@@ -293,7 +308,7 @@ namespace WinVolumeControler
 
         static void setVolume(string programmClass, string windowName, float changeAppVolume, IntPtr? processHandle = null)    //as soon as a parameter have a default value they become OPTIONAL, multiple Optional parameters require an argument 
         {
-            
+
             if (processHandle == null)
             {
                 var hWnd = FindWindow(programmClass, windowName);
@@ -306,12 +321,12 @@ namespace WinVolumeControler
             }
             else
             {
-                
+
                 pID = (uint)processHandle;
             }
             float newApplicationVolume = -1;            //float? is a float accepting also NULL as value exists for every Datatype (except string which can be NULL allready)
-            if(adjustVolume == 1)
-            {   
+            if (adjustVolume == 1)
+            {
                 //Get valid pID's/pID-List
                 if (VolumeMixer.GetApplicationVolume((int)pID) == null)
                 {
