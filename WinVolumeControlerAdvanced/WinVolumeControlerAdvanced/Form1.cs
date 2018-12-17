@@ -28,10 +28,12 @@ namespace WinVolumeControler
         private static int adjustVolume = -1;
         private static uint pID;
         private static List<Process> listpID = new List<Process>();
-        private static HashSet<Process> hashpIDF9F10 = new HashSet<Process>();   //unlike lists HashSet entries are unique
+        //private static HashSet<Process> hashpIDF9F10 = new HashSet<Process>();   //unlike lists HashSet entries are unique
         private static HashSet<Process> hashpIDF11F12 = new HashSet<Process>();
+        private static Dictionary<int, Process> dictpIDF9F10 = new Dictionary<int, Process>();
         private static int validProcessF11F12 = 0;
 
+        private NotifyIcon MyNotifyIcon = new NotifyIcon();
         //ProcessNames
         private static string processNameF9F10 = "Chrome";
         private static string programmClassF11F12 = "StarCraft II";
@@ -61,21 +63,32 @@ namespace WinVolumeControler
             this.WindowState = FormWindowState.Minimized;
             this.ShowInTaskbar = false;
             //Systray
-            //ContextMenu trayMenu = new ContextMenu();   //Creates the Contextmenu (will automaticly show up on richtclick as soon as it gets assigned to a notifyIcon
-            //trayMenu.MenuItems.Add("Quit", contextMenuStripSystrayWorking); //Adds a Menuitem "Quit" which triggers the method "contextMenuStripSystray"
+            ContextMenu trayMenu = new ContextMenu();   //Creates the Contextmenu (will automaticly show up on richtclick as soon as it gets assigned to a notifyIcon
+            trayMenu.MenuItems.Add("Quit", trayMenuQuit); //Adds a Menuitem "Quit" which triggers the method "contextMenuStripSystray"
 
-            //NotifyIcon MyNotifyIcon = new NotifyIcon();
-            //MyNotifyIcon.Icon = AdvancedWinVolumeControler.Properties.Resources.;
-            //MyNotifyIcon.Visible = true;
-
-            //MyNotifyIcon.Text = "double leftclick to maximize Program."; //systray helptext
-            //MyNotifyIcon.DoubleClick += MyNotifyIcon_MouseDoubleClick; //Easy create method when first set += Methodname -> rightclick it afterwards "create method". //At doubleclick load methode
-            //MyNotifyIcon.ContextMenu = trayMenu; //assignes the trayMenu to the NotifyIcon (==SystrayIcon)
+            MyNotifyIcon.Icon = AdvancedWinVolumeControler.Properties.Resources.download_wKO_icon;
+            MyNotifyIcon.ContextMenu = trayMenu; //assignes the trayMenu to the NotifyIcon (==SystrayIcon)
+            MyNotifyIcon.Visible = true;
+           
 
 
             //Get Current Applications Volume
             renewF9F10vol();
             renewF11F12vol();
+        }
+        
+
+        private void trayMenuQuit(object sender, EventArgs e)
+        {
+            applicationQuit();
+        }
+
+        private void applicationQuit()
+        {
+            MyNotifyIcon.Visible = false;
+            hook.UnHookKeyboard();
+            Application.Exit();
+            Environment.Exit(0);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -104,6 +117,7 @@ namespace WinVolumeControler
 
         private static void renewF9F10vol()
         {
+            dictpIDF9F10.Clear();
             foreach (Process Processname in getProcessByName(processNameF9F10))
             {
                 if (VolumeMixer.GetApplicationVolume((int)Processname.Id) == null)
@@ -112,8 +126,11 @@ namespace WinVolumeControler
                 }
                 else
                 {
-                    currentVolumeF9F10 = (float)VolumeMixer.GetApplicationVolume((int)Processname.Id);
-                    hashpIDF9F10.Add(Processname);
+                    if (!dictpIDF9F10.ContainsKey(Processname.Id)) //if process Id isnt part of table yet do....
+                    {
+                        currentVolumeF9F10 = (float)VolumeMixer.GetApplicationVolume((int)Processname.Id);
+                        dictpIDF9F10.Add(Processname.Id, Processname);
+                    }
                 }
             }
         }
@@ -151,7 +168,7 @@ namespace WinVolumeControler
 
             if (Key == "F9" || Key == "F10")
             {
-                if ((dateF9F10Old <= DateTime.Now.AddSeconds(-3)) || (hashpIDF9F10.Count == 0)) // If old Time was set at least 3 Sec ago  OR valid entry was stored in ProcessList.
+                if ((dateF9F10Old <= DateTime.Now.AddSeconds(-3)) || (dictpIDF9F10.Count == 0)) // If old Time was set at least 3 Sec ago  OR valid entry was stored in ProcessList.
                 {//Try to get a curret Volume and set Time for last try to Now
                     adjustVolume = 1;
                     //renewF9F10vol();
@@ -167,7 +184,7 @@ namespace WinVolumeControler
                 if ((dateF11F12Old <= DateTime.Now.AddSeconds(-3)) || (validProcessF11F12 == 0)) // If old Time was set at least 3 Sec ago   OR no validProcess was found so far
                 {
                     adjustVolume = 1;
-                    renewF11F12vol();
+                    //renewF11F12vol();
                     dateF11F12Old = DateTime.Now;
                 }
                 else
@@ -235,11 +252,11 @@ namespace WinVolumeControler
                             {
                                 currentVolumeF9F10 = 0f;
                             }
-                            if (hashpIDF9F10.Count != 0)
+                            if (dictpIDF9F10.Count != 0)
                             {
-                                foreach (Process Processname in hashpIDF9F10)
+                                foreach (int Processname in dictpIDF9F10.Keys)
                                 {
-                                    setVolume("F9", "", currentVolumeF9F10, (IntPtr)Processname.Id);
+                                    setVolume("F9", "", currentVolumeF9F10, (IntPtr)dictpIDF9F10[Processname].Id);
                                 }
                             }
                             else
@@ -267,11 +284,11 @@ namespace WinVolumeControler
 
                                 currentVolumeF9F10 = 100f;
                             }
-                            if (hashpIDF9F10.Count != 0)
+                            if (dictpIDF9F10.Count != 0)
                             {
-                                foreach (Process Processname in hashpIDF9F10)
+                                foreach (int Processname in dictpIDF9F10.Keys)
                                 {
-                                    setVolume("F10", "", currentVolumeF9F10, (IntPtr)Processname.Id);
+                                    setVolume("F10", "", currentVolumeF9F10, (IntPtr)dictpIDF9F10[Processname].Id);
                                 }
                             }
                             else
@@ -326,9 +343,7 @@ namespace WinVolumeControler
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            hook.UnHookKeyboard();
-            MyNotifyIcon.Visible = false;
-            Application.Exit();
+            applicationQuit();
         }
 
         // ################################ (End) ofTheHook ################################
