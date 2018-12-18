@@ -4,8 +4,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Timers;
 
 namespace WinVolumeControler
 {
@@ -25,7 +23,6 @@ namespace WinVolumeControler
         private DateTime dateF11F12Old = DateTime.Now;
         private static float currentVolumeF9F10 = 50;
         private static float currentVolumeF11F12 = 50;
-        private static int adjustVolume = -1;
         private static uint pID;
         private static List<Process> listpID = new List<Process>();
         //private static HashSet<Process> hashpIDF9F10 = new HashSet<Process>();   //unlike lists HashSet entries are unique
@@ -58,10 +55,10 @@ namespace WinVolumeControler
             //3Second Intervall
             DateTime dateTimeTest = DateTime.FromOADate(0);  //Sets dateTimeTest to 0 (untested)
 
-
             //hide Form  (Form is required for HotKeys and can't be closed)
             this.WindowState = FormWindowState.Minimized;
             this.ShowInTaskbar = false;
+
             //Systray
             ContextMenu trayMenu = new ContextMenu();   //Creates the Contextmenu (will automaticly show up on richtclick as soon as it gets assigned to a notifyIcon
             trayMenu.MenuItems.Add("Quit", trayMenuQuit); //Adds a Menuitem "Quit" which triggers the method "contextMenuStripSystray"
@@ -69,8 +66,6 @@ namespace WinVolumeControler
             MyNotifyIcon.Icon = AdvancedWinVolumeControler.Properties.Resources.download_wKO_icon;
             MyNotifyIcon.ContextMenu = trayMenu; //assignes the trayMenu to the NotifyIcon (==SystrayIcon)
             MyNotifyIcon.Visible = true;
-           
-
 
             //Get Current Applications Volume
             renewF9F10vol();
@@ -94,26 +89,7 @@ namespace WinVolumeControler
         protected override void OnLoad(EventArgs e)
         {//this will be executed right on start
             base.OnLoad(e);
-
-            //System.Timers.Timer listTimer = new System.Timers.Timer();
-            //listTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            //listTimer.Interval = 3000;
-
         }
-
-        /* *########################  2do ########################
-        //  get current time on press key time.now()
-            on next keypress get time again -> if newTime - oldTime > 3sec { to this }
-            
-        // * get Vol for F9/F10 and F11/F12 right away -> store it in defaultVol
-        // * now setVolume and adjust defaultVol -> no more need for getVol
-
-        //  * gather Vol increases and set them only once
-
-            Timer maybe not neccesary?
-
-
-        // *###################### 2do End ########################*/
 
         private static void renewF9F10vol()
         {
@@ -156,44 +132,26 @@ namespace WinVolumeControler
                 }
             }
         }
-        private static void OnTimedEvent(object source, ElapsedEventArgs e)
-        {
-            //Console.WriteLine("Hello World!");
-        }
 
         private void keyPressTime(string Key)
         {
-
-            //DateTime currentDateTime = DateTime.Now;
-
             if (Key == "F9" || Key == "F10")
             {
                 if ((dateF9F10Old <= DateTime.Now.AddSeconds(-3)) || (dictpIDF9F10.Count == 0)) // If old Time was set at least 3 Sec ago  OR valid entry was stored in ProcessList.
                 {//Try to get a curret Volume and set Time for last try to Now
-                    adjustVolume = 1;
-                    //renewF9F10vol();
+                    renewF9F10vol();
                     dateF9F10Old = DateTime.Now;
-                }
-                else
-                {
-                    adjustVolume = 0;
                 }
             }
             if (Key == "F11" || Key == "F12")
             {
                 if ((dateF11F12Old <= DateTime.Now.AddSeconds(-3)) || (validProcessF11F12 == 0)) // If old Time was set at least 3 Sec ago   OR no validProcess was found so far
                 {
-                    adjustVolume = 1;
-                    //renewF11F12vol();
+                    renewF11F12vol();
                     dateF11F12Old = DateTime.Now;
-                }
-                else
-                {
-                    adjustVolume = 0;
                 }
             }
         }
-
 
         private static List<Process> getProcessByName(string processName)
         {
@@ -340,17 +298,11 @@ namespace WinVolumeControler
                     break;
             }
         }
-
-        private void Main_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            applicationQuit();
-        }
-
         // ################################ (End) ofTheHook ################################
+
 
         static void setVolume(string programmClass, string windowName, float changeAppVolume, IntPtr? processHandle = null)    //as soon as a parameter have a default value they become OPTIONAL, multiple Optional parameters require an argument 
         {
-
             if (processHandle == null)
             {
                 var hWnd = FindWindow(programmClass, windowName);
@@ -363,58 +315,34 @@ namespace WinVolumeControler
             }
             else
             {
-
                 pID = (uint)processHandle;
             }
             float newApplicationVolume = -1;            //float? is a float accepting also NULL as value exists for every Datatype (except string which can be NULL allready)
-            if (adjustVolume == 1)
+            //Get valid pID's/pID-List
+            if (VolumeMixer.GetApplicationVolume((int)pID) == null)
             {
-                //Get valid pID's/pID-List
-                if (VolumeMixer.GetApplicationVolume((int)pID) == null)
+                return;
+            }
+            else
+            {
+                if (programmClass == "F9" || programmClass == "F10")
                 {
-                    return;
+                    newApplicationVolume = currentVolumeF9F10;
                 }
-                else
+                else if (programmClass == programmClassF11F12)
                 {
-                    if (programmClass == "F9" || programmClass == "F10")
-                    {
-                        newApplicationVolume = currentVolumeF9F10;
-                        adjustVolume = 0;
-                    }
-                    else if (programmClass == programmClassF11F12)
-                    {
-                        newApplicationVolume = currentVolumeF11F12;
-                        adjustVolume = 0;
-                    }
-                    pIDsWithVolume.Add(pID);
+                    newApplicationVolume = currentVolumeF11F12;
                 }
-                //if (changeAppVolume == "increase")
-                //{
-                //    if (VolumeMixer.GetApplicationVolume((int)pID) <= 90f)
-                //    {
-                //        newApplicationVolume = (float)VolumeMixer.GetApplicationVolume((int)pID) + 10f;
-                //    }
-                //    else
-                //    {
-                //        newApplicationVolume = 100f;
-                //    }
-                //}
-                //else if (changeAppVolume == "decrease")
-                //{
-                //    if (VolumeMixer.GetApplicationVolume((int)pID) >= 10f)
-                //    {
-                //        newApplicationVolume = (float)VolumeMixer.GetApplicationVolume((int)pID) - 10f;
-                //    }
-                //    else
-                //    {
-                //        newApplicationVolume = 0f;
-                //    }
-                //}
+                pIDsWithVolume.Add(pID);
             }
             if (newApplicationVolume != -1)
             {
                 VolumeMixer.SetApplicationVolume((int)pID, newApplicationVolume);
             }
+        }
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            applicationQuit();
         }
     }
 }
