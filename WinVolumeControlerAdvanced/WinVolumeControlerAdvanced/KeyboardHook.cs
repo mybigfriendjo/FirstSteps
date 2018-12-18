@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace WinVolumeControler
+namespace AdvancedWinVolumeControler
 {
-    class KeyboardHook {
+    public class KeyboardHook {
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
         private const int WM_SYSKEYDOWN = 0x0104;
@@ -67,13 +63,13 @@ namespace WinVolumeControler
             {
                 int vkCode = Marshal.ReadInt32(lParam);
 
-                OnKeyPressed.Invoke(this, ((Keys)vkCode));
+                OnKeyPressed.Invoke(this, (Keys)vkCode);
             }
             else if (nCode >= 0 && wParam == (IntPtr)WM_KEYUP || wParam == (IntPtr)WM_SYSKEYUP)
             {
                 int vkCode = Marshal.ReadInt32(lParam);
 
-                OnKeyUnpressed.Invoke(this, ((Keys)vkCode));
+                OnKeyUnpressed.Invoke(this, (Keys)vkCode);
             }
 
             return CallNextHookEx(_hookID, nCode, wParam, lParam);

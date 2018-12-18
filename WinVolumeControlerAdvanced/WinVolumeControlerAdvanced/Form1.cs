@@ -1,41 +1,33 @@
-﻿using AudioSwitcher.AudioApi.CoreAudio;
-using System.Windows.Forms;
-using System;
-using System.Runtime.InteropServices;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
-namespace WinVolumeControler
+namespace AdvancedWinVolumeControler
 {
-    public partial class Form1 : Form
+    public class Form1 : Form
     {
         // ---Variables---
-        private CoreAudioController controller = new CoreAudioController();
         private KeyboardHook hook = new KeyboardHook();
-        private KeysConverter kc = new KeysConverter();
 
         private bool controlPressed;
         private bool altPressed;
-
-        private static List<float?> pIDsWithVolume = new List<float?>();
 
         private DateTime dateF9F10Old = DateTime.Now;
         private DateTime dateF11F12Old = DateTime.Now;
         private static float currentVolumeF9F10 = 50;
         private static float currentVolumeF11F12 = 50;
         private static uint pID;
-        private static List<Process> listpID = new List<Process>();
         //private static HashSet<Process> hashpIDF9F10 = new HashSet<Process>();   //unlike lists HashSet entries are unique
-        private static HashSet<Process> hashpIDF11F12 = new HashSet<Process>();
         private static Dictionary<int, Process> dictpIDF9F10 = new Dictionary<int, Process>();
-        private static int validProcessF11F12 = 0;
+        private static int validProcessF11F12;
 
         private NotifyIcon MyNotifyIcon = new NotifyIcon();
         //ProcessNames
-        private static string processNameF9F10 = "Chrome";
-        private static string programmClassF11F12 = "StarCraft II";
-        private static string windowNameF11F12 = "StarCraft II";
-
+        private const string processNameF9F10 = "Chrome";
+        private const string programmClassF11F12 = "StarCraft II";
+        private const string windowNameF11F12 = "StarCraft II";
 
         // ---Dll Imports---
         [DllImport("user32.dll")]
@@ -53,17 +45,16 @@ namespace WinVolumeControler
             hook.HookKeyboard();
 
             //3Second Intervall
-            DateTime dateTimeTest = DateTime.FromOADate(0);  //Sets dateTimeTest to 0 (untested)
 
             //hide Form  (Form is required for HotKeys and can't be closed)
-            this.WindowState = FormWindowState.Minimized;
-            this.ShowInTaskbar = false;
+            WindowState = FormWindowState.Minimized;
+            ShowInTaskbar = false;
 
             //Systray
             ContextMenu trayMenu = new ContextMenu();   //Creates the Contextmenu (will automaticly show up on richtclick as soon as it gets assigned to a notifyIcon
             trayMenu.MenuItems.Add("Quit", trayMenuQuit); //Adds a Menuitem "Quit" which triggers the method "contextMenuStripSystray"
 
-            MyNotifyIcon.Icon = AdvancedWinVolumeControler.Properties.Resources.download_wKO_icon;
+            MyNotifyIcon.Icon = Properties.Resources.download_wKO_icon;
             MyNotifyIcon.ContextMenu = trayMenu; //assignes the trayMenu to the NotifyIcon (==SystrayIcon)
             MyNotifyIcon.Visible = true;
 
@@ -85,27 +76,22 @@ namespace WinVolumeControler
             Application.Exit();
             Environment.Exit(0);
         }
-
-        protected override void OnLoad(EventArgs e)
-        {//this will be executed right on start
-            base.OnLoad(e);
-        }
-
+        
         private static void renewF9F10vol()
         {
             dictpIDF9F10.Clear();
-            foreach (Process Processname in getProcessByName(processNameF9F10))
+            foreach (Process processname in getProcessByName(processNameF9F10))
             {
-                if (VolumeMixer.GetApplicationVolume((int)Processname.Id) == null)
+                if (VolumeMixer.GetApplicationVolume(processname.Id) == null)
                 {
                     //return;
                 }
                 else
                 {
-                    if (!dictpIDF9F10.ContainsKey(Processname.Id)) //if process Id isnt part of table yet do....
+                    if (!dictpIDF9F10.ContainsKey(processname.Id)) //if process Id isnt part of table yet do....
                     {
-                        currentVolumeF9F10 = (float)VolumeMixer.GetApplicationVolume((int)Processname.Id);
-                        dictpIDF9F10.Add(Processname.Id, Processname);
+                        currentVolumeF9F10 = (float)VolumeMixer.GetApplicationVolume(processname.Id);
+                        dictpIDF9F10.Add(processname.Id, processname);
                     }
                 }
             }
@@ -133,19 +119,19 @@ namespace WinVolumeControler
             }
         }
 
-        private void keyPressTime(string Key)
+        private void keyPressTime(string key)
         {
-            if (Key == "F9" || Key == "F10")
+            if (key == "F9" || key == "F10")
             {
-                if ((dateF9F10Old <= DateTime.Now.AddSeconds(-3)) || (dictpIDF9F10.Count == 0)) // If old Time was set at least 3 Sec ago  OR valid entry was stored in ProcessList.
+                if (dateF9F10Old <= DateTime.Now.AddSeconds(-3) || dictpIDF9F10.Count == 0) // If old Time was set at least 3 Sec ago  OR valid entry was stored in ProcessList.
                 {//Try to get a curret Volume and set Time for last try to Now
                     renewF9F10vol();
                     dateF9F10Old = DateTime.Now;
                 }
             }
-            if (Key == "F11" || Key == "F12")
+            if (key == "F11" || key == "F12")
             {
-                if ((dateF11F12Old <= DateTime.Now.AddSeconds(-3)) || (validProcessF11F12 == 0)) // If old Time was set at least 3 Sec ago   OR no validProcess was found so far
+                if (dateF11F12Old <= DateTime.Now.AddSeconds(-3) || validProcessF11F12 == 0) // If old Time was set at least 3 Sec ago   OR no validProcess was found so far
                 {
                     renewF11F12vol();
                     dateF11F12Old = DateTime.Now;
@@ -155,7 +141,7 @@ namespace WinVolumeControler
 
         private static List<Process> getProcessByName(string processName)
         {
-            var allProcesses = Process.GetProcesses();
+            Process[] allProcesses = Process.GetProcesses();
             List<Process> chromeProcessList = new List<Process>();
             foreach (Process singleProcess in allProcesses)
             {
@@ -212,16 +198,16 @@ namespace WinVolumeControler
                             }
                             if (dictpIDF9F10.Count != 0)
                             {
-                                foreach (int Processname in dictpIDF9F10.Keys)
+                                foreach (int processname in dictpIDF9F10.Keys)
                                 {
-                                    setVolume("F9", "", currentVolumeF9F10, (IntPtr)dictpIDF9F10[Processname].Id);
+                                    setVolume("F9", "", (IntPtr)dictpIDF9F10[processname].Id);
                                 }
                             }
                             else
                             {
-                                foreach (Process Processname in getProcessByName(processNameF9F10))
+                                foreach (Process processname in getProcessByName(processNameF9F10))
                                 {
-                                    setVolume("F9", "", currentVolumeF9F10, (IntPtr)Processname.Id);
+                                    setVolume("F9", "", (IntPtr)processname.Id);
                                 }
                             }
                         }
@@ -244,16 +230,16 @@ namespace WinVolumeControler
                             }
                             if (dictpIDF9F10.Count != 0)
                             {
-                                foreach (int Processname in dictpIDF9F10.Keys)
+                                foreach (int processname in dictpIDF9F10.Keys)
                                 {
-                                    setVolume("F10", "", currentVolumeF9F10, (IntPtr)dictpIDF9F10[Processname].Id);
+                                    setVolume("F10", "", (IntPtr)dictpIDF9F10[processname].Id);
                                 }
                             }
                             else
                             {
-                                foreach (Process Processname in getProcessByName(processNameF9F10))
+                                foreach (Process processname in getProcessByName(processNameF9F10))
                                 {
-                                    setVolume("F10", "", currentVolumeF9F10, (IntPtr)Processname.Id);
+                                    setVolume("F10", "", (IntPtr)processname.Id);
                                 }
                             }
                         }
@@ -274,7 +260,7 @@ namespace WinVolumeControler
 
                                 currentVolumeF11F12 = 0f;
                             }
-                            setVolume(programmClassF11F12, windowNameF11F12, currentVolumeF11F12);
+                            setVolume(programmClassF11F12, windowNameF11F12);
                         }
                     }
                     break;
@@ -292,7 +278,7 @@ namespace WinVolumeControler
                             {
                                 currentVolumeF11F12 = 100f;
                             }
-                            setVolume(programmClassF11F12, windowNameF11F12, currentVolumeF11F12);
+                            setVolume(programmClassF11F12, windowNameF11F12);
                         }
                     }
                     break;
@@ -301,17 +287,21 @@ namespace WinVolumeControler
         // ################################ (End) ofTheHook ################################
 
 
-        static void setVolume(string programmClass, string windowName, float changeAppVolume, IntPtr? processHandle = null)    //as soon as a parameter have a default value they become OPTIONAL, multiple Optional parameters require an argument 
+        static void setVolume(string programmClass, string windowName, IntPtr? processHandle = null)    //as soon as a parameter have a default value they become OPTIONAL, multiple Optional parameters require an argument 
         {
             if (processHandle == null)
             {
-                var hWnd = FindWindow(programmClass, windowName);
+                IntPtr hWnd = FindWindow(programmClass, windowName);
                 if (hWnd == IntPtr.Zero)
+                {
                     return;
+                }
 
                 GetWindowThreadProcessId(hWnd, out pID);
                 if (pID == 0)
+                {
                     return;
+                }
             }
             else
             {
@@ -323,26 +313,18 @@ namespace WinVolumeControler
             {
                 return;
             }
-            else
+            if (programmClass == "F9" || programmClass == "F10")
             {
-                if (programmClass == "F9" || programmClass == "F10")
-                {
-                    newApplicationVolume = currentVolumeF9F10;
-                }
-                else if (programmClass == programmClassF11F12)
-                {
-                    newApplicationVolume = currentVolumeF11F12;
-                }
-                pIDsWithVolume.Add(pID);
+                newApplicationVolume = currentVolumeF9F10;
+            }
+            else if (programmClass == programmClassF11F12)
+            {
+                newApplicationVolume = currentVolumeF11F12;
             }
             if (newApplicationVolume != -1)
             {
                 VolumeMixer.SetApplicationVolume((int)pID, newApplicationVolume);
             }
-        }
-        private void Main_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            applicationQuit();
         }
     }
 }

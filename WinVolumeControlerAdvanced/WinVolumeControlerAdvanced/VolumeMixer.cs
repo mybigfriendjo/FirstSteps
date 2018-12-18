@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace WinVolumeControler
+namespace AdvancedWinVolumeControler
 {
-    class VolumeMixer
+    public class VolumeMixer
     {
         public static float? GetApplicationVolume(int pid)
         {
             ISimpleAudioVolume volume = GetVolumeObject(pid);
             if (volume == null)
+            {
                 return null;
+            }
 
             float level;
             volume.GetMasterVolume(out level);
@@ -25,7 +23,9 @@ namespace WinVolumeControler
         {
             ISimpleAudioVolume volume = GetVolumeObject(pid);
             if (volume == null)
+            {
                 return null;
+            }
 
             bool mute;
             volume.GetMute(out mute);
@@ -37,7 +37,9 @@ namespace WinVolumeControler
         {
             ISimpleAudioVolume volume = GetVolumeObject(pid);
             if (volume == null)
+            {
                 return;
+            }
 
             Guid guid = Guid.Empty;
             volume.SetMasterVolume(level / 100, ref guid);
@@ -48,7 +50,9 @@ namespace WinVolumeControler
         {
             ISimpleAudioVolume volume = GetVolumeObject(pid);
             if (volume == null)
+            {
                 return;
+            }
 
             Guid guid = Guid.Empty;
             volume.SetMute(mute, ref guid);
