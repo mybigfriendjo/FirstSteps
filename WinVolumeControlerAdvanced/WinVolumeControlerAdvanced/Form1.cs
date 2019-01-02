@@ -188,9 +188,9 @@ namespace AdvancedWinVolumeControler
                         keyPressTime("F9");
                         if (currentVolumeF9F10 != 0f)
                         {
-                            if (currentVolumeF9F10 >= 10f)
+                            if (currentVolumeF9F10 >= 5f)
                             {
-                                currentVolumeF9F10 = currentVolumeF9F10 - 10f;
+                                currentVolumeF9F10 = currentVolumeF9F10 - 5f;
                             }
                             else
                             {
@@ -219,9 +219,9 @@ namespace AdvancedWinVolumeControler
                         keyPressTime("F10");
                         if (currentVolumeF9F10 != 100f)
                         {
-                            if (currentVolumeF9F10 <= 90f)
+                            if (currentVolumeF9F10 <= 95f)
                             {
-                                currentVolumeF9F10 = currentVolumeF9F10 + 10f;
+                                currentVolumeF9F10 = currentVolumeF9F10 + 5f;
                             }
                             else
                             {
@@ -251,9 +251,9 @@ namespace AdvancedWinVolumeControler
                         keyPressTime("F11");
                         if (currentVolumeF11F12 != 0f)
                         {
-                            if (currentVolumeF11F12 >= 10f)
+                            if (currentVolumeF11F12 >= 5f)
                             {
-                                currentVolumeF11F12 = currentVolumeF11F12 - 10f;
+                                currentVolumeF11F12 = currentVolumeF11F12 - 5f;
                             }
                             else
                             {
@@ -270,9 +270,9 @@ namespace AdvancedWinVolumeControler
                         keyPressTime("F12");
                         if (currentVolumeF11F12 != 100f)
                         {
-                            if (currentVolumeF11F12 <= 90f)
+                            if (currentVolumeF11F12 <= 95f)
                             {
-                                currentVolumeF11F12 = currentVolumeF11F12 + 10f;
+                                currentVolumeF11F12 = currentVolumeF11F12 + 5f;
                             }
                             else
                             {
