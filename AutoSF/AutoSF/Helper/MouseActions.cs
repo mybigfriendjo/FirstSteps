@@ -1,29 +1,30 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using System.Drawing;
 
-namespace AutoSF {
-    class MouseActions {
-        private const UInt32 MOUSEEVENTF_LEFTDOWN = 0x0002;
-        private const UInt32 MOUSEEVENTF_LEFTUP = 0x0004;
 
-        [DllImport("user32.dll")]
-        private static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, uint dwExtraInf);
+namespace AutoSF.Helper {
+    public static class MouseActions {
+        public const uint MOUSEEVENTF_LEFTDOWN = 0x0002;
+        public const uint MOUSEEVENTF_LEFTUP = 0x0004;
 
         [DllImport("user32.dll")]
-        private static extern bool SetCursorPos(int x, int y);
+        public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, uint dwExtraInf);
 
-        //SearchPixelInArea
-        private bool SearchPixelInArea(object sender) {
-            for(int x = 0; x < SystemInformation.VirtualScreen.Width; x++) {
+        [DllImport("user32.dll")]
+        public static extern bool SetCursorPos(int x, int y);
 
-            }
+        public static void DoubleClickAtPosition(int posX, int posY) {
+            SetCursorPos(posX, posY);
 
-            for(int y = 0; y < SystemInformation.VirtualScreen.Height; y++) {
-
-            }
-            return false;
+            Click();
+            System.Threading.Thread.Sleep(250);
+            Click();
         }
+
+        public static void Click() {
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+        }
+
     }
 }

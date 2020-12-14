@@ -13,7 +13,7 @@ namespace Testdummy.Reference.MyStringTest
     {
         public static void Main()
         {
-            
+            /*
             String[] myArray = new String[] { "NumberOfLines","7", "DownsAfterLine","1","2","1","3","3","1","1","1","3","3","1","1"};
             //Set specific Value
             myArray[3] = "3";
@@ -23,7 +23,11 @@ namespace Testdummy.Reference.MyStringTest
 
             string Config = string.Join("\n", myArray);
             MessageBox.Show(Config);
+            */
 
+            int Val1 = 1;
+
+            if(Val1 = (1 || 2 || 3 )
 
             /*
             StringCollection MyStringCol = ExampleTest.Properties.Settings.Default.MyExampleFile;

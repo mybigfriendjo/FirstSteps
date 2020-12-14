@@ -4,7 +4,7 @@ using NLog.Targets;
 using System;
 using System.Linq;
 
-namespace Alarm.Helper {
+namespace AutoSF.Helper {
     public class LoggingConfig {
         public static void Initialize() {
             LoggingConfiguration logConfig = new LoggingConfiguration();
@@ -31,6 +31,4 @@ namespace Alarm.Helper {
             }
         }
     }
-}
-
 }
