@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Windows;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,26 +25,30 @@ namespace Testdummy.Reference.MyStringTest
             string Config = string.Join("\n", myArray);
             MessageBox.Show(Config);
             */
-
-            int Val1 = 1;
-
-            if(Val1 = (1 || 2 || 3 )
+            //var MsgBoxResult = 
+            if(Convert.ToString(MessageBox.Show("Is Curser Position Ok to Click?", "Bla", MessageBoxButtons.YesNo, MessageBoxIcon.Question))=="Yes") {
+                MessageBox.Show("Result is Yes");
+            }
+            else {
+                MessageBox.Show("Result is something else");
+            }
+            //MessageBox.Show(Convert.ToString(MsgBoxResult));
 
             /*
             StringCollection MyStringCol = ExampleTest.Properties.Settings.Default.MyExampleFile;
             MessageBox.Show(MyStringCol[2]);*/
 
 
-            /*
-            StringCollection MyStringCol = ExampleTest.Properties.Settings.Default.MyExampleFile;
-            if (MyStringCol == null)
-            { MyStringCol = new StringCollection(); }
-            String[] myArray = new String[] { "NumberOfLines", "Line", "DownsAfterLine" };
-            MyStringCol.AddRange(myArray); //Copies the Array "myArray" to the End of the StringCollection "MyString"
-            MyStringCol.Add("+1");
-            
-            ExampleTest.Properties.Settings.Default.MyExampleFile = MyStringCol;
-            ExampleTest.Properties.Settings.Default.Save(); */
+                /*
+                StringCollection MyStringCol = ExampleTest.Properties.Settings.Default.MyExampleFile;
+                if (MyStringCol == null)
+                { MyStringCol = new StringCollection(); }
+                String[] myArray = new String[] { "NumberOfLines", "Line", "DownsAfterLine" };
+                MyStringCol.AddRange(myArray); //Copies the Array "myArray" to the End of the StringCollection "MyString"
+                MyStringCol.Add("+1");
+
+                ExampleTest.Properties.Settings.Default.MyExampleFile = MyStringCol;
+                ExampleTest.Properties.Settings.Default.Save(); */
 
         }
      }

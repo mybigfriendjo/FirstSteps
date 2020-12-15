@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-
+using System.Windows.Forms;
 
 namespace AutoSF.Helper {
     public static class MouseActions {
@@ -24,7 +24,9 @@ namespace AutoSF.Helper {
         public static void Click() {
             mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
             mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+            //Not working....
+            //mouse_event(MOUSEEVENTF_LEFTDOWN, Convert.ToUInt32(SystemInformation.VirtualScreen.Left), Convert.ToUInt32(SystemInformation.VirtualScreen.Top), 0, 0);
+            //mouse_event(MOUSEEVENTF_LEFTUP, Convert.ToUInt32(SystemInformation.VirtualScreen.Left), Convert.ToUInt32(SystemInformation.VirtualScreen.Top), 0, 0);
         }
-
     }
 }

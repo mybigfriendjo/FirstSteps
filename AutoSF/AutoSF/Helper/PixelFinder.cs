@@ -11,7 +11,9 @@ namespace AutoSF.Helper {
             Graphics graphics = Graphics.FromImage(bitmap as Image); // Create a new graphics objects that can capture the scree
             graphics.CopyFromScreen(SystemInformation.VirtualScreen.Left, SystemInformation.VirtualScreen.Top, 0, 0, bitmap.Size); // Screenshot moment → screen content to graphics object
             Color desiredPixelColor = ColorTranslator.FromHtml(PixColorHex);
-            bitmap.Save("c:\\temp\\bitmap.jpeg");
+            //save Bitmap to see Picture/Content    
+                //Bitmap Bitmapcopy = new Bitmap(bitmap);
+                //Bitmapcopy.Save("c:\\temp\\bitmap.jpeg");
             Color currentPixelColor = bitmap.GetPixel(x, y);
             if(currentPixelColor == desiredPixelColor) {
                 Console.WriteLine("PixelFound");
