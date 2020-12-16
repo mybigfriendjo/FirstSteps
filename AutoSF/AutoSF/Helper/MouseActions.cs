@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -28,5 +29,33 @@ namespace AutoSF.Helper {
             //mouse_event(MOUSEEVENTF_LEFTDOWN, Convert.ToUInt32(SystemInformation.VirtualScreen.Left), Convert.ToUInt32(SystemInformation.VirtualScreen.Top), 0, 0);
             //mouse_event(MOUSEEVENTF_LEFTUP, Convert.ToUInt32(SystemInformation.VirtualScreen.Left), Convert.ToUInt32(SystemInformation.VirtualScreen.Top), 0, 0);
         }
+
+        public static void LeftMouseDown() {
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+        }
+
+        public static void LeftMouseUp() {
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+        }
+
+
+        public static void ClickSpam(int AmountOfClicks, int PauseBetwClicksInMS) {
+
+            for(int Clickcount = 0; Clickcount < AmountOfClicks; Clickcount++) {
+                MouseActions.LeftMouseUp();
+                MouseActions.LeftMouseDown();
+                Stopwatch st = new Stopwatch();
+                st.Start();
+                while(st.Elapsed < TimeSpan.FromMilliseconds(PauseBetwClicksInMS)) {
+                    //
+                }
+                st.Stop();
+                //Requieres HelperClass KeyboardInput (Solution AutoSF)
+                //if(Clickcount < 20) {
+                //   KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
+                //}
+            }
+        }
+
     }
 }

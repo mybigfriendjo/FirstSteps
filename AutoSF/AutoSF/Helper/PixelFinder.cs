@@ -1,10 +1,13 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
 using System;
+using NLog;
 
 namespace AutoSF.Helper {
     //static -> damit methoden ohne "new object" (also nicht instanziert) aufgerufen werden können
     public static class PixelFinder {
+
+        public static Logger logger = LogManager.GetCurrentClassLogger();
 
         public static bool SearchStaticPixel(int x, int y, string PixColorHex) {
             Bitmap bitmap = new Bitmap(SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height); // Create an empty bitmap with the size of all connected screen
@@ -15,6 +18,7 @@ namespace AutoSF.Helper {
                 //Bitmap Bitmapcopy = new Bitmap(bitmap);
                 //Bitmapcopy.Save("c:\\temp\\bitmap.jpeg");
             Color currentPixelColor = bitmap.GetPixel(x, y);
+            logger.Debug(Convert.ToString(currentPixelColor) + " vs " + Convert.ToString(desiredPixelColor));
             if(currentPixelColor == desiredPixelColor) {
                 Console.WriteLine("PixelFound");
                 return true;
@@ -23,6 +27,7 @@ namespace AutoSF.Helper {
             return false;
         }
 
+        //method Incomplete
         public static bool SearchPixelInArea(Rectangle sender, string Pix1, string Pix2 = "", string Pix3 = "") {
             //example: PixelFinder.SearchPixelInArea(RectPvPRoom2Entrance1, "73330B", "7E3908", "934208");
 
