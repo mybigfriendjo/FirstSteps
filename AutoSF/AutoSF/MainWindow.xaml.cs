@@ -11,6 +11,8 @@ using MessageBox = System.Windows.MessageBox;
 using System.Runtime.InteropServices;
 using NLog;
 using System.Diagnostics;
+using System.Collections.Generic;
+
 
 namespace AutoSF {
     /// <summary>
@@ -29,41 +31,96 @@ namespace AutoSF {
 
         ################################### */
         public MainWindow() {
+            LoggingConfig.Initialize();
+            BackgroundworkerConfig.InitializeBackgroundworker();
             InitializeComponent();
-            
+
         }
 
-        public Logger logger = LogManager.GetCurrentClassLogger();
+        private Logger logger = LogManager.GetCurrentClassLogger();
+
+
         public int PositionCount = 10;
-        int AmountOfClicks = 200;
+        public static bool LeftMouseDown = false;
+        int AmountOfClicks = 450;
         int DurationBetwClicks = 6;
+        bool StopAutoPvP = false;
+        //public IntPtr SFWindowHandle = WinSystem.WindowActivate();
 
         private void btnAutoPvP_Click(object sender, RoutedEventArgs e) {
+            logger.Debug("AutoPvp Start");
+
+
             Thread TaskPvPCheckPixel = new Thread(TaskHandler);
             TaskPvPCheckPixel.SetApartmentState(ApartmentState.STA);
             TaskPvPCheckPixel.Start();
-            TaskPvPCheckPixel.Join();
+            //TaskPvPCheckPixel.Join();
         }
 
-      public async void TaskHandler() {
-            //await Task.Delay(1);
+
+        public async void TaskHandler() {
+            await Task.Delay(1);
             int i = 1;
-            while(i < 10) {
+            while(i < 100 && StopAutoPvP) {
                 if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.M)) {
-                    Console.WriteLine("AutoPvP interrupted");
+                    Console.WriteLine("AutoPvP interrupted at Pos:" + Convert.ToString(PositionCount));
                     PositionCount = 10;
-                    //break;
-                    Close();
+                    StopAutoPvP = true;
                 }
                 Console.WriteLine(i);
                 i++;
                 CheckPixel();
             }
+            //Kill SF after 100 Games, StopBackgroundworkers
+            WinSystem.WindowKill();
+            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1);
+            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker2);
+            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker3);
+            PositionCount = 10;
         }
 
         public async void TaskWait(int DelayInMS) {
             await Task.Delay(DelayInMS);
         }
+
+        private void CloseProgram() {
+            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1);
+            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker2);
+            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker3);
+            PositionCount = 10;
+            Close();
+        }
+
+
+        //getWindowPosition (Size,Position)
+        /*
+        private void buttonGetWindowTitles_Click(object sender, EventArgs e) {
+            logger.Debug("getting all window titles");
+            foreach(KeyValuePair<IntPtr, string> pair in WinSystem.GetAllWindowTitles()) {
+                ///lvWindowTitles.AddObject(pair);
+                lvWindowTitles.Items.Add(new ListViewItem(""));
+            }
+        }
+        
+        private void buttonWindowPosition_Click(object sender, EventArgs e) {
+            logger.Debug("checking selection");
+            if(lvWindowTitles.SelectedItem == null) {
+                logger.Warn("no item selected");
+                return;
+            }
+
+            KeyValuePair<IntPtr, string> selectedObject = (KeyValuePair<IntPtr, string>)lvWindowTitles.SelectedObject;
+
+            logger.Debug("selected value: " + selectedObject.Value);
+
+            logger.Debug("getting window position");
+
+            Rectangle windowPos = WinSystem.GetWindowRect(selectedObject.Key);
+
+            logger.Debug(windowPos.ToString());
+
+        }
+       */
 
         public async void CheckPixel(int position = 0) {
             //await Task.Delay(2);
@@ -75,14 +132,31 @@ namespace AutoSF {
             //11 skip intro, trigger "F" + start shooting
             //12 room1 finished -> progress to room2
             //13 room2 finished -> reset position to 10 - repeat from start
+/*
+            if(PositionCount == 10) { //scans for: Challange-Screen  and PvP-Screen / Enemy Selection - Lupe/KapfprotocollIcon/Aktualisieren
+                TaskHandlerPos10();
+                async void TaskHandlerPos10() {
+                    //await Task.Delay(1);
+                    int i = 1;
+                    while(PositionCount == 10 && StopAutoPvP) {
+
+
+                        //if(PixelFinder.SearchStaticPixel(1773, 418, "#73BBC6")) { Score++; }
+                        BackgroundworkerConfig.backgroundWorker3.RunWorkerAsync();
+                    }
+                }
+            }
+        }
+    }
+}
+*/
 
             if(PositionCount == 10) { //scans for: Challange-Screen  and PvP-Screen / Enemy Selection - Lupe/KapfprotocollIcon/Aktualisieren
                 TaskHandlerPos10();
                 async void TaskHandlerPos10() {
                     //await Task.Delay(1);
                     int i = 1;
-                    while(PositionCount == 10) {
-
+                    while(PositionCount == 10 && StopAutoPvP) {
                         //scans for: PvPStartScreen - grabs pixels in "Bestenliste/Ranking"- Icon and mouseover (Big Icon) - has to be allways executed
                         if(PixelFinder.SearchStaticPixel(1773, 418, "#73BBC6")) { Score++; }
                         if(PixelFinder.SearchStaticPixel(1798, 402, "#91EAF7")) { Score++; }
@@ -91,16 +165,14 @@ namespace AutoSF {
                         if(PixelFinder.SearchStaticPixel(1802, 409, "#AFF0F9")) { Score++; }
                         if(PixelFinder.SearchStaticPixel(1831, 425, "#74ACB4")) { Score++; }
                         if(Score >= 2) {
-                            Console.WriteLine("Score Ok (" + Score + ")");
                             Console.WriteLine("Challange found. Entering PVP Screen");
                             MouseActions.DoubleClickAtPosition(-273, 539); //Spielen/Start Button
                         }
 
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.M)) {
-                            Console.WriteLine("AutoPvP interrupted");
+                            Console.WriteLine("AutoPvP interrupted at Pos:" + Convert.ToString(PositionCount));
                             PositionCount = 10;
-                            //break;
-                            Close();
+                            StopAutoPvP = true;
                         }
                         Console.WriteLine("Pos10: " + i);
                         i++;
@@ -146,12 +218,11 @@ namespace AutoSF {
                 async void TaskHandlerPos11() {
                     //await Task.Delay(1);
                     int i = 1;
-                    while(PositionCount == 11) {
+                    while(PositionCount == 11 && StopAutoPvP) {
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.M)) {
-                            Console.WriteLine("AutoPvP interrupted");
+                            Console.WriteLine("AutoPvP interrupted at Pos:" + Convert.ToString(PositionCount));
                             PositionCount = 10;
-                            //break;
-                            Close();
+                            StopAutoPvP = true;
                         }
                         Console.WriteLine("Pos11: " + i);
                         i++;
@@ -179,34 +250,32 @@ namespace AutoSF {
                 }
             }
 
-            if(PositionCount == 12) { //scans for: Entrance Room2
+            if(PositionCount == 12 && StopAutoPvP) { //scans for: Entrance Room2
                 TaskHandlerPos12();
                 async void TaskHandlerPos12() {
                     //await Task.Delay(1);
                     int i = 1;
 
-                    
+
                     Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt"));
                     // ---Special Sleep---
                     Stopwatch s = new Stopwatch();
                     s.Start();
-                    while(s.Elapsed < TimeSpan.FromMilliseconds(2700)) {
+                    while(s.Elapsed < TimeSpan.FromMilliseconds(2700) && StopAutoPvP) {
                         //
                     }
                     s.Stop();
                     MouseActions.DoubleClickAtPosition(-966, 590);
 
                     s.Start();
-                    while(s.Elapsed < TimeSpan.FromMilliseconds(1500)) {
+                    while(s.Elapsed < TimeSpan.FromMilliseconds(1500) && StopAutoPvP) {
                         KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
                     }
                     s.Stop();
 
                     Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt"));
 
-                    //Process.Start("H:\\BackupData\\Selftraning\\Programmieren\\ahk\\Sniperfury\\AutoSFAssistent.ahk");
-                    MouseActions.LeftMouseDown();
-                    while(PositionCount == 12) { //while clock pixel is found
+                    while(PositionCount == 12 && StopAutoPvP) { //while clock pixel is found
                         Score = 0;
                         i++;
                         Console.WriteLine("Pos12: " + i);
@@ -217,6 +286,7 @@ namespace AutoSF {
 
                         MouseActions.ClickSpam(10, 4);
                         KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
+                        Process.Start("H:\\BackupData\\Selftraning\\Programmieren\\ahk\\Sniperfury\\AutoSFAssistent.ahk"); //Presses F Key
                         MouseActions.ClickSpam(AmountOfClicks, DurationBetwClicks);
 
                         if(Score <= 1) { //If Clock wasnt found
@@ -229,7 +299,7 @@ namespace AutoSF {
                 }
             }
 
-            if(PositionCount == 13) { //scans for: Entrance Room2
+            if(PositionCount == 13 && StopAutoPvP) { //scans for: Entrance Room2
                 TaskHandlerPos13();
                 async void TaskHandlerPos13() {
                     //await Task.Delay(1);
@@ -237,22 +307,24 @@ namespace AutoSF {
 
                     Stopwatch s = new Stopwatch();
                     s.Start();
-                    while(s.Elapsed < TimeSpan.FromMilliseconds(1500)) {
+                    while(s.Elapsed < TimeSpan.FromMilliseconds(1500) && StopAutoPvP) {
                         //
                     }
                     s.Stop();
-                    
-                    while(PositionCount == 13) { 
+
+                    while(PositionCount == 13 && StopAutoPvP) {
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.M)) {
-                            Console.WriteLine("AutoPvP interrupted");
+                            Console.WriteLine("AutoPvP interrupted at Pos:" + Convert.ToString(PositionCount));
                             PositionCount = 10;
-                            Close();
+                            StopAutoPvP = true;
                         }
 
                         Console.WriteLine("Starting MouseClick - " + DateTime.Now.ToString("h:mm:ss tt"));
 
-                        MouseActions.ClickSpam(AmountOfClicks, DurationBetwClicks);
                         KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
+                        //MoveMouseToSecurePosition - AvoidClickingPopups
+                        MouseActions.SetCursorPos(-960, 326);
+                        MouseActions.ClickSpam(AmountOfClicks, DurationBetwClicks);
 
                         Console.WriteLine("End MouseClick - " + DateTime.Now.ToString("h:mm:ss tt"));
 
@@ -273,28 +345,23 @@ namespace AutoSF {
                             Console.WriteLine("Score Ok (" + Score + ")");
                             Console.WriteLine("Entering Room2");
                             PositionCount = 14;
-                            MouseActions.DoubleClickAtPosition(-966, 590);
+                            MouseActions.DoubleClickAtPosition(-960, 326);
                         }
                     }
                 }
             }
 
-            if(PositionCount == 14) { //scans for: Match Won
+            if(PositionCount == 14 && StopAutoPvP) { //scans for: Match Won
                 TaskHandlerPos14();
                 async void TaskHandlerPos14() {
                     //await Task.Delay(1);
                     int i = 1;
-                    while(PositionCount == 14) {
+                    while(PositionCount == 14 && StopAutoPvP) {
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.M)) {
-                            Console.WriteLine("AutoPvP interrupted");
-                            MouseActions.LeftMouseUp();
+                            Console.WriteLine("AutoPvP interrupted at Pos:" + Convert.ToString(PositionCount));
                             PositionCount = 10;
-                            Process.Start("H:\\BackupData\\Selftraning\\Programmieren\\ahk\\Sniperfury\\KillAutoSFscript.ahk");
-                            //break;
-                            Close();
+                            StopAutoPvP = true;
                         }
-
-                        MouseActions.ClickSpam(AmountOfClicks, DurationBetwClicks);
 
                         Console.WriteLine("Pos14: " + i);
                         i++;
@@ -314,17 +381,22 @@ namespace AutoSF {
                         if(Score >= 2) {
                             Console.WriteLine("Score Ok (" + Score + ")");
                             Console.WriteLine("Match won");
+                            logger.Debug("Match Won");
                             PositionCount = 10;
                             MouseActions.DoubleClickAtPosition(-260, 1009);
                         }
                         else if(Score <= -2) { //Lose
                             PositionCount = 10;
-                            Console.WriteLine("Match lost");
+                            StopAutoPvP = true;
+                            Console.WriteLine("Match lost at Pos:" + Convert.ToString(PositionCount));
                             MouseActions.DoubleClickAtPosition(-1681, 1024); //"Zurück" Button
                         }
+
+                        MouseActions.ClickSpam(100, 4);
                     }
                 }
             }
         }
+
     }
 }

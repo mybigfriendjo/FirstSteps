@@ -11,9 +11,9 @@ namespace AutoSF.Helper {
 
             FileTarget fileTarget = new FileTarget();
             logConfig.AddTarget("file", fileTarget);
-            fileTarget.FileName = "Alarm.log";
+            fileTarget.FileName = "AutoSF.log";
             fileTarget.ArchiveOldFileOnStartup = true;
-            fileTarget.ArchiveFileName = "Alarm.{#}.log";
+            fileTarget.ArchiveFileName = "AutoSF.{#}.log";
             fileTarget.ArchiveNumbering = ArchiveNumberingMode.Rolling;
             fileTarget.MaxArchiveFiles = 7;
             fileTarget.ConcurrentWrites = true;
