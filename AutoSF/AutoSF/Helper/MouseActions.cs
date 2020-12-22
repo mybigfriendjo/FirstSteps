@@ -8,6 +8,8 @@ namespace AutoSF.Helper {
         public const uint MOUSEEVENTF_LEFTDOWN = 0x0002;
         public const uint MOUSEEVENTF_LEFTUP = 0x0004;
 
+        public static string CurrentHostName = System.Net.Dns.GetHostName();
+
         [DllImport("user32.dll")]
         public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, uint dwExtraInf);
 
@@ -15,6 +17,10 @@ namespace AutoSF.Helper {
         public static extern bool SetCursorPos(int x, int y);
 
         public static void DoubleClickAtPosition(int posX, int posY) {
+        if(CurrentHostName == "VMgr4ndpa") {
+            posX += 1920; //Correts MousePosion for VM/SingleMonitor)
+        }
+        
             SetCursorPos(posX, posY);
 
             Click();

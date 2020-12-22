@@ -28,18 +28,35 @@ namespace AutoSF.Helper {
         //  ------  backgroundWorker1 - MouseSpam -----------
         public static void bgw1DoWork(object sender, DoWorkEventArgs e) {
 
-            while(MainWindow.LeftMouseDown == true) {
+            //while(MainWindow.LeftMouseDown == true) {
+            //mousestrave
+            int x = 100; //x-coordinate
+            int y = 500;
+            int i = 0;
+            while(1<2) {
                 if(backgroundWorker1.CancellationPending == true) {
                     e.Cancel = true;
+                    MouseActions.LeftMouseUp();
                     break;
                 }
                 else {
                     // Perform a time consuming operation and report progress.
-                    MouseActions.Click();
+                    //MouseActions.Click();
+                    MouseActions.LeftMouseDown();
                     System.Threading.Thread.Sleep(2);
-                    //MouseActions.LeftMouseDown();
                     //backgroundWorker1.ReportProgress(i * 10);
                 }
+                i++;
+                if(x > 1880) { //if mouse is almost completly right -> reset to left side
+                    MouseActions.SetCursorPos(50, 500);
+                    System.Threading.Thread.Sleep(4);
+                    MouseActions.SetCursorPos(50, 500);
+                    x = 100;
+                }
+                if((i % 10) == 0) { //Every 10th times           Modulo 10 (everytime i/10 has no remainder/ is no dezimal  30%10  remains 0  34%10 -> 4 remains
+                    x += 2;
+                }
+                MouseActions.SetCursorPos(x, y);
             }
             BgwCancelAsyn(backgroundWorker1);
         }
@@ -50,13 +67,16 @@ namespace AutoSF.Helper {
         public static void bgw2DoWork(object sender, DoWorkEventArgs e) {
             //BackgroundWorker worker = sender as BackgroundWorker;
 
-            for(int i = 1; i <= 10; i++) {
+            for(int i = 1; i <= 100; i++) {
                 if(backgroundWorker2.CancellationPending == true) {
                     e.Cancel = true;
                     break;
                 }
                 else {
                     // Perform a time consuming operation and report progress.
+                    if(i > 40) { //Delay to kill Drohnes
+                        KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
+                    }
                     System.Threading.Thread.Sleep(4);
                     //backgroundWorker2.ReportProgress(i * 10);
                 }
@@ -81,20 +101,21 @@ namespace AutoSF.Helper {
             }
         }
 
-        static public void enableReportAndCancel(BackgroundWorker Bgw) {
+        public static void enableReportAndCancel(BackgroundWorker Bgw) {
             Bgw.WorkerReportsProgress = true;  //Backgroundworker
             Bgw.WorkerSupportsCancellation = true;  //Backgroundworker
         }
 
         
-        static public void BgwStartAsync(BackgroundWorker Bgw) {
+        public static void BgwStartAsync(BackgroundWorker Bgw) {
             if(Bgw.IsBusy != true) {
                 // Start the asynchronous operation.
                 Bgw.RunWorkerAsync();
+                enableReportAndCancel(Bgw);
             }
         }
 
-        static public void BgwCancelAsyn(BackgroundWorker Bgw) {
+        public static  void BgwCancelAsyn(BackgroundWorker Bgw) {
             if(Bgw.WorkerSupportsCancellation == true) {
                 // Cancel the asynchronous operation.
                 Bgw.CancelAsync();

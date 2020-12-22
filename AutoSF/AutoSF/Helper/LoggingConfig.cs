@@ -6,7 +6,19 @@ using System.Linq;
 
 namespace AutoSF.Helper {
     public class LoggingConfig {
-        public static void Initialize() {
+
+        //the Code have to be part of the main Class / mainmethod
+        /*
+        using NLog;
+        MainWindow() {
+            LoggingConfig.Initialize();
+        }
+        private Logger logger = LogManager.GetCurrentClassLogger();
+        logger.Debug("This Text will be logged");  //LogExample
+        */
+        private Logger logger = LogManager.GetCurrentClassLogger();
+
+    public static void Initialize() {
             LoggingConfiguration logConfig = new LoggingConfiguration();
 
             FileTarget fileTarget = new FileTarget();

@@ -24,18 +24,15 @@ namespace Testdummy.Reference.MyStringTest
         }
         [DllImport("user32.dll")]
         static extern bool SetForegroundWindow(IntPtr hWnd);
-        //public static async void TaskWait(int DelayInMS) {
-        //    await Task.Delay(DelayInMS);
-        //}
 
         public static void RndMethod() {
             //var process = Process.GetProcessById(4044);
             //  MessageBox.Show(process.ProcessName);
             //process.Kill();
 
-            foreach(var process in Process.GetProcessesByName("mcfw")) {
-                SetForegroundWindow(process.MainWindowHandle);
-            }
+            string hostName = System.Net.Dns.GetHostName();
+            Console.Write(hostName);
+            MessageBox.Show(hostName);
         }
     }
 }
