@@ -5,13 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel; //Backgroundworker
 using System.Windows.Forms;
+using AutoSF.Helper;
 
 namespace AutoSF.Helper {
     public class BackgroundworkerConfig {
         //Backgroundworker   https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.backgroundworker?view=net-5.0
-        public static BackgroundWorker backgroundWorker1 = new BackgroundWorker();  //Backgroundworker
+        public static BackgroundWorker backgroundWorker1 = new BackgroundWorker(); 
         public static BackgroundWorker backgroundWorker2 = new BackgroundWorker();
         public static BackgroundWorker backgroundWorker3 = new BackgroundWorker();
+        public static BackgroundWorker backgroundWorker4 = new BackgroundWorker();
 
         //resultlabes are Lables Created on a Form to show Status
         //Bgw1resultLabel
@@ -21,6 +23,7 @@ namespace AutoSF.Helper {
             backgroundWorker1.DoWork += bgw1DoWork;
             backgroundWorker2.DoWork += bgw2DoWork;
             backgroundWorker3.DoWork += bgw3DoWork;
+            backgroundWorker4.DoWork += bgw4DoWork;
         }
 
 
@@ -33,7 +36,7 @@ namespace AutoSF.Helper {
             int x = 100; //x-coordinate
             int y = 500;
             int i = 0;
-            while(1<2) {
+            while(1<2 && MainWindow.StopAutoPvP == false) {
                 if(backgroundWorker1.CancellationPending == true) {
                     e.Cancel = true;
                     MouseActions.LeftMouseUp();
@@ -47,16 +50,6 @@ namespace AutoSF.Helper {
                     //backgroundWorker1.ReportProgress(i * 10);
                 }
                 i++;
-                if(x > 1880) { //if mouse is almost completly right -> reset to left side
-                    MouseActions.SetCursorPos(50, 500);
-                    System.Threading.Thread.Sleep(4);
-                    MouseActions.SetCursorPos(50, 500);
-                    x = 100;
-                }
-                if((i % 10) == 0) { //Every 10th times           Modulo 10 (everytime i/10 has no remainder/ is no dezimal  30%10  remains 0  34%10 -> 4 remains
-                    x += 2;
-                }
-                MouseActions.SetCursorPos(x, y);
             }
             BgwCancelAsyn(backgroundWorker1);
         }
@@ -67,24 +60,67 @@ namespace AutoSF.Helper {
         public static void bgw2DoWork(object sender, DoWorkEventArgs e) {
             //BackgroundWorker worker = sender as BackgroundWorker;
 
-            for(int i = 1; i <= 100; i++) {
+            for(int i = 1; i <= 300; i++) {
                 if(backgroundWorker2.CancellationPending == true) {
                     e.Cancel = true;
                     break;
                 }
-                else {
+                else { //Send F key
                     // Perform a time consuming operation and report progress.
-                    if(i > 40) { //Delay to kill Drohnes
+                    if(i > 30) { //Delay to kill Drohnes
                         KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
                     }
-                    System.Threading.Thread.Sleep(4);
+                    //System.Threading.Thread.Sleep(4);
                     //backgroundWorker2.ReportProgress(i * 10);
                 }
             }
         }
         private static void bgw3DoWork(object sender, DoWorkEventArgs e) {
+            for(int i = 1; i <= 2; i++) {
+                if(backgroundWorker3.CancellationPending == true) {
+                    e.Cancel = true;
+                    break;
+                }
+                else {  //MouseMove
+                    MainWindow.Sleep(1000);
+                    KeyboardInput.mouse_move(0, -1); //Move mouse 1 Uppwards
+                    KeyboardInput.mouse_move(0, -1);
+                    KeyboardInput.mouse_move(0, -1);
+                    int iChange = 1;
+                    int iRounds = 0;
+                    int straveCount = 0;
+                    while(iRounds < 40 && MainWindow.StopAutoPvP == false) {
+                        iRounds += iChange;
+                        KeyboardInput.mouse_move(iChange, 0);
+                        MainWindow.Sleep(200);
+                        Console.WriteLine(iRounds);
+                        if(iRounds == 15 && straveCount < 2) {
+                            iRounds = 14;
+                            iChange = -1;
+                            straveCount++;
+                            if(straveCount >= 4 || MainWindow.StopAutoPvP == true) {
+                                break;
+                            }
+                        }
+                        else if(iRounds == 40 && straveCount >= 2) {
+                            iRounds = 14;
+                            iChange = -1;
+                        }
+                        if(iRounds == -15 && straveCount <= 2) {
+                            iRounds = -14;
+                            iChange = 1;
+                        }
+                        else if(iRounds == -40 && straveCount >= 2) {
+                            iRounds = -39;
+                            iChange = 1;
+                        }
+                    }
+                }
+            }
+        }
+        private static void bgw4DoWork(object sender, DoWorkEventArgs e) {
             for(int i = 1; i <= 10; i++) {
-                if(backgroundWorker2.CancellationPending == true) {
+                if(backgroundWorker4.CancellationPending == true) {
                     e.Cancel = true;
                     break;
                 }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
-namespace AutoSF.Helper {
-    class KeyboardInput {
+namespace ExampleTest.Helper {
+    class Input {
         public static void Send(ScanCodeShort a) {
             INPUT[] Inputs = new INPUT[1];
             INPUT Input = new INPUT();
@@ -28,23 +28,6 @@ namespace AutoSF.Helper {
             int cbSize);
 
 
-        public static bool mouse_move(int x, int y) {
-            INPUT[] inputArray = new INPUT[1];
-            INPUT input = new INPUT();
-            input.type = 0;
-            input.U.mi.mouseData = 0;
-            input.U.mi.time = 0;
-            //input.U.mi.dx = x * (65536 / GetSystemMetrics(SM_CXSCREEN));//x being coord in pixels
-            //input.U.mi.dy = y * (65536 / GetSystemMetrics(SM_CYSCREEN));//y being coord in pixels
-            input.U.mi.dx = x * (65536 / SystemInformation.WorkingArea.Width);//x being coord in pixels
-            input.U.mi.dy = y * (65536 / SystemInformation.WorkingArea.Height);//y being coord in pixels
-            input.U.mi.dwFlags = MOUSEEVENTF.MOVE;//MOUSEEVENTF_ABSOLUTE
-            inputArray[0] = input;
-            SendInput(1, inputArray, INPUT.Size);
-
-            return true;
-        }
-
         // Declare the INPUT struct
         [StructLayout(LayoutKind.Sequential)]
         public struct INPUT {
@@ -59,11 +42,11 @@ namespace AutoSF.Helper {
         [StructLayout(LayoutKind.Explicit)]
         public struct InputUnion {
             [FieldOffset(0)]
-            internal MOUSEINPUT mi;     //Type = 0
+            internal MOUSEINPUT mi;
             [FieldOffset(0)]
-            internal KEYBDINPUT ki;    //Type = 1 
+            internal KEYBDINPUT ki;
             [FieldOffset(0)]
-            internal HARDWAREINPUT hi;  //Type = 2
+            internal HARDWAREINPUT hi;
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -997,3 +980,4 @@ namespace AutoSF.Helper {
         }
     }
 }
+

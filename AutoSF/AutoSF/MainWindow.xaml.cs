@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using NLog;
 using System.Diagnostics;
 using System.Collections.Generic;
+using IronOcr;
 
 
 namespace AutoSF {
@@ -40,15 +41,28 @@ namespace AutoSF {
         private Logger logger = LogManager.GetCurrentClassLogger();
 
 
-        public int PositionCount = 10;
+        public double PositionCount = 10;
         public static bool LeftMouseDown = false;
         int AmountOfClicks = 450;
         int DurationBetwClicks = 6;
-        bool StopAutoPvP = false;
+        public static bool StopAutoPvP = false;
         //public IntPtr SFWindowHandle = WinSystem.WindowActivate();
+        int WinCount = 0;
+        int LoseCount = 0;
+        public static string CurrentHostName = System.Net.Dns.GetHostName();
+        public static int DontUseMouse = 0;
+        
+        
+
+
+        private void btnCodeTest_Click(object sender, RoutedEventArgs e) {
+           
+            var x = 0;
+        }
 
         private void btnAutoPvP_Click(object sender, RoutedEventArgs e) {
             logger.Debug("AutoPvp Start");
+            CloseBackgroundWorkers();
             StopAutoPvP = false;
 
             Thread TaskPvPCheckPixel = new Thread(TaskHandler);
@@ -63,34 +77,50 @@ namespace AutoSF {
             int i = 1;
             while(i < 100 && StopAutoPvP == false) {
                 if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
-                    Console.WriteLine("AutoPvP interrupted at Pos:" + Convert.ToString(PositionCount));
+                    logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                     PositionCount = 10;
                     StopAutoPvP = true;
                 }
                 Console.WriteLine(i);
                 i++;
+                logger.Debug("Positioncount: " + PositionCount + "i = " +  "Starting Checkpixel"); 
                 CheckPixel();
             }
             //Will Kill SF after 100 Games, Stop Backgroundworkers
             if(StopAutoPvP == false) {
                 WinSystem.WindowKill();
             }
-            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1);
-            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker2);
-            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker3);
+            CloseBackgroundWorkers();
             PositionCount = 10;
+        }
+
+        private void cbNoMouse_Click(object sender, RoutedEventArgs e) {
+            if(cbNoMouse.IsChecked == true) {
+                DontUseMouse = 1;
+            }
+            else {
+                DontUseMouse = 0;
+            }
         }
 
         public async void TaskWait(int DelayInMS) {
             await Task.Delay(DelayInMS);
         }
+        public static void Sleep(int DurationInMS) {
+            Stopwatch st = new Stopwatch();
+            st.Start();
+            while(st.Elapsed < TimeSpan.FromMilliseconds(DurationInMS)) {
+                //
+            }
+            st.Stop();
+        }
 
-        private void CloseProgram() {
+        private void CloseBackgroundWorkers() {
             BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1);
             BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker2);
             BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker3);
+            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker4);
             PositionCount = 10;
-            Close();
         }
 
 
@@ -157,7 +187,7 @@ namespace AutoSF {
                         }
 
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
-                            Console.WriteLine("AutoPvP interrupted at Pos:" + Convert.ToString(PositionCount));
+                            logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                             PositionCount = 10;
                             StopAutoPvP = true;
                         }
@@ -177,6 +207,21 @@ namespace AutoSF {
                                 Console.WriteLine("Entering Room1");
                                 PositionCount = 11;
 
+                                //Get Room1 Armor
+                                
+                                var Ocr = new IronTesseract();
+                                using(var OcrInputImage = new OcrInput()) {
+                                    var ContentArea = new System.Drawing.Rectangle() { X = 1550, Y = 750, Height = 200, Width = 250 };
+                                    // Dimensions are in in px
+                                    OcrInputImage.AddImage(PixelFinder.OCRImage, ContentArea);
+                                    var Result = Ocr.Read(OcrInputImage);
+                                    Result.SaveAsSearchablePdf("c:\\temp\\rectangle.pdf");
+                                    PixelFinder.OCRImage.Save("c:\\temp\\bitmap.jpeg");
+                                    string Text = new IronTesseract().Read(PixelFinder.OCRImage).Text;
+                                    Console.WriteLine(Result.Text);
+                                    logger.Debug("OCRResult: " + Result.Text);
+                                }
+
                                 //MouseActions.SetCursorPos(-260, 1009);
 
                                 //todo setcursorposition relative to target window(multiple monitors)
@@ -192,9 +237,8 @@ namespace AutoSF {
                                 s.Stop();
                                 if(PixelFinder.SearchStaticPixel(1312, 958, "#D2CA61")) { //Yellow "Weiter" button (Storage Full)
                                     MouseActions.DoubleClickAtPosition(-1049, 1050);
+                                    PositionCount = 10.5;
                                 }
-                                MouseActions.DoubleClickAtPosition(-260, 1009);
-                                MouseActions.DoubleClickAtPosition(-960, 326);
 
                                 //}
                                 //else {
@@ -206,6 +250,11 @@ namespace AutoSF {
                 }
             }
 
+            if(PositionCount == 10.5 && StopAutoPvP == false) { //If YellowButton was up
+                MouseActions.DoubleClickAtPosition(-260, 1009);
+                MouseActions.DoubleClickAtPosition(-960, 326);
+                PositionCount = 11;
+            }
 
             if(PositionCount == 11 && StopAutoPvP == false) { //scans for: Room1-Intro
                 TaskHandlerPos11();
@@ -214,7 +263,7 @@ namespace AutoSF {
                     int i = 1;
                     while(PositionCount == 11 && StopAutoPvP == false) {
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
-                            Console.WriteLine("AutoPvP interrupted at Pos:" + Convert.ToString(PositionCount));
+                            logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                             PositionCount = 10;
                             StopAutoPvP = true;
                         }
@@ -253,19 +302,19 @@ namespace AutoSF {
 
                     Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt"));
                     // ---Special Sleep---
-                    Stopwatch s = new Stopwatch();
-                    s.Start();
-                    while(s.Elapsed < TimeSpan.FromMilliseconds(2700) && StopAutoPvP == false) {
-                        //
-                    }
-                    s.Stop();
-                    MouseActions.DoubleClickAtPosition(-966, 590);
+                    //Stopwatch s = new Stopwatch();
+                    //s.Start();
+                    //while(s.Elapsed < TimeSpan.FromMilliseconds(2700) && StopAutoPvP == false) {
+                    //    //
+                    //}
+                    //s.Stop();
+                    //MouseActions.DoubleClickAtPosition(-966, 590);
 
-                    s.Start();
-                    while(s.Elapsed < TimeSpan.FromMilliseconds(1500) && StopAutoPvP == false) {
-                        KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
-                    }
-                    s.Stop();
+                    //s.Start();
+                    //while(s.Elapsed < TimeSpan.FromMilliseconds(1500) && StopAutoPvP == false) {
+                    //    KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
+                    //}
+                    //s.Stop();
 
                     Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt"));
 
@@ -278,11 +327,19 @@ namespace AutoSF {
                         if(PixelFinder.SearchStaticPixel(803, 24, "#FFFFFF")) { Score++; } //Clock
                         LoopGarbageCollector.ClearGarbageCollector();
 
-                        BackgroundworkerConfig.BgwStartAsync(BackgroundworkerConfig.backgroundWorker1);
+                        if(DontUseMouse == 0) {
+                            BackgroundworkerConfig.BgwStartAsync(BackgroundworkerConfig.backgroundWorker1); //MouseClick
+                            BackgroundworkerConfig.BgwStartAsync(BackgroundworkerConfig.backgroundWorker3); //MouseMovement
+                        }
                         Console.WriteLine("Mousclick started");
                         //MouseActions.ClickSpam(10, 4);
                         KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
-                        BackgroundworkerConfig.BgwStartAsync(BackgroundworkerConfig.backgroundWorker2);
+                        BackgroundworkerConfig.BgwStartAsync(BackgroundworkerConfig.backgroundWorker2); //Press F-Key
+
+                        //Todo Remove AHK
+                        if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                            Process.Start("C:\\Spiele\\AutoSF\\Scripts\\AutoSFAssistent.ahk"); //Presses F Key
+                        }
                         //Process.Start("H:\\BackupData\\Selftraning\\Programmieren\\ahk\\Sniperfury\\AutoSFAssistent.ahk"); //Presses F Key
                         //MouseActions.ClickSpam(AmountOfClicks, DurationBetwClicks);
 
@@ -311,7 +368,7 @@ namespace AutoSF {
 
                     while(PositionCount == 13 && StopAutoPvP == false) {
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
-                            Console.WriteLine("AutoPvP interrupted at Pos:" + Convert.ToString(PositionCount));
+                            logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                             PositionCount = 10;
                             StopAutoPvP = true;
                         }
@@ -334,13 +391,23 @@ namespace AutoSF {
                         if(PixelFinder.SearchStaticPixel(970, 921, "#FF4C4C")) { Score--; }
                         LoopGarbageCollector.ClearGarbageCollector();
                         if(Score <= -2) {
+                            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1); //MouseClick
+                            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker3); //MouseMovement
+                            MouseActions.DoubleClickAtPosition(-960, 326);
+                            LoseCount++;
+                            Stopwatch sw = new Stopwatch();
+                            sw.Start();
+                            while(sw.Elapsed < TimeSpan.FromMilliseconds(150) && StopAutoPvP == false) {
+                                //
+                            }
+                            sw.Stop();
+                            logger.Debug("Match lost at Pos:" + Convert.ToString(PositionCount) + " This is Lose Nr.: " + Convert.ToString(LoseCount));
                             PositionCount = 10;
-                            Console.WriteLine("Match lost");
                             MouseActions.DoubleClickAtPosition(-1681, 1024); //"Zurück" Button
                         }
                         else {
                             Console.WriteLine("Score Ok (" + Score + ")");
-                            Console.WriteLine("Entering Room2");
+                            logger.Debug("Entering Room2");
                             PositionCount = 14;
                             MouseActions.DoubleClickAtPosition(-960, 326);
                         }
@@ -356,14 +423,18 @@ namespace AutoSF {
                     Console.WriteLine("MousClickSTop/start");
                     while(PositionCount == 14 && StopAutoPvP == false) {
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
-                            Console.WriteLine("AutoPvP interrupted at Pos:" + Convert.ToString(PositionCount));
+                            logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
+                            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1); //MouseClick
+                            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker3); //MouseMovement
                             PositionCount = 10;
                             StopAutoPvP = true;
                         }
-                        if(i > 30) {
-                            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1);
+                        if(i > 60) {
+                           BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1);
                         }
-                        BackgroundworkerConfig.BgwStartAsync(BackgroundworkerConfig.backgroundWorker1);
+                        if(DontUseMouse == 0) {
+                            BackgroundworkerConfig.BgwStartAsync(BackgroundworkerConfig.backgroundWorker1);
+                        }
 
                         Console.WriteLine("Pos14: " + i);
                         i++;
@@ -381,7 +452,8 @@ namespace AutoSF {
                         LoopGarbageCollector.ClearGarbageCollector();
 
                         if(Score >= 2) {
-                            BackgroundworkerConfig.backgroundWorker1.CancelAsync();
+                            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1); //MouseClick
+                            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker3); //MouseMovement
                             MouseActions.DoubleClickAtPosition(-960, 326);
                             Stopwatch s = new Stopwatch();
                             s.Start();
@@ -391,20 +463,23 @@ namespace AutoSF {
                             s.Stop();
                             Console.WriteLine("Score Ok (" + Score + ")");
                             Console.WriteLine("Match won");
-                            logger.Debug("Match Won");
+                            WinCount ++;
+                            logger.Debug("Match Won. This is Win Nr.: " + Convert.ToString(WinCount));
                             PositionCount = 10;
                             MouseActions.DoubleClickAtPosition(-260, 1009);
                         }
                         else if(Score <= -2) { //Lose
-                            BackgroundworkerConfig.backgroundWorker1.CancelAsync();
+                            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1); //MouseClick
+                            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker3); //MouseMovement
                             MouseActions.DoubleClickAtPosition(-960, 326);
+                            LoseCount++;
                             Stopwatch s = new Stopwatch();
                             s.Start();
                             while(s.Elapsed < TimeSpan.FromMilliseconds(150) && StopAutoPvP == false) {
                                 //
                             }
                             s.Stop();
-                            Console.WriteLine("Match lost at Pos:" + Convert.ToString(PositionCount));
+                            logger.Debug("Match lost at Pos:" + Convert.ToString(PositionCount) + " This is Lose Nr.: " + Convert.ToString(LoseCount));
                             PositionCount = 10;
                             MouseActions.DoubleClickAtPosition(-1681, 1024); //"Zurück" Button
                         }
@@ -413,10 +488,9 @@ namespace AutoSF {
                         
                     }
                 }
-                BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1);
-                Console.WriteLine("Mousclick Stopped");
+                CloseBackgroundWorkers();
+                Console.WriteLine("Mouseclick Stopped");
             }
         }
-
     }
 }
