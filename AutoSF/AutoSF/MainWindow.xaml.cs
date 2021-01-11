@@ -51,12 +51,13 @@ namespace AutoSF {
         int LoseCount = 0;
         public static string CurrentHostName = System.Net.Dns.GetHostName();
         public static int DontUseMouse = 0;
-        
-        
+        public static int DontMoveMouse = 1;
+
+
 
 
         private void btnCodeTest_Click(object sender, RoutedEventArgs e) {
-           
+            
             var x = 0;
         }
 
@@ -100,6 +101,14 @@ namespace AutoSF {
             }
             else {
                 DontUseMouse = 0;
+            }
+        }
+        private void cbNoMouseMove_Click(object sender, RoutedEventArgs e) {
+            if(cbNoMouseMove.IsChecked == true) {
+                DontMoveMouse = 1;
+            }
+            else {
+                DontMoveMouse = 0;
             }
         }
 
@@ -173,6 +182,8 @@ namespace AutoSF {
                 async void TaskHandlerPos10() {
                     //await Task.Delay(1);
                     int i = 1;
+                    BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker4); //Stops F Key detection
+                    Console.WriteLine("F detection stoped");
                     while(PositionCount == 10 && StopAutoPvP == false) {
                         //scans for: PvPStartScreen - grabs pixels in "Bestenliste/Ranking"- Icon and mouseover (Big Icon) - has to be allways executed
                         if(PixelFinder.SearchStaticPixel(1773, 418, "#73BBC6")) { Score++; }
@@ -181,6 +192,7 @@ namespace AutoSF {
                         if(PixelFinder.SearchStaticPixel(1772, 419, "#9ACED6")) { Score++; }
                         if(PixelFinder.SearchStaticPixel(1802, 409, "#AFF0F9")) { Score++; }
                         if(PixelFinder.SearchStaticPixel(1831, 425, "#74ACB4")) { Score++; }
+                        LoopGarbageCollector.ClearGarbageCollector();
                         if(Score >= 2) {
                             Console.WriteLine("Challange found. Entering PVP Screen");
                             MouseActions.DoubleClickAtPosition(-273, 539); //Spielen/Start Button
@@ -208,19 +220,20 @@ namespace AutoSF {
                                 PositionCount = 11;
 
                                 //Get Room1 Armor
-                                
-                                var Ocr = new IronTesseract();
-                                using(var OcrInputImage = new OcrInput()) {
-                                    var ContentArea = new System.Drawing.Rectangle() { X = 1550, Y = 750, Height = 200, Width = 250 };
-                                    // Dimensions are in in px
-                                    OcrInputImage.AddImage(PixelFinder.OCRImage, ContentArea);
-                                    var Result = Ocr.Read(OcrInputImage);
-                                    Result.SaveAsSearchablePdf("c:\\temp\\rectangle.pdf");
-                                    PixelFinder.OCRImage.Save("c:\\temp\\bitmap.jpeg");
-                                    string Text = new IronTesseract().Read(PixelFinder.OCRImage).Text;
-                                    Console.WriteLine(Result.Text);
-                                    logger.Debug("OCRResult: " + Result.Text);
-                                }
+
+                                //var Ocr = new IronTesseract();
+                                //using(var OcrInputImage = new OcrInput()) {
+                                //    var ContentArea = new System.Drawing.Rectangle() { X = 1550, Y = 750, Height = 200, Width = 250 };
+                                //    // Dimensions are in in px
+                                //    OcrInputImage.AddImage(PixelFinder.OCRImage, ContentArea);
+                                //    var Result = Ocr.Read(OcrInputImage);
+                                //    Result.SaveAsSearchablePdf("c:\\temp\\rectangle.pdf");
+                                //    PixelFinder.OCRImage.Save("c:\\temp\\bitmap.jpeg");
+                                //    string Text = new IronTesseract().Read(PixelFinder.OCRImage).Text;
+                                //    logger.Debug("OCRResult: " + Result.Text);
+                                //    logger.Debug("OCRResult: " + Text);
+                                //    Console.WriteLine(Result.Text);
+                                //}
 
                                 //MouseActions.SetCursorPos(-260, 1009);
 
@@ -228,18 +241,27 @@ namespace AutoSF {
                                 //MouseActions.SetCursorPos(1452, 1020);
                                 //var MsgBoxResult = MessageBox.Show("Is Curser Position Ok to Click?", "MouseClickPositionCheck - Start PvP", MessageBoxButton.YesNo);
                                 //if(Convert.ToString(MsgBoxResult) == "Yes") {
-                                MouseActions.DoubleClickAtPosition(-260, 1009);
+                                //MouseActions.DoubleClickAtPosition(-466, 1014); --hits Blue OR Yellow Button--
+                                MouseActions.DoubleClickAtPosition(-180, 1014); //only BlueButton
                                 Stopwatch s = new Stopwatch();
-                                s.Start();
-                                while(s.Elapsed < TimeSpan.FromMilliseconds(300) && StopAutoPvP == false) {
-                                    //
+                                Sleep(1000);
+                                if(PixelFinder.SearchStaticPixel(1430, 997, "#C4B827") == true || PixelFinder.SearchStaticPixel(1430, 997, "#BAAB01")) { //Yellow "Weiter" button (Storage Full)
+                                    Console.WriteLine("YellowButton Recogniced");
+                                    if(PixelFinder.SearchStaticPixel(1027, 724, "#FFFFFF")) {  //Kisten können verschmolzen werden 4/4
+                                        MouseActions.DoubleClickAtPosition(-893, 724); //clicks melt button
+                                        logger.Debug("4 Chests rdy - clicking melt button");
+                                        Sleep(2000);
+                                        MouseActions.DoubleClickAtPosition(-180, 1014);
+                                    }
+                                    else {
+                                        //MouseActions.DoubleClickAtPosition(-466, 1014); //clicks Yellow "Weiter" button  --hits Blue OR Yellow Button--
+                                        MouseActions.DoubleClickAtPosition(-630, 1014); //clicks Yellow "Weiter" button //only YellowButton
+                                        logger.Debug("4 Chests CD - clicks Yellow button");
+                                    }
+                                    //PositionCount = 10.5;
                                 }
-                                s.Stop();
-                                if(PixelFinder.SearchStaticPixel(1312, 958, "#D2CA61")) { //Yellow "Weiter" button (Storage Full)
-                                    MouseActions.DoubleClickAtPosition(-1049, 1050);
-                                    PositionCount = 10.5;
-                                }
-
+                                LoopGarbageCollector.ClearGarbageCollector();
+                                //var breakpoint = 1;
                                 //}
                                 //else {
                                 //    Close();
@@ -298,23 +320,21 @@ namespace AutoSF {
                 async void TaskHandlerPos12() {
                     //await Task.Delay(1);
                     int i = 1;
-
-
                     Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt"));
                     // ---Special Sleep---
-                    //Stopwatch s = new Stopwatch();
-                    //s.Start();
-                    //while(s.Elapsed < TimeSpan.FromMilliseconds(2700) && StopAutoPvP == false) {
-                    //    //
-                    //}
-                    //s.Stop();
-                    //MouseActions.DoubleClickAtPosition(-966, 590);
+                    Stopwatch s = new Stopwatch();
+                    s.Start();
+                    while(s.Elapsed < TimeSpan.FromMilliseconds(2700) && StopAutoPvP == false) {
+                        //
+                    }
+                    s.Stop();
+                    MouseActions.DoubleClickAtPosition(-966, 590);
 
-                    //s.Start();
-                    //while(s.Elapsed < TimeSpan.FromMilliseconds(1500) && StopAutoPvP == false) {
-                    //    KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
-                    //}
-                    //s.Stop();
+                    s.Start();
+                    while(s.Elapsed < TimeSpan.FromMilliseconds(1500) && StopAutoPvP == false) {
+                        KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
+                    }
+                    s.Stop();
 
                     Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt"));
 
@@ -329,7 +349,9 @@ namespace AutoSF {
 
                         if(DontUseMouse == 0) {
                             BackgroundworkerConfig.BgwStartAsync(BackgroundworkerConfig.backgroundWorker1); //MouseClick
-                            BackgroundworkerConfig.BgwStartAsync(BackgroundworkerConfig.backgroundWorker3); //MouseMovement
+                            if(DontMoveMouse == 0) {
+                                BackgroundworkerConfig.BgwStartAsync(BackgroundworkerConfig.backgroundWorker3); //MouseMovement
+                            }
                         }
                         Console.WriteLine("Mousclick started");
                         //MouseActions.ClickSpam(10, 4);
@@ -492,5 +514,7 @@ namespace AutoSF {
                 Console.WriteLine("Mouseclick Stopped");
             }
         }
+
+
     }
 }

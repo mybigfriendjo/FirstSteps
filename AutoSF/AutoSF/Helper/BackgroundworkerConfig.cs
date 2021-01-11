@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel; //Backgroundworker
 using System.Windows.Forms;
 using AutoSF.Helper;
+using System.Windows.Input;
 
 namespace AutoSF.Helper {
     public class BackgroundworkerConfig {
@@ -40,6 +41,7 @@ namespace AutoSF.Helper {
                 if(backgroundWorker1.CancellationPending == true) {
                     e.Cancel = true;
                     MouseActions.LeftMouseUp();
+                    BgwCancelAsyn(backgroundWorker3); //cancels Mousemovement as well
                     break;
                 }
                 else {
@@ -52,6 +54,7 @@ namespace AutoSF.Helper {
                 i++;
             }
             BgwCancelAsyn(backgroundWorker1);
+            BgwCancelAsyn(backgroundWorker3); //cancels Mousemovement as well
         }
 
 
@@ -69,6 +72,8 @@ namespace AutoSF.Helper {
                     // Perform a time consuming operation and report progress.
                     if(i > 30) { //Delay to kill Drohnes
                         KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
+                        MainWindow.Sleep(4);
+                        Console.WriteLine("pressing F key");
                     }
                     //System.Threading.Thread.Sleep(4);
                     //backgroundWorker2.ReportProgress(i * 10);
@@ -90,27 +95,31 @@ namespace AutoSF.Helper {
                     int iRounds = 0;
                     int straveCount = 0;
                     while(iRounds < 40 && MainWindow.StopAutoPvP == false) {
+                        if(backgroundWorker3.CancellationPending == true) {
+                            e.Cancel = true;
+                            break;
+                        }
                         iRounds += iChange;
                         KeyboardInput.mouse_move(iChange, 0);
                         MainWindow.Sleep(200);
                         Console.WriteLine(iRounds);
-                        if(iRounds == 15 && straveCount < 2) {
-                            iRounds = 14;
+                        if(iRounds == 5 && straveCount < 5) {
+                            iRounds = 4;
                             iChange = -1;
                             straveCount++;
-                            if(straveCount >= 4 || MainWindow.StopAutoPvP == true) {
+                            if(straveCount >= 7 || MainWindow.StopAutoPvP == true) {
                                 break;
                             }
                         }
-                        else if(iRounds == 40 && straveCount >= 2) {
-                            iRounds = 14;
+                        else if(iRounds == 37 && straveCount >= 6) {
+                            iRounds = 36;
                             iChange = -1;
                         }
-                        if(iRounds == -15 && straveCount <= 2) {
-                            iRounds = -14;
+                        if(iRounds == -8 && straveCount <= 5) {
+                            iRounds = -7;
                             iChange = 1;
                         }
-                        else if(iRounds == -40 && straveCount >= 2) {
+                        else if(iRounds == -40 && straveCount >= 6) {
                             iRounds = -39;
                             iChange = 1;
                         }
@@ -119,18 +128,28 @@ namespace AutoSF.Helper {
             }
         }
         private static void bgw4DoWork(object sender, DoWorkEventArgs e) {
-            for(int i = 1; i <= 10; i++) {
+            while(30 < 40 && MainWindow.StopAutoPvP == false) { //endless loop
                 if(backgroundWorker4.CancellationPending == true) {
                     e.Cancel = true;
                     break;
                 }
                 else {
                     // Perform a time consuming operation and report progress.
-                    int Score = 0;
-                    if(PixelFinder.SearchStaticPixel(1773, 418, "#73BBC6")) { Score++; }
-                    if(Score > 0) { 
-                        Console.WriteLine("Scored"); 
-                    }
+
+
+                    //int Score = 0;
+                    //if(PixelFinder.SearchStaticPixel(1773, 418, "#73BBC6")) { Score++; }
+                    //if(Score > 0) { 
+                    //    Console.WriteLine("Scored"); 
+                    //}
+
+                    //Exception thrown: 'System.InvalidOperationException' in PresentationCore.dll
+                    //An exception of type 'System.InvalidOperationException' occurred in PresentationCore.dll but was not handled in user code
+                    //Beim aufrufenden Thread muss es sich um einen STA - Thread handeln, da dies für viele Komponenten der Benutzeroberfläche erforderlich ist.
+                    //if(Keyboard.IsKeyDown(Key.F)) {
+                    //    Console.WriteLine("F key was pressed");
+                    //}
+
                     //System.Threading.Thread.Sleep(4);
                     //backgroundWorker2.ReportProgress(i * 10);
                 }
