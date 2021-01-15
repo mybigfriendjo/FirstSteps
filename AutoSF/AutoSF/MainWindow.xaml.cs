@@ -186,17 +186,32 @@ namespace AutoSF {
                     Console.WriteLine("F detection stoped");
                     while(PositionCount == 10 && StopAutoPvP == false) {
                         //scans for: PvPStartScreen - grabs pixels in "Bestenliste/Ranking"- Icon and mouseover (Big Icon) - has to be allways executed
-                        if(PixelFinder.SearchStaticPixel(1773, 418, "#73BBC6")) { Score++; }
-                        if(PixelFinder.SearchStaticPixel(1798, 402, "#91EAF7")) { Score++; }
-                        if(PixelFinder.SearchStaticPixel(1826, 422, "#3F8C97")) { Score++; }
-                        if(PixelFinder.SearchStaticPixel(1772, 419, "#9ACED6")) { Score++; }
-                        if(PixelFinder.SearchStaticPixel(1802, 409, "#AFF0F9")) { Score++; }
-                        if(PixelFinder.SearchStaticPixel(1831, 425, "#74ACB4")) { Score++; }
+                        //if(PixelFinder.SearchStaticPixel(1773, 418, "#73BBC6")) { Score++; }
+                        //if(PixelFinder.SearchStaticPixel(1798, 402, "#91EAF7")) { Score++; }
+                        //if(PixelFinder.SearchStaticPixel(1826, 422, "#3F8C97")) { Score++; }
+                        //if(PixelFinder.SearchStaticPixel(1772, 419, "#9ACED6")) { Score++; }
+                        //if(PixelFinder.SearchStaticPixel(1802, 409, "#AFF0F9")) { Score++; }
+                        //if(PixelFinder.SearchStaticPixel(1831, 425, "#74ACB4")) { Score++; }
+
+                        //Scans button/color in "Rang belohnung(green)/
+                        if(PixelFinder.SearchStaticPixel(486, 463, "#91EAF7")) { Score++; } // "i" info icon near points
+                        if(PixelFinder.SearchStaticPixel(1546, 531, "#FFFFF")) { Score++; }
+                        if(PixelFinder.SearchStaticPixel(186, 651, "#007887")) { Score++; }
+                        if(PixelFinder.SearchStaticPixel(960, 465, "#91EAF7")) { Score++; } // "i" info icon near points (with score)
+
                         LoopGarbageCollector.ClearGarbageCollector();
                         if(Score >= 2) {
                             Console.WriteLine("Challange found. Entering PVP Screen");
                             MouseActions.DoubleClickAtPosition(-273, 539); //Spielen/Start Button
+                            Sleep(800);
                         }
+
+                        //if Reward pops up
+                        Score = 0;
+                        if(PixelFinder.SearchStaticPixel(845, 217, "#0D2D4C")) { Score++; } //Upper BlueBar
+                        if(PixelFinder.SearchStaticPixel(472, 139, "#E5C1A3")) { Score++; } //WomanToTheLeft
+                        if(PixelFinder.SearchStaticPixel(1348, 850, "#FFFFFF")) { Score++; } //White Text in the blue "Einfordern" Button
+                        LoopGarbageCollector.ClearGarbageCollector();
 
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
                             logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
@@ -252,6 +267,7 @@ namespace AutoSF {
                                         logger.Debug("4 Chests rdy - clicking melt button");
                                         Sleep(2000);
                                         MouseActions.DoubleClickAtPosition(-180, 1014);
+                                        Sleep(2000);
                                     }
                                     else {
                                         //MouseActions.DoubleClickAtPosition(-466, 1014); //clicks Yellow "Weiter" button  --hits Blue OR Yellow Button--
@@ -304,12 +320,12 @@ namespace AutoSF {
                             //MouseActions.SetCursorPos(-966, 590);
                             //var MsgBoxResult = MessageBox.Show("Is Curser Position Ok to Click?", "MouseClickPositionCheck - SwitchToRoom2", MessageBoxButton.YesNo);
                             //if(Convert.ToString(MsgBoxResult) == "Yes") {
-                            MouseActions.DoubleClickAtPosition(-966, 590);
+                            MouseActions.DoubleClickAtPosition(-956, 134);
                             //}
                         }
                         else { //If PvP Intro doesnt appear - stillcontinue
                             PositionCount = 12;
-                            MouseActions.DoubleClickAtPosition(-966, 590);
+                            MouseActions.DoubleClickAtPosition(-956, 134);
                         }
                     }
                 }
@@ -328,7 +344,7 @@ namespace AutoSF {
                         //
                     }
                     s.Stop();
-                    MouseActions.DoubleClickAtPosition(-966, 590);
+                    MouseActions.DoubleClickAtPosition(-956, 134);
 
                     s.Start();
                     while(s.Elapsed < TimeSpan.FromMilliseconds(1500) && StopAutoPvP == false) {

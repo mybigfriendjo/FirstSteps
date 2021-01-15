@@ -17,8 +17,8 @@ namespace AutoSF.Helper {
             //OCRImage = bitmap;
             Color desiredPixelColor = ColorTranslator.FromHtml(PixColorHex);
             //save Bitmap to see Picture/Content    
-                Bitmap Bitmapcopy = new Bitmap(bitmap);
-                Bitmapcopy.Save("c:\\temp\\bitmapnew.jpeg");
+                //Bitmap Bitmapcopy = new Bitmap(bitmap);
+                //Bitmapcopy.Save("c:\\temp\\bitmapnew.jpeg");
             Color currentPixelColor = bitmap.GetPixel(x, y);
             if(currentPixelColor == desiredPixelColor) {
                 return true;
