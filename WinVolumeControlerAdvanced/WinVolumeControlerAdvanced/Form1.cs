@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using HWND = System.IntPtr;
 
 namespace AdvancedWinVolumeControler
 {
@@ -29,12 +30,24 @@ namespace AdvancedWinVolumeControler
         private const string programmClassF11F12 = "StarCraft II";
         private const string windowNameF11F12 = "StarCraft II";
 
+
+
+
+        private Timer timer1;
+        
+
         // ---Dll Imports---
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string strClassName, string strWindowName);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+
+        [DllImport("user32.dll")]
+        static extern IntPtr GetActiveWindow();
+
+        [DllImport("user32.dll")]
+        static extern IntPtr GetForegroundWindow();
 
 
         public Form1()
@@ -61,8 +74,42 @@ namespace AdvancedWinVolumeControler
             //Get Current Applications Volume
             renewF9F10vol();
             renewF11F12vol();
+
+            //start CyberPunkCheckTimer
+            InitTimer();
         }
-        
+
+
+        public void InitTimer() {
+            timer1 = new Timer();
+            timer1.Tick += new EventHandler(timer1_Tick);
+            timer1.Interval = 5000; // in miliseconds
+            timer1.Start();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e) {
+            CyberpunkWindowActiv();
+        }
+
+        public static HWND CyberpunkWindowActiv() {
+            HWND CurrentActiveWindow = GetForegroundWindow();
+            if(CurrentActiveWindow == IntPtr.Zero) {
+                //this triggers
+                Debug.WriteLine("CurrentActiveWindow: " + CurrentActiveWindow.ToString());
+                Debug.WriteLine("Unable to get window handle.");
+            }
+            foreach(var process in Process.GetProcessesByName("Cyberpunk2077")) {
+                if(CurrentActiveWindow == process.MainWindowHandle) {
+                    VolumeMixer.SetApplicationMute(process.Id,false);
+                }
+                else {
+                    VolumeMixer.SetApplicationMute(process.Id, true);
+                }
+                return process.MainWindowHandle;
+            }
+
+            return HWND.Zero;
+        }
 
         private void trayMenuQuit(object sender, EventArgs e)
         {
@@ -76,7 +123,7 @@ namespace AdvancedWinVolumeControler
             Application.Exit();
             Environment.Exit(0);
         }
-        
+
         private static void renewF9F10vol()
         {
             dictpIDF9F10.Clear();
