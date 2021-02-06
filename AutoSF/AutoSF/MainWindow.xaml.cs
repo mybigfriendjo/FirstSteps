@@ -212,6 +212,12 @@ namespace AutoSF {
                         if(PixelFinder.SearchStaticPixel(472, 139, "#E5C1A3")) { Score++; } //WomanToTheLeft
                         if(PixelFinder.SearchStaticPixel(1348, 850, "#FFFFFF")) { Score++; } //White Text in the blue "Einfordern" Button
                         LoopGarbageCollector.ClearGarbageCollector();
+                        if(Score >= 2) {
+                            Console.WriteLine("Reward found. Collecting and entering PVP Screen");
+                            MouseActions.DoubleClickAtPosition(-500, 850); //"Einfordern" Button
+                            Sleep(800);
+                            MouseActions.DoubleClickAtPosition(-273, 539); //Spielen/Start Button
+                        }
 
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
                             logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
@@ -234,8 +240,8 @@ namespace AutoSF {
                                 Console.WriteLine("Entering Room1");
                                 PositionCount = 11;
 
-                                //Get Room1 Armor
-
+                                
+                                ////Get Room1 Armor
                                 //var Ocr = new IronTesseract();
                                 //using(var OcrInputImage = new OcrInput()) {
                                 //    var ContentArea = new System.Drawing.Rectangle() { X = 1550, Y = 750, Height = 200, Width = 250 };
@@ -249,6 +255,7 @@ namespace AutoSF {
                                 //    logger.Debug("OCRResult: " + Text);
                                 //    Console.WriteLine(Result.Text);
                                 //}
+                                
 
                                 //MouseActions.SetCursorPos(-260, 1009);
 
@@ -263,11 +270,30 @@ namespace AutoSF {
                                 if(PixelFinder.SearchStaticPixel(1430, 997, "#C4B827") == true || PixelFinder.SearchStaticPixel(1430, 997, "#BAAB01")) { //Yellow "Weiter" button (Storage Full)
                                     Console.WriteLine("YellowButton Recogniced");
                                     if(PixelFinder.SearchStaticPixel(1027, 724, "#FFFFFF")) {  //Kisten können verschmolzen werden 4/4
-                                        MouseActions.DoubleClickAtPosition(-893, 724); //clicks melt button
+                                        MouseActions.DoubleClickAtPosition(-776, 755); //clicks melt button
                                         logger.Debug("4 Chests rdy - clicking melt button");
-                                        Sleep(2000);
+                                        Sleep(4000);
                                         MouseActions.DoubleClickAtPosition(-180, 1014);
-                                        Sleep(2000);
+                                        Sleep(4000);
+
+                                        /*
+                                        //checks if the current screen is the ranking list
+                                        s.Start();
+                                        while(s.Elapsed < TimeSpan.FromMilliseconds(4000)) {
+                                            if(PixelFinder.SearchStaticPixel(46, 71, "#E1BF05")) { Score++; }
+                                            if(PixelFinder.SearchStaticPixel(408, 77, "#FFD801")) { Score++; }
+                                            if(PixelFinder.SearchStaticPixel(448, 72, "#FFD801")) { Score++; }
+                                            LoopGarbageCollector.ClearGarbageCollector();
+                                            if(Score >= 2) {
+                                                Console.WriteLine("Score Ok (" + Score + ")");
+                                                Console.WriteLine("Skipping Room1 Intro");
+                                                PositionCount = 12;
+
+                                                MouseActions.DoubleClickAtPosition(-956, 134);
+                                            }
+                                        }
+                                        s.Stop();
+                                        */
                                     }
                                     else {
                                         //MouseActions.DoubleClickAtPosition(-466, 1014); //clicks Yellow "Weiter" button  --hits Blue OR Yellow Button--
@@ -338,19 +364,21 @@ namespace AutoSF {
                     int i = 1;
                     Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt"));
                     // ---Special Sleep---
-                    Stopwatch s = new Stopwatch();
-                    s.Start();
-                    while(s.Elapsed < TimeSpan.FromMilliseconds(2700) && StopAutoPvP == false) {
-                        //
-                    }
-                    s.Stop();
-                    MouseActions.DoubleClickAtPosition(-956, 134);
+                    if(DontUseMouse == 0) {
+                        Stopwatch s = new Stopwatch();
+                        s.Start();
+                        while(s.Elapsed < TimeSpan.FromMilliseconds(2700) && StopAutoPvP == false) {
+                            //
+                        }
+                        s.Stop();
+                        MouseActions.DoubleClickAtPosition(-956, 134);
 
-                    s.Start();
-                    while(s.Elapsed < TimeSpan.FromMilliseconds(1500) && StopAutoPvP == false) {
-                        KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
+                        s.Start();
+                        while(s.Elapsed < TimeSpan.FromMilliseconds(1500) && StopAutoPvP == false) {
+                            KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
+                        }
+                        s.Stop();
                     }
-                    s.Stop();
 
                     Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt"));
 
@@ -458,6 +486,7 @@ namespace AutoSF {
                 async void TaskHandlerPos14() {
                     //await Task.Delay(1);
                     int i = 1;
+                    int count = 1;
                     Console.WriteLine("MousClickSTop/start");
                     while(PositionCount == 14 && StopAutoPvP == false) {
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
@@ -467,8 +496,10 @@ namespace AutoSF {
                             PositionCount = 10;
                             StopAutoPvP = true;
                         }
-                        if(i > 60) {
-                           BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1);
+                        //Stops Mouseclickspam after 60 rounds for every 10 rounds
+                        if(i > 60 && count > 10) {
+                            BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1);
+                            count = 1;
                         }
                         if(DontUseMouse == 0) {
                             BackgroundworkerConfig.BgwStartAsync(BackgroundworkerConfig.backgroundWorker1);
