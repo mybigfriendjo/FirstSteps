@@ -21,11 +21,11 @@ namespace AutoSF {
     /// </summary>
     public partial class MainWindow : Window {
         /* todo >>>>>>>>>>>>>>>
-        -class mouse
-            .moveright - could work with Click and increasing/decreasing y coordinates
-            .moveleft
-        -main
-            .send F key
+        -Text Recognition Workaround
+            >create smaller images and scan these instead of scanning a part of a big image.
+        -Add check
+            >if Room1 Intro should have been passed but "i" count exceeds a certain value, check if intro is still active and send key (for ex. Space)
+
         -Form
             add icon next to buttons to see if active or not
 
@@ -52,6 +52,9 @@ namespace AutoSF {
         public static string CurrentHostName = System.Net.Dns.GetHostName();
         public static int DontUseMouse = 0;
         public static int DontMoveMouse = 1;
+        public static int Spam2Active = 0;
+        public static int Spam3Active = 0;
+        public static int StuckIntro = 0;
 
 
 
@@ -111,6 +114,22 @@ namespace AutoSF {
                 DontMoveMouse = 0;
             }
         }
+        private void cbSpam2Active_Click (object sender, RoutedEventArgs e) {
+            if(cbSpam2Active.IsChecked == true) {
+                Spam2Active = 1;
+            }
+            else {
+                Spam2Active = 0;
+            }
+        }
+        private void cbSpam3Active_Click(object sender, RoutedEventArgs e) {
+            if(cbSpam3Active.IsChecked == true) {
+                Spam3Active = 1;
+            }
+            else {
+                Spam3Active = 0;
+            }
+        }
 
         public async void TaskWait(int DelayInMS) {
             await Task.Delay(DelayInMS);
@@ -132,6 +151,14 @@ namespace AutoSF {
             PositionCount = 10;
         }
 
+        private void StuckOnIntro() {
+            CloseBackgroundWorkers();
+            PositionCount = 11;
+            StuckIntro = 1;
+            KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_W);
+            Sleep(10);
+            SendKeys.Send("W");
+        }
 
         //getWindowPosition (Size,Position)
         /*
@@ -194,6 +221,11 @@ namespace AutoSF {
                         //if(PixelFinder.SearchStaticPixel(1831, 425, "#74ACB4")) { Score++; }
 
                         //Scans button/color in "Rang belohnung(green)/
+                        if(i > 200) {
+                            Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            StuckOnIntro();
+                        }
                         if(PixelFinder.SearchStaticPixel(486, 463, "#91EAF7")) { Score++; } // "i" info icon near points
                         if(PixelFinder.SearchStaticPixel(1546, 531, "#FFFFF")) { Score++; }
                         if(PixelFinder.SearchStaticPixel(186, 651, "#007887")) { Score++; }
@@ -240,13 +272,14 @@ namespace AutoSF {
                                 Console.WriteLine("Entering Room1");
                                 PositionCount = 11;
 
-                                
+
                                 ////Get Room1 Armor
                                 //var Ocr = new IronTesseract();
                                 //using(var OcrInputImage = new OcrInput()) {
                                 //    var ContentArea = new System.Drawing.Rectangle() { X = 1550, Y = 750, Height = 200, Width = 250 };
                                 //    // Dimensions are in in px
                                 //    OcrInputImage.AddImage(PixelFinder.OCRImage, ContentArea);
+                                //    Ocr.Configuration.WhiteListCharacters = "01234566789.";
                                 //    var Result = Ocr.Read(OcrInputImage);
                                 //    Result.SaveAsSearchablePdf("c:\\temp\\rectangle.pdf");
                                 //    PixelFinder.OCRImage.Save("c:\\temp\\bitmap.jpeg");
@@ -255,7 +288,7 @@ namespace AutoSF {
                                 //    logger.Debug("OCRResult: " + Text);
                                 //    Console.WriteLine(Result.Text);
                                 //}
-                                
+
 
                                 //MouseActions.SetCursorPos(-260, 1009);
 
@@ -326,6 +359,11 @@ namespace AutoSF {
                     //await Task.Delay(1);
                     int i = 1;
                     while(PositionCount == 11 && StopAutoPvP == false) {
+                        if(i > 200) {
+                            Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            StuckOnIntro();
+                        }
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
                             logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                             PositionCount = 10;
@@ -376,6 +414,13 @@ namespace AutoSF {
                         s.Start();
                         while(s.Elapsed < TimeSpan.FromMilliseconds(1500) && StopAutoPvP == false) {
                             KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
+                            if(Spam2Active == 1) {
+                                KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_2);
+                                SendKeys.Send("2");
+                            }
+                            if(Spam3Active == 1 && i == 1) {   //only activate "3" once - pressing it again would disable it
+                                KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_3);
+                            }
                         }
                         s.Stop();
                     }
@@ -385,6 +430,11 @@ namespace AutoSF {
                     while(PositionCount == 12 && StopAutoPvP == false) { //while clock pixel is found
                         Score = 0;
                         i++;
+                        if(i > 200) {
+                            Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            StuckOnIntro();
+                        }
                         Console.WriteLine("Pos12: " + i);
                         if(PixelFinder.SearchStaticPixel(911, 43, "#A3F5F6")) { Score++; } //VerticalBarRighttoClock
                         if(PixelFinder.SearchStaticPixel(777, 37, "#A3F5F6")) { Score++; } //VerticalBarLefttoClock
@@ -451,6 +501,11 @@ namespace AutoSF {
                         Console.WriteLine("Pos13: " + i);
                         i++;
                         Score = 0;
+                        if(i > 200) {
+                            Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            StuckOnIntro();
+                        }
 
                         if(PixelFinder.SearchStaticPixel(104, 266, "#FFFFFF")) { Score--; }
                         if(PixelFinder.SearchStaticPixel(933, 156, "#FF4C4C")) { Score--; }
@@ -489,6 +544,11 @@ namespace AutoSF {
                     int count = 1;
                     Console.WriteLine("MousClickSTop/start");
                     while(PositionCount == 14 && StopAutoPvP == false) {
+                        if(i > 200) {
+                            Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            StuckOnIntro();
+                        }
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
                             logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                             BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1); //MouseClick

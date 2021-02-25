@@ -74,6 +74,9 @@ namespace AutoSF.Helper {
                         KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
                         MainWindow.Sleep(4);
                         Console.WriteLine("pressing F key");
+                        if(MainWindow.Spam2Active == 1) {
+                            KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_2);
+                        }
                     }
                     //System.Threading.Thread.Sleep(4);
                     //backgroundWorker2.ReportProgress(i * 10);
