@@ -57,10 +57,16 @@ namespace AutoSF.Helper {
             //var process = Process.GetProcessById(4044);
             //  MessageBox.Show(process.ProcessName);
             //process.Kill();
-
+            bool ProcessFound = false;
             foreach(var process in Process.GetProcessesByName("mcfw")) {
+                ProcessFound = true;
                 SetForegroundWindow(process.MainWindowHandle);
                 return process.MainWindowHandle;
+            }
+            if(!ProcessFound) {
+                Process.Start("c:\\spiele\\steam\\steamapps\\common\\Sniper Fury\\mcfw.exe");
+                MainWindow.Sleep(120000); //Sleep 2min
+                //Navigate to "trefferliste" -> pvp
             }
 
             return HWND.Zero;
@@ -70,6 +76,8 @@ namespace AutoSF.Helper {
                 process.Kill();
             }
         }
+
+
 
         public static Rectangle GetWindowRect(HWND hWnd) {
             RECT rect = new RECT();

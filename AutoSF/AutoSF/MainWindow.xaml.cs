@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Windows;
+﻿using System.Windows;
 using System;
 using AutoSF.Helper;
 using System.Windows.Input;
@@ -11,8 +10,7 @@ using MessageBox = System.Windows.MessageBox;
 using System.Runtime.InteropServices;
 using NLog;
 using System.Diagnostics;
-using System.Collections.Generic;
-using IronOcr;
+
 
 
 namespace AutoSF {
@@ -21,10 +19,14 @@ namespace AutoSF {
     /// </summary>
     public partial class MainWindow : Window {
         /* todo >>>>>>>>>>>>>>>
-        -Text Recognition Workaround
-            >create smaller images and scan these instead of scanning a part of a big image.
         -Add check
             >if Room1 Intro should have been passed but "i" count exceeds a certain value, check if intro is still active and send key (for ex. Space)
+            >intro does get canceled now but doesnt start shooting, AutoSF quits soon after.
+        -Add sqlite DB
+            add mission data
+            add fuction (screens + log for missions not found in DB)
+        -Make App active/foreground on start
+            
 
         -Form
             add icon next to buttons to see if active or not
@@ -35,7 +37,11 @@ namespace AutoSF {
             LoggingConfig.Initialize();
             BackgroundworkerConfig.InitializeBackgroundworker();
             InitializeComponent();
-
+            [DllImport("user32.dll")]
+            static extern bool SetForegroundWindow(IntPtr hWnd);
+            foreach(var process in Process.GetProcessesByName("AutoSF")) {
+                SetForegroundWindow(process.MainWindowHandle);
+            }
         }
 
         private Logger logger = LogManager.GetCurrentClassLogger();
@@ -60,7 +66,7 @@ namespace AutoSF {
 
 
         private void btnCodeTest_Click(object sender, RoutedEventArgs e) {
-            
+            OCR.OCRcheck(15,105,475,55);
             var x = 0;
         }
 
@@ -78,24 +84,27 @@ namespace AutoSF {
 
         public async void TaskHandler() {
             //await Task.Delay(1);
-            int i = 1;
-            while(i < 100 && StopAutoPvP == false) {
+            int round = 1;
+            while(round < 200 && StopAutoPvP == false) {
                 if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
                     logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                     PositionCount = 10;
                     StopAutoPvP = true;
                 }
-                Console.WriteLine(i);
-                i++;
-                logger.Debug("Positioncount: " + PositionCount + "i = " +  "Starting Checkpixel"); 
+                Console.WriteLine(round);
+                round++;
+                logger.Debug("Positioncount: " + PositionCount + " round = " +  "Starting Checkpixel"); 
                 CheckPixel();
             }
-            //Will Kill SF after 100 Games, Stop Backgroundworkers
+            //Will Kill SF after 200 Games, Stop Backgroundworkers
             if(StopAutoPvP == false) {
                 WinSystem.WindowKill();
             }
             CloseBackgroundWorkers();
             PositionCount = 10;
+            if(StuckIntro == 1) {
+                PositionCount = 11;
+            }
         }
 
         private void cbNoMouse_Click(object sender, RoutedEventArgs e) {
@@ -158,6 +167,11 @@ namespace AutoSF {
             KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_W);
             Sleep(10);
             SendKeys.Send("W");
+            //if(WinSystem.WindowActivate() == IntPtr.Zero) {
+
+            //}
+            logger.Debug("Restart PvP-Bot after beeing Stuck");
+            btnAutoPvP_Click(null,null);
         }
 
         //getWindowPosition (Size,Position)
@@ -221,7 +235,7 @@ namespace AutoSF {
                         //if(PixelFinder.SearchStaticPixel(1831, 425, "#74ACB4")) { Score++; }
 
                         //Scans button/color in "Rang belohnung(green)/
-                        if(i > 200) {
+                        if(i > 400) {
                             Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             StuckOnIntro();
@@ -273,21 +287,7 @@ namespace AutoSF {
                                 PositionCount = 11;
 
 
-                                ////Get Room1 Armor
-                                //var Ocr = new IronTesseract();
-                                //using(var OcrInputImage = new OcrInput()) {
-                                //    var ContentArea = new System.Drawing.Rectangle() { X = 1550, Y = 750, Height = 200, Width = 250 };
-                                //    // Dimensions are in in px
-                                //    OcrInputImage.AddImage(PixelFinder.OCRImage, ContentArea);
-                                //    Ocr.Configuration.WhiteListCharacters = "01234566789.";
-                                //    var Result = Ocr.Read(OcrInputImage);
-                                //    Result.SaveAsSearchablePdf("c:\\temp\\rectangle.pdf");
-                                //    PixelFinder.OCRImage.Save("c:\\temp\\bitmap.jpeg");
-                                //    string Text = new IronTesseract().Read(PixelFinder.OCRImage).Text;
-                                //    logger.Debug("OCRResult: " + Result.Text);
-                                //    logger.Debug("OCRResult: " + Text);
-                                //    Console.WriteLine(Result.Text);
-                                //}
+                               
 
 
                                 //MouseActions.SetCursorPos(-260, 1009);
@@ -358,8 +358,9 @@ namespace AutoSF {
                 async void TaskHandlerPos11() {
                     //await Task.Delay(1);
                     int i = 1;
+                    StuckIntro = 0;
                     while(PositionCount == 11 && StopAutoPvP == false) {
-                        if(i > 200) {
+                        if(i > 400) {
                             Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             StuckOnIntro();
@@ -430,7 +431,7 @@ namespace AutoSF {
                     while(PositionCount == 12 && StopAutoPvP == false) { //while clock pixel is found
                         Score = 0;
                         i++;
-                        if(i > 200) {
+                        if(i > 400) {
                             Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             StuckOnIntro();
@@ -501,7 +502,7 @@ namespace AutoSF {
                         Console.WriteLine("Pos13: " + i);
                         i++;
                         Score = 0;
-                        if(i > 200) {
+                        if(i > 400) {
                             Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             StuckOnIntro();
@@ -544,7 +545,7 @@ namespace AutoSF {
                     int count = 1;
                     Console.WriteLine("MousClickSTop/start");
                     while(PositionCount == 14 && StopAutoPvP == false) {
-                        if(i > 200) {
+                        if(i > 400) {
                             Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             StuckOnIntro();
