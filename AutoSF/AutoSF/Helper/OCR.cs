@@ -54,6 +54,7 @@ namespace AutoSF.Helper {
             cropped.Save("c:\\temp\\SrcTest.jpeg");
             var OCR = new IronTesseract();
             OCR.Language = OcrLanguage.GermanFast;
+            //OCR.Configuration.BlackListCharacters = "013456789";
             string OCRText = OCR.Read(cropped).Text;
             Console.WriteLine(OCRText);
 

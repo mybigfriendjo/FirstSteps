@@ -66,8 +66,10 @@ namespace AutoSF {
 
 
         private void btnCodeTest_Click(object sender, RoutedEventArgs e) {
-            OCR.OCRcheck(15,105,475,55);
-            var x = 0;
+            OCR.OCRcheck(15,105,475,65);
+            OCR.OCRcheck(12, 105, 475, 55);
+            var x = "dummy";
+            x = x + " for empty method";
         }
 
         private void btnAutoPvP_Click(object sender, RoutedEventArgs e) {
@@ -82,7 +84,7 @@ namespace AutoSF {
         }
 
 
-        public async void TaskHandler() {
+        public void TaskHandler() { //public async void TaskHandler() {
             //await Task.Delay(1);
             int round = 1;
             while(round < 200 && StopAutoPvP == false) {
@@ -204,7 +206,7 @@ namespace AutoSF {
         }
        */
 
-        public async void CheckPixel(int position = 0) {
+        public void CheckPixel(int position = 0) {
             //await Task.Delay(2);
             int Score = 0;
 
@@ -216,24 +218,14 @@ namespace AutoSF {
             //13 room2 finished -> reset position to 10 - repeat from start
 
                     
-    
-
             if(PositionCount == 10) { //scans for: Challange-Screen  and PvP-Screen / Enemy Selection - Lupe/KapfprotocollIcon/Aktualisieren
                 TaskHandlerPos10();
-                async void TaskHandlerPos10() {
+                void TaskHandlerPos10() {
                     //await Task.Delay(1);
                     int i = 1;
                     BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker4); //Stops F Key detection
                     Console.WriteLine("F detection stoped");
                     while(PositionCount == 10 && StopAutoPvP == false) {
-                        //scans for: PvPStartScreen - grabs pixels in "Bestenliste/Ranking"- Icon and mouseover (Big Icon) - has to be allways executed
-                        //if(PixelFinder.SearchStaticPixel(1773, 418, "#73BBC6")) { Score++; }
-                        //if(PixelFinder.SearchStaticPixel(1798, 402, "#91EAF7")) { Score++; }
-                        //if(PixelFinder.SearchStaticPixel(1826, 422, "#3F8C97")) { Score++; }
-                        //if(PixelFinder.SearchStaticPixel(1772, 419, "#9ACED6")) { Score++; }
-                        //if(PixelFinder.SearchStaticPixel(1802, 409, "#AFF0F9")) { Score++; }
-                        //if(PixelFinder.SearchStaticPixel(1831, 425, "#74ACB4")) { Score++; }
-
                         //Scans button/color in "Rang belohnung(green)/
                         if(i > 400) {
                             Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
@@ -286,17 +278,6 @@ namespace AutoSF {
                                 Console.WriteLine("Entering Room1");
                                 PositionCount = 11;
 
-
-                               
-
-
-                                //MouseActions.SetCursorPos(-260, 1009);
-
-                                //todo setcursorposition relative to target window(multiple monitors)
-                                //MouseActions.SetCursorPos(1452, 1020);
-                                //var MsgBoxResult = MessageBox.Show("Is Curser Position Ok to Click?", "MouseClickPositionCheck - Start PvP", MessageBoxButton.YesNo);
-                                //if(Convert.ToString(MsgBoxResult) == "Yes") {
-                                //MouseActions.DoubleClickAtPosition(-466, 1014); --hits Blue OR Yellow Button--
                                 MouseActions.DoubleClickAtPosition(-180, 1014); //only BlueButton
                                 Stopwatch s = new Stopwatch();
                                 Sleep(1000);
@@ -355,7 +336,7 @@ namespace AutoSF {
 
             if(PositionCount == 11 && StopAutoPvP == false) { //scans for: Room1-Intro
                 TaskHandlerPos11();
-                async void TaskHandlerPos11() {
+                void TaskHandlerPos11() {
                     //await Task.Delay(1);
                     int i = 1;
                     StuckIntro = 0;
@@ -398,7 +379,7 @@ namespace AutoSF {
 
             if(PositionCount == 12 && StopAutoPvP == false) { //scans for: Entrance Room2
                 TaskHandlerPos12();
-                async void TaskHandlerPos12() {
+                void TaskHandlerPos12() {
                     //await Task.Delay(1);
                     int i = 1;
                     Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt"));
@@ -472,7 +453,7 @@ namespace AutoSF {
 
             if(PositionCount == 13 && StopAutoPvP == false) { //scans for: Entrance Room2
                 TaskHandlerPos13();
-                async void TaskHandlerPos13() {
+                void TaskHandlerPos13() {
                     //await Task.Delay(1);
                     int i = 1;
 
@@ -489,17 +470,10 @@ namespace AutoSF {
                             PositionCount = 10;
                             StopAutoPvP = true;
                         }
-
-                        Console.WriteLine("Starting MouseClick - " + DateTime.Now.ToString("h:mm:ss tt"));
-
                         KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
-                        //MoveMouseToSecurePosition - AvoidClickingPopups
-                        //MouseActions.SetCursorPos(-960, 326);
-                        //MouseActions.ClickSpam(AmountOfClicks, DurationBetwClicks);
 
-                        Console.WriteLine("End MouseClick - " + DateTime.Now.ToString("h:mm:ss tt"));
-
-                        Console.WriteLine("Pos13: " + i);
+                        Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt") + " Pos13: " + i);
+                        logger.Debug("Pos13: " + i);
                         i++;
                         Score = 0;
                         if(i > 400) {
@@ -539,7 +513,7 @@ namespace AutoSF {
 
             if(PositionCount == 14 && StopAutoPvP == false) { //scans for: Match Won
                 TaskHandlerPos14();
-                async void TaskHandlerPos14() {
+                void TaskHandlerPos14() {
                     //await Task.Delay(1);
                     int i = 1;
                     int count = 1;
@@ -613,16 +587,12 @@ namespace AutoSF {
                             PositionCount = 10;
                             MouseActions.DoubleClickAtPosition(-1681, 1024); //"Zurück" Button
                         }
-
                         //MouseActions.ClickSpam(100, 4);
-                        
                     }
                 }
                 CloseBackgroundWorkers();
                 Console.WriteLine("Mouseclick Stopped");
             }
         }
-
-
     }
 }
