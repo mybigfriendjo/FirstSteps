@@ -34,8 +34,8 @@ namespace AutoSF.Helper {
 
             //while(MainWindow.LeftMouseDown == true) {
             //mousestrave
-            int x = 100; //x-coordinate
-            int y = 500;
+            //int x = 100; //x-coordinate
+            //int y = 500;
             int i = 0;
             while(1<2 && MainWindow.StopAutoPvP == false) {
                 if(backgroundWorker1.CancellationPending == true) {
