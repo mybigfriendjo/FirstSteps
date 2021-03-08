@@ -10,8 +10,7 @@ using MessageBox = System.Windows.MessageBox;
 using System.Runtime.InteropServices;
 using NLog;
 using System.Diagnostics;
-using System.Data;
-using System.IO;
+using System.Linq;
 
 namespace AutoSF {
     /// <summary>
@@ -51,9 +50,10 @@ namespace AutoSF {
 
         public double PositionCount = 10;
         public static bool LeftMouseDown = false;
-        int AmountOfClicks = 450;
-        int DurationBetwClicks = 6;
+        //int AmountOfClicks = 450;
+        //int DurationBetwClicks = 6;
         public static bool StopAutoPvP = false;
+        public static bool StopAutoMission = false;
         //public IntPtr SFWindowHandle = WinSystem.WindowActivate();
         int WinCount = 0;
         int LoseCount = 0;
@@ -67,331 +67,187 @@ namespace AutoSF {
 
         private void btnAutoMission_Click(object sender, RoutedEventArgs e) {
             /* 
-             *   prüfen(OCR) ob Story vorhanden (=letzte Region)
-             * click R19 -> click Gebiet bearbeiten -> click Verfügbar -> OCRCheck R19 && Verfügbar >= 1
-             * 
-             * 
+             * FilterSelection -> use pixelfinder to fasten up  
+             * Add alternative if no soldier is found 
              * 
              */
+            //Start Game if not running -> setActive
+                WinSystem.WindowActivate();
+            //getCurrentPosition
+            bool PositionFound = false;
+            bool ReachedTarget = false;
+            //if(checkIfStartScreen() == false && StopAutoMission == false) {
+            //    if(checkIfNavigationScreen() == false && StopAutoMission == false) {
+            //        if(checkIfMissionScreen() == false && StopAutoMission == false) {
+            //            Console.WriteLine("Position Unknown");
+            //        }
+            //        else {
+            //            Console.WriteLine("Position Found at MissionScreen.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
+            //            AutoMission.StartAutoMission();
+            //        }
+            //    }
+            //    else {
+            //        Console.WriteLine("Position Found at StartScreen.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
+            //        AutoMission.StartAutoMission();
+            //    }
+            //}
+            //else {
+            //    Console.WriteLine("Position Found at StartScreen.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
+                AutoMission.StartAutoMission();
+            //}
 
-            
 
 
-            
-            string OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70); //bsp.: Hinweis
-            string OcrMissionname2 = OCR.OCRcheck(12, 105, 475, 55);
+            bool checkIfStartScreen() {
+                int HiddenScore = 0;
+                int Score = 0;
+                if(OCR.OCRcheck(1508, 972, 179, 50) == "START") {
+                    //Ensure its StartScreen 
+                    if(PixelFinder.SearchStaticPixel(85, 983, "#6EF2F9")) { Score++; } //PowerOff button
+                    if(PixelFinder.SearchStaticPixel(1851, 1007, "#FFFFFF")) { Score++; }
+                    //Check for points that should be hidden if overlay
+                    if(PixelFinder.SearchStaticPixel(1144, 545, "#7B6E76")) { HiddenScore++; }
+                    if(PixelFinder.SearchStaticPixel(1422, 957, "#64ABD6")) { HiddenScore++; }
+                    if(Score >= 1) {
+                        if(HiddenScore >= 1) {
+                            Console.WriteLine("StartScreen Confirmed. Navigate to NavigationScreen");
+                            MouseActions.SingleClickAtPosition(-220, 1005); //Click Start button 
+                            Sleep(1000);
+                            checkIfNavigationScreen();
+                            PositionFound = true;
+                            return true;
+                        }
+                        else {
+                            PixelFinder.BackupImage.Save("C:\\temp\\" + DateTime.Now.ToString("dd/MM/yyyy_HH-mm-ss") + "_StartscreenPopup.jepg");
+                            if(OCR.OCRcheck(1555, 113, 48, 48) == "%") { //the fat "X" gets recognized as %
+                                Console.WriteLine("Popup found - close with click on X");
+                                MouseActions.DoubleClickAtPosition(-339, 135);
+                            }
+                            //Repeat Check for points that should be hidden if overlay
+                            if(PixelFinder.SearchStaticPixel(1144, 545, "#7B6E76")) { HiddenScore++; }
+                            if(PixelFinder.SearchStaticPixel(1422, 957, "#64ABD6")) { HiddenScore++; }
+                            if(HiddenScore >= 1) {
+                                Console.WriteLine("StartScreen Confirmed. Navigate to NavigationScreen");
+                                MouseActions.DoubleClickAtPosition(-220, 1005); //Click Start button
+                                Sleep(1000);
+                                checkIfNavigationScreen();
+                                PositionFound = true;
+                                return true;
+                            }
+                        }
+                    }    
+                }
+                return PositionFound;
+            }
 
+            bool checkIfNavigationScreen() {
+                int Score = 0;
+                if(PixelFinder.SearchStaticPixel(62, 1025, "#1C3E40")) { Score++; } //(darkend)PowerOff button
+                if(PixelFinder.SearchStaticPixel(1245, 353, "#CA0203")) { Score++; } //Klan
+                if(PixelFinder.SearchStaticPixel(1297, 778, "#454A76")) { Score++; } //Basis
+                if(PixelFinder.SearchStaticPixel(803, 734, "#804F73")) { Score++; } //Arena
+                if(Score >= 3) {
+                    Console.WriteLine("NavigationScreen Confirmed. Navigate to Missions");
+                    MouseActions.DoubleClickAtPosition(-309, 361); //Click Missionen button 
+                    Sleep(1000);
+                    checkIfMissionScreen();
+                    PositionFound = true;
+                }
+                return PositionFound;
+            }
 
-            bool Missionfound = false;
-            string Missiontype = "";
-            DataRow[] result = DB.dt.Select("Missionname = '" + OcrMissionname1 + "'");
-            if(result == null || result.Length == 0) {
-                result = DB.dt.Select("Missionname = '" + OcrMissionname2 + "'");
-                if(result == null || result.Length == 0) { //Mission not found in DB - storing MissionScreenshot named OcrMissionname1_OcrMissionname2
-                    Console.WriteLine("MissionNotInDB_" + OcrMissionname1 + "_" + OcrMissionname2 + DateTime.Now.ToString("dd/MM/yyyy HH-mm-ss") + ".jpeg");
-                    logger.Debug("MissionNotInDB_" + OcrMissionname1 + "_" + OcrMissionname2 + DateTime.Now.ToString("dd/MM/yyyy HH-mm-ss") + ".jpeg");
-                    using(StreamWriter sw = new StreamWriter(@"MissionLog.txt", true)) {
-                        sw.WriteLine("MissionNotInDB_" + OcrMissionname1 + "_" + OcrMissionname2 + DateTime.Now.ToString("dd/MM/yyyy HH-mm-ss") + ".jpeg");
+            bool checkIfMissionScreen() {
+                int Score = 0;
+                int RightArrow = 2;
+                int LeftArrow = 2;
+
+                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                    logger.Debug("AutoMission interrupted by user at checkIfMissionScreen");
+                    StopAutoMission = true;
+                    return PositionFound;
+                }
+
+                if(PixelFinder.SearchStaticPixel(1308, 188, "#C6F7BD")) { Score++; } //Money upperRightCorner 
+                if(PixelFinder.SearchStaticPixel(1345, 149, "#6EC1F4")) { Score++; } //Questionmark in Money upperRightCorner
+                if(PixelFinder.SearchStaticPixel(82, 538, "#91EBF7")) { Score++; } //Leftarrow - RegionSelection
+                else { LeftArrow = 0; }
+                if(PixelFinder.SearchStaticPixel(1326, 539, "#91EBF7")) { Score++; } //Rightarrow - RegionSelection
+                else { RightArrow = 0; }
+
+                LoopGarbageCollector.ClearGarbageCollector();
+                if(Score >= 2) {
+                    PositionFound = true;
+                    if(LeftArrow == 0) {
+                        Console.WriteLine("MissionScreen R1 found. Navigating to R19!");
+                        if(ReachedTarget == false) {
+                            NavigateToR19();
+                        }
                     }
-
-                    string saveOcrMissionname1 = checkString(OcrMissionname1);
-                    string saveOcrMissionname2 = checkString(OcrMissionname2);
-                    if(OcrMissionname1 != saveOcrMissionname1 && OcrMissionname2 != saveOcrMissionname2) {
-                        OCR.FullsizeImage.Save("MissionNotInDB_" + "BothEDITED" + saveOcrMissionname1 + "_" + saveOcrMissionname2 + DateTime.Now.ToString("dd/MM/yyyy HH-mm-ss") + ".jpeg");
-                    }
-                    else if(OcrMissionname1 != saveOcrMissionname1) {
-                        OCR.FullsizeImage.Save("MissionNotInDB_" + saveOcrMissionname1 + "1stEDITED" + "_" + saveOcrMissionname2 + DateTime.Now.ToString("dd/MM/yyyy HH-mm-ss") + ".jpeg");
-                    }
-                    else if(OcrMissionname2 != saveOcrMissionname2) {
-                        OCR.FullsizeImage.Save("MissionNotInDB_" + saveOcrMissionname1 + "_" + saveOcrMissionname2 + "2ndEDITED" + DateTime.Now.ToString("dd/MM/yyyy HH-mm-ss") + ".jpeg");
+                    else if(RightArrow == 0) {
+                        Console.WriteLine("MissionScreen R32 found. Navigating to R19!");
+                        if(ReachedTarget == false) {
+                            NavigateToR19();
+                        }
                     }
                     else {
-                        OCR.FullsizeImage.Save("MissionNotInDB_" + saveOcrMissionname1 + "_" + saveOcrMissionname2 + DateTime.Now.ToString("dd/MM/yyyy HH-mm-ss") + ".jpeg");
-                    }
-                }
-                else { Missionfound = true; }
-            }
-            else { Missionfound = true; }
-
-            if(Missionfound) {
-                if((result[0].Field<Int64>("Speed")) == 1) {
-                    if((result[0].Field<Int64>("MitBonus")) == 1) { //wie speed jedoch mit 2 drohnen
-                        Console.WriteLine("Speed=1, MitBonus=1");
-                        Missiontype = "SpeedMitBonus";
-                    }
-                    else {//1xx% mit Speedbooster (1min) min 1 drohne
-                        Console.WriteLine("Speed=1");
-                        Missiontype = "Speed";
-                    }
-                }
-                else if((result[0].Field<Int64>("Doppelt")) == 1) { 
-                    if((result[0].Field<Int64>("MitBonus")) == 1) {
-                        if((result[0].Field<Int64>("OnlySniper")) == 1) { //130-180% mit verdoppler (keine 10/11* Sturm/Rpg/molo/elite)
-                            Console.WriteLine("Doppelt=1, MitBonus=1, OnlySniper");
-                            Missiontype = "DoppeltMitBonusOnlySniper";
+                        Console.WriteLine("MissionScreen found. Checking if R19! else navigating to R19!");
+                        if("R19" == OCR.OCRcheck(544, 909, 88, 40)) { //checks for Region19 "R19" (Bottom)
+                            MouseActions.DoubleClickAtPosition(-1228, 543); //R19 Spezialmissionen
+                            Sleep(2000);
                         }
-                        else { //195% mit verdoppler
-                            Console.WriteLine("Doppelt=1, MitBonus=1");
-                            Missiontype = "DoppeltMitBonus";
-
-
+                        else {
+                            if(ReachedTarget == false) {
+                                NavigateToR19();
+                            }
                         }
                     }
-                    else { //100% mit verdoppler
-                        Console.WriteLine("Doppelt=1");
-                        Missiontype = "Doppelt";
-                    }
-                }
-                else if((result[0].Field<Int64>("MitBonus")) == 1) { //195% mit chanceBooster
-                    if((result[0].Field<Int64>("OnlySniper")) == 1) { //130-180% mit chanceBooster (keine 10/11* Sturm/Rpg/molo/elite)
-                        Console.WriteLine("MitBonus=1, OnlySniper");
-                        Missiontype = "MitBonusOnlySniper";
-                    }
-                    else { //195% mit chanceBooster
-                        Console.WriteLine("MitBonus=1");
-                        Missiontype = "MitBonus";
-                    }
-                }
-                else { //standardMission - 100%
-                    Console.WriteLine("Standard 100%");
-                    Missiontype = "Standard";
-                }
-            }
-            void clickFilter() {
 
-                foreach(DataRow row in result) {
-                    Console.WriteLine("{0}, {1}", row[0], row[1]);
-                }
-
-
-                int[] Sniper = { 365, 230 };
-                int[] Sturm = {681, 230};
-                int[] RPG = {828, 230};
-                int[] Molotow = {969, 230};
-                int[] Elite = {1125, 230};
-                int[] Beschuetzer = {1271, 230};
-                int[] Attentaeter = {1428, 230};
-                int[] Suppressor = {1562, 230};
-                int[] RSKommunkikation = {1300, 600};
-                int[] RSRadar = {1400, 600};
-                int[] RSBoot = {1500, 600};
-                int[] RSJetpack = {1600, 600};
-                int[] RSTarnung = {1700, 600};
-                int[] RSVerkleidung = {1800, 600};
-                int[] RSHelikopter = {1300, 700};
-                int[] RSGeiseln = {1400, 700};
-                int[] RSTaktiken = {1500, 700};
-                int[] RSVIP = {1600, 700};
-                int[] RSSprengstoffe = {1700, 700};
-                int[] RSAufklaerung = {1800, 700};
-                int[] RSBiologischeGefahr = {1300, 800};
-                int[] RSFahrzeug = {1400, 800};
-                int[] RSToedlich = {1500, 800};
-                int[] RSBegrenzteMunition = {1600, 800};
-                int[] OnlySniper = {}; //Unknown................
-
-                int[] verfügbar = {788, 207};
-                int[] nichtverfügbar = {1022, 205};
-                int[] Stern1 = {735, 400};
-                int[] Stern2 = {835, 400};
-                int[] Stern3 = {935, 400};
-                int[] Stern4 = {1035, 400};
-                int[] Stern5 = {1135, 400};
-                int[] Stern6 = {735, 500};
-                int[] Stern7 = {835, 500};
-                int[] Stern8 = {935, 500};
-                int[] Stern9 = {1035, 500};
-                int[] Stern10 = {1135, 500};
-                int[] Stern11 = {735, 600};
-                int[] Stern12 = {835, 600};
-                int[] RandomSoldier1 = {113, 922};
-                int[] RandomSoldier2 = {213, 922};
-                int[] RandomSoldier3 = {313, 922};
-                int[] RandomSoldier4 = {413, 922};
-
-
-                if((result[0].Field<Int64>("Sniper")) == 1) {
-                    //----Sniper is preselected-----
-                    //MouseActions.DoubleClickAtPosition(Sniper[0], Sniper[1]);
-                    //Sleep(50);
-                    FilterSelection();
-
-                }
-                if((result[0].Field<Int64>("Sturm")) == 1) {
-                    MouseActions.DoubleClickAtPosition(Sturm[0], Sturm[1]);
-                }
-                if((result[0].Field<Int64>("RPG")) == 1) {
-                    MouseActions.DoubleClickAtPosition(RPG[0], RPG[1]);
-                }
-                if((result[0].Field<Int64>("Molotow")) == 1) {
-                    MouseActions.DoubleClickAtPosition(Molotow[0], Molotow[1]);
-                }
-                if((result[0].Field<Int64>("Elite")) == 1) {
-                    MouseActions.DoubleClickAtPosition(Elite[0], Elite[1]);
-                }
-                if((result[0].Field<Int64>("Beschuetzer")) == 1) {
-                    MouseActions.DoubleClickAtPosition(Beschuetzer[0], Beschuetzer[1]);
-                }
-                if((result[0].Field<Int64>("Attentaeter")) == 1) {
-                    MouseActions.DoubleClickAtPosition(Attentaeter[0], Attentaeter[1]);
-                }
-                if((result[0].Field<Int64>("Suppressor")) == 1) {
-                    MouseActions.DoubleClickAtPosition(Suppressor[0], Suppressor[1]);
-                }
-
-                void FilterSelection() { 
-                    MouseActions.DoubleClickAtPosition(1803, 923); //Opens FilterView
-                    Sleep(100);
-                    MouseActions.DoubleClickAtPosition(verfügbar[0], verfügbar[1]);
-                    Sleep(100);
-                    if(Missiontype == "SpeedMitBonus") {
-
-                    }
-                    else if(Missiontype == "Speed") {
-
-                    }
-                    else if(Missiontype == "DoppeltMitBonusOnlySniper") {
-
-                    }
-                    else if(Missiontype == "DoppeltMitBonus") {
-
-                    }
-                    else if(Missiontype == "Doppelt") {
-
-                    }
-                    else if(Missiontype == "MitBonusOnlySniper") {
-
-                    }
-                    else if(Missiontype == "MitBonus") {
-
-                    }
-                    else if(Missiontype == "Standard") {
-                        if((result[0].Field<Int64>("Difficulty")) == 5) {
-                            MouseActions.DoubleClickAtPosition(Stern6[0], Stern6[1]);
-                            Sleep(100);
+                    void NavigateToR19() {
+                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                            logger.Debug("AutoMission interrupted by user at checkIfMissionScreen");
+                            StopAutoMission = true;
+                            return;
                         }
-                        else if((result[0].Field<Int64>("Difficulty")) == 4) {
-                            MouseActions.DoubleClickAtPosition(Stern5[0], Stern5[1]);
-                            Sleep(100);
-                        }
+                        if(PixelFinder.SearchStaticPixel(667, 1046, "#FFFFFF")) { //FirstArea of missions (BottomMid LeftWhiteDot)
+                            MouseActions.DoubleClickAtPosition(-607, 1005); //LastRegion at RegionArea1
+                            Sleep(1000);
+                            MouseActions.DoubleClickAtPosition(-587, 540); //RightArrow into RegionArea2
+                            Sleep(1000);
+                            MouseActions.DoubleClickAtPosition(-1672, 1004); //R19 regionbar
 
-                        if((result[0].Field<Int64>("RSKommunkikation")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSKommunkikation[0], RSKommunkikation[1]);
-                            Sleep(100);
                         }
-                        if((result[0].Field<Int64>("RSRadar")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSRadar[0], RSRadar[1]);
-                            Sleep(100);
+                        else if(PixelFinder.SearchStaticPixel(744, 1046, "#FFFFFF")) { //SecondArea of missions (BottomMid RightWhiteDot)
+                            MouseActions.DoubleClickAtPosition(-1672, 1004); //R19 regionbar
                         }
-                        if((result[0].Field<Int64>("RSBoot")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSBoot[0], RSBoot[1]);
-                            Sleep(100);
+                        Sleep(1500);
+                        MouseActions.DoubleClickAtPosition(-1228, 543); //R19 Spezialmissionen
+                        Sleep(1500);
+                        if("R19" == OCR.OCRcheck(796, 145, 92, 47)) { //checks for Region19 "R19" (TopBar)
+                            Console.WriteLine("Moved to R19 SpezialMissions successfully");
+                            ReachedTarget = true;
                         }
-                        if((result[0].Field<Int64>("RSJetpack")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSJetpack[0], RSJetpack[1]);
-                            Sleep(100);
-                        }
-                        if((result[0].Field<Int64>("RSTarnung")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSTarnung[0], RSTarnung[1]);
-                            Sleep(100);
-                        }
-                        if((result[0].Field<Int64>("RSVerkleidung")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSVerkleidung[0], RSVerkleidung[1]);
-                            Sleep(100);
-                        }
-                        if((result[0].Field<Int64>("RSHelikopter")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSHelikopter[0], RSHelikopter[1]);
-                            Sleep(100);
-                        }
-                        if((result[0].Field<Int64>("RSGeiseln")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSGeiseln[0], RSGeiseln[1]);
-                            Sleep(100);
-                        }
-                        if((result[0].Field<Int64>("RSTaktiken")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSTaktiken[0], RSTaktiken[1]);
-                            Sleep(100);
-                        }
-                        if((result[0].Field<Int64>("RSVIP")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSVIP[0], RSVIP[1]);
-                            Sleep(100);
-                        }
-                        if((result[0].Field<Int64>("RSSprengstoffe")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSSprengstoffe[0], RSSprengstoffe[1]);
-                            Sleep(100);
-                        }
-                        if((result[0].Field<Int64>("RSAufklaerung")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSAufklaerung[0], RSAufklaerung[1]);
-                            Sleep(100);
-                        }
-                        if((result[0].Field<Int64>("RSBiologischeGefahr")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSBiologischeGefahr[0], RSBiologischeGefahr[1]);
-                            Sleep(100);
-                        }
-                        if((result[0].Field<Int64>("RSFahrzeug")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSFahrzeug[0], RSFahrzeug[1]);
-                            Sleep(100);
-                        }
-                        if((result[0].Field<Int64>("RSToedlich")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSToedlich[0], RSToedlich[1]);
-                            Sleep(100);
-                        }
-                        if((result[0].Field<Int64>("RSBegrenzteMunition")) == 4) {
-                            MouseActions.DoubleClickAtPosition(RSBegrenzteMunition[0], RSBegrenzteMunition[1]);
-                            Sleep(100);
-                        }
-                    }
-                }
-
-                if((result[0].Field<Int64>("Elite")) == 1) {
-                    MouseActions.DoubleClickAtPosition(Elite[0], Elite[1]);
-                }
-
-            }
-
-            string checkString(string text) {
-                return System.Text.RegularExpressions.Regex.Replace(text, @"[^0-9a-zA-Z _-]", string.Empty);
-            }
-
-            string checkDuration() {
-                string OcrDuration = OCR.OCRcheck(586, 993, 140, 42); //bsp.:  00:01:00 ,  02:00:00
-                return OcrDuration;
-            }
-            string checkSuccessRate() {
-                string OcrSuccessRate = OCR.OCRcheck(1056, 963, 100, 35); //bsp.:  100% , 130%
-                return OcrSuccessRate;
-            }
-
-            void checkGold() {
-                string OcrCurrentGold = OCR.OCRcheck(1230, 34, 113, 32); //bsp.: 10000k
-                string OcrMissionCost = OCR.OCRcheck(1647, 977, 123, 46); //bsp.: 2500k
-
-                if(OcrCurrentGold.Contains("k")) {
-                    OcrCurrentGold = OcrCurrentGold.Substring(0, (OcrCurrentGold.Length - 1));
-                    if(Convert.ToInt32(OcrCurrentGold) >= Convert.ToInt32(OcrMissionCost.Substring(0, (OcrMissionCost.Length - 1)))) {
-                        //Continue
-                    }
-                    else {
-                        //getMoreGold
                     }
                 }
                 else {
-                    //getMoreGold
+                    PositionFound = false;
                 }
+                return PositionFound;
             }
-        }
-
-        private void btnCodeTest_Click(object sender, RoutedEventArgs e) {
-            OCR.OCRcheck(15,100,475,70);
-            OCR.OCRcheck(12, 105, 475, 55);
-            string OcrDuration = OCR.OCRcheck(586, 993, 140, 42); //bsp.:  00:01:00 ,  02:00:00
-            string OcrSuccessRate = OCR.OCRcheck(1056, 963, 100, 35); //bsp.:  100% , 130%
-
-            //string OcrR19 = OCR.OCRcheck(15, 100, 475, 70);
 
             
+        }
+        
 
-            var x = "dummy";
-            x = x + " for empty method";
+        private void btnCodeTest_Click(object sender, RoutedEventArgs e) {
+            //OCR.OCRcheck(15,100,475,70);
+
+            Rect rectPixlSearchArea = new Rect();
+
+            string ImageInput = (@"C:\temp\double.jpg");
+            if(ImgSearch.UseImageSearch(ImageInput, "100") != null) {
+                string[] ImgSearchResult = ImgSearch.UseImageSearch(ImageInput, "100");
+                Console.WriteLine("click: " + ImgSearchResult[1] + ", 690");
+            }
         }
 
         private void btnAutoPvP_Click(object sender, RoutedEventArgs e) {
@@ -417,7 +273,7 @@ namespace AutoSF {
                 }
                 Console.WriteLine(round);
                 round++;
-                logger.Debug("Positioncount: " + PositionCount + " round = " +  "Starting Checkpixel"); 
+                logger.Debug("Positioncount: " + PositionCount + " round = " + round +  "Starting Checkpixel"); 
                 CheckPixel();
             }
             //Will Kill SF after 200 Games, Stop Backgroundworkers
@@ -475,6 +331,8 @@ namespace AutoSF {
             }
             st.Stop();
         }
+
+
 
         private void CloseBackgroundWorkers() {
             BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1);
@@ -540,7 +398,7 @@ namespace AutoSF {
             //13 room2 finished -> reset position to 10 - repeat from start
 
                     
-            if(PositionCount == 10) { //scans for: Challange-Screen  and PvP-Screen / Enemy Selection - Lupe/KapfprotocollIcon/Aktualisieren
+            if(PositionCount == 10 && StopAutoPvP == false) { //scans for: Challange-Screen  and PvP-Screen / Enemy Selection - Lupe/KapfprotocollIcon/Aktualisieren
                 TaskHandlerPos10();
                 void TaskHandlerPos10() {
                     //await Task.Delay(1);
@@ -591,7 +449,7 @@ namespace AutoSF {
                         if(PixelFinder.SearchStaticPixel(102, 1032, "#FFFFFF")) { Score++; }
                         if(PixelFinder.SearchStaticPixel(907, 1052, "#0BAE28")) { Score++; }
                         LoopGarbageCollector.ClearGarbageCollector();
-                        if(Score >= 2) {
+                        if(Score >= 2 && StopAutoPvP == false) {
                             if(PixelFinder.SearchStaticPixel(1461, 1020, "#646464") == true && PixelFinder.SearchStaticPixel(1710, 1007, "#B1B1B1") == true) { //AttackButton is Gray
                                 MouseActions.DoubleClickAtPosition(-1049, 1050);
                             }
@@ -605,7 +463,7 @@ namespace AutoSF {
                                 Sleep(1000);
                                 if(PixelFinder.SearchStaticPixel(1430, 997, "#C4B827") == true || PixelFinder.SearchStaticPixel(1430, 997, "#BAAB01")) { //Yellow "Weiter" button (Storage Full)
                                     Console.WriteLine("YellowButton Recogniced");
-                                    if(PixelFinder.SearchStaticPixel(1027, 724, "#FFFFFF")) {  //Kisten können verschmolzen werden 4/4
+                                    if(PixelFinder.SearchStaticPixel(1027, 724, "#FFFFFF") && StopAutoPvP == false) {  //Kisten können verschmolzen werden 4/4
                                         MouseActions.DoubleClickAtPosition(-776, 755); //clicks melt button
                                         logger.Debug("4 Chests rdy - clicking melt button");
                                         Sleep(4000);
@@ -704,7 +562,7 @@ namespace AutoSF {
                 void TaskHandlerPos12() {
                     //await Task.Delay(1);
                     int i = 1;
-                    Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt"));
+                    Console.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH-mm-ss"));
                     // ---Special Sleep---
                     if(DontUseMouse == 0) {
                         Stopwatch s = new Stopwatch();
