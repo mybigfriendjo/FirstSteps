@@ -28,6 +28,16 @@ namespace AutoSF.Helper {
             Click();
         }
 
+        public static void SingleClickAtPosition(int posX, int posY) {
+            if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                posX += 1920; //Correts MousePosion for VM/SingleMonitor)
+            }
+
+            SetCursorPos(posX, posY);
+
+            Click();
+        }
+
         public static void Click() {
             mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
             mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
