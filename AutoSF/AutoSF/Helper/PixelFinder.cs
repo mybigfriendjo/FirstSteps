@@ -8,13 +8,13 @@ namespace AutoSF.Helper {
     public static class PixelFinder {
 
         public static Logger logger = LogManager.GetCurrentClassLogger();
-        public static Image OCRImage;
+        public static Image BackupImage;
 
         public static bool SearchStaticPixel(int x, int y, string PixColorHex) {
             Bitmap bitmap = new Bitmap(SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height); // Create an empty bitmap with the size of all connected screen
             Graphics graphics = Graphics.FromImage(bitmap as Image); // Create a new graphics objects that can capture the scree
             graphics.CopyFromScreen(SystemInformation.VirtualScreen.Left, SystemInformation.VirtualScreen.Top, 0, 0, bitmap.Size); // Screenshot moment → screen content to graphics object
-            //OCRImage = bitmap;
+            BackupImage = bitmap;
             Color desiredPixelColor = ColorTranslator.FromHtml(PixColorHex);
             //save Bitmap to see Picture/Content    
                 //Bitmap Bitmapcopy = new Bitmap(bitmap);
