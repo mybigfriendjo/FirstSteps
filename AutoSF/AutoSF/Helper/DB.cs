@@ -10,11 +10,18 @@ namespace AutoSF.Helper {
     public static class DB {
 
         private static SQLiteConnection DBConnection;
-        static SQLiteCommand cmd = new SQLiteCommand();
+        readonly static SQLiteCommand cmd = new SQLiteCommand();
         public static DataTable dt = new DataTable();
 
         public static void InitializeDB() {
-            DBConnection = new SQLiteConnection("Data Source=C:\\Users\\gr4nd\\Documents\\GitHub\\FirstSteps\\AutoSF\\AutoSF\\AutoSF.db; Mode=ReadOnly;FailIfMissing=True;Version=3;");  //Version = Sqliteverion
+
+            
+            if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                DBConnection = new SQLiteConnection("Data Source=C:\\Spiele\\AutoSFDebug\\AutoSF.db; Mode=ReadOnly;FailIfMissing=True;Version=3;");  //Version = Sqliteverion 
+            }
+            else {
+                DBConnection = new SQLiteConnection("Data Source=C:\\Users\\gr4nd\\Documents\\GitHub\\FirstSteps\\AutoSF\\AutoSF\\AutoSF.db; Mode=ReadOnly;FailIfMissing=True;Version=3;");  //Version = Sqliteverion
+            }
             DBConnection.Open();
 
             cmd.Connection = DBConnection;
