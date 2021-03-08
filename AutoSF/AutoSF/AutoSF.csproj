@@ -56,11 +56,11 @@
     <ApplicationIcon>ot_2020-12-18_161602_SniperFury64x64.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IronOcr, Version=2020.12.2.0, Culture=neutral, PublicKeyToken=c2cbcea5ea3f6d8d, processorArchitecture=MSIL">
-      <HintPath>..\packages\IronOcr.2020.12.2\lib\net40\IronOcr.dll</HintPath>
+    <Reference Include="IronOcr, Version=2021.2.1.0, Culture=neutral, PublicKeyToken=c2cbcea5ea3f6d8d, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronOcr.2021.2.1\lib\net40\IronOcr.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.7.6\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.7.8\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
       <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
@@ -103,8 +103,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AutoMission.cs" />
     <Compile Include="Helper\BackgroundworkerConfig.cs" />
     <Compile Include="Helper\DB.cs" />
+    <Compile Include="Helper\ImgSearch.cs" />
     <Compile Include="Helper\KeyboardInput.cs" />
     <Compile Include="Helper\LoggingConfig.cs" />
     <Compile Include="Helper\LoopGarbageCollector.cs" />
@@ -158,6 +160,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ot_2020-12-18_161602_SniperFury64x64.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\double.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Speed30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\double.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\IronOcr.Languages.German.2020.11.2\build\IronOcr.Languages.German.targets" Condition="Exists('..\packages\IronOcr.Languages.German.2020.11.2\build\IronOcr.Languages.German.targets')" />
