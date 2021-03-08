@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -64,9 +65,15 @@ namespace AutoSF.Helper {
                 return process.MainWindowHandle;
             }
             if(!ProcessFound) {
-                Process.Start("c:\\spiele\\steam\\steamapps\\common\\Sniper Fury\\mcfw.exe");
-                MainWindow.Sleep(120000); //Sleep 2min
-                //Navigate to "trefferliste" -> pvp
+                Console.WriteLine("Game not Found - starting Game.");
+                //Process.Start("k:\\spiele\\steamapps\\common\\Sniper Fury\\mcfw.exe");
+                Process.Start("C:\\Users\\gr4nd\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\Sniper Fury.url");
+                MainWindow.Sleep(60000); //Sleep 1min
+                if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                    Process.Start("c:\\spiele\\steam\\steamapps\\common\\Sniper Fury\\mcfw.exe");
+                    MainWindow.Sleep(60000); //Sleep 1min
+                    //Navigate to "trefferliste" -> pvp
+                }
             }
 
             return HWND.Zero;
