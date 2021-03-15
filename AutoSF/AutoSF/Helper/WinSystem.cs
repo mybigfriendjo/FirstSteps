@@ -54,7 +54,7 @@ namespace AutoSF.Helper {
         [DllImport("user32.dll")]
         static extern bool SetForegroundWindow(HWND hWnd);
 
-        public static HWND WindowActivate() {
+        public static HWND WindowActivate(bool ActivateGameStart = false) {
             //var process = Process.GetProcessById(4044);
             //  MessageBox.Show(process.ProcessName);
             //process.Kill();
@@ -64,7 +64,7 @@ namespace AutoSF.Helper {
                 SetForegroundWindow(process.MainWindowHandle);
                 return process.MainWindowHandle;
             }
-            if(!ProcessFound) {
+            if(!ProcessFound && ActivateGameStart == true) {
                 Console.WriteLine("Game not Found - starting Game.");
                 //Process.Start("k:\\spiele\\steamapps\\common\\Sniper Fury\\mcfw.exe");
                 Process.Start("C:\\Users\\gr4nd\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\Sniper Fury.url");

@@ -12,12 +12,14 @@ using System.Drawing.Imaging;
 namespace AutoSF.Helper {
     public class OCR {
 
+        private static readonly Logger log = LogManager.GetCurrentClassLogger();
+
         public IronTesseract Ocr = new IronTesseract();
         public static Image FullsizeImage;
         public static Image TransformedCropImage;
 
 
-        public static string OCRcheck(int RectUpperLeftX, int RectUpperLeftY, int RectWith = 140, int RectHigh = 45, string Whitelist = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789! -%/äüöÄÜÖ") {
+        public static string OCRcheck(int RectUpperLeftX, int RectUpperLeftY, int RectWith = 140, int RectHigh = 45, string Whitelist = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ß! -%/äüöÄÜÖ") {
             Bitmap src = new Bitmap(SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height); // Create an empty bitmap with the size of all connected screen
             Graphics graphics = Graphics.FromImage(src as Image); // Create a new graphics objects that can capture the scree
             graphics.CopyFromScreen(SystemInformation.VirtualScreen.Left, SystemInformation.VirtualScreen.Top, 0, 0, src.Size); // Screenshot moment → screen content to graphics object
@@ -26,18 +28,20 @@ namespace AutoSF.Helper {
             Rectangle cropRect = new Rectangle(RectUpperLeftX, RectUpperLeftY, RectWith, RectHigh);
             Bitmap cropped = (Bitmap)src.Clone(cropRect, src.PixelFormat);
 
-            cropped.Save("c:\\temp\\SrcTest.jpeg");
+            cropped.Save("c:\\temp\\SrcTest.png");
             var OCR = new IronTesseract();
             OCR.Language = OcrLanguage.GermanFast;
             //OCR.Configuration.BlackListCharacters = "013456789";
             OCR.Configuration.WhiteListCharacters = Whitelist;
             OCR.Configuration.ReadBarCodes = false;
             //OCR.Configuration.RenderSearchablePdfsAndHocr = false;
+            //log.Debug("cropped image stored Reading OCR text:");
 
             string OCRText = OCR.Read(cropped).Text;
-            if(OCRText == "" || OCRText == null) {
+            //log.Debug("OCR text: " + OCRText);
+            if(OCRText == null || OCRText == "") {
                 TransformedCropImage = Transform(cropped);
-                TransformedCropImage.Save("c:\\temp\\SrcTestTransform.jpeg");
+                TransformedCropImage.Save("c:\\temp\\SrcTestTransform.png");
                 OCR.Configuration.PageSegmentationMode = TesseractPageSegmentationMode.SingleChar;
                 OCRText = OCR.Read(TransformedCropImage).Text;
                 if(OCRText == "" || OCRText == null) {
@@ -49,7 +53,7 @@ namespace AutoSF.Helper {
                         g.DrawImage(cropped, cropped.Width + cropped.Width, 0);
                     }
 
-                    resizedCropped.Save("c:\\temp\\SrcTestresizedCropped.jpeg");
+                    resizedCropped.Save("c:\\temp\\SrcTestresizedCropped.png");
                     OCRText = OCR.Read(resizedCropped).Text;
                     if(OCRText.Length == 6) {
                         OCRText = OCRText.Substring(0,2);
@@ -59,8 +63,8 @@ namespace AutoSF.Helper {
                     }
                 }
             }
-
-            Console.WriteLine(OCRText);
+            log.Debug("OCR text: " + OCRText);
+            LoopGarbageCollector.ClearGarbageCollector();
             return OCRText;
         }
 

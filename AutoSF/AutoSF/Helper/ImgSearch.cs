@@ -10,22 +10,28 @@ namespace AutoSF.Helper {
     public static class ImgSearch {
 
         //[DllImport("ImageSearchDLL.dll")]
-        [DllImport(@"C:\ImageSearchDLL.dll")]
-        static extern IntPtr ImageSearch(int x, int y, int right, int bottom, [MarshalAs(UnmanagedType.LPStr)] string imagePath);
+
         
 
-        public static String[] UseImageSearch(string imgPath, string tolerance) {
+        public static String[] UseImageSearch(string IMGPath, string tolerance) {
+
             int right = Screen.PrimaryScreen.WorkingArea.Right;
             int bottom = Screen.PrimaryScreen.WorkingArea.Bottom;
 
-            imgPath = "*" + tolerance + " " + imgPath;
+            IMGPath = "*" + tolerance + " " + IMGPath;
 
             IntPtr result;
             if(MainWindow.CurrentHostName == "VMgr4ndpa") {
-                result = ImageSearch(0, 270, right, 540, imgPath); //searchArea is in between x 0,and y 270, goes to x 1080,goes to y 540
+                [DllImport(@"C:\ImageSearchDLL.dll")]
+                static extern IntPtr ImageSearch(int x, int y, int right, int bottom, [MarshalAs(UnmanagedType.LPStr)] string imagePath);
+
+                result = ImageSearch(0, 270, right, 540, IMGPath); //searchArea is in between x 0,and y 270, goes to x 1080,goes to y 540
             }
             else {
-                result = ImageSearch(-1920, 270, right, 540, imgPath);
+                [DllImport(@"C:\ImageSearchDLL.dll")]
+                static extern IntPtr ImageSearch(int x, int y, int right, int bottom, [MarshalAs(UnmanagedType.LPStr)] string imagePath);
+
+                result = ImageSearch(-1920, 270, right, 540, IMGPath);
             }
             String res = Marshal.PtrToStringAnsi(result);
 

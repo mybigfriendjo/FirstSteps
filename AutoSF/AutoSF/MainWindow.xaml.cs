@@ -37,6 +37,8 @@ namespace AutoSF {
             BackgroundworkerConfig.InitializeBackgroundworker();
             InitializeComponent();
             DB.InitializeDB();
+            CacheDb.InitializeCacheDb();
+            
 
             [DllImport("user32.dll")]
             static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -45,7 +47,7 @@ namespace AutoSF {
             }
         }
 
-        private Logger logger = LogManager.GetCurrentClassLogger();
+        private Logger log = LogManager.GetCurrentClassLogger();
 
 
         public double PositionCount = 10;
@@ -72,33 +74,39 @@ namespace AutoSF {
              * 
              */
             //Start Game if not running -> setActive
-                WinSystem.WindowActivate();
+                WinSystem.WindowActivate(true);
             //getCurrentPosition
             bool PositionFound = false;
             bool ReachedTarget = false;
-            //if(checkIfStartScreen() == false && StopAutoMission == false) {
-            //    if(checkIfNavigationScreen() == false && StopAutoMission == false) {
-            //        if(checkIfMissionScreen() == false && StopAutoMission == false) {
-            //            Console.WriteLine("Position Unknown");
+            //if(CheckIfStartScreen() == false && StopAutoMission == false) {
+            //    if(CheckIfNavigationScreen() == false && StopAutoMission == false) {
+            //        if(CheckIfMissionScreen() == false && StopAutoMission == false) {
+            //            if(CheckIfAtSpezialMission() == false && StopAutoMission == false) {
+            //                Console.WriteLine("Position Unknown");
+            //            }
+            //            else if(StopAutoMission == false) {
+            //                Console.WriteLine("Position Found at Specialmiss.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
+            //                AutoMission.StartAutoMissionThread();
+            //            }
             //        }
-            //        else {
+            //        else if(StopAutoMission == false) {
             //            Console.WriteLine("Position Found at MissionScreen.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
-            //            AutoMission.StartAutoMission();
+            //            AutoMission.StartAutoMissionThread();
             //        }
             //    }
-            //    else {
-            //        Console.WriteLine("Position Found at StartScreen.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
-            //        AutoMission.StartAutoMission();
+            //    else if(StopAutoMission == false) {
+            //        Console.WriteLine("Position Found at NavigationScreen.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
+            //        AutoMission.StartAutoMissionThread();
             //    }
             //}
-            //else {
+            //else if(StopAutoMission == false) {
             //    Console.WriteLine("Position Found at StartScreen.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
-                AutoMission.StartAutoMission();
+                AutoMission.StartAutoMissionThread();
             //}
 
 
 
-            bool checkIfStartScreen() {
+            bool CheckIfStartScreen() {
                 int HiddenScore = 0;
                 int Score = 0;
                 if(OCR.OCRcheck(1508, 972, 179, 50) == "START") {
@@ -113,7 +121,7 @@ namespace AutoSF {
                             Console.WriteLine("StartScreen Confirmed. Navigate to NavigationScreen");
                             MouseActions.SingleClickAtPosition(-220, 1005); //Click Start button 
                             Sleep(1000);
-                            checkIfNavigationScreen();
+                            CheckIfNavigationScreen();
                             PositionFound = true;
                             return true;
                         }
@@ -130,7 +138,7 @@ namespace AutoSF {
                                 Console.WriteLine("StartScreen Confirmed. Navigate to NavigationScreen");
                                 MouseActions.DoubleClickAtPosition(-220, 1005); //Click Start button
                                 Sleep(1000);
-                                checkIfNavigationScreen();
+                                CheckIfNavigationScreen();
                                 PositionFound = true;
                                 return true;
                             }
@@ -140,29 +148,30 @@ namespace AutoSF {
                 return PositionFound;
             }
 
-            bool checkIfNavigationScreen() {
+            bool CheckIfNavigationScreen() {
                 int Score = 0;
                 if(PixelFinder.SearchStaticPixel(62, 1025, "#1C3E40")) { Score++; } //(darkend)PowerOff button
                 if(PixelFinder.SearchStaticPixel(1245, 353, "#CA0203")) { Score++; } //Klan
                 if(PixelFinder.SearchStaticPixel(1297, 778, "#454A76")) { Score++; } //Basis
                 if(PixelFinder.SearchStaticPixel(803, 734, "#804F73")) { Score++; } //Arena
+                LoopGarbageCollector.ClearGarbageCollector();
                 if(Score >= 3) {
                     Console.WriteLine("NavigationScreen Confirmed. Navigate to Missions");
                     MouseActions.DoubleClickAtPosition(-309, 361); //Click Missionen button 
                     Sleep(1000);
-                    checkIfMissionScreen();
+                    CheckIfMissionScreen();
                     PositionFound = true;
                 }
                 return PositionFound;
             }
 
-            bool checkIfMissionScreen() {
+            bool CheckIfMissionScreen() {
                 int Score = 0;
                 int RightArrow = 2;
                 int LeftArrow = 2;
 
                 if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
-                    logger.Debug("AutoMission interrupted by user at checkIfMissionScreen");
+                    log.Debug("AutoMission interrupted by user at CheckIfMissionScreen");
                     StopAutoMission = true;
                     return PositionFound;
                 }
@@ -202,31 +211,7 @@ namespace AutoSF {
                         }
                     }
 
-                    void NavigateToR19() {
-                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
-                            logger.Debug("AutoMission interrupted by user at checkIfMissionScreen");
-                            StopAutoMission = true;
-                            return;
-                        }
-                        if(PixelFinder.SearchStaticPixel(667, 1046, "#FFFFFF")) { //FirstArea of missions (BottomMid LeftWhiteDot)
-                            MouseActions.DoubleClickAtPosition(-607, 1005); //LastRegion at RegionArea1
-                            Sleep(1000);
-                            MouseActions.DoubleClickAtPosition(-587, 540); //RightArrow into RegionArea2
-                            Sleep(1000);
-                            MouseActions.DoubleClickAtPosition(-1672, 1004); //R19 regionbar
-
-                        }
-                        else if(PixelFinder.SearchStaticPixel(744, 1046, "#FFFFFF")) { //SecondArea of missions (BottomMid RightWhiteDot)
-                            MouseActions.DoubleClickAtPosition(-1672, 1004); //R19 regionbar
-                        }
-                        Sleep(1500);
-                        MouseActions.DoubleClickAtPosition(-1228, 543); //R19 Spezialmissionen
-                        Sleep(1500);
-                        if("R19" == OCR.OCRcheck(796, 145, 92, 47)) { //checks for Region19 "R19" (TopBar)
-                            Console.WriteLine("Moved to R19 SpezialMissions successfully");
-                            ReachedTarget = true;
-                        }
-                    }
+                    
                 }
                 else {
                     PositionFound = false;
@@ -234,7 +219,73 @@ namespace AutoSF {
                 return PositionFound;
             }
 
-            
+            void NavigateToR19() {
+                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                    log.Debug("AutoMission interrupted by user at CheckIfMissionScreen");
+                    StopAutoMission = true;
+                    return;
+                }
+                if(PixelFinder.SearchStaticPixel(667, 1046, "#FFFFFF")) { //FirstArea of missions (BottomMid LeftWhiteDot)
+                    MouseActions.DoubleClickAtPosition(-607, 1005); //LastRegion at RegionArea1
+                    Sleep(1000);
+                    MouseActions.DoubleClickAtPosition(-587, 540); //RightArrow into RegionArea2
+                    Sleep(1000);
+                    MouseActions.DoubleClickAtPosition(-1672, 1004); //R19 regionbar
+
+                }
+                else if(PixelFinder.SearchStaticPixel(744, 1046, "#FFFFFF")) { //SecondArea of missions (BottomMid RightWhiteDot)
+                    //Sleep(2000);
+                    MouseActions.DoubleClickAtPosition(-1672, 1004); //R19 regionbar
+                }
+                Sleep(1500);
+                MouseActions.DoubleClickAtPosition(-1228, 543); //R19 Spezialmissionen
+                Sleep(2500);
+                string OCRR19 = OCR.OCRcheck(796, 145, 92, 47,"R19");
+                if("R19" == OCRR19) { //checks for Region19 "R19" (TopBar)
+                    Console.WriteLine("Moved to R19 SpezialMissions successfully");
+                    ReachedTarget = true;
+                }
+                else {
+                    Console.WriteLine("Something went wrong. Where the fuck are we?");
+                    StopAutoMission = true;
+                }
+            }
+
+            bool CheckIfAtSpezialMission(){
+                int Score = 0;
+                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                    log.Debug("AutoMission interrupted by user at: Checking for Position 'SpezialMission'");
+                    StopAutoMission = true;
+                    return false;
+                }
+                if(PixelFinder.SearchStaticPixel(695, 173, "#63DCFF")) { Score++; } //left changeRegion Arrow
+                if(PixelFinder.SearchStaticPixel(1226, 168, "#63DCFF")) { Score++; } //right changeRegion Arrow
+                if(PixelFinder.SearchStaticPixel(33, 186, "#9A9DA9")) { Score++; } //thin gray border
+
+                LoopGarbageCollector.ClearGarbageCollector();
+                if(Score >= 2) {
+                    log.Debug("Position 'SpezialMission' found - checking for correct start Region R19");
+                    string OCRR19 = OCR.OCRcheck(796, 145, 92, 47);
+                    if("R19" == OCRR19) { //checks for Region19 "R19" (TopBar)
+                        Console.WriteLine("Moved to R19 SpezialMissions successfully");
+                        ReachedTarget = true;
+                    }
+                    else {
+                        Console.WriteLine("Not R19, navigating to correct Region.");
+                        MouseActions.SingleClickAtPosition(-1869, 51); //clicks "back" Button to return to missionscreen
+                        Sleep(500);
+                        NavigateToR19();
+                    }
+
+                    return true;
+                }
+                else {
+                    log.Debug("FirstFilterMenu couldnt be found. Please Navigate into a mission -> filter");
+                    return false;
+                }
+            }
+
+
         }
         
 
@@ -243,15 +294,16 @@ namespace AutoSF {
 
             Rect rectPixlSearchArea = new Rect();
 
-            string ImageInput = (@"C:\temp\double.jpg");
-            if(ImgSearch.UseImageSearch(ImageInput, "100") != null) {
-                string[] ImgSearchResult = ImgSearch.UseImageSearch(ImageInput, "100");
-                Console.WriteLine("click: " + ImgSearchResult[1] + ", 690");
-            }
+
+            Thread TaskAutoMission = new Thread(SoldierScan.StartSoldierScan);
+            TaskAutoMission.SetApartmentState(ApartmentState.STA);
+            TaskAutoMission.Start();
+
+
         }
 
         private void btnAutoPvP_Click(object sender, RoutedEventArgs e) {
-            logger.Debug("AutoPvp Start");
+            log.Debug("AutoPvp Start");
             CloseBackgroundWorkers();
             StopAutoPvP = false;
 
@@ -259,6 +311,13 @@ namespace AutoSF {
             TaskPvPCheckPixel.SetApartmentState(ApartmentState.STA);
             TaskPvPCheckPixel.Start();
             //TaskPvPCheckPixel.Join();
+
+            Sleep(4000);
+            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                log.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
+                PositionCount = 10;
+                StopAutoPvP = true;
+            }
         }
 
 
@@ -267,13 +326,13 @@ namespace AutoSF {
             int round = 1;
             while(round < 200 && StopAutoPvP == false) {
                 if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
-                    logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
+                    log.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                     PositionCount = 10;
                     StopAutoPvP = true;
                 }
                 Console.WriteLine(round);
                 round++;
-                logger.Debug("Positioncount: " + PositionCount + " round = " + round +  "Starting Checkpixel"); 
+                log.Debug("Positioncount: " + PositionCount + " round = " + round +  "Starting Checkpixel"); 
                 CheckPixel();
             }
             //Will Kill SF after 200 Games, Stop Backgroundworkers
@@ -352,14 +411,14 @@ namespace AutoSF {
             //if(WinSystem.WindowActivate() == IntPtr.Zero) {
 
             //}
-            logger.Debug("Restart PvP-Bot after beeing Stuck");
+            log.Debug("Restart PvP-Bot after beeing Stuck");
             btnAutoPvP_Click(null,null);
         }
 
         //getWindowPosition (Size,Position)
         /*
         private void buttonGetWindowTitles_Click(object sender, EventArgs e) {
-            logger.Debug("getting all window titles");
+            log.Debug("getting all window titles");
             foreach(KeyValuePair<IntPtr, string> pair in WinSystem.GetAllWindowTitles()) {
                 ///lvWindowTitles.AddObject(pair);
                 lvWindowTitles.Items.Add(new ListViewItem(""));
@@ -367,7 +426,7 @@ namespace AutoSF {
         }
         
         private void buttonWindowPosition_Click(object sender, EventArgs e) {
-            logger.Debug("checking selection");
+            log.Debug("checking selection");
             if(lvWindowTitles.SelectedItem == null) {
                 logger.Warn("no item selected");
                 return;
@@ -375,13 +434,13 @@ namespace AutoSF {
 
             KeyValuePair<IntPtr, string> selectedObject = (KeyValuePair<IntPtr, string>)lvWindowTitles.SelectedObject;
 
-            logger.Debug("selected value: " + selectedObject.Value);
+            log.Debug("selected value: " + selectedObject.Value);
 
-            logger.Debug("getting window position");
+            log.Debug("getting window position");
 
             Rectangle windowPos = WinSystem.GetWindowRect(selectedObject.Key);
 
-            logger.Debug(windowPos.ToString());
+            log.Debug(windowPos.ToString());
 
         }
        */
@@ -409,7 +468,7 @@ namespace AutoSF {
                         //Scans button/color in "Rang belohnung(green)/
                         if(i > 400) {
                             Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
-                            logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            log.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             StuckOnIntro();
                         }
                         if(PixelFinder.SearchStaticPixel(486, 463, "#91EAF7")) { Score++; } // "i" info icon near points
@@ -438,7 +497,7 @@ namespace AutoSF {
                         }
 
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
-                            logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
+                            log.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                             PositionCount = 10;
                             StopAutoPvP = true;
                         }
@@ -465,7 +524,7 @@ namespace AutoSF {
                                     Console.WriteLine("YellowButton Recogniced");
                                     if(PixelFinder.SearchStaticPixel(1027, 724, "#FFFFFF") && StopAutoPvP == false) {  //Kisten können verschmolzen werden 4/4
                                         MouseActions.DoubleClickAtPosition(-776, 755); //clicks melt button
-                                        logger.Debug("4 Chests rdy - clicking melt button");
+                                        log.Debug("4 Chests rdy - clicking melt button");
                                         Sleep(4000);
                                         MouseActions.DoubleClickAtPosition(-180, 1014);
                                         Sleep(4000);
@@ -492,7 +551,7 @@ namespace AutoSF {
                                     else {
                                         //MouseActions.DoubleClickAtPosition(-466, 1014); //clicks Yellow "Weiter" button  --hits Blue OR Yellow Button--
                                         MouseActions.DoubleClickAtPosition(-630, 1014); //clicks Yellow "Weiter" button //only YellowButton
-                                        logger.Debug("4 Chests CD - clicks Yellow button");
+                                        log.Debug("4 Chests CD - clicks Yellow button");
                                     }
                                     //PositionCount = 10.5;
                                 }
@@ -523,11 +582,11 @@ namespace AutoSF {
                     while(PositionCount == 11 && StopAutoPvP == false) {
                         if(i > 400) {
                             Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
-                            logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            log.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             StuckOnIntro();
                         }
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
-                            logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
+                            log.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                             PositionCount = 10;
                             StopAutoPvP = true;
                         }
@@ -594,7 +653,7 @@ namespace AutoSF {
                         i++;
                         if(i > 400) {
                             Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
-                            logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            log.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             StuckOnIntro();
                         }
                         Console.WriteLine("Pos12: " + i);
@@ -646,19 +705,19 @@ namespace AutoSF {
 
                     while(PositionCount == 13 && StopAutoPvP == false) {
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
-                            logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
+                            log.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                             PositionCount = 10;
                             StopAutoPvP = true;
                         }
                         KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_F);
 
                         Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt") + " Pos13: " + i);
-                        logger.Debug("Pos13: " + i);
+                        log.Debug("Pos13: " + i);
                         i++;
                         Score = 0;
                         if(i > 400) {
                             Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
-                            logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            log.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             StuckOnIntro();
                         }
 
@@ -677,13 +736,13 @@ namespace AutoSF {
                                 //
                             }
                             sw.Stop();
-                            logger.Debug("Match lost at Pos:" + Convert.ToString(PositionCount) + " This is Lose Nr.: " + Convert.ToString(LoseCount));
+                            log.Debug("Match lost at Pos:" + Convert.ToString(PositionCount) + " This is Lose Nr.: " + Convert.ToString(LoseCount));
                             PositionCount = 10;
                             MouseActions.DoubleClickAtPosition(-1681, 1024); //"Zurück" Button
                         }
                         else {
                             Console.WriteLine("Score Ok (" + Score + ")");
-                            logger.Debug("Entering Room2");
+                            log.Debug("Entering Room2");
                             PositionCount = 14;
                             MouseActions.DoubleClickAtPosition(-960, 326);
                         }
@@ -701,11 +760,11 @@ namespace AutoSF {
                     while(PositionCount == 14 && StopAutoPvP == false) {
                         if(i > 400) {
                             Console.WriteLine("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
-                            logger.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
+                            log.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             StuckOnIntro();
                         }
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
-                            logger.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
+                            log.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                             BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1); //MouseClick
                             BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker3); //MouseMovement
                             PositionCount = 10;
@@ -748,7 +807,7 @@ namespace AutoSF {
                             Console.WriteLine("Score Ok (" + Score + ")");
                             Console.WriteLine("Match won");
                             WinCount ++;
-                            logger.Debug("Match Won. This is Win Nr.: " + Convert.ToString(WinCount));
+                            log.Debug("Match Won. This is Win Nr.: " + Convert.ToString(WinCount));
                             PositionCount = 10;
                             MouseActions.DoubleClickAtPosition(-260, 1009);
                         }
@@ -763,7 +822,7 @@ namespace AutoSF {
                                 //
                             }
                             s.Stop();
-                            logger.Debug("Match lost at Pos:" + Convert.ToString(PositionCount) + " This is Lose Nr.: " + Convert.ToString(LoseCount));
+                            log.Debug("Match lost at Pos:" + Convert.ToString(PositionCount) + " This is Lose Nr.: " + Convert.ToString(LoseCount));
                             PositionCount = 10;
                             MouseActions.DoubleClickAtPosition(-1681, 1024); //"Zurück" Button
                         }

@@ -7,7 +7,7 @@ namespace AutoSF.Helper {
     //static -> damit methoden ohne "new object" (also nicht instanziert) aufgerufen werden können
     public static class PixelFinder {
 
-        public static Logger logger = LogManager.GetCurrentClassLogger();
+        public static Logger log = LogManager.GetCurrentClassLogger();
         public static Image BackupImage;
 
         public static bool SearchStaticPixel(int x, int y, string PixColorHex) {
