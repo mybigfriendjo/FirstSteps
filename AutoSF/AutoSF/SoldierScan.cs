@@ -19,6 +19,19 @@ namespace AutoSF {
 
         public static void StartSoldierScan() {
 
+            //------SQL Query to find Solderiers with wrong Amount---------
+            //SELECT* FROM soldaten WHERE anzahl NOT like "%/%" UNION
+            //SELECT* FROM soldaten WHERE anzahl like "/%" UNION
+            //SELECT* FROM soldaten WHERE anzahl like "%/" UNION
+            //SELECT* FROM soldaten WHERE length(anzahl) < 3 UNION
+            //SELECT* From soldaten WHERE length(anzahl) = 3 AND substr(anzahl,1,1) > substr(anzahl, -1, 1) UNION
+            //SELECT* From soldaten WHERE length(anzahl) = 5 AND substr(anzahl,1,2) > substr(anzahl, -2, 2);
+
+            //-----regex (to filter tables in DB Browser)
+            //   / ^/\d +|\d +/$/ findet / x und x/
+            //   / ^\d +$/ findet alle die kein / enthalten
+            //   / ^[2 - 9] / 1$/
+
             Dictionary<string, int[]> dicClickPosTyp = new Dictionary<string, int[]>();
             dicClickPosTyp.Add("Sniper", new int[] { -1555, 230 });
             dicClickPosTyp.Add("Sturm", new int[] { -1239, 230 });
