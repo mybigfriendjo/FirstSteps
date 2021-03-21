@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="AutoSF" Height="246.113" Width="246.146" >
     <Grid Margin="0,0,2,0">
-        <Button x:Name="btnAutoMission" Content="Auto Missions" HorizontalAlignment="Left" Margin="43,21,0,0" VerticalAlignment="Top" Width="150" Height="31" Click="btnAutoMission_Click"/>
+        <Button x:Name="btnAutoMission" Content="Auto Missions" HorizontalAlignment="Left" Margin="43,21,0,0" VerticalAlignment="Top" Width="70" Height="31" Click="btnAutoMission_Click"/>
         <Button x:Name="btnAutoDelSoldiers" Content="Auto Del Soldiers" HorizontalAlignment="Left" Margin="43,57,0,0" VerticalAlignment="Top" Width="150" Height="31" ToolTip="Deletes missing 1* Soldiers"/>
         <Button x:Name="btnAutoPvP" Content="Auto PvP" HorizontalAlignment="Left" Margin="43,93,0,0" VerticalAlignment="Top" Width="70" Height="31" Click="btnAutoPvP_Click"/>
         <Label x:Name="Bgw1Label" Content="StatusBgw1:" HorizontalAlignment="Left" Margin="43,163,0,0" VerticalAlignment="Top" Height="24" Width="63" FontSize="10" RenderTransformOrigin="0.513,0.524"/>
@@ -19,6 +19,7 @@
         <CheckBox x:Name="cbNoMouseMove" Content="No MMove" HorizontalAlignment="Left" Margin="118,109,0,0" VerticalAlignment="Top" Width="81" FontSize="11" Click="cbNoMouseMove_Click" IsChecked="True"/>
         <CheckBox x:Name="cbSpam2Active" Content="Use &quot;2&quot;" HorizontalAlignment="Left" Margin="118,130,0,0" VerticalAlignment="Top" Width="81" FontSize="11" Click="cbNoMouseMove_Click"/>
         <CheckBox x:Name="cbSpam3Active" Content="Use &quot;3&quot;" HorizontalAlignment="Left" Margin="118,148,0,0" VerticalAlignment="Top" Width="81" FontSize="11" Click="cbNoMouseMove_Click"/>
+        <CheckBox x:Name="cbMoveOn" Content="Move On" HorizontalAlignment="Left" Margin="118,21,0,0" VerticalAlignment="Top" Width="75" FontSize="11" Click="cbMoveOn_Click"/>
 
     </Grid>
 </Window>
