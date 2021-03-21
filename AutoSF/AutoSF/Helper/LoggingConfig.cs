@@ -13,7 +13,7 @@ namespace AutoSF.Helper {
         MainWindow() {
             LoggingConfig.Initialize();
         }
-        private Logger log = LogManager.GetCurrentClassLogger();
+        private static Logger log = LogManager.GetCurrentClassLogger();
         log.Debug("This Text will be logged");  //LogExample
         */
 
