@@ -2,19 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using NLog;
 using System.ComponentModel; //Backgroundworker
 using System.Windows.Forms;
 using AutoSF.Helper;
 using System.Windows.Input;
+using System.Threading;
 
 namespace AutoSF.Helper {
     public class BackgroundworkerConfig {
+
+        private static Logger log = LogManager.GetCurrentClassLogger();
+
         //Backgroundworker   https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.backgroundworker?view=net-5.0
         public static BackgroundWorker backgroundWorker1 = new BackgroundWorker(); 
         public static BackgroundWorker backgroundWorker2 = new BackgroundWorker();
         public static BackgroundWorker backgroundWorker3 = new BackgroundWorker();
         public static BackgroundWorker backgroundWorker4 = new BackgroundWorker();
+        public static BackgroundWorker backgroundWorker5 = new BackgroundWorker();
 
         //resultlabes are Lables Created on a Form to show Status
         //Bgw1resultLabel
@@ -25,6 +30,7 @@ namespace AutoSF.Helper {
             backgroundWorker2.DoWork += bgw2DoWork;
             backgroundWorker3.DoWork += bgw3DoWork;
             backgroundWorker4.DoWork += bgw4DoWork;
+            backgroundWorker5.DoWork += bgw5DoWork;
         }
 
 
@@ -159,7 +165,25 @@ namespace AutoSF.Helper {
             }
         }
 
-        public static void enableReportAndCancel(BackgroundWorker Bgw) {
+        private static void bgw5DoWork(object sender, DoWorkEventArgs e) {
+            Thread AUtoMissionHotkeyThread = new Thread(CatchHotKey); //Enabels AutomissionStartHotkey
+            AUtoMissionHotkeyThread.SetApartmentState(ApartmentState.STA);
+            AUtoMissionHotkeyThread.Start();
+        }
+        private static void CatchHotKey() {
+            while(30 < 40 && MainWindow.StopAutoMission == false) { //endless loop
+                // Perform a time consuming operation and report progress.
+                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad2)) {
+                    log.Debug("AutoMission start triggered by hotkey");
+                    AutoMission.StartAutoMissionThread();
+                }
+            }
+        }
+
+
+
+
+    public static void enableReportAndCancel(BackgroundWorker Bgw) {
             Bgw.WorkerReportsProgress = true;  //Backgroundworker
             Bgw.WorkerSupportsCancellation = true;  //Backgroundworker
         }
