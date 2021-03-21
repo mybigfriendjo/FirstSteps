@@ -38,16 +38,20 @@ namespace AutoSF {
             InitializeComponent();
             DB.InitializeDB();
             CacheDb.InitializeCacheDb();
-            
 
             [DllImport("user32.dll")]
             static extern bool SetForegroundWindow(IntPtr hWnd);
             foreach(var process in Process.GetProcessesByName("AutoSF")) {
                 SetForegroundWindow(process.MainWindowHandle);
             }
+
+            Thread AUtoMissionHotkeyThread = new Thread(ActivateAutoMissionHotkey); //Enabels AutomissionStartHotkey
+            AUtoMissionHotkeyThread.SetApartmentState(ApartmentState.STA);
+            AUtoMissionHotkeyThread.Start();
+            //ActivateAutoMissionHotkey(); //Enabels AutomissionStartHotkey
         }
 
-        private Logger log = LogManager.GetCurrentClassLogger();
+        private static Logger log = LogManager.GetCurrentClassLogger();
 
 
         public double PositionCount = 10;
@@ -65,9 +69,25 @@ namespace AutoSF {
         public static int Spam2Active = 0;
         public static int Spam3Active = 0;
         public static int StuckIntro = 0;
+        public static int MoveOn = 0; //if activated it will move from mission to missionä
 
+        public void ActivateAutoMissionHotkey() {
+            StopAutoPvP = false;
 
-        private void btnAutoMission_Click(object sender, RoutedEventArgs e) {
+            while(30 < 40 && StopAutoMission == false) { //endless loop
+                // Perform a time consuming operation and report progress.
+                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad2)) {
+                    log.Debug("AutoMission start triggered by hotkey");
+                    AutoMission.StartAutoMissionThread();
+                    Sleep(400); //ensure it gets only triggered once
+                }
+            }
+            //BackgroundworkerConfig.BgwStartAsync(BackgroundworkerConfig.backgroundWorker5); //enables HotKeyforAutoStartMission
+        }
+            
+        
+
+        public void btnAutoMission_Click(object sender, RoutedEventArgs e) {
             /* 
              * FilterSelection -> use pixelfinder to fasten up  
              * Add alternative if no soldier is found 
@@ -78,31 +98,31 @@ namespace AutoSF {
             //getCurrentPosition
             bool PositionFound = false;
             bool ReachedTarget = false;
-            //if(CheckIfStartScreen() == false && StopAutoMission == false) {
-            //    if(CheckIfNavigationScreen() == false && StopAutoMission == false) {
-            //        if(CheckIfMissionScreen() == false && StopAutoMission == false) {
-            //            if(CheckIfAtSpezialMission() == false && StopAutoMission == false) {
-            //                Console.WriteLine("Position Unknown");
-            //            }
-            //            else if(StopAutoMission == false) {
-            //                Console.WriteLine("Position Found at Specialmiss.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
-            //                AutoMission.StartAutoMissionThread();
-            //            }
-            //        }
-            //        else if(StopAutoMission == false) {
-            //            Console.WriteLine("Position Found at MissionScreen.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
-            //            AutoMission.StartAutoMissionThread();
-            //        }
-            //    }
-            //    else if(StopAutoMission == false) {
-            //        Console.WriteLine("Position Found at NavigationScreen.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
-            //        AutoMission.StartAutoMissionThread();
-            //    }
-            //}
-            //else if(StopAutoMission == false) {
-            //    Console.WriteLine("Position Found at StartScreen.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
+            if(CheckIfStartScreen() == false && StopAutoMission == false) {
+                if(CheckIfNavigationScreen() == false && StopAutoMission == false) {
+                    if(CheckIfMissionScreen() == false && StopAutoMission == false) {
+                        if(CheckIfAtSpezialMission() == false && StopAutoMission == false) {
+                            Console.WriteLine("Position Unknown");
+                        }
+                        else if(StopAutoMission == false) {
+                            Console.WriteLine("Position Found at Specialmiss.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
+                            AutoMission.StartAutoMissionThread();
+                        }
+                    }
+                    else if(StopAutoMission == false) {
+                        Console.WriteLine("Position Found at MissionScreen.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
+                        AutoMission.StartAutoMissionThread();
+                    }
+                }
+                else if(StopAutoMission == false) {
+                    Console.WriteLine("Position Found at NavigationScreen.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
+                    AutoMission.StartAutoMissionThread();
+                }
+            }
+            else if(StopAutoMission == false) {
+                Console.WriteLine("Position Found at StartScreen.Navigated to R19-Availible SpecialMissions. Starting AutoMission now.");
                 AutoMission.StartAutoMissionThread();
-            //}
+            }
 
 
 
@@ -265,7 +285,7 @@ namespace AutoSF {
                 LoopGarbageCollector.ClearGarbageCollector();
                 if(Score >= 2) {
                     log.Debug("Position 'SpezialMission' found - checking for correct start Region R19");
-                    string OCRR19 = OCR.OCRcheck(796, 145, 92, 47);
+                    string OCRR19 = OCR.OCRcheck(796, 145, 92, 47, "R19");
                     if("R19" == OCRR19) { //checks for Region19 "R19" (TopBar)
                         Console.WriteLine("Moved to R19 SpezialMissions successfully");
                         ReachedTarget = true;
@@ -376,6 +396,15 @@ namespace AutoSF {
             }
             else {
                 Spam3Active = 0;
+            }
+        }
+
+        private void cbMoveOn_Click(object sender, RoutedEventArgs e) {
+            if(cbMoveOn.IsChecked == true) {
+                MoveOn = 1;
+            }
+            else {
+                MoveOn = 0;
             }
         }
 
