@@ -10,6 +10,9 @@ using System.Windows.Input;
 using System.Threading;
 using System.Diagnostics;
 using Microsoft.VisualBasic;
+using ImageFinderNS;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace AutoSF {
     public static class AutoMission {
@@ -21,7 +24,7 @@ namespace AutoSF {
             TaskSoldierScan.Start();
         }
 
-        
+
         public static void StartAutoMission() {
 
             /*
@@ -76,7 +79,25 @@ namespace AutoSF {
             int successbooster = 0;
             int targetSuccessRate = 100;
             int ZeroCount = 0;
-            DataRow[] result = null;
+            DataRow[] result = null; //MissionData From DB
+            
+
+
+
+            try {
+                if(!Directory.Exists(MainWindow.ResourcesPath + "counter\\")) {
+                    log.Error("couldn't find dynamicDB´s path '" + MainWindow.ResourcesPath + "counter\\" + "'");
+                    //return false;
+                }
+            }
+            catch(UnauthorizedAccessException) {
+                log.Error("was denied access to dynamicDB´s path '" + MainWindow.ResourcesPath + "counter\\" + "'");
+                //return false;
+            }
+            string[] Counters = { "RSKommunikation", "RSRadar", "RSBoot", "RSJetpack", "RSTarnung", "RSVerkleidung", "RSHelikopter", "RSGeiseln", "RSTaktiken", "RSVIP", "RSSprengstoffe", "RSAufklaerung", "RSBiologischeGefahr", "RSFahrzeug", "RSToedlich", "RSBegrenzteMunition" };
+            string filename = "";
+            string[] ImageResult = { "" };
+            string FoundCounters = "";
 
 
             Dictionary<string, int[]> dicClickPos = new Dictionary<string, int[]>();
@@ -89,36 +110,42 @@ namespace AutoSF {
             dicClickPos.Add("Beschuetzer", new int[] { -649, 230 });
             dicClickPos.Add("Attentaeter", new int[] { -492, 230 });
             dicClickPos.Add("Suppressor", new int[] { -358, 230 });
-            dicClickPos.Add("RSKommunkikation", new int[] { -620, 600 });
+
+            dicClickPos.Add("RSKommunikation", new int[] { -720, 600 });
+            dicClickPos.Add("RSToedlichSpezial", new int[] { -620, 600 });
             dicClickPos.Add("RSRadar", new int[] { -520, 600 });
-            dicClickPos.Add("RSBoot", new int[] { -420, 600 });
-            dicClickPos.Add("RSJetpack", new int[] { -320, 600 });
-            dicClickPos.Add("RSTarnung", new int[] { -220, 600 });
-            dicClickPos.Add("RSVerkleidung", new int[] { -120, 600 });
+            dicClickPos.Add("RSBiologischeGefahrSpezial", new int[] { -420, 600 });
+            dicClickPos.Add("RSBoot", new int[] { -320, 600 });
+            dicClickPos.Add("RSJetpack", new int[] { -220, 600 });
+            dicClickPos.Add("RSTarnung", new int[] { -120, 600 });
+            dicClickPos.Add("RSVerkleidung", new int[] { -720, 700 });
             dicClickPos.Add("RSHelikopter", new int[] { -620, 700 });
-            dicClickPos.Add("RSGeiseln", new int[] { -520, 700 });
-            dicClickPos.Add("RSTaktiken", new int[] { -420, 700 });
-            dicClickPos.Add("RSVIP", new int[] { -320, 700 });
-            dicClickPos.Add("RSSprengstoffe", new int[] { -220, 700 });
-            dicClickPos.Add("RSAufklaerung", new int[] { -120, 700 });
-            dicClickPos.Add("RSBiologischeGefahr", new int[] { -620, 800 });
-            dicClickPos.Add("RSFahrzeug", new int[] { -520, 800 });
-            dicClickPos.Add("RSToedlich", new int[] { -420, 800 });
-            dicClickPos.Add("RSBegrenzteMunition", new int[] { -320, 800 });
+            dicClickPos.Add("RSBootSpezial", new int[] { -520, 700 });
+            dicClickPos.Add("RSToedlich", new int[] { -420, 700 });
+            dicClickPos.Add("RSGeiseln", new int[] { -320, 700 });
+            dicClickPos.Add("RSVIP", new int[] { -220, 700 });
+            dicClickPos.Add("RSSprengstoffe", new int[] { -120, 700 });
+            dicClickPos.Add("RSTaktiken", new int[] { -720, 800 });
+            dicClickPos.Add("RSBegrenzteMunitionSpezial", new int[] { -620, 800 });
+            dicClickPos.Add("RSAufklaerung", new int[] { -520, 800 });
+            dicClickPos.Add("RSBiologischeGefahr", new int[] { -420, 800 });
+            dicClickPos.Add("RSFahrzeug", new int[] { -320, 800 });
+            dicClickPos.Add("RSKommunikationSpezial", new int[] { -220, 800 });
+            dicClickPos.Add("RSBegrenzteMunition", new int[] { -120, 800 });
             dicClickPos.Add("OnlySniper", new int[] { }); //Unknown................
 
             dicClickPos.Add("verfügbar", new int[] { -1132, 207 });
             dicClickPos.Add("nichtverfügbar", new int[] { -898, 205 });
-            dicClickPos.Add("Stern1", new int[] { -1185, 400 });
-            dicClickPos.Add("Stern2", new int[] { -1085, 400 });
-            dicClickPos.Add("Stern3", new int[] { -985, 400 });
-            dicClickPos.Add("Stern4", new int[] { -885, 400 });
-            dicClickPos.Add("Stern5", new int[] { -785, 400 });
-            dicClickPos.Add("Stern6", new int[] { -1185, 500 });
-            dicClickPos.Add("Stern7", new int[] { -1085, 500 });
-            dicClickPos.Add("Stern8", new int[] { -985, 500 });
-            dicClickPos.Add("Stern9", new int[] { -885, 500 });
-            dicClickPos.Add("Stern10", new int[] { -785, 500 });
+            dicClickPos.Add("Stern1", new int[] { -1285, 400 });
+            dicClickPos.Add("Stern2", new int[] { -1185, 400 });
+            dicClickPos.Add("Stern3", new int[] { -1085, 400 });
+            dicClickPos.Add("Stern4", new int[] { -985, 400 });
+            dicClickPos.Add("Stern5", new int[] { -885, 400 });
+            dicClickPos.Add("Stern6", new int[] { -1285, 500 });
+            dicClickPos.Add("Stern7", new int[] { -1185, 500 });
+            dicClickPos.Add("Stern8", new int[] { -1085, 500 });
+            dicClickPos.Add("Stern9", new int[] { -985, 500  });
+            dicClickPos.Add("Stern10", new int[] { -885, 500  });
             dicClickPos.Add("Stern11", new int[] { -1185, 600 });
             dicClickPos.Add("Stern12", new int[] { -1085, 600 });
             dicClickPos.Add("RandomSoldier1", new int[] { -1807, 922 });
@@ -128,73 +155,30 @@ namespace AutoSF {
             dicClickPos.Add("bluedrohne", new int[] { -615, 750 });
             dicClickPos.Add("golddrohne", new int[] { -891, 751 });
 
-            dicClickPos.Add("BSSchnell", new int[] { -145, 419 }); //20 % speed
-            dicClickPos.Add("BSMechaniker", new int[] { -645, 219 }); //20 %speed(bei aktiver drohne) -645, 219
+            dicClickPos.Add("BSSchnell", new int[] { -545, 419 }); //20 % speed
+            dicClickPos.Add("BSMechaniker", new int[] { -745, 219 }); //20 %speed(bei aktiver drohne) -645, 219
             dicClickPos.Add("BSZeitgewinn", new int[] { -445, 419 }); //10 %speed
-            dicClickPos.Add("BSKoordination", new int[] { -345, 219 }); //+10%winrate
-            dicClickPos.Add("BSDrohne", new int[] { -345, 419 }); // +10%winrate (bei aktiver drohne)
-            dicClickPos.Add("BSImprovisation", new int[] { -245, 319 }); //+5% kleinergleich 2st
-            dicClickPos.Add("BSAufsteiger", new int[] { -145, 219 }); //+5% größergleich 4st
-            dicClickPos.Add("BSGepanzert", new int[] { -545, 219 });
-            dicClickPos.Add("BSSchwere Rüstung", new int[] { -445, 219 });
-            dicClickPos.Add("BSAbsicherung", new int[] { -245, 219 }); //immun gegen klauen
-            dicClickPos.Add("BSGeschäftemacher", new int[] { -645, 319 });
-            dicClickPos.Add("BSÜberlebenskünstler", new int[] { -545, 319 });
-            dicClickPos.Add("BSÜberlebensspezialist", new int[] { -445, 319 });
-            dicClickPos.Add("BSGlück", new int[] { -345, 319 });
-            dicClickPos.Add("BSRabatt", new int[] { -145, 319 });
-            dicClickPos.Add("BSLehrer", new int[] { -645, 419 });
-            dicClickPos.Add("BSUnabhängig", new int[] { -545, 419 }); //+5% solo
-            dicClickPos.Add("BSTechnik", new int[] { -245, 419 });
+            dicClickPos.Add("BSKoordination", new int[] { -445, 219 }); //+10%winrate
+            dicClickPos.Add("BSDrohne", new int[] { -745, 419 }); // +10%winrate (bei aktiver drohne)
+            dicClickPos.Add("BSImprovisation", new int[] { -345, 319 }); //+5% kleinergleich 2st
+            dicClickPos.Add("BSAufsteiger", new int[] { -245, 219 }); //+5% größergleich 4st
+            dicClickPos.Add("BSGepanzert", new int[] { -645, 219 });
+            dicClickPos.Add("BSSchwere Rüstung", new int[] { -545, 219 });
+            dicClickPos.Add("BSAbsicherung", new int[] { -345, 219 }); //immun gegen klauen
+            dicClickPos.Add("BSGeschäftemacher", new int[] { -745, 319 });
+            dicClickPos.Add("BSÜberlebenskünstler", new int[] { -645, 319 });
+            dicClickPos.Add("BSÜberlebensspezialist", new int[] { -545, 319 });
+            dicClickPos.Add("BSGlück", new int[] { -445, 319 });
+            dicClickPos.Add("BSRabatt", new int[] { -145, 219 });
+            dicClickPos.Add("BSLehrer", new int[] { -145, 319 });
+            dicClickPos.Add("BSUnabhängig", new int[] { -245, 319 }); //+5% solo
+            dicClickPos.Add("BSTechnik", new int[] { -645, 419 });
             #endregion
-
 
             Stopwatch missionTime = Stopwatch.StartNew();
 
 
 
-
-
-
-            string CounterPath = @"C:\Users\gr4nd\Documents\GitHub\FirstSteps\AutoSF\AutoSF\Resources\counter\";
-            try {
-                if(!Directory.Exists(CounterPath)) {
-                    log.Error("couldn't find dynamicDB´s path '" + CounterPath + "'");
-                    //return false;
-                }
-            }
-            catch(UnauthorizedAccessException) {
-                log.Error("was denied access to dynamicDB´s path '" + CounterPath + "'");
-                //return false;
-            }
-            string[] counters = { "RSKommunkikation", "RSRadar", "RSBoot", "RSJetpack", "RSTarnung", "RSVerkleidung", "RSHelikopter", "RSGeiseln", "RSTaktiken", "RSVIP", "RSSprengstoffe", "RSAufklaerung", "RSBiologischeGefahr", "RSFahrzeug", "RSToedlich", "RSBegrenzteMunition" };
-            string filename = "";
-            string[] check = { "" };
-            string[] check2 = { "" };
-            string[] check3 = { "" };
-            foreach ( string counter in counters) {
-                filename = Path.Combine(CounterPath + counter + ".png");
-
-                if(!File.Exists(filename)) {
-                    log.Error("couldn't find " + counter);
-                }
-
-                int XCoordinate = FindImageCoordinates(@"C:\temp\speed30.jpg");
-                check = ImgSearch.UseImageSearch(filename, "230", -1920, 963, 1080, 110);
-                if(check != null) {
-                    log.Debug("JetpackFound");
-                }
-
-                check2 = ImgSearch.UseImageSearch(filename, "230", -1920, 0, 1920, 1080);
-                if(check3 != null) {
-                    log.Debug(counter + " found at Check2");
-                }
-                check3 = ImgSearch.UseImageSearch(filename, "230", -1920, 940, 1920, 1080);
-                if(check3 != null) {
-                    log.Debug(counter + " found at Check3");
-                }
-            }
-            string Stupidname = "StopPlease";
 
             if(MainWindow.MoveOn == 1) {
                 while(MainWindow.MoveOn == 1 && StopAutoMission == false) {
@@ -206,7 +190,7 @@ namespace AutoSF {
                     MouseActions.SingleClickAtPosition(-1423, 939); //Click "Verfügbar"
                     MainWindow.Sleep(400);
                     if(MissionsAvailible() != 0 && StopAutoMission == false) { //checks for availible Missions
-                        MouseActions.SingleClickAtPosition(-1544, 518); //click Mission to the left (not avilible Mission is at the right side)
+                        MouseActions.SingleClickAtPosition(-1372, 519); //click Mission to the left (not avilible Mission is at the right side)
                         if(CheckforInMissionScreen() != 1) { return; }
 
                         OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70); //bsp.: Hinweis
@@ -233,14 +217,23 @@ namespace AutoSF {
                                 if(PixelFinder.SearchStaticPixel(1844, 1004, "#FFB631")) { Score++; } // Green StartButton - Gold bars
                                 if(Score == 2) {
                                     log.Debug("InMissionScreen and green Startbutton found,starting Mission: \"" + result[0].Field<string>("Missionname") + "\"");
+                                    //Interaction.InputBox("Everything Ok? Press Ok to contiunue", "All good?");
+                                    MainWindow.Sleep(5000);
+                                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                                        log.Debug("AutoMission interrupted by user at: Start Mission");
+                                        StopAutoMission = true;
+                                        return;
+                                    }
                                     MouseActions.SingleClickAtPosition(-224, 996); //click Startbutton
+                                    MainWindow.Sleep(400);
                                 }
-                                else {
+                                else if (StopAutoMission == false){
                                     log.Debug("InMissionScreen found but Button not green - No Soldiers set, or time to get some gold!");
                                     if(Interaction.InputBox("Grab some Gold, im waiting to continue the mission (wait at chest screen)!\nIf you wanna stop type  'end'  ", "Gimme Gold!") == "end") {
                                         return;
                                     }
                                 }
+                                else { return; }
                             }
                             else if(++i > 25) {
                                 log.Debug("InMissionScreen couldn't be found in time:");
@@ -318,6 +311,9 @@ namespace AutoSF {
                             log.Debug("Speed=1");
                             Missiontype = "Speed";
                             targetSuccessRate = 1; //blue drohne + speedbooster
+                            //successbooster = 1;
+                            //selectBooster("speed", successbooster);
+
                             clickFilter();
                         }
                     }
@@ -373,24 +369,73 @@ namespace AutoSF {
 
             void clickFilter() {
                 if(StopAutoMission == false) {
-                    //Adds all COUNTER Columns with a value of one into the array Checkcounter
-                    foreach(DataRow row in result) {
-                        foreach(DataColumn col in row.Table.Columns) {
-                            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
-                                log.Debug("AutoMission interrupted by user at Pos ??");
-                                StopAutoMission = true;
-                            }
-                            if(col.Ordinal >= 14 && col.Ordinal <= 29) { //14-29 is the Column range for all Counters
-                                if(Convert.ToInt32(row[col.Ordinal]) == 1) {
-                                    CheckCounter = CheckCounter.Append(col.ColumnName).ToArray();
-                                }
-                            }
+                    ////Adds all COUNTER Columns with a value of one into the array Checkcounter
+                    //foreach(DataRow row in result) {
+                    //    foreach(DataColumn col in row.Table.Columns) {
+                    //        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                    //            log.Debug("AutoMission interrupted by user at Pos ??");
+                    //            StopAutoMission = true;
+                    //        }
+                    //        if(col.Ordinal >= 14 && col.Ordinal <= 29) { //14-29 is the Column range for all Counters
+                    //            if(Convert.ToInt32(row[col.Ordinal]) == 1) {
+                    //                CheckCounter = CheckCounter.Append(col.ColumnName).ToArray();
+                    //            }
+                    //        }
+                    //    }
+                    //}
+
+                    
+
+                    //foreach(string counter in Counters) {
+                    //    filename = Path.Combine(MainWindow.ResourcesPath + "counter\\" + counter + ".png");
+
+                    //    if(!File.Exists(filename)) {
+                    //        log.Error("couldn't find " + counter);
+                    //    }
+
+                    //    ImageResult = ImgSearch.UseImageSearch(filename, "108", -1920, 940, -1375, 1080);
+                    //    if(ImageResult != null) {
+                    //        FoundCounters += counter + ",";
+                    //    }
+                    //}
+
+
+                    Bitmap bitmap = null;
+                    Bitmap cropped = null;
+
+                    using(bitmap = new Bitmap(SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height)) { // Create an empty bitmap with the size of all connected screen
+                        Graphics graphics = Graphics.FromImage(bitmap as Image); // Create a new graphics objects that can capture the scree
+                        graphics.CopyFromScreen(SystemInformation.VirtualScreen.Left, SystemInformation.VirtualScreen.Top, 0, 0, bitmap.Size);
+                        LoopGarbageCollector.ClearGarbageCollector();
+                        //Rectangle BoosterScanZone = new Rectangle(1920, 250, 1920, 350);
+                        //Bitmap cropped = (Bitmap)bitmap.Clone(BoosterScanZone, bitmap.PixelFormat);
+                        Rectangle CounterScanZone = new Rectangle(0, 955, 500, 120);
+                        cropped = (Bitmap)bitmap.Clone(CounterScanZone, bitmap.PixelFormat);
+                        cropped.Save(@"c:\temp\ImageFinderCropped.png");
+                    }
+
+                    ImageFinder.SetSource(cropped);
+                    FoundCounters = "";
+                    foreach(string counter in Counters) {
+                        string ImageSourcePath = Path.Combine(MainWindow.ResourcesPath + "counter\\" + counter + ".png");
+                        Image TempBit = Image.FromFile(ImageSourcePath);
+                        TempBit.Save(@"c:\temp\TembBit.png");
+                        ImageFinder.Find(TempBit, 0.83f);
+                        if(ImageFinder.LastMatches.Count >= 1) {
+                            FoundCounters += counter + ",";
                         }
                     }
 
-
-
-                    
+                    log.Debug("counters checked. \nThe following counters have been found: " + FoundCounters.Substring(0,FoundCounters.Length -1));
+                    char[] CharSeperator = { ',' };
+                    CheckCounter = FoundCounters.Split(CharSeperator, StringSplitOptions.RemoveEmptyEntries);
+                    if(CheckCounter.Length != 5) {
+                        //if(CheckCounter.Length == 0 || CheckCounter.Length > 5) {
+                            log.Debug("Invalid Value at CheckCounter.Length (" + CheckCounter.Length + ")");
+                            StopAutoMission = true; 
+                            return; 
+                        //}
+                    }
 
 
                     //Adds all SOLDIERTYPE Columns with a value of one into the array CheckSoldierType
@@ -408,6 +453,19 @@ namespace AutoSF {
                             }
                         }
                     }
+
+
+
+
+                    ////ToDo Check what happens if Counters[4] is null or the array has < 5 items
+                    //CacheDb.GetSoldiers(6, 5, Counters[0], Counters[1], Counters[2], Counters[3], Counters[4]);
+                    //foreach(string SoldierType in CheckSoldierType) {
+                    //    //--- select fist row -> get the Data, Drop alls rows where type = SelectedSoldier.type
+                    //    DataRow[] SelectedSoldier = CacheDb.DataTableFilteredSoldiers.Select("");
+                    //}
+
+
+
 
                     int AmountOfSoldiers = CheckSoldierType.Length;
                     while(CheckSoldierType.Length > 0 && StopAutoMission == false) {
@@ -474,7 +532,7 @@ namespace AutoSF {
                         if(StopAutoMission == false && CheckforSoldierScreenSelection() == 1) {
                             //wait for Soldierscreen to open
                         }
-                        else if(StopAutoMission == false) { return; }
+                        else if(StopAutoMission == false) { log.Error("Pos507153616"); return; }
 
                         if(StopAutoMission == false && "Sniper" == currentSoldier) {
                             MouseActions.DoubleClickAtPosition(dicClickPos["Sniper"][0], dicClickPos["Sniper"][1]);
@@ -512,7 +570,7 @@ namespace AutoSF {
                         if(StopAutoMission == false && CheckforSoldierScreenSelection() == 1) { 
                             MouseActions.SingleClickAtPosition(-117, 923); //click FilterMenu
                         }
-                        else if(StopAutoMission == false) { return; }
+                        else if(StopAutoMission == false) { log.Error("Pos1510375"); return; }
                         if(StopAutoMission == false && CheckforFilterMenu() == 1) {
                             if(Missiontype != "Speed" && Missiontype != "SpeedMitBonus") {
                                 MouseActions.SingleClickAtPosition(dicClickPos["verfügbar"][0], dicClickPos["verfügbar"][1]);
@@ -691,6 +749,12 @@ namespace AutoSF {
                                 MainWindow.Sleep(150);
 
                             }
+                            //foreach(string counter in Counters) {
+                            //    if(counter == "RSAufklaerung" || counter == "RSHelikopter") {
+                            //        MouseActions.SingleClickAtPosition(dicClickPos[counter][0], dicClickPos[counter][1]);
+                            //        MainWindow.Sleep(300);
+                            //    }
+                            //}
                             MouseActions.SingleClickAtPosition(dicClickPos["BSKoordination"][0], dicClickPos["BSKoordination"][1]); //Bonus Kordination +10
                             MainWindow.Sleep(150);
                             MouseActions.SingleClickAtPosition(dicClickPos["BSDrohne"][0], dicClickPos["BSDrohne"][1]); //Bonus BSDrohne +10
@@ -778,9 +842,13 @@ namespace AutoSF {
                             if(StopAutoMission == false && (result[0].Field<Int64>("Difficulty")) == 5) {
                                 MouseActions.SingleClickAtPosition(dicClickPos["Stern6"][0], dicClickPos["Stern6"][1]);
                                 MainWindow.Sleep(150);
+                                MouseActions.SingleClickAtPosition(dicClickPos["Stern5"][0], dicClickPos["Stern5"][1]);
+                                MainWindow.Sleep(150);
                             }
                             else if(StopAutoMission == false && (result[0].Field<Int64>("Difficulty")) == 4) {
                                 MouseActions.SingleClickAtPosition(dicClickPos["Stern5"][0], dicClickPos["Stern5"][1]);
+                                MainWindow.Sleep(150);
+                                MouseActions.SingleClickAtPosition(dicClickPos["Stern4"][0], dicClickPos["Stern4"][1]);
                                 MainWindow.Sleep(150);
                             }
 
@@ -849,11 +917,10 @@ namespace AutoSF {
                                         SoldierPickProcess();
                                     }
                                     else if(StopAutoMission == false && ZeroCount == CheckSoldierType.Length) {
-                                        MouseActions.SingleClickAtPosition(-348, 217); //Koordination +10
+                                        
+                                        MouseActions.SingleClickAtPosition(dicClickPos["BSDrohne"][0], dicClickPos["BSDrohne"][1]);
                                         MainWindow.Sleep(300);
-                                        MouseActions.SingleClickAtPosition(-332, 417); //Drohne +10
-                                        MainWindow.Sleep(300);
-                                        MouseActions.SingleClickAtPosition(-774, 398); //5*
+                                        MouseActions.SingleClickAtPosition(dicClickPos["BSKoordination"][0], dicClickPos["BSKoordination"][1]);
                                         MainWindow.Sleep(600);
                                         SoldierPickProcess();
                                     }
@@ -893,33 +960,6 @@ namespace AutoSF {
                     return 1;
                 }
                 return 0;
-
-                //string[] check = ImgSearch.UseImageSearch(@"C:\temp\verfuegbar1.png", "230",-1651,873,500,100);
-                //if(check != null) {
-                //    return 0;
-                //}
-                //check = ImgSearch.UseImageSearch(@"C:\temp\verfuegbar2.png", "230", -1651, 873, 500, 100); //-1651, 873, 100, 90);
-                //if(check != null) {
-                //    return 0;
-                //}
-                //check = ImgSearch.UseImageSearch(@"C:\temp\verfuegbar3.png", "230", -1651, 873, 500, 100);
-                //if(check != null) {
-                //    return 0;
-                //}
-                //string OcrMissionsAvailible = OCR.OCRcheck(289, 895, 26, 34); //checks for MissionsAvailible (Missions availible selected)
-                //string OcrMissionsAvailible2 = OCR.OCRcheck(282, 905, 33, 36); //checks for MissionsAvailible (Missions availible Not selected)
-                //int ReturnMissionsAvailible = 0;
-                //if(OcrMissionsAvailible == "3" || OcrMissionsAvailible == "2" || OcrMissionsAvailible == "1") {
-                //    ReturnMissionsAvailible = Convert.ToInt32(OcrMissionsAvailible);
-                //}
-                //else if(OcrMissionsAvailible2 == "3" || OcrMissionsAvailible2 == "2" || OcrMissionsAvailible2 == "1") {
-                //    ReturnMissionsAvailible = Convert.ToInt32(OcrMissionsAvailible2);
-                //}
-                //log.Debug("Found " + ReturnMissionsAvailible + " Missions in the current region.");
-                //return ReturnMissionsAvailible;
-
-
-
             }
 
             string checkString(string text) {
@@ -1127,12 +1167,41 @@ namespace AutoSF {
                 log.Debug("GambitScreenFound");
             
                 int XCoordinate = 0;
-                while(XCoordinate == 0 && StopAutoMission == false && i<5) { //Limited to 5 Times
+                while(XCoordinate == 0 && StopAutoMission == false && i<6) { //Limited to 6 Times
                     if(boosterType != "double") {
                         if(boosterType != "speed") {
                             if(boosterType == "successbooster") {
                                 if(boosterValue == 30) {
-                                    XCoordinate = FindImageCoordinates(@"C:\temp\success30.jpg");
+                                    //XCoordinate = FindImageCoordinates(@"C:\temp\success30.jpg");
+                                    XCoordinate = FindImageCoordinates(MainWindow.ResourcesPath + @"booster\success30drohne.png"); 
+                                    if(XCoordinate != 0) {
+                                        break;
+                                    }
+                                }
+                                if(boosterValue == 25) {
+                                    //XCoordinate = FindImageCoordinates(@"C:\temp\success30.jpg");
+                                    XCoordinate = FindImageCoordinates(MainWindow.ResourcesPath + @"booster\success25.png");
+                                    if(XCoordinate != 0) {
+                                        break;
+                                    }
+                                }
+                                if(boosterValue == 20) {
+                                    //XCoordinate = FindImageCoordinates(@"C:\temp\success30.jpg");
+                                    XCoordinate = FindImageCoordinates(MainWindow.ResourcesPath + @"booster\success20drohne.png");
+                                    if(XCoordinate != 0) {
+                                        break;
+                                    }
+                                }
+                                if(boosterValue == 15) {
+                                    //XCoordinate = FindImageCoordinates(@"C:\temp\success30.jpg");
+                                    XCoordinate = FindImageCoordinates(MainWindow.ResourcesPath + @"booster\success15.png");
+                                    if(XCoordinate != 0) {
+                                        break;
+                                    }
+                                }
+                                if(boosterValue == 10) {
+                                    //XCoordinate = FindImageCoordinates(@"C:\temp\success30.jpg");
+                                    XCoordinate = FindImageCoordinates(MainWindow.ResourcesPath + @"booster\success10drohne.png");
                                     if(XCoordinate != 0) {
                                         break;
                                     }
@@ -1140,14 +1209,14 @@ namespace AutoSF {
                             }
                         }
                         else { //speedbooster
-                            XCoordinate = FindImageCoordinates(@"C:\temp\speed30.jpg");
+                            XCoordinate = FindImageCoordinates(MainWindow.ResourcesPath + @"booster\BMPspeed30.bmp");
                             if(XCoordinate != 0) {
                                 break;
                             }
                         }
                     }
                     else { //double
-                        XCoordinate = FindImageCoordinates(@"C:\temp\double.jpg");
+                        XCoordinate = FindImageCoordinates(MainWindow.ResourcesPath + @"booster\double.png");
                         if(XCoordinate != 0) {
                             break;
                         }
@@ -1164,9 +1233,9 @@ namespace AutoSF {
                             StopAutoMission = true;
                             return;
                         }
-                        moveToX -= 100;
+                        moveToX -= 90;
                         MouseActions.SetCursorPos(moveToX, 484);
-                        MainWindow.Sleep(22);
+                        MainWindow.Sleep(34);
                     }
                     MainWindow.Sleep(150);
                     MouseActions.LeftMouseUp();
@@ -1176,7 +1245,7 @@ namespace AutoSF {
             }
 
             int FindImageCoordinates(string ImageInput) {
-                string[] ImgSearchResult = ImgSearch.UseImageSearch(ImageInput, "140");
+                string[] ImgSearchResult = ImgSearch.UseImageSearch(ImageInput, "130");
                 if(ImgSearchResult != null && ImgSearchResult.Length > 0) {
                     log.Debug("Found at: " + ImgSearchResult[1] + ", 690");
                     return Convert.ToInt32(ImgSearchResult[1]);
