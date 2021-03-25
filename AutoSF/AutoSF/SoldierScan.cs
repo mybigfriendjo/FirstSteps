@@ -43,58 +43,115 @@ namespace AutoSF {
             //dicClickPosTyp.Add("Suppressor", new int[] { -358, 230 });
 
             Dictionary<string, int[]> dicClickPosStufe = new Dictionary<string, int[]>();
-            //dicClickPosStufe.Add("Stern1", new int[] { -1185, 400 });
-            //dicClickPosStufe.Add("Stern2", new int[] { -1085, 400 });
-            dicClickPosStufe.Add("Stern3", new int[] { -985, 400 });
-            dicClickPosStufe.Add("Stern4", new int[] { -885, 400 });
-            dicClickPosStufe.Add("Stern5", new int[] { -785, 400 });
-            dicClickPosStufe.Add("Stern6", new int[] { -1185, 500 });
-            dicClickPosStufe.Add("Stern7", new int[] { -1085, 500 });
-            dicClickPosStufe.Add("Stern8", new int[] { -985, 500 });
-            dicClickPosStufe.Add("Stern9", new int[] { -885, 500 });
-            dicClickPosStufe.Add("Stern10", new int[] { -785, 500 });
-            //dicClickPosStufe.Add("Stern11", new int[] { -1185, 600 });
+            //dicClickPosStufe.Add("Stern1", new int[] { -1285, 400 });
+            //dicClickPosStufe.Add("Stern2", new int[] { -1185, 400 });
+            dicClickPosStufe.Add("Stern3", new int[] { -1085, 400 });
+            dicClickPosStufe.Add("Stern4", new int[] { -985, 400 });
+            dicClickPosStufe.Add("Stern5", new int[] { -885, 400 });
+            dicClickPosStufe.Add("Stern6", new int[] { -1285, 500 });
+            dicClickPosStufe.Add("Stern7", new int[] { -1185, 500 });
+            dicClickPosStufe.Add("Stern8", new int[] { -1085, 500 });
+            dicClickPosStufe.Add("Stern9", new int[] { -985, 500 });
+            dicClickPosStufe.Add("Stern10", new int[] { -885, 500 });
+            dicClickPosStufe.Add("Stern11", new int[] { -1185, 600 });
             //dicClickPosStufe.Add("Stern12", new int[] { -1085, 600 });
+            /////////////-pre "Spezial Update"-------
+            ////dicClickPosStufe.Add("Stern1", new int[] { -1185, 400 });
+            ////dicClickPosStufe.Add("Stern2", new int[] { -1085, 400 });
+            //dicClickPosStufe.Add("Stern3", new int[] { -985, 400 });
+            //dicClickPosStufe.Add("Stern4", new int[] { -885, 400 });
+            //dicClickPosStufe.Add("Stern5", new int[] { -785, 400 });
+            //dicClickPosStufe.Add("Stern6", new int[] { -1185, 500 });
+            //dicClickPosStufe.Add("Stern7", new int[] { -1085, 500 });
+            //dicClickPosStufe.Add("Stern8", new int[] { -985, 500 });
+            //dicClickPosStufe.Add("Stern9", new int[] { -885, 500 });
+            //dicClickPosStufe.Add("Stern10", new int[] { -785, 500 });
+            ////dicClickPosStufe.Add("Stern11", new int[] { -1185, 600 });
+            ////dicClickPosStufe.Add("Stern12", new int[] { -1085, 600 });
 
             Dictionary<string, int[]> dicClickPosKonter = new Dictionary<string, int[]>();
-            dicClickPosKonter.Add("RSKommunkikation", new int[] { -620, 600 });
+            dicClickPosKonter.Add("RSKommunikation", new int[] { -720, 600 });
+            dicClickPosKonter.Add("RSToedlichSpezial", new int[] { -620, 600 });
             dicClickPosKonter.Add("RSRadar", new int[] { -520, 600 });
-            dicClickPosKonter.Add("RSBoot", new int[] { -420, 600 });
-            dicClickPosKonter.Add("RSJetpack", new int[] { -320, 600 });
-            dicClickPosKonter.Add("RSTarnung", new int[] { -220, 600 });
-            dicClickPosKonter.Add("RSVerkleidung", new int[] { -120, 600 });
+            dicClickPosKonter.Add("RSBiologischeGefahrSpezial", new int[] { -420, 600 });
+            dicClickPosKonter.Add("RSBoot", new int[] { -320, 600 });
+            dicClickPosKonter.Add("RSJetpack", new int[] { -220, 600 });
+            dicClickPosKonter.Add("RSTarnung", new int[] { -120, 600 });
+            dicClickPosKonter.Add("RSVerkleidung", new int[] { -720, 700 });
             dicClickPosKonter.Add("RSHelikopter", new int[] { -620, 700 });
-            dicClickPosKonter.Add("RSGeiseln", new int[] { -520, 700 });
-            dicClickPosKonter.Add("RSTaktiken", new int[] { -420, 700 });
-            dicClickPosKonter.Add("RSVIP", new int[] { -320, 700 });
-            dicClickPosKonter.Add("RSSprengstoffe", new int[] { -220, 700 });
-            dicClickPosKonter.Add("RSAufklaerung", new int[] { -120, 700 });
-            dicClickPosKonter.Add("RSBiologischeGefahr", new int[] { -620, 800 });
-            dicClickPosKonter.Add("RSFahrzeug", new int[] { -520, 800 });
-            dicClickPosKonter.Add("RSToedlich", new int[] { -420, 800 });
-            dicClickPosKonter.Add("RSBegrenzteMunition", new int[] { -320, 800 });
+            dicClickPosKonter.Add("RSBootSpezial", new int[] { -520, 700 });
+            dicClickPosKonter.Add("RSToedlich", new int[] { -420, 700 });
+            dicClickPosKonter.Add("RSGeiseln", new int[] { -320, 700 });
+            dicClickPosKonter.Add("RSVIP", new int[] { -220, 700 });
+            dicClickPosKonter.Add("RSSprengstoffe", new int[] { -120, 700 });
+            dicClickPosKonter.Add("RSTaktiken", new int[] { -720, 800 });
+            dicClickPosKonter.Add("RSBegrenzteMunitionSpezial", new int[] { -620, 800 });
+            dicClickPosKonter.Add("RSAufklaerung", new int[] { -520, 800 });
+            dicClickPosKonter.Add("RSBiologischeGefahr", new int[] { -420, 800 });
+            dicClickPosKonter.Add("RSFahrzeug", new int[] { -320, 800 });
+            dicClickPosKonter.Add("RSKommunikationSpezial", new int[] { -220, 800 });
+            dicClickPosKonter.Add("RSBegrenzteMunition", new int[] { -120, 800 });
+            dicClickPosKonter.Add("OnlySniper", new int[] { }); //Unknown................
+            /////////////-pre "Spezial Update"-------
+            //dicClickPosKonter.Add("RSKommunikation", new int[] { -620, 600 });
+            //dicClickPosKonter.Add("RSRadar", new int[] { -520, 600 });
+            //dicClickPosKonter.Add("RSBoot", new int[] { -420, 600 });
+            //dicClickPosKonter.Add("RSJetpack", new int[] { -320, 600 });
+            //dicClickPosKonter.Add("RSTarnung", new int[] { -220, 600 });
+            //dicClickPosKonter.Add("RSVerkleidung", new int[] { -120, 600 });
+            //dicClickPosKonter.Add("RSHelikopter", new int[] { -620, 700 });
+            //dicClickPosKonter.Add("RSGeiseln", new int[] { -520, 700 });
+            //dicClickPosKonter.Add("RSTaktiken", new int[] { -420, 700 });
+            //dicClickPosKonter.Add("RSVIP", new int[] { -320, 700 });
+            //dicClickPosKonter.Add("RSSprengstoffe", new int[] { -220, 700 });
+            //dicClickPosKonter.Add("RSAufklaerung", new int[] { -120, 700 });
+            //dicClickPosKonter.Add("RSBiologischeGefahr", new int[] { -620, 800 });
+            //dicClickPosKonter.Add("RSFahrzeug", new int[] { -520, 800 });
+            //dicClickPosKonter.Add("RSToedlich", new int[] { -420, 800 });
+            //dicClickPosKonter.Add("RSBegrenzteMunition", new int[] { -320, 800 });
 
             Dictionary<string, int[]> dicClickPosBonus = new Dictionary<string, int[]>();
-            dicClickPosBonus.Add("BSSchnell", new int[] { -145, 419 }); //20 % speed
-            dicClickPosBonus.Add("BSMechaniker", new int[] { -645, 219 }); //20 %speed(bei aktiver drohne) -645, 219
+            dicClickPosBonus.Add("BSSchnell", new int[] { -545, 419 }); //20 % speed
+            dicClickPosBonus.Add("BSMechaniker", new int[] { -745, 219 }); //20 %speed(bei aktiver drohne) -645, 219
             dicClickPosBonus.Add("BSZeitgewinn", new int[] { -445, 419 }); //10 %speed
-            dicClickPosBonus.Add("BSKoordination", new int[] { -345, 219 }); //+10%winrate
-            dicClickPosBonus.Add("BSDrohne", new int[] { -345, 419 }); // +10%winrate (bei aktiver drohne)
-            dicClickPosBonus.Add("BSImprovisation", new int[] { -245, 319 }); //+5% kleinergleich 2st
-            dicClickPosBonus.Add("BSAufsteiger", new int[] { -145, 219 }); //+5% größergleich 4st
+            dicClickPosBonus.Add("BSKoordination", new int[] { -445, 219 }); //+10%winrate
+            dicClickPosBonus.Add("BSDrohne", new int[] { -745, 419 }); // +10%winrate (bei aktiver drohne)
+            dicClickPosBonus.Add("BSImprovisation", new int[] { -345, 319 }); //+5% kleinergleich 2st
+            dicClickPosBonus.Add("BSAufsteiger", new int[] { -245, 219 }); //+5% größergleich 4st
+            
+            /////////////-pre "Spezial Update"-------
+            //dicClickPosBonus.Add("BSSchnell", new int[] { -145, 419 }); //20 % speed
+            //dicClickPosBonus.Add("BSMechaniker", new int[] { -645, 219 }); //20 %speed(bei aktiver drohne) -645, 219
+            //dicClickPosBonus.Add("BSZeitgewinn", new int[] { -445, 419 }); //10 %speed
+            //dicClickPosBonus.Add("BSKoordination", new int[] { -345, 219 }); //+10%winrate
+            //dicClickPosBonus.Add("BSDrohne", new int[] { -345, 419 }); // +10%winrate (bei aktiver drohne)
+            //dicClickPosBonus.Add("BSImprovisation", new int[] { -245, 319 }); //+5% kleinergleich 2st
+            //dicClickPosBonus.Add("BSAufsteiger", new int[] { -145, 219 }); //+5% größergleich 4st
 
             Dictionary<string, int[]> dicClickPosBonusUnimportant = new Dictionary<string, int[]>();
-            dicClickPosBonusUnimportant.Add("BSGepanzert", new int[] { -545, 219 });
-            dicClickPosBonusUnimportant.Add("BSSchwere Rüstung", new int[] { -445, 219 });
-            dicClickPosBonusUnimportant.Add("BSAbsicherung", new int[] { -245, 219 }); //immun gegen klauen
-            dicClickPosBonusUnimportant.Add("BSGeschäftemacher", new int[] { -645, 319 });
-            dicClickPosBonusUnimportant.Add("BSÜberlebenskünstler", new int[] { -545, 319 });
-            dicClickPosBonusUnimportant.Add("BSÜberlebensspezialist", new int[] { -445, 319 });
-            dicClickPosBonusUnimportant.Add("BSGlück", new int[] { -345, 319 });
-            dicClickPosBonusUnimportant.Add("BSRabatt", new int[] { -145, 319 });
-            dicClickPosBonusUnimportant.Add("BSLehrer", new int[] { -645, 419 });
-            dicClickPosBonusUnimportant.Add("BSUnabhängig", new int[] { -545, 419 }); //+5% solo
-            dicClickPosBonusUnimportant.Add("BSTechnik", new int[] { -245, 419 });
+            dicClickPosBonusUnimportant.Add("BSGepanzert", new int[] { -645, 219 });
+            dicClickPosBonusUnimportant.Add("BSSchwere Rüstung", new int[] { -545, 219 });
+            dicClickPosBonusUnimportant.Add("BSAbsicherung", new int[] { -345, 219 }); //immun gegen klauen
+            dicClickPosBonusUnimportant.Add("BSGeschäftemacher", new int[] { -745, 319 });
+            dicClickPosBonusUnimportant.Add("BSÜberlebenskünstler", new int[] { -645, 319 });
+            dicClickPosBonusUnimportant.Add("BSÜberlebensspezialist", new int[] { -545, 319 });
+            dicClickPosBonusUnimportant.Add("BSGlück", new int[] { -445, 319 });
+            dicClickPosBonusUnimportant.Add("BSRabatt", new int[] { -145, 219 });
+            dicClickPosBonusUnimportant.Add("BSLehrer", new int[] { -145, 319 });
+            dicClickPosBonusUnimportant.Add("BSUnabhängig", new int[] { -245, 319 }); //+5% solo
+            dicClickPosBonusUnimportant.Add("BSTechnik", new int[] { -645, 419 });
+            /////////////-pre "Spezial Update"-------
+            //dicClickPosBonusUnimportant.Add("BSGepanzert", new int[] { -545, 219 });
+            //dicClickPosBonusUnimportant.Add("BSSchwere Rüstung", new int[] { -445, 219 });
+            //dicClickPosBonusUnimportant.Add("BSAbsicherung", new int[] { -245, 219 }); //immun gegen klauen
+            //dicClickPosBonusUnimportant.Add("BSGeschäftemacher", new int[] { -645, 319 });
+            //dicClickPosBonusUnimportant.Add("BSÜberlebenskünstler", new int[] { -545, 319 });
+            //dicClickPosBonusUnimportant.Add("BSÜberlebensspezialist", new int[] { -445, 319 });
+            //dicClickPosBonusUnimportant.Add("BSGlück", new int[] { -345, 319 });
+            //dicClickPosBonusUnimportant.Add("BSRabatt", new int[] { -145, 319 });
+            //dicClickPosBonusUnimportant.Add("BSLehrer", new int[] { -645, 419 });
+            //dicClickPosBonusUnimportant.Add("BSUnabhängig", new int[] { -545, 419 }); //+5% solo
+            //dicClickPosBonusUnimportant.Add("BSTechnik", new int[] { -245, 419 });
 
             WinSystem.WindowActivate(false); //Game won't be started if not allready running
             MainWindow.Sleep(3000); //Time to get mouse out of VM ;) -> alternativ send Strg+Alt if host = VM
