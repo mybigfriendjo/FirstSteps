@@ -118,10 +118,55 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="IMGDouble" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\double.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="BMPspeed30" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\booster\speed30.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Speed30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Speed30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="RSAufklaerung" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSAufklaerung.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSBegrenzteMunition" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSBegrenzteMunition.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSBiologischeGefahr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSBiologischeGefahr.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSBoot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSBoot.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSFahrzeug" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSFahrzeug.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSGeiseln" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSGeiseln.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSHelikopter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSHelikopter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSJetpack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSJetpack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSKommunikation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSKommunikation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSRadar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSRadar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSSprengstoffe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSSprengstoffe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSTaktiken" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSTaktiken.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSTarnung" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSTarnung.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSToedlich" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSToedlich.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSVerkleidung" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSVerkleidung.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RSVIP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\counter\RSVIP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

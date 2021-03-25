@@ -63,9 +63,9 @@ namespace AutoSF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap IMGDouble {
+        internal static System.Drawing.Bitmap BMPspeed30 {
             get {
-                object obj = ResourceManager.GetObject("IMGDouble", resourceCulture);
+                object obj = ResourceManager.GetObject("BMPspeed30", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,159 @@ namespace AutoSF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Speed30 {
+        internal static System.Drawing.Bitmap RSAufklaerung {
             get {
-                object obj = ResourceManager.GetObject("Speed30", resourceCulture);
+                object obj = ResourceManager.GetObject("RSAufklaerung", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSBegrenzteMunition {
+            get {
+                object obj = ResourceManager.GetObject("RSBegrenzteMunition", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSBiologischeGefahr {
+            get {
+                object obj = ResourceManager.GetObject("RSBiologischeGefahr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSBoot {
+            get {
+                object obj = ResourceManager.GetObject("RSBoot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSFahrzeug {
+            get {
+                object obj = ResourceManager.GetObject("RSFahrzeug", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSGeiseln {
+            get {
+                object obj = ResourceManager.GetObject("RSGeiseln", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSHelikopter {
+            get {
+                object obj = ResourceManager.GetObject("RSHelikopter", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSJetpack {
+            get {
+                object obj = ResourceManager.GetObject("RSJetpack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSKommunikation {
+            get {
+                object obj = ResourceManager.GetObject("RSKommunikation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSRadar {
+            get {
+                object obj = ResourceManager.GetObject("RSRadar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSSprengstoffe {
+            get {
+                object obj = ResourceManager.GetObject("RSSprengstoffe", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSTaktiken {
+            get {
+                object obj = ResourceManager.GetObject("RSTaktiken", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSTarnung {
+            get {
+                object obj = ResourceManager.GetObject("RSTarnung", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSToedlich {
+            get {
+                object obj = ResourceManager.GetObject("RSToedlich", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSVerkleidung {
+            get {
+                object obj = ResourceManager.GetObject("RSVerkleidung", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RSVIP {
+            get {
+                object obj = ResourceManager.GetObject("RSVIP", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
