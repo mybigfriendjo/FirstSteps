@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using NLog;
 using System.Diagnostics;
 using System.Linq;
+using System.Data;
 
 namespace AutoSF {
     /// <summary>
@@ -49,6 +50,7 @@ namespace AutoSF {
             AUtoMissionHotkeyThread.SetApartmentState(ApartmentState.STA);
             AUtoMissionHotkeyThread.Start();
             //ActivateAutoMissionHotkey(); //Enabels AutomissionStartHotkey
+
         }
 
         private static Logger log = LogManager.GetCurrentClassLogger();
@@ -70,6 +72,9 @@ namespace AutoSF {
         public static int Spam3Active = 0;
         public static int StuckIntro = 0;
         public static int MoveOn = 0; //if activated it will move from mission to missionä
+        public static string ResourcesPath = @"C:\Temp\Resources\";
+        
+
 
         public void ActivateAutoMissionHotkey() {
             StopAutoPvP = false;
@@ -310,16 +315,15 @@ namespace AutoSF {
         
 
         private void btnCodeTest_Click(object sender, RoutedEventArgs e) {
-            //OCR.OCRcheck(15,100,475,70);
+            ///////////////////////// vvv CodeTestArea vvv \\\\\\\\\\\\\\\\\\\\\
+            ///
+            CacheDb.GetSoldiers(6,5, "rstarnung", "rsverkleidung", "rsvip", "rsgeiseln", "rsfahrzeug");
+            CacheDb.GetSoldiersSelect();
 
-            Rect rectPixlSearchArea = new Rect();
+            DataGridTableCacheDB.ItemsSource = CacheDb.DataTableFilteredSoldiers.DefaultView;
 
-
-            Thread TaskAutoMission = new Thread(SoldierScan.StartSoldierScan);
-            TaskAutoMission.SetApartmentState(ApartmentState.STA);
-            TaskAutoMission.Start();
-
-
+            ///////////////////////// ^^^ CodeTestArea ^^^ \\\\\\\\\\\\\\\\\\\\\
+            string ImJustAPossibleBreakPoint = "";
         }
 
         private void btnAutoPvP_Click(object sender, RoutedEventArgs e) {
