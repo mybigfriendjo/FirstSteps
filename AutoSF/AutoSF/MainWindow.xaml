@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoSF"
         mc:Ignorable="d"
-        Title="AutoSF" Height="246.113" Width="246.146" >
+        Title="AutoSF" Height="297.579" Width="661.833" >
     <Grid Margin="0,0,2,0">
         <Button x:Name="btnAutoMission" Content="Auto Missions" HorizontalAlignment="Left" Margin="43,21,0,0" VerticalAlignment="Top" Width="70" Height="31" Click="btnAutoMission_Click"/>
         <Button x:Name="btnAutoDelSoldiers" Content="Auto Del Soldiers" HorizontalAlignment="Left" Margin="43,57,0,0" VerticalAlignment="Top" Width="150" Height="31" ToolTip="Deletes missing 1* Soldiers"/>
@@ -20,6 +20,7 @@
         <CheckBox x:Name="cbSpam2Active" Content="Use &quot;2&quot;" HorizontalAlignment="Left" Margin="118,130,0,0" VerticalAlignment="Top" Width="81" FontSize="11" Click="cbNoMouseMove_Click"/>
         <CheckBox x:Name="cbSpam3Active" Content="Use &quot;3&quot;" HorizontalAlignment="Left" Margin="118,148,0,0" VerticalAlignment="Top" Width="81" FontSize="11" Click="cbNoMouseMove_Click"/>
         <CheckBox x:Name="cbMoveOn" Content="Move On" HorizontalAlignment="Left" Margin="118,21,0,0" VerticalAlignment="Top" Width="75" FontSize="11" Click="cbMoveOn_Click"/>
+        <DataGrid x:Name="DataGridTableCacheDB" HorizontalAlignment="Left" Height="247" Margin="226,10,0,0" VerticalAlignment="Top" Width="416"/>
 
     </Grid>
 </Window>
