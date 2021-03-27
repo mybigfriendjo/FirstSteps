@@ -53,8 +53,8 @@ namespace AutoSF {
             dicClickPosStufe.Add("Stern8", new int[] { -1085, 500 });
             dicClickPosStufe.Add("Stern9", new int[] { -985, 500 });
             dicClickPosStufe.Add("Stern10", new int[] { -885, 500 });
-            dicClickPosStufe.Add("Stern11", new int[] { -1185, 600 });
-            //dicClickPosStufe.Add("Stern12", new int[] { -1085, 600 });
+            dicClickPosStufe.Add("Stern11", new int[] { -1285, 600 });
+            //dicClickPosStufe.Add("Stern12", new int[] { -1185, 600 });
             /////////////-pre "Spezial Update"-------
             ////dicClickPosStufe.Add("Stern1", new int[] { -1185, 400 });
             ////dicClickPosStufe.Add("Stern2", new int[] { -1085, 400 });
