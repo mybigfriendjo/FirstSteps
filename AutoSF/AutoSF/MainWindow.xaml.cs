@@ -12,6 +12,8 @@ using NLog;
 using System.Diagnostics;
 using System.Linq;
 using System.Data;
+using System.Text;
+using System.IO;
 
 namespace AutoSF {
     /// <summary>
@@ -326,6 +328,10 @@ namespace AutoSF {
             string ImJustAPossibleBreakPoint = "";
         }
 
+        private void btnAutoDelSoldiers_Click(object sender, RoutedEventArgs e) {
+            DismissSoldier.StartDismissingSoldiers();
+        }
+
         private void btnAutoPvP_Click(object sender, RoutedEventArgs e) {
             log.Debug("AutoPvp Start");
             CloseBackgroundWorkers();
@@ -335,6 +341,22 @@ namespace AutoSF {
             TaskPvPCheckPixel.SetApartmentState(ApartmentState.STA);
             TaskPvPCheckPixel.Start();
             //TaskPvPCheckPixel.Join();
+
+            //create FVK (freeVirtualKeyboard).ini
+            StringBuilder IniSettings = new StringBuilder("[Main]\n");
+            IniSettings.Append("Site=1\n");
+            IniSettings.Append("Keyboard=3\n");
+            IniSettings.Append("AutoClick=1\n");
+            IniSettings.Append("FitWidth=0\n");
+            IniSettings.Append("AlphaBlend=0\n");
+            IniSettings.Append("TMainFormTop=0\n");
+            IniSettings.Append("TMainFormLeft=1652\n");
+            IniSettings.Append("TMainFormHeight=108\n");
+            IniSettings.Append("TMainFormWidth=268\n");
+            IniSettings.Append("TMainFormState=0\n");
+            using(StreamWriter sw = new StreamWriter(@"C\Temp\resources\FreeVK.ini", false)) { //Streamwriter is of tpye IDisposable (objects that dont get deleted automatically) using(sw){ } disposes every sw object at "}"
+                sw.WriteLine(IniSettings);
+            }
 
             Sleep(4000);
             if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
@@ -639,6 +661,22 @@ namespace AutoSF {
                             //var MsgBoxResult = MessageBox.Show("Is Curser Position Ok to Click?", "MouseClickPositionCheck - SwitchToRoom2", MessageBoxButton.YesNo);
                             //if(Convert.ToString(MsgBoxResult) == "Yes") {
                             MouseActions.DoubleClickAtPosition(-956, 134);
+                            if(Spam2Active == 1 || Spam3Active == 1) {
+                                Sleep(100);
+                                WinSystem.WindowActivateFreeVK(true); //Starts virtual Keyboard
+                                if(Spam2Active == 1) {
+                                    KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_2);
+                                    SendKeys.Send("2");
+                                    MouseActions.SingleClickAtPosition(-192, 49); //2
+                                }
+                                if(Spam3Active == 1 && i == 1) {   //only activate "3" once - pressing it again would disable it
+                                    //KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_3);
+                                    MouseActions.SingleClickAtPosition(-178, 49); //3
+                                }
+                                Sleep(25);
+                                WinSystem.WindowActivate(false);
+                            }
+
                             //}
                         }
                         else { //If PvP Intro doesnt appear - stillcontinue
@@ -866,5 +904,7 @@ namespace AutoSF {
                 Console.WriteLine("Mouseclick Stopped");
             }
         }
+
+        
     }
 }
