@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace AutoSF.Helper {
     public static class ImgSearch {
 
-        [DllImport(@"C:\ImageSearchDLL.dll")]
+        [DllImport(@"C:\Temp\Resources\ImageSearchDLL.dll")]
         static extern IntPtr ImageSearch(int x, int y, int right, int bottom, [MarshalAs(UnmanagedType.LPStr)] string imagePath);
 
 
