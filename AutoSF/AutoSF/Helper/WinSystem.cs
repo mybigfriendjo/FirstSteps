@@ -78,6 +78,23 @@ namespace AutoSF.Helper {
 
             return HWND.Zero;
         }
+        public static HWND WindowActivateFreeVK(bool ActivateGameStart = false) {
+            bool ProcessFound = false;
+            foreach(var process in Process.GetProcessesByName("FreeVK")) {
+                ProcessFound = true;
+                SetForegroundWindow(process.MainWindowHandle);
+                return process.MainWindowHandle;
+            }
+            if(!ProcessFound && ActivateGameStart == true) {
+                Console.WriteLine("Keyboard not Found - starting Game.");
+                if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                    Process.Start(@"C:\Temp\Resources\FreeVK.exe");
+                    MainWindow.Sleep(1000); //Sleep 1min
+                }
+            }
+            return HWND.Zero;
+        }
+
         public static void WindowKill() {
             foreach(var process in Process.GetProcessesByName("mcfw")) {
                 process.Kill();
