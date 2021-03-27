@@ -8,7 +8,7 @@
         Title="AutoSF" Height="297.579" Width="661.833" >
     <Grid Margin="0,0,2,0">
         <Button x:Name="btnAutoMission" Content="Auto Missions" HorizontalAlignment="Left" Margin="43,21,0,0" VerticalAlignment="Top" Width="70" Height="31" Click="btnAutoMission_Click"/>
-        <Button x:Name="btnAutoDelSoldiers" Content="Auto Del Soldiers" HorizontalAlignment="Left" Margin="43,57,0,0" VerticalAlignment="Top" Width="150" Height="31" ToolTip="Deletes missing 1* Soldiers"/>
+        <Button x:Name="btnAutoDelSoldiers" Content="Auto Del Soldiers" HorizontalAlignment="Left" Margin="43,57,0,0" VerticalAlignment="Top" Width="150" Height="31" ToolTip="Deletes missing 1* Soldiers" Click="btnAutoDelSoldiers_Click"/>
         <Button x:Name="btnAutoPvP" Content="Auto PvP" HorizontalAlignment="Left" Margin="43,93,0,0" VerticalAlignment="Top" Width="70" Height="31" Click="btnAutoPvP_Click"/>
         <Label x:Name="Bgw1Label" Content="StatusBgw1:" HorizontalAlignment="Left" Margin="43,163,0,0" VerticalAlignment="Top" Height="24" Width="63" FontSize="10" RenderTransformOrigin="0.513,0.524"/>
         <Label x:Name="Bgw2Label" Content="StatusBgw2:" HorizontalAlignment="Left" Margin="43,179,0,0" VerticalAlignment="Top" Height="26" Width="63" FontSize="10" RenderTransformOrigin="0.513,0.524"/>
