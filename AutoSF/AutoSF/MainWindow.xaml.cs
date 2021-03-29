@@ -78,18 +78,16 @@ namespace AutoSF {
         
 
 
-        public void ActivateAutoMissionHotkey() {
+        public void ActivateAutoMissionHotkey() { //enables HotKeyforAutoStartMission
             StopAutoPvP = false;
 
             while(30 < 40 && StopAutoMission == false) { //endless loop
-                // Perform a time consuming operation and report progress.
                 if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad2)) {
                     log.Debug("AutoMission start triggered by hotkey");
                     AutoMission.StartAutoMissionThread();
                     Sleep(400); //ensure it gets only triggered once
                 }
             }
-            //BackgroundworkerConfig.BgwStartAsync(BackgroundworkerConfig.backgroundWorker5); //enables HotKeyforAutoStartMission
         }
             
         
@@ -354,9 +352,11 @@ namespace AutoSF {
             IniSettings.Append("TMainFormHeight=108\n");
             IniSettings.Append("TMainFormWidth=268\n");
             IniSettings.Append("TMainFormState=0\n");
-            using(StreamWriter sw = new StreamWriter(@"C\Temp\resources\FreeVK.ini", false)) { //Streamwriter is of tpye IDisposable (objects that dont get deleted automatically) using(sw){ } disposes every sw object at "}"
+            using(StreamWriter sw = new StreamWriter(@"C:\Temp\resources\FreeVK.ini", false)) { //Streamwriter is of tpye IDisposable (objects that dont get deleted automatically) using(sw){ } disposes every sw object at "}"
                 sw.WriteLine(IniSettings);
             }
+            WinSystem.WindowActivateFreeVK(true);
+
 
             Sleep(4000);
             if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
@@ -370,7 +370,7 @@ namespace AutoSF {
         public void TaskHandler() { //public async void TaskHandler() {
             //await Task.Delay(1);
             int round = 1;
-            while(round < 200 && StopAutoPvP == false) {
+            while(round < 250 && StopAutoPvP == false) {
                 if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
                     log.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                     PositionCount = 10;
@@ -381,10 +381,10 @@ namespace AutoSF {
                 log.Debug("Positioncount: " + PositionCount + " round = " + round +  "Starting Checkpixel"); 
                 CheckPixel();
             }
-            //Will Kill SF after 200 Games, Stop Backgroundworkers
-            if(StopAutoPvP == false) {
-                WinSystem.WindowKill();
-            }
+            //Will Kill SF after 250 Games, Stop Backgroundworkers
+            //if(StopAutoPvP == false) {
+            //    WinSystem.WindowKill("mcfw");
+            //}
             CloseBackgroundWorkers();
             PositionCount = 10;
             if(StuckIntro == 1) {
@@ -454,6 +454,7 @@ namespace AutoSF {
             BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker3);
             BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker4);
             PositionCount = 10;
+            WinSystem.WindowKill("FreeVK");
         }
 
         private void StuckOnIntro() {
