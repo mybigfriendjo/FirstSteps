@@ -40,6 +40,9 @@ namespace AutoSF {
                     MainWindow.Sleep(350);
                     int AmountOfLoops = 0;
                     while(AmountOfLoops++ < 20) {
+                        if(AmountOfLoops > 1) {
+                            MainWindow.Sleep(300); //time required for SF to reorder soldiers after dissmissing one. Not needet in First round.
+                        }
                         if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
                             log.Debug("Dismissing Soldiers interrupted by user at: CheckforTruppkameradenliste");
                             StopSoldierDismiss = true;
@@ -51,8 +54,10 @@ namespace AutoSF {
                             int.TryParse(ImageLocation[2], out int y);
                             MouseActions.SingleClickAtPosition(x - 100, y - 200); //upperleft corner of picture (which is in the "Bergung" Button) -> to middle of soldier screen
                             if(CheckforSoldierDissmissScreen() == 1) {
+                                MainWindow.Sleep(100);
                                 MouseActions.SingleClickAtPosition(-1834, 997); // Dissmiss Soldier
                                 if(CheckforAcceptDissmissScreen() == 1) {
+                                    MainWindow.Sleep(100);
                                     MouseActions.SingleClickAtPosition(-421, 811); //"Accept" Dismiss Button
                                     if(StopSoldierDismiss == false && CheckforTruppkameradenliste() == 1) {
                                     }
