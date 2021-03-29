@@ -87,16 +87,16 @@ namespace AutoSF.Helper {
             }
             if(!ProcessFound && ActivateGameStart == true) {
                 Console.WriteLine("Keyboard not Found - starting Game.");
-                if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                //if(MainWindow.CurrentHostName == "VMgr4ndpa") {
                     Process.Start(@"C:\Temp\Resources\FreeVK.exe");
                     MainWindow.Sleep(1000); //Sleep 1min
-                }
+                //}
             }
             return HWND.Zero;
         }
 
-        public static void WindowKill() {
-            foreach(var process in Process.GetProcessesByName("mcfw")) {
+        public static void WindowKill(string processname) {
+            foreach(var process in Process.GetProcessesByName(processname)) {
                 process.Kill();
             }
         }
