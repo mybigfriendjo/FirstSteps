@@ -229,7 +229,7 @@ namespace AutoSF {
                                 }
                                 else if (StopAutoMission == false){
                                     log.Debug("InMissionScreen found but Button not green - No Soldiers set, or time to get some gold!");
-                                    if(Interaction.InputBox("Grab some Gold, im waiting to continue the mission (wait at chest screen)!\nIf you wanna stop type  'end'  ", "Gimme Gold!") == "end") {
+                                    if(MessageBox.Show("Grab some Gold, im waiting to continue the mission (wait at chest screen)!\nIf you wanna stop press CANCEL", "Gimme Gold!", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.Cancel) { //MessageBoxOptions.DefaultDesktopOnly makes the window in stay front
                                         return;
                                     }
                                 }
@@ -913,8 +913,8 @@ namespace AutoSF {
                                         StopAutoMission = true;
                                         return;
                                     }
-                                    MouseActions.SingleClickAtPosition(-133, 214); //Aufsteiger +5
-                                    MainWindow.Sleep(800);                                               //if Still 0/0
+                                    MouseActions.SingleClickAtPosition(dicClickPos["BSAufsteiger"][0], dicClickPos["BSAufsteiger"][1]); ; //Aufsteiger +5
+                                    MainWindow.Sleep(600);                                               //if Still 0/0
                                     OcrActiveSoldiers = (OCR.OCRcheck(1160, 922, 140, 34, "0123456789/")); //bsp.: 19/25
                                     if(OcrActiveSoldiers.Length <= 4) {
                                         OcrActiveSoldiers = (OCR.OCRcheck(1170, 926, 60, 34, "0123456789/")); //bsp.: 19/25
@@ -925,9 +925,9 @@ namespace AutoSF {
                                     else if(StopAutoMission == false && ZeroCount == CheckSoldierType.Length) {
                                         
                                         MouseActions.SingleClickAtPosition(dicClickPos["BSDrohne"][0], dicClickPos["BSDrohne"][1]);
-                                        MainWindow.Sleep(300);
+                                        MainWindow.Sleep(200);
                                         MouseActions.SingleClickAtPosition(dicClickPos["BSKoordination"][0], dicClickPos["BSKoordination"][1]);
-                                        MainWindow.Sleep(600);
+                                        MainWindow.Sleep(400);
                                         SoldierPickProcess();
                                     }
                                 }
@@ -977,13 +977,14 @@ namespace AutoSF {
                 return OcrDuration;
             }
             int checkSuccessRate(int targetSuccessRate) {
+                MainWindow.Sleep(300); //neccecary to update winrate
                 string OcrSuccessRate = OCR.OCRcheck(1056, 963, 100, 35); //bsp.:  100% , 130%
                 int OcrSuccessRateInt = Convert.ToInt32(OcrSuccessRate.Substring(0, OcrSuccessRate.Length - 1));
 
                 //Checks if rate wit blueDrone > targetrate - if so drohne will stay active, else drohne will be deaktivated and continued and soldiers with drohne bonus will not be treated special.
                 if(targetSuccessRate > 49 && OcrSuccessRateInt < targetSuccessRate) {
                     MouseActions.SingleClickAtPosition((dicClickPos["bluedrohne"][0]), dicClickPos["bluedrohne"][1]);
-                    MainWindow.Sleep(400);
+                    MainWindow.Sleep(300);
                     string OcrSuccessRateWithDrone = OCR.OCRcheck(1056, 963, 100, 35); //bsp.:  110% , 150%
                     int OcrSuccessRateWithDroneInt = Convert.ToInt32(OcrSuccessRateWithDrone.Substring(0, OcrSuccessRateWithDrone.Length - 1));
 
@@ -1173,7 +1174,7 @@ namespace AutoSF {
                 log.Debug("GambitScreenFound");
             
                 int XCoordinate = 0;
-                while(XCoordinate == 0 && StopAutoMission == false && i<6) { //Limited to 6 Times
+                while(XCoordinate == 0 && StopAutoMission == false && i<7) { //Limited to 6 Times
                     if(boosterType != "double") {
                         if(boosterType != "speed") {
                             if(boosterType == "successbooster") {
@@ -1184,30 +1185,44 @@ namespace AutoSF {
                                         break;
                                     }
                                 }
-                                if(boosterValue == 25) {
+                                else if(boosterValue == 25) {
                                     //XCoordinate = FindImageCoordinates(@"C:\temp\success30.jpg");
                                     XCoordinate = FindImageCoordinates(MainWindow.ResourcesPath + @"booster\success25.png");
                                     if(XCoordinate != 0) {
                                         break;
                                     }
                                 }
-                                if(boosterValue == 20) {
+                                else if(boosterValue == 20) {
                                     //XCoordinate = FindImageCoordinates(@"C:\temp\success30.jpg");
                                     XCoordinate = FindImageCoordinates(MainWindow.ResourcesPath + @"booster\success20drohne.png");
                                     if(XCoordinate != 0) {
                                         break;
                                     }
                                 }
-                                if(boosterValue == 15) {
+                                else if(boosterValue == 15) {
                                     //XCoordinate = FindImageCoordinates(@"C:\temp\success30.jpg");
                                     XCoordinate = FindImageCoordinates(MainWindow.ResourcesPath + @"booster\success15.png");
                                     if(XCoordinate != 0) {
                                         break;
                                     }
                                 }
-                                if(boosterValue == 10) {
+                                else if(boosterValue == 10) {
                                     //XCoordinate = FindImageCoordinates(@"C:\temp\success30.jpg");
                                     XCoordinate = FindImageCoordinates(MainWindow.ResourcesPath + @"booster\success10drohne.png");
+                                    if(XCoordinate != 0) {
+                                        break;
+                                    }
+                                }
+                                else if(boosterValue == 10) {
+                                    //XCoordinate = FindImageCoordinates(@"C:\temp\success30.jpg");
+                                    XCoordinate = FindImageCoordinates(MainWindow.ResourcesPath + @"booster\success10drohne.png");
+                                    if(XCoordinate != 0) {
+                                        break;
+                                    }
+                                }
+                                else if(boosterValue == 5) {
+                                    //XCoordinate = FindImageCoordinates(@"C:\temp\success30.jpg");
+                                    XCoordinate = FindImageCoordinates(MainWindow.ResourcesPath + @"booster\success5drohne.png");
                                     if(XCoordinate != 0) {
                                         break;
                                     }
