@@ -79,7 +79,7 @@ namespace AutoSF.Helper {
             temptable.Append("CREATE TABLE TempBusy4 AS SELECT *,count(TempBusy3.typ) AS TypeCount FROM TempBusy3 GROUP BY TempBusy3.typ; ");
 
             temptable.Append("DROP TABLE IF EXISTS TempBusy5; ");
-            temptable.Append("CREATE TABLE TempBusy5 AS Select TempBusy3.id,TempBusy3.stufe,TempBusy3.typ,TempBusy3.konter,TempBusy3.bonus,TempBusy3.availible,TempBusy4.TypeCount, IIF((TempBusy3.bonus = 'bskoordination' OR TempBusy3.bonus = 'bsdrohne' ), TempBusy3.stufe * 5 + 10 , TempBusy3.stufe * 5) AS normalrate, IIF(TempBusy3.bonus = 'bsimprovisation', 5, 0) AS shortrate, IIF(TempBusy3.bonus = 'bsaufsteiger', 5, 0) AS longrate FROM TempBusy4 ");
+            temptable.Append("CREATE TABLE TempBusy5 AS Select TempBusy3.id,TempBusy3.stufe,TempBusy3.typ,TempBusy3.konter,TempBusy3.bonus,TempBusy3.availible,TempBusy4.TypeCount, IIF((TempBusy3.bonus = 'bskoordination' OR TempBusy3.bonus = 'bsdrohne' ), IIF( TempBusy3.stufe > 3, TempBusy3.stufe * 5 + 10, TempBusy3.stufe * 5), TempBusy3.stufe * 5) AS normalrate, IIF(TempBusy3.bonus = 'bsimprovisation', IIF( TempBusy3.stufe > 3, 5, 0), 0) AS shortrate, IIF(TempBusy3.bonus = 'bsaufsteiger', IIF( TempBusy3.stufe > 3, 5, 0), 0) AS longrate FROM TempBusy4 ");
             temptable.Append("LEFT JOIN TempBusy3 ON TempBusy3.typ = TempBusy4.typ ");
             temptable.Append("ORDER BY TypeCount, TempBusy3.typ, TempBusy3.availible  DESC; ");
 
