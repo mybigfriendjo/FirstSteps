@@ -341,21 +341,21 @@ namespace AutoSF {
             //TaskPvPCheckPixel.Join();
 
             //create FVK (freeVirtualKeyboard).ini
-            StringBuilder IniSettings = new StringBuilder("[Main]\n");
-            IniSettings.Append("Site=1\n");
-            IniSettings.Append("Keyboard=3\n");
-            IniSettings.Append("AutoClick=1\n");
-            IniSettings.Append("FitWidth=0\n");
-            IniSettings.Append("AlphaBlend=0\n");
-            IniSettings.Append("TMainFormTop=0\n");
-            IniSettings.Append("TMainFormLeft=1652\n");
-            IniSettings.Append("TMainFormHeight=108\n");
-            IniSettings.Append("TMainFormWidth=268\n");
-            IniSettings.Append("TMainFormState=0\n");
-            using(StreamWriter sw = new StreamWriter(@"C:\Temp\resources\FreeVK.ini", false)) { //Streamwriter is of tpye IDisposable (objects that dont get deleted automatically) using(sw){ } disposes every sw object at "}"
-                sw.WriteLine(IniSettings);
-            }
-            WinSystem.WindowActivateFreeVK(true);
+            //StringBuilder IniSettings = new StringBuilder("[Main]\n");
+            //IniSettings.Append("Site=1\n");
+            //IniSettings.Append("Keyboard=3\n");
+            //IniSettings.Append("AutoClick=1\n");
+            //IniSettings.Append("FitWidth=0\n");
+            //IniSettings.Append("AlphaBlend=0\n");
+            //IniSettings.Append("TMainFormTop=0\n");
+            //IniSettings.Append("TMainFormLeft=1652\n");
+            //IniSettings.Append("TMainFormHeight=108\n");
+            //IniSettings.Append("TMainFormWidth=268\n");
+            //IniSettings.Append("TMainFormState=0\n");
+            //using(StreamWriter sw = new StreamWriter(@"C:\Temp\resources\FreeVK.ini", false)) { //Streamwriter is of tpye IDisposable (objects that dont get deleted automatically) using(sw){ } disposes every sw object at "}"
+            //    sw.WriteLine(IniSettings);
+            //}
+            //WinSystem.WindowActivateFreeVK(true);
 
 
             Sleep(4000);
@@ -454,7 +454,7 @@ namespace AutoSF {
             BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker3);
             BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker4);
             PositionCount = 10;
-            WinSystem.WindowKill("FreeVK");
+            //WinSystem.WindowKill("FreeVK");
         }
 
         private void StuckOnIntro() {
@@ -463,7 +463,7 @@ namespace AutoSF {
             StuckIntro = 1;
             KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_W);
             Sleep(10);
-            SendKeys.Send("W");
+            SendKeys.SendWait("W");
             //if(WinSystem.WindowActivate() == IntPtr.Zero) {
 
             //}
