@@ -101,10 +101,10 @@ namespace AutoSF.Helper {
         }
 
         //ToDo change stufe1,stufe2 to difficulty in GetSoldiers Method, Query(stufe1 = difficulty +1, stufe2 = difficulty), variables,...
-        public static (string, string) GetSoldiers(int stufe1, int stufe2 = 0, string konter1 = "", string konter2 = "", string konter3 = "", string konter4 = "", string konter5 = "") {
+        public static (string, string) GetSoldiers(int difficulty, string konter1 = "", string konter2 = "", string konter3 = "", string konter4 = "", string konter5 = "") {
             using(SQLiteCommand command = new SQLiteCommand(QUERY_CreateMissionSoldiersTables, connection)) {
-
-                command.Parameters.AddWithValue("@stufe1", stufe1);
+                int stufe2 = difficulty + 1;
+                command.Parameters.AddWithValue("@stufe1", difficulty);
                 command.Parameters.AddWithValue("@stufe2", stufe2);
                 command.Parameters.AddWithValue("@konter1", konter1.ToLower());
                 command.Parameters.AddWithValue("@konter2", konter2.ToLower());

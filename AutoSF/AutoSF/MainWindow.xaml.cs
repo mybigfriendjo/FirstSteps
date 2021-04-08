@@ -317,7 +317,7 @@ namespace AutoSF {
         private void btnCodeTest_Click(object sender, RoutedEventArgs e) {
             ///////////////////////// vvv CodeTestArea vvv \\\\\\\\\\\\\\\\\\\\\
             ///
-            CacheDb.GetSoldiers(6,5, "rstarnung", "rsverkleidung", "rsvip", "rsgeiseln", "rsfahrzeug");
+            CacheDb.GetSoldiers(3, "rstarnung", "rsverkleidung", "rsvip", "rsgeiseln", "rsfahrzeug");
             CacheDb.GetSoldiersSelect();
 
             DataGridTableCacheDB.ItemsSource = CacheDb.DataTableFilteredSoldiers.DefaultView;
