@@ -32,32 +32,12 @@ namespace AutoSF {
              * -drohnencheck  => test ausständig ->wird nicht aufgerufen!
              * 
              * -goldcheck
-             * -automatisch zur mission navigieren
              * -sleeps durch pixelfinder ersetzen
              * -dynamische db erstellen
              *    >soldaten scannen und in db befüllen
              * -mausklicks/Inputs durch directX ersetzen
              * 
-             * ---SQL--- GetFittingSoldiers
-             * CREATE TEMP TABLE TempBusy AS SELECT id,COUNT(*) as Allbusy
-	            FROM unterwegs
-	            GROUP BY id;
-
-                CREATE TEMP TABLE TempBusy2 AS select soldaten.id,soldaten.stufe,soldaten.konter,soldaten.bonus,IIF(length(soldaten.anzahl) = 4 OR length(soldaten.anzahl) = 5,substr(soldaten.anzahl,-2,2),IIF(length(soldaten.anzahl) = 3, substr(soldaten.anzahl,-1,1),"ERROR")) as anzahl,Allbusy from soldaten
-                LEFT JOIN TempBusy ON soldaten.id = TempBusy.id;
-
-                SELECT TempBusy2.id,TempBusy2.stufe,TempBusy2.konter,TempBusy2.bonus,(IIF(TempBusy2.Allbusy <> NULL,(CAST(TempBusy2.anzahl AS INT) - CAST(TempBusy2.Allbusy AS INT)),CAST(TempBusy2.anzahl AS INT))) AS availible 
-                FROM TempBusy2
-                WHERE TempBusy2.stufe="stern6" AND (TempBusy2.konter="rstarnung" 
-	                OR TempBusy2.konter="rsverkleidung" OR  TempBusy2.konter ="rsvip" OR TempBusy2.konter="rsgeiseln" OR TempBusy2.konter="rsfahrzeug")
-                ORDER BY availible DESC;
-            
-                DROP TABLE IF EXISTS TempBusy4;
-                CREATE TEMP TABLE TempBusy4 AS SELECT *,count(TempBusy3.typ) AS TypeCount FROM TempBusy3 GROUP BY TempBusy3.typ;
-
-                Select TempBusy3.id,TempBusy3.stufe,TempBusy3.typ,TempBusy3.konter,TempBusy3.bonus,TempBusy3.availible,TempBusy4.TypeCount, IIF((TempBusy3.bonus = "bskoordination" OR TempBusy3.bonus = "bsdrohne" ), 35 , 25) AS normalrate, IIF(TempBusy3.bonus = "bsimprovisation", 30, 25) AS shortrate, IIF(TempBusy3.bonus = "bsaufsteiger", 30, 25) AS longrate FROM TempBusy4
-                LEFT JOIN TempBusy3 ON TempBusy3.typ = TempBusy4.typ
-                ORDER BY TypeCount;
+             * 
              * 
              */
 
@@ -65,6 +45,7 @@ namespace AutoSF {
 
             string OcrMissionname1 = "";
             string OcrMissionname2 = "";
+            int MissionDifficulty = 0;
 
             Logger log = LogManager.GetCurrentClassLogger();
             bool Missionfound = false;
@@ -80,6 +61,7 @@ namespace AutoSF {
             int targetSuccessRate = 100;
             int ZeroCount = 0;
             DataRow[] result = null; //MissionData From DB
+            DateTime LastSpeedMission = DateTime.Now.AddMinutes(-2);
             
 
 
@@ -177,8 +159,7 @@ namespace AutoSF {
 
             Stopwatch missionTime = Stopwatch.StartNew();
 
-
-
+            
 
             if(MainWindow.MoveOn == 1) {
                 while(MainWindow.MoveOn == 1 && StopAutoMission == false) {
@@ -301,6 +282,15 @@ namespace AutoSF {
                 if(Missionfound == true && StopAutoMission == false) {
 
                     if((result[0].Field<Int64>("Speed")) == 1 && StopAutoMission == false) {
+                        //DateTime CurrentTime = DateTime.Now;
+                        if(LastSpeedMission > DateTime.Now.AddSeconds(-90)) {
+                            //int TimeTillSpeedRdy = Convert.ToInt32((LastSpeedMission - CurrentTime.AddMinutes(-1)).TotalMilliseconds);
+                            MainWindow.Sleep(Convert.ToInt32((LastSpeedMission - DateTime.Now.AddSeconds(-90)).TotalMilliseconds));
+                            //MainWindow.Sleep(TimeTillSpeedRdy);
+                        }
+                        else {
+                            LastSpeedMission = DateTime.Now;
+                        }
                         if((result[0].Field<Int64>("MitBonus")) == 1) { //wie speed jedoch mit 2 drohnen
                             log.Debug("Speed=1, MitBonus=1");
                             Missiontype = "SpeedMitBonus";
@@ -480,8 +470,14 @@ namespace AutoSF {
                             }
                         }
                     }
-                    if(StopAutoMission == false && 100 <= checkSuccessRate(targetSuccessRate)) {
+                    int CheckSuccessRateResult = checkSuccessRate(targetSuccessRate);
+                    if(StopAutoMission == false && 100 <= CheckSuccessRateResult) {
                         //checkGold();
+                    }
+                    else if (StopAutoMission == false && -1 == CheckSuccessRateResult) {
+                        log.Debug("MissionTime =" + missionTime.Elapsed);
+                        missionTime.Stop();
+                        return;
                     }
                     log.Debug("MissionTime =" + missionTime.Elapsed);
                     missionTime.Stop();
@@ -644,9 +640,13 @@ namespace AutoSF {
                         }
                         else if(StopAutoMission == false && Missiontype == "DoppeltMitBonusOnlySniper") {
                             if(currentSoldier == "Sniper") {
-                                MouseActions.SingleClickAtPosition(dicClickPos["Stern10"][0], dicClickPos["Stern10"][1]);
+                                MouseActions.SingleClickAtPosition(dicClickPos["Stern6"][0], dicClickPos["Stern6"][1]);
                                 MainWindow.Sleep(150);
-                                MouseActions.SingleClickAtPosition(dicClickPos["Stern11"][0], dicClickPos["Stern11"][1]);
+                                MouseActions.SingleClickAtPosition(dicClickPos["Stern7"][0], dicClickPos["Stern7"][1]);
+                                MainWindow.Sleep(150);
+                                MouseActions.SingleClickAtPosition(dicClickPos["Stern8"][0], dicClickPos["Stern8"][1]);
+                                MainWindow.Sleep(150);
+                                MouseActions.SingleClickAtPosition(dicClickPos["Stern9"][0], dicClickPos["Stern9"][1]);
                                 MainWindow.Sleep(150);
                             }
                             else {
@@ -658,14 +658,10 @@ namespace AutoSF {
                             MainWindow.Sleep(150);
                             MouseActions.SingleClickAtPosition(dicClickPos["BSDrohne"][0], dicClickPos["BSDrohne"][1]); //Bonus BSDrohne +10
                             MainWindow.Sleep(300);
-                                
-                            
 
-                            string OcrActiveSoldiers = (OCR.OCRcheck(1160, 922, 140, 34, "0123456789/")); //bsp.: 19/25
-                            if(OcrActiveSoldiers.Length <= 4 && StopAutoMission == false) {
-                                OcrActiveSoldiers = (OCR.OCRcheck(1170, 926, 60, 34, "0123456789/")); //bsp.: 0/0
-                            }
-                            if(StopAutoMission == false && OcrActiveSoldiers != "0/0" && OcrActiveSoldiers != "17240") {
+
+
+                            if(StopAutoMission == false && CheckForAvailibleSoldiers() == true) {
                                 SoldierPickProcessDopMitBon();
                             }
                             else if(StopAutoMission == false) { //no soldiers found
@@ -677,8 +673,7 @@ namespace AutoSF {
                                     MouseActions.SingleClickAtPosition(dicClickPos["BSImprovisation"][0], dicClickPos["BSImprovisation"][1]); //Bonus BSImprovisation +5% < 4hours
                                     MainWindow.Sleep(400);
                                 }
-                                OcrActiveSoldiers = (OCR.OCRcheck(1170, 926, 60, 34, "0123456789/")); //bsp.: 0/0
-                                if(StopAutoMission == false && OcrActiveSoldiers != "0/0" && OcrActiveSoldiers != "17240") {
+                                if(StopAutoMission == false && CheckForAvailibleSoldiers() == true) {
                                     SoldierPickProcessDopMitBon();
                                 }
                                 else {
@@ -718,11 +713,7 @@ namespace AutoSF {
                                 MainWindow.Sleep(300);
                             }
 
-                            string OcrActiveSoldiers = (OCR.OCRcheck(1160, 922, 140, 34, "0123456789/")); //bsp.: 19/25
-                            if(OcrActiveSoldiers.Length <= 4 && StopAutoMission == false) {
-                                OcrActiveSoldiers = (OCR.OCRcheck(1170, 926, 60, 34, "0123456789/")); //bsp.: 19/25
-                            }
-                            if(StopAutoMission == false && OcrActiveSoldiers != "0/0" && OcrActiveSoldiers != "17240") {
+                            if(StopAutoMission == false && CheckForAvailibleSoldiers() == true) {
                                 SoldierPickProcessDopMitBon();
                             }
                             else if(StopAutoMission == false){
@@ -764,11 +755,7 @@ namespace AutoSF {
                             MouseActions.SingleClickAtPosition(dicClickPos["BSDrohne"][0], dicClickPos["BSDrohne"][1]); //Bonus BSDrohne +10
                             MainWindow.Sleep(300);
 
-                            string OcrActiveSoldiers = (OCR.OCRcheck(1160, 922, 140, 34, "0123456789/")); //bsp.: 19/25
-                            if(OcrActiveSoldiers.Length <= 4 && StopAutoMission == false) {
-                                OcrActiveSoldiers = (OCR.OCRcheck(1170, 926, 60, 34, "0123456789/")); //bsp.: 0/0
-                            }
-                            if(StopAutoMission == false && OcrActiveSoldiers != "0/0" && OcrActiveSoldiers != "17240") {
+                            if(StopAutoMission == false && CheckForAvailibleSoldiers() == true) {
                                 SoldierPickProcessDopMitBon();
                             }
                             else if(StopAutoMission == false) { //no soldiers found
@@ -780,8 +767,7 @@ namespace AutoSF {
                                     MouseActions.SingleClickAtPosition(dicClickPos["BSImprovisation"][0], dicClickPos["BSImprovisation"][1]); //Bonus BSImprovisation +5% < 4hours
                                     MainWindow.Sleep(300);
                                 }
-                                OcrActiveSoldiers = (OCR.OCRcheck(1170, 926, 60, 34, "0123456789/")); //bsp.: 0/0
-                                if(StopAutoMission == false && OcrActiveSoldiers != "0/0" && OcrActiveSoldiers != "17240") {
+                                if(StopAutoMission == false && CheckForAvailibleSoldiers() == true) {
                                     SoldierPickProcessDopMitBon();
                                 }
                                 else {
@@ -822,11 +808,7 @@ namespace AutoSF {
                                 MainWindow.Sleep(300);
                             }
 
-                            string OcrActiveSoldiers = (OCR.OCRcheck(1160, 922, 140, 34, "0123456789/")); //bsp.: 19/25
-                            if(OcrActiveSoldiers.Length <= 4 && StopAutoMission == false) {
-                                OcrActiveSoldiers = (OCR.OCRcheck(1170, 926, 60, 34, "0123456789/")); //bsp.: 19/25
-                            }
-                            if(StopAutoMission == false && OcrActiveSoldiers != "0/0" && OcrActiveSoldiers != "17240") {
+                            if(StopAutoMission == false && CheckForAvailibleSoldiers() == true) {
                                 SoldierPickProcessDopMitBon();
                             }
                             else if(StopAutoMission == false) {
@@ -845,7 +827,13 @@ namespace AutoSF {
                         }
                         else if(StopAutoMission == false && (Missiontype == "Standard" || Missiontype == "Doppelt")) {
 
-                            if(StopAutoMission == false && (result[0].Field<Int64>("Difficulty")) == 5) {
+                            if(StopAutoMission == false && (result[0].Field<Int64>("Difficulty")) == 6) {
+                                MouseActions.SingleClickAtPosition(dicClickPos["Stern7"][0], dicClickPos["Stern7"][1]);
+                                MainWindow.Sleep(150);
+                                MouseActions.SingleClickAtPosition(dicClickPos["Stern6"][0], dicClickPos["Stern6"][1]);
+                                MainWindow.Sleep(150);
+                            }
+                            else if(StopAutoMission == false && (result[0].Field<Int64>("Difficulty")) == 5) {
                                 MouseActions.SingleClickAtPosition(dicClickPos["Stern6"][0], dicClickPos["Stern6"][1]);
                                 MainWindow.Sleep(150);
                                 MouseActions.SingleClickAtPosition(dicClickPos["Stern5"][0], dicClickPos["Stern5"][1]);
@@ -867,11 +855,11 @@ namespace AutoSF {
                                 MouseActions.SingleClickAtPosition(dicClickPos[Counter][0], dicClickPos[Counter][1]);
                                 log.Debug("Click Filter " + Counter + " at " + dicClickPos[Counter][0].ToString() + "," + dicClickPos[Counter][1].ToString());
                                 MainWindow.Sleep(300);
-                                string OcrActiveSoldiers = (OCR.OCRcheck(1160, 922, 140, 34, "0123456789/")); //bsp.: 19/25
-                                if(OcrActiveSoldiers.Length <= 4) {
-                                    OcrActiveSoldiers = (OCR.OCRcheck(1170, 926, 60, 34, "0123456789/")); //bsp.: 19/25
-                                }
-                                if(StopAutoMission == false && OcrActiveSoldiers != "0/0" && OcrActiveSoldiers != "17240") {
+                                //string OcrActiveSoldiers = (OCR.OCRcheck(1160, 922, 140, 34, "0123456789/")); //bsp.: 19/25
+                                //if(OcrActiveSoldiers.Length <= 4) {
+                                //    OcrActiveSoldiers = (OCR.OCRcheck(1170, 926, 60, 34, "0123456789/")); //bsp.: 19/25
+                                //}
+                                if(StopAutoMission == false && CheckForAvailibleSoldiers() == true) {
                                     SoldierPickProcess(); //removes soldier from Array (Soldier/Counter)closes Filter, selects Filterresult-Soldier
                                 }
                                 else if(StopAutoMission == false) {
@@ -915,11 +903,8 @@ namespace AutoSF {
                                     }
                                     MouseActions.SingleClickAtPosition(dicClickPos["BSAufsteiger"][0], dicClickPos["BSAufsteiger"][1]); ; //Aufsteiger +5
                                     MainWindow.Sleep(600);                                               //if Still 0/0
-                                    OcrActiveSoldiers = (OCR.OCRcheck(1160, 922, 140, 34, "0123456789/")); //bsp.: 19/25
-                                    if(OcrActiveSoldiers.Length <= 4) {
-                                        OcrActiveSoldiers = (OCR.OCRcheck(1170, 926, 60, 34, "0123456789/")); //bsp.: 19/25
-                                    }
-                                    if(StopAutoMission == false && OcrActiveSoldiers != "0/0" && OcrActiveSoldiers != "17240") {
+
+                                    if(StopAutoMission == false && CheckForAvailibleSoldiers() == true) {
                                         SoldierPickProcess();
                                     }
                                     else if(StopAutoMission == false && ZeroCount == CheckSoldierType.Length) {
@@ -979,6 +964,13 @@ namespace AutoSF {
             int checkSuccessRate(int targetSuccessRate) {
                 MainWindow.Sleep(300); //neccecary to update winrate
                 string OcrSuccessRate = OCR.OCRcheck(1056, 963, 100, 35); //bsp.:  100% , 130%
+                if(OcrSuccessRate == "") {
+                    OcrSuccessRate = OCR.OCRcheck(1025, 963, 100, 35);
+                    if(OcrSuccessRate == "") {
+                        log.Error("OcrSuccessRate not found or recognized!");
+                        return -1;
+                    }
+                }
                 int OcrSuccessRateInt = Convert.ToInt32(OcrSuccessRate.Substring(0, OcrSuccessRate.Length - 1));
 
                 //Checks if rate wit blueDrone > targetrate - if so drohne will stay active, else drohne will be deaktivated and continued and soldiers with drohne bonus will not be treated special.
@@ -986,6 +978,13 @@ namespace AutoSF {
                     MouseActions.SingleClickAtPosition((dicClickPos["bluedrohne"][0]), dicClickPos["bluedrohne"][1]);
                     MainWindow.Sleep(300);
                     string OcrSuccessRateWithDrone = OCR.OCRcheck(1056, 963, 100, 35); //bsp.:  110% , 150%
+                    if(OcrSuccessRateWithDrone == "") {
+                        OcrSuccessRateWithDrone = OCR.OCRcheck(1025, 963, 100, 35);
+                        if(OcrSuccessRateWithDrone == "") {
+                            log.Error("OcrSuccessRateWithDrone not found or recognized!");
+                            return -1;
+                        }
+                    }
                     int OcrSuccessRateWithDroneInt = Convert.ToInt32(OcrSuccessRateWithDrone.Substring(0, OcrSuccessRateWithDrone.Length - 1));
 
                     if(OcrSuccessRateWithDroneInt >= targetSuccessRate) {
@@ -1134,7 +1133,15 @@ namespace AutoSF {
                     selectBooster("speed", successbooster);
                 }
                 else if(successbooster > 0) {
-                    string OcrPreBoosterRate = OCR.OCRcheck(1056, 963, 100, 35); //bsp.:  100% , 130%
+                    MainWindow.Sleep(100);
+                    string OcrPreBoosterRate = OCR.OCRcheck(1056, 963, 100, 35,"0123456789% "); //bsp.:  100% , 130%
+                    if(OcrPreBoosterRate == "") {
+                        OcrPreBoosterRate = OCR.OCRcheck(1025, 963, 100, 35);
+                        if(OcrPreBoosterRate == "") {
+                            log.Error("OcrPreBoosterRate not found or recognized!");
+                            return -1;
+                        }
+                    }
                     int OcrPreBoosterRateInt = Convert.ToInt32(OcrPreBoosterRate.Substring(0, OcrPreBoosterRate.Length - 1));
                     if(OcrPreBoosterRateInt < targetSuccessRate) {
                         selectBooster("successbooster", successbooster);
@@ -1144,7 +1151,7 @@ namespace AutoSF {
                     }
                 }
 
-                string OcrSuccessRate2 = OCR.OCRcheck(1056, 963, 100, 35); //bsp.:  100% , 130%
+                string OcrSuccessRate2 = OCR.OCRcheck(1056, 963, 100, 35, "0123456789% "); //bsp.:  100% , 130%
                 int OcrSuccessRateInt2 = Convert.ToInt32(OcrSuccessRate.Substring(0, OcrSuccessRate.Length - 1));
                 return OcrSuccessRateInt2;
             }
@@ -1422,6 +1429,113 @@ namespace AutoSF {
                 }
             }
 
+            void CheckForDifficulty(){
+                if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + @"stern6.png", "120", -895, 865, -761, 984) != null) {
+                    MissionDifficulty = 6;
+                }
+                else if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + @"stern5.png","120", -895, 865, -761, 984) != null) {
+                    MissionDifficulty = 5;
+                }
+                else if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + @"stern7.png", "120", -895, 865, -761, 984) != null) {
+                    MissionDifficulty = 7;
+                }
+                else if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + @"stern8.png", "120", -895, 865, -761, 984) != null) {
+                    MissionDifficulty = 8;
+                }
+                else if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + @"stern9.png", "120", -895, 865, -761, 984) != null) {
+                    MissionDifficulty = 9;
+                }
+                else if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + @"stern10.png", "120", -895, 865, -761, 984) != null) {
+                    MissionDifficulty = 10;
+                }
+                else if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + @"stern4.png", "120", -998, 865, -871, 984) != null) {
+                    MissionDifficulty = 4;
+                }
+                else if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + @"stern3.png", "120", -1330, 865, -1073, 984) != null) {
+                    MissionDifficulty = 3;
+                }
+                else if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + @"stern2.png", "120", -1530, 865, -1205, 984) != null) {
+                    MissionDifficulty = 2;
+                }
+                else if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + @"stern1.png", "120", -1747, 865, -1504, 984) != null) {
+                    MissionDifficulty = 1;
+                }
+
+                else if (MissionDifficulty == 0) {
+                    log.Debug("Difficulty couldn't been detected!");
+                    StopAutoMission = true;
+                    return;
+                }
+                log.Debug("Difficulty is " + MissionDifficulty.ToString());
+            }
+
+            bool CheckForAvailibleSoldiers(){
+                string OcrActiveSoldiers = "";
+
+                if(MissionDifficulty >= 5  && StopAutoMission == false) {  //same position for difficulty 5-10
+                    OcrActiveSoldiers = OCR.OCRcheck(1173, 922, 106, 34, "0123456789/ "); //6char
+                    if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                        OcrActiveSoldiers = OCR.OCRcheck(1173, 922, 84, 34, "0123456789/ "); //5char
+                        if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                            OcrActiveSoldiers = OCR.OCRcheck(1173, 922, 74, 34, "0123456789/ "); //4char
+                            if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                                OcrActiveSoldiers = OCR.OCRcheck(1173, 922, 51, 34, "0123456789/ "); //3char
+                                if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if(MissionDifficulty == 4 && StopAutoMission == false) {
+                    OcrActiveSoldiers = OCR.OCRcheck(1073, 922, 106, 34, "0123456789/ "); //6char
+                    if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                        OcrActiveSoldiers = OCR.OCRcheck(1073, 922, 84, 34, "0123456789/ "); //5char
+                        if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                            OcrActiveSoldiers = OCR.OCRcheck(1073, 922, 74, 34, "0123456789/ "); //4char
+                            if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                                OcrActiveSoldiers = OCR.OCRcheck(1073, 922, 51, 34, "0123456789/ "); //3char
+                                if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if(MissionDifficulty == 3 && StopAutoMission == false) {
+
+                }
+                else if(MissionDifficulty == 2 && StopAutoMission == false) {
+
+                }
+                else if(MissionDifficulty == 1 && StopAutoMission == false) {
+
+                }
+                return true;
+            }
+
+            bool CheckOCRResultValid(string OcrActiveSoldiers) {
+                string[] OcrActiveSoldiersStringArray = { };
+                int CurrentlyAvailible = -1;
+                int PossessedOnes = -1;
+                if(!String.IsNullOrWhiteSpace(OcrActiveSoldiers)) {
+                    if(OcrActiveSoldiers.Contains("/")) {
+                        OcrActiveSoldiersStringArray = OcrActiveSoldiers.Split('/');
+                        if(int.TryParse(OcrActiveSoldiersStringArray[0], out CurrentlyAvailible)) {
+                            if(int.TryParse(OcrActiveSoldiersStringArray[1], out PossessedOnes)) {
+                                if(CurrentlyAvailible <= PossessedOnes && CurrentlyAvailible > 0) {
+                                    return true;
+                                }
+                                else if (CurrentlyAvailible == 0) { 
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+
             int CheckforSoldierScreenSelection(){
                 int Score = 0;
                 int i = 0;
@@ -1441,6 +1555,9 @@ namespace AutoSF {
                         return -1;
                     }
                 }
+                if(MissionDifficulty == 0) {
+                    CheckForDifficulty();
+                } 
                 return 1;
             }
 
@@ -1540,6 +1657,7 @@ namespace AutoSF {
                         return -1;
                     }
                 }
+                MainWindow.Sleep(100); //Isssues on VM to continue
                 return 1;
             }
         }
