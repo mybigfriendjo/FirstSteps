@@ -34,13 +34,6 @@ namespace AutoSF.Helper {
             if(res[0] == '0') return null;//not found
 
             String[] data = res.Split('|');
-            //0->found, 1->x, 2->y, 3->image width, 4->image height;        
-
-            // Then, you can parse it to get x and y:
-            //int x; int y;
-            //int.TryParse(data[1], out x);
-            //int.TryParse(data[2], out y);
-            //Console.WriteLine(x.ToString() + ", " + y.ToString());
 
             return data;
         }
