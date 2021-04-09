@@ -17,7 +17,23 @@ using System.Windows.Forms;
 namespace AutoSF {
     public static class AutoMission {
 
+        #region UpdateMainWindowGui //multiple tasks 
+        public interface IAutomissionListener {
+            void Update(DataTable DtInput);
+        }   
+
+        private static List<IAutomissionListener> Listeners = new List<IAutomissionListener>();
         
+        public static void RegisterListener(IAutomissionListener newListener) {
+            Listeners.Add(newListener);
+        }
+        private static void UpdateListeners(DataTable DtInput) {
+            foreach(IAutomissionListener listener in Listeners) {
+                listener.Update(DtInput);
+            }
+        }
+        #endregion
+
         public static void StartAutoMissionThread() {
             Thread TaskSoldierScan = new Thread(StartAutoMission);
             TaskSoldierScan.SetApartmentState(ApartmentState.STA);
@@ -869,7 +885,7 @@ namespace AutoSF {
                                             StopAutoMission = true;
                                             break;
                                         }
-                                        log.Debug("No Soldier found for this Counter: " + Counter);
+                                        log.Debug("No Soldier found for " + currentSoldier + " Counter: " + Counter);
                                         MouseActions.SingleClickAtPosition(dicClickPos[Counter][0], dicClickPos[Counter][1]); //unselect counter
                                         if(!StopAutoMission) { NoSoldierfound(); }
                                     }
@@ -963,23 +979,29 @@ namespace AutoSF {
             }
             int checkSuccessRate(int targetSuccessRate) {
                 MainWindow.Sleep(300); //neccecary to update winrate
-                string OcrSuccessRate = OCR.OCRcheck(1056, 963, 100, 35); //bsp.:  100% , 130%
+                string OcrSuccessRate = OCR.OCRcheck(1056, 963, 100, 35, "0123456789% "); //bsp.:  100% , 130%
                 if(OcrSuccessRate == "") {
-                    OcrSuccessRate = OCR.OCRcheck(1025, 963, 100, 35);
+                    OcrSuccessRate = OCR.OCRcheck(1025, 963, 100, 35, "0123456789% ");
                     if(OcrSuccessRate == "") {
                         log.Error("OcrSuccessRate not found or recognized!");
                         return -1;
                     }
                 }
-                int OcrSuccessRateInt = Convert.ToInt32(OcrSuccessRate.Substring(0, OcrSuccessRate.Length - 1));
+                int OcrSuccessRateInt = 0;
+                if(OcrSuccessRate.Length > 2) {
+                    OcrSuccessRateInt = Convert.ToInt32(OcrSuccessRate.Substring(0, OcrSuccessRate.Length - 1));
+                }
+                else {
+                    log.Error("Unexpected Value at OcrSuccessRate.Length " + OcrSuccessRate.Length.ToString() +  "," + OcrSuccessRate);
+                }
 
                 //Checks if rate wit blueDrone > targetrate - if so drohne will stay active, else drohne will be deaktivated and continued and soldiers with drohne bonus will not be treated special.
                 if(targetSuccessRate > 49 && OcrSuccessRateInt < targetSuccessRate) {
                     MouseActions.SingleClickAtPosition((dicClickPos["bluedrohne"][0]), dicClickPos["bluedrohne"][1]);
                     MainWindow.Sleep(300);
-                    string OcrSuccessRateWithDrone = OCR.OCRcheck(1056, 963, 100, 35); //bsp.:  110% , 150%
+                    string OcrSuccessRateWithDrone = OCR.OCRcheck(1056, 963, 100, 35, "0123456789% "); //bsp.:  110% , 150%
                     if(OcrSuccessRateWithDrone == "") {
-                        OcrSuccessRateWithDrone = OCR.OCRcheck(1025, 963, 100, 35);
+                        OcrSuccessRateWithDrone = OCR.OCRcheck(1025, 963, 100, 35, "0123456789% ");
                         if(OcrSuccessRateWithDrone == "") {
                             log.Error("OcrSuccessRateWithDrone not found or recognized!");
                             return -1;
@@ -1136,7 +1158,7 @@ namespace AutoSF {
                     MainWindow.Sleep(100);
                     string OcrPreBoosterRate = OCR.OCRcheck(1056, 963, 100, 35,"0123456789% "); //bsp.:  100% , 130%
                     if(OcrPreBoosterRate == "") {
-                        OcrPreBoosterRate = OCR.OCRcheck(1025, 963, 100, 35);
+                        OcrPreBoosterRate = OCR.OCRcheck(1025, 963, 100, 35, "0123456789% ");
                         if(OcrPreBoosterRate == "") {
                             log.Error("OcrPreBoosterRate not found or recognized!");
                             return -1;
@@ -1557,6 +1579,24 @@ namespace AutoSF {
                 }
                 if(MissionDifficulty == 0) {
                     CheckForDifficulty();
+                    if(CheckCounter.Length == 5) { //5 Counter
+                        CacheDb.GetSoldiers(MissionDifficulty, CheckCounter[0], CheckCounter[1], CheckCounter[2], CheckCounter[3], CheckCounter[4]);
+                    }
+                    else if(CheckCounter.Length == 4) {
+                        CacheDb.GetSoldiers(MissionDifficulty, CheckCounter[0], CheckCounter[1], CheckCounter[2], CheckCounter[3]);
+                    }
+                    else if(CheckCounter.Length == 3) {
+                        CacheDb.GetSoldiers(MissionDifficulty, CheckCounter[0], CheckCounter[1], CheckCounter[2]);
+                    }
+                    else if(CheckCounter.Length == 2) {
+                        CacheDb.GetSoldiers(MissionDifficulty, CheckCounter[0], CheckCounter[1]);
+                    }
+                    else if(CheckCounter.Length == 1) {
+                        CacheDb.GetSoldiers(MissionDifficulty, CheckCounter[0]);
+                    }
+
+                    CacheDb.GetSoldiersSelect();
+                    UpdateListeners(CacheDb.DataTableFilteredSoldiers);
                 } 
                 return 1;
             }
