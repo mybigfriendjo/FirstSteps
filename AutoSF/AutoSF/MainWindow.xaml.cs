@@ -14,12 +14,13 @@ using System.Linq;
 using System.Data;
 using System.Text;
 using System.IO;
+using static AutoSF.AutoMission;
 
 namespace AutoSF {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window {
+    public partial class MainWindow : Window, IAutomissionListener {
         /* todo >>>>>>>>>>>>>>>
         -Add check
             >if Room1 Intro should have been passed but "i" count exceeds a certain value, check if intro is still active and send key (for ex. Space)
@@ -41,6 +42,7 @@ namespace AutoSF {
             InitializeComponent();
             DB.InitializeDB();
             CacheDb.InitializeCacheDb();
+            AutoMission.RegisterListener(this);
 
             [DllImport("user32.dll")]
             static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -73,7 +75,7 @@ namespace AutoSF {
         public static int Spam2Active = 0;
         public static int Spam3Active = 0;
         public static int StuckIntro = 0;
-        public static int MoveOn = 0; //if activated it will move from mission to missionä
+        public static int MoveOn = 1; //if activated it will move from mission to missionä
         public static string ResourcesPath = @"C:\Temp\Resources\";
         
 
@@ -310,17 +312,29 @@ namespace AutoSF {
                 }
             }
 
-
         }
+
         
+        public void Update(DataTable dtInput) { //For multiple Threads
+            if(!Dispatcher.CheckAccess()) {
+                Dispatcher.Invoke(new InvokeUpdate(Update), dtInput);
+                return;
+            }
+            else {
+                DataGridTableCacheDB.ItemsSource = dtInput.DefaultView;
+            }
+        }
+        private delegate void InvokeUpdate(DataTable table);
 
         private void btnCodeTest_Click(object sender, RoutedEventArgs e) {
             ///////////////////////// vvv CodeTestArea vvv \\\\\\\\\\\\\\\\\\\\\
             ///
-            CacheDb.GetSoldiers(3, "rstarnung", "rsverkleidung", "rsvip", "rsgeiseln", "rsfahrzeug");
-            CacheDb.GetSoldiersSelect();
+            //CacheDb.GetSoldiers(3, "rstarnung", "rsverkleidung", "rsvip", "rsgeiseln", "rsfahrzeug");
+            //CacheDb.GetSoldiersSelect();
 
-            DataGridTableCacheDB.ItemsSource = CacheDb.DataTableFilteredSoldiers.DefaultView;
+            //DataGridTableCacheDB.ItemsSource = CacheDb.DataTableFilteredSoldiers.DefaultView;
+
+            SoldierScan.StartSoldierScan();
 
             ///////////////////////// ^^^ CodeTestArea ^^^ \\\\\\\\\\\\\\\\\\\\\
             string ImJustAPossibleBreakPoint = "";
