@@ -12,7 +12,7 @@ using Microsoft.VisualBasic;
 
 namespace AutoSF {
     class SoldierScan {
-        
+
 
         private static readonly Logger log = LogManager.GetCurrentClassLogger();
         static bool StopSoldierScan = false;
@@ -38,9 +38,9 @@ namespace AutoSF {
             dicClickPosTyp.Add("RPG", new int[] { -1092, 230 });
             dicClickPosTyp.Add("Molotow", new int[] { -951, 230 });
             dicClickPosTyp.Add("Elite", new int[] { -795, 230 });
-            //dicClickPosTyp.Add("Beschuetzer", new int[] { -649, 230 });
-            //dicClickPosTyp.Add("Attentaeter", new int[] { -492, 230 });
-            //dicClickPosTyp.Add("Suppressor", new int[] { -358, 230 });
+            dicClickPosTyp.Add("Beschuetzer", new int[] { -649, 230 });
+            dicClickPosTyp.Add("Attentaeter", new int[] { -492, 230 });
+            dicClickPosTyp.Add("Suppressor", new int[] { -358, 230 });
 
             Dictionary<string, int[]> dicClickPosStufe = new Dictionary<string, int[]>();
             //dicClickPosStufe.Add("Stern1", new int[] { -1285, 400 });
@@ -91,7 +91,7 @@ namespace AutoSF {
             dicClickPosKonter.Add("RSFahrzeug", new int[] { -320, 800 });
             dicClickPosKonter.Add("RSKommunikationSpezial", new int[] { -220, 800 });
             dicClickPosKonter.Add("RSBegrenzteMunition", new int[] { -120, 800 });
-            dicClickPosKonter.Add("OnlySniper", new int[] { }); //Unknown................
+            //dicClickPosKonter.Add("OnlySniper", new int[] { }); //Unknown................
             /////////////-pre "Spezial Update"-------
             //dicClickPosKonter.Add("RSKommunikation", new int[] { -620, 600 });
             //dicClickPosKonter.Add("RSRadar", new int[] { -520, 600 });
@@ -118,7 +118,7 @@ namespace AutoSF {
             dicClickPosBonus.Add("BSDrohne", new int[] { -745, 419 }); // +10%winrate (bei aktiver drohne)
             dicClickPosBonus.Add("BSImprovisation", new int[] { -345, 319 }); //+5% kleinergleich 2st
             dicClickPosBonus.Add("BSAufsteiger", new int[] { -245, 219 }); //+5% größergleich 4st
-            
+
             /////////////-pre "Spezial Update"-------
             //dicClickPosBonus.Add("BSSchnell", new int[] { -145, 419 }); //20 % speed
             //dicClickPosBonus.Add("BSMechaniker", new int[] { -645, 219 }); //20 %speed(bei aktiver drohne) -645, 219
@@ -177,7 +177,7 @@ namespace AutoSF {
             }
             int delayInMS = 200;
             delayInMS = Convert.ToInt32(Interaction.InputBox("Enter Scan Delay in milliseconds.", "Scan Delay", "200"));
-            void delay(){
+            void delay() {
                 MainWindow.Sleep(delayInMS);
             }
 
@@ -185,7 +185,7 @@ namespace AutoSF {
             log.Debug("Stopwatch started. Beginning with foreach");
 
             int i = 0;
-            foreach(KeyValuePair<string,int[]> typ in dicClickPosTyp) {
+            foreach(KeyValuePair<string, int[]> typ in dicClickPosTyp) {
                 //log.Debug("foreach typ: " + typ.Key);
                 MouseActions.SingleClickAtPosition(-1774, 220); //closes Filter
                 delay();
@@ -213,7 +213,6 @@ namespace AutoSF {
                         return;
                     }
                 }
-                //counter i= 0, bei div durhc 1000 ohne rest (modulo?) screenshot
                 foreach(var stufe in dicClickPosStufe) {
                     //log.Debug("foreach stufe: " + stufe.Key);
                     MouseActions.SingleClickAtPosition(dicClickPosStufe[stufe.Key][0], dicClickPosStufe[stufe.Key][1]);
@@ -317,6 +316,49 @@ namespace AutoSF {
             }
             log.Debug("ScanTime: " + s.Elapsed);
             s.Stop();
+        }
+
+        bool SoldierScanCheckForAvailibleSoldiers() {
+            string OcrActiveSoldiers = "";
+
+            if(StopSoldierScan == false) {  //same position for difficulty 5-10
+                OcrActiveSoldiers = OCR.OCRcheck(1173, 922, 106, 34, "0123456789/ "); //6char
+                if(!SoldierScanCheckOCRResultValid(OcrActiveSoldiers)) {
+                    OcrActiveSoldiers = OCR.OCRcheck(1173, 922, 84, 34, "0123456789/ "); //5char
+                    if(!SoldierScanCheckOCRResultValid(OcrActiveSoldiers)) {
+                        OcrActiveSoldiers = OCR.OCRcheck(1173, 922, 74, 34, "0123456789/ "); //4char
+                        if(!SoldierScanCheckOCRResultValid(OcrActiveSoldiers)) {
+                            OcrActiveSoldiers = OCR.OCRcheck(1173, 922, 51, 34, "0123456789/ "); //3char
+                            if(!SoldierScanCheckOCRResultValid(OcrActiveSoldiers)) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        bool SoldierScanCheckOCRResultValid(string OcrActiveSoldiers) {
+            string[] OcrActiveSoldiersStringArray = { };
+            int CurrentlyAvailible = -1;
+            int PossessedOnes = -1;
+            if(!String.IsNullOrWhiteSpace(OcrActiveSoldiers)) {
+                if(OcrActiveSoldiers.Contains("/")) {
+                    OcrActiveSoldiersStringArray = OcrActiveSoldiers.Split('/');
+                    if(int.TryParse(OcrActiveSoldiersStringArray[0], out CurrentlyAvailible)) {
+                        if(int.TryParse(OcrActiveSoldiersStringArray[1], out PossessedOnes)) {
+                            if(CurrentlyAvailible <= PossessedOnes && CurrentlyAvailible > 0) {
+                                return true;
+                            }
+                            else if(CurrentlyAvailible == 0) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
         }
     }
 }
