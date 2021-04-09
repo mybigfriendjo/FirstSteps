@@ -35,10 +35,8 @@ namespace AutoSF.Helper {
             OCR.Configuration.WhiteListCharacters = Whitelist;
             OCR.Configuration.ReadBarCodes = false;
             //OCR.Configuration.RenderSearchablePdfsAndHocr = false;
-            //log.Debug("cropped image stored Reading OCR text:");
 
             string OCRText = OCR.Read(cropped).Text;
-            //log.Debug("OCR text: " + OCRText);
             if(OCRText == null || OCRText == "") {
                 TransformedCropImage = Transform(cropped);
                 TransformedCropImage.Save("c:\\temp\\SrcTestTransform.png");
@@ -68,7 +66,7 @@ namespace AutoSF.Helper {
             return OCRText;
         }
 
-        public static Bitmap Transform(Bitmap source) {
+        public static Bitmap Transform(Bitmap source) { //invert
             //create a blank bitmap the same size as original
             Bitmap newBitmap = new Bitmap(source.Width, source.Height);
 
