@@ -17,7 +17,7 @@ using System.Windows.Forms;
 namespace AutoSF {
     public static class AutoMission {
 
-        #region UpdateMainWindowGui //multiple tasks 
+        #region UpdateMainWindowGridView //multiple tasks 
         public interface IAutomissionListener {
             void Update(DataTable DtInput);
         }   
