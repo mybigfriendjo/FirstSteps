@@ -72,7 +72,7 @@ namespace AutoSF {
         public static string CurrentHostName = System.Net.Dns.GetHostName();
         public static int DontUseMouse = 0;
         public static int DontMoveMouse = 1;
-        public static int Spam2Active = 0;
+        public static int Spam2Active = 1;
         public static int Spam3Active = 0;
         public static int StuckIntro = 0;
         public static int MoveOn = 1; //if activated it will move from mission to missionä
