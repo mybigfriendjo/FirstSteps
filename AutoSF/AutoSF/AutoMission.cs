@@ -179,7 +179,7 @@ namespace AutoSF {
 
             if(MainWindow.MoveOn == 1) {
                 while(MainWindow.MoveOn == 1 && StopAutoMission == false) {
-                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                         log.Debug("AutoMission interrupted by user at: CheckforMoveOn");
                         StopAutoMission = true;
                         return;
@@ -187,7 +187,13 @@ namespace AutoSF {
                     MouseActions.SingleClickAtPosition(-1423, 939); //Click "Verfügbar"
                     MainWindow.Sleep(400);
                     if(MissionsAvailible() != 0 && StopAutoMission == false) { //checks for availible Missions
+                        if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                            MainWindow.Sleep(100);
+                        }
                         MouseActions.SingleClickAtPosition(-1372, 519); //click Mission to the left (not avilible Mission is at the right side)
+                        if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                            MainWindow.Sleep(100);
+                        }
                         if(CheckforInMissionScreen() != 1) { return; }
 
                         OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70); //bsp.: Hinweis
@@ -199,7 +205,7 @@ namespace AutoSF {
                         int i = 0;
                         while(Score < 2 && StopAutoMission == false) {
                             Score = 0;
-                            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                 log.Debug("AutoMission interrupted by user at: CheckforMissionsAvailible");
                                 StopAutoMission = true;
                                 return;
@@ -216,7 +222,7 @@ namespace AutoSF {
                                     log.Debug("InMissionScreen and green Startbutton found,starting Mission: \"" + result[0].Field<string>("Missionname") + "\"");
                                     //Interaction.InputBox("Everything Ok? Press Ok to contiunue", "All good?");
                                     MainWindow.Sleep(5000);
-                                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                         log.Debug("AutoMission interrupted by user at: Start Mission");
                                         StopAutoMission = true;
                                         return;
@@ -239,6 +245,9 @@ namespace AutoSF {
                         }
 
                         MouseActions.SingleClickAtPosition(-1867, 55); //get out of InMissionScreen into MissionsScreen
+                        if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                            MainWindow.Sleep(100);
+                        }
                         if(CheckIfSpezialMissionsScreen() == -1) { return; }
                     }
                     else if(StopAutoMission == false) {
@@ -378,7 +387,7 @@ namespace AutoSF {
                     ////Adds all COUNTER Columns with a value of one into the array Checkcounter
                     //foreach(DataRow row in result) {
                     //    foreach(DataColumn col in row.Table.Columns) {
-                    //        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                    //        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                     //            log.Debug("AutoMission interrupted by user at Pos ??");
                     //            StopAutoMission = true;
                     //        }
@@ -425,8 +434,10 @@ namespace AutoSF {
                     foreach(string counter in Counters) {
                         string ImageSourcePath = Path.Combine(MainWindow.ResourcesPath + "counter\\" + counter + ".png");
                         Image TempBit = Image.FromFile(ImageSourcePath);
-                        TempBit.Save(@"c:\temp\TembBit.png");
+                        Image TempBitCopy = TempBit; //to avoid "Allgemeiner Fehler in GDI+"
+                        TempBitCopy.Save(@"c:\temp\TembBit.png");
                         ImageFinder.Find(TempBit, 0.83f);
+                        TempBit.Dispose();
                         if(ImageFinder.LastMatches.Count >= 1) {
                             FoundCounters += counter + ",";
                         }
@@ -447,7 +458,7 @@ namespace AutoSF {
                     //Adds all SOLDIERTYPE Columns with a value of one into the array CheckSoldierType
                     foreach(DataRow row in result) {
                         foreach(DataColumn col in row.Table.Columns) {
-                            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                 log.Debug("AutoMission interrupted by user at Pos ??");
                                 StopAutoMission = true;
                                 return;
@@ -476,7 +487,7 @@ namespace AutoSF {
                     int AmountOfSoldiers = CheckSoldierType.Length;
                     while(CheckSoldierType.Length > 0 && StopAutoMission == false) {
                         foreach(string Soldier in CheckSoldierType) {
-                            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                 log.Debug("AutoMission interrupted by user at Pos ??");
                                 StopAutoMission = true;
                                 break;
@@ -499,7 +510,7 @@ namespace AutoSF {
                     missionTime.Stop();
 
                     void FilterSelection(string currentSoldier) {
-                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                             log.Debug("AutoMission interrupted by user at: Setting Counter");
                             StopAutoMission = true;
                             return;
@@ -863,7 +874,7 @@ namespace AutoSF {
                             }
 
                             foreach(string Counter in CheckCounter) {
-                                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                     log.Debug("AutoMission interrupted by user at: Setting Counter");
                                     StopAutoMission = true;
                                     break;
@@ -880,7 +891,7 @@ namespace AutoSF {
                                 }
                                 else if(StopAutoMission == false) {
                                     if(++ZeroCount == CheckSoldierType.Length && StopAutoMission == false) {
-                                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                             log.Debug("AutoMission interrupted by user at: no Soldier found ZeroCount == AmountOfSoldiers");
                                             StopAutoMission = true;
                                             break;
@@ -896,7 +907,7 @@ namespace AutoSF {
                                     if(InMissionscreen == -1) { return; } //else (1) InMissionscreen -> continue
                                 }
                                 void SoldierPickProcess() {
-                                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                         log.Debug("AutoMission interrupted by user at: Setting SoldierPickProcess");
                                         StopAutoMission = true;
                                         return;
@@ -912,7 +923,7 @@ namespace AutoSF {
                                 }
 
                                 void NoSoldierfound() {
-                                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                         log.Debug("AutoMission interrupted by user at: NoSoldierfound");
                                         StopAutoMission = true;
                                         return;
@@ -946,7 +957,7 @@ namespace AutoSF {
                 int i = 0;
                 while(Score < 2 && StopAutoMission == false) {
                     Score = 0;
-                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                         log.Debug("AutoMission interrupted by user at: CheckforMissionsAvailible");
                         StopAutoMission = true;
                         return 0;
@@ -1185,7 +1196,7 @@ namespace AutoSF {
                 int i = 0;
                 while(Score < 2 && StopAutoMission == false) {
                     Score = 0;
-                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                         log.Debug("AutoMission interrupted by user at: selecting Booster");
                         StopAutoMission = true;
                         return;
@@ -1280,7 +1291,7 @@ namespace AutoSF {
                         moveToX = 1715;
                         MouseActions.LeftMouseDown();
                         while(moveToX > 115 && StopAutoMission == false) {
-                            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                 log.Debug("AutoMission interrupted by user at: selecting Booster");
                                 StopAutoMission = true;
                                 return;
@@ -1295,7 +1306,7 @@ namespace AutoSF {
                         moveToX = -215;
                         MouseActions.LeftMouseDown();
                         while(moveToX > -1805 && StopAutoMission == false) {
-                            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                 log.Debug("AutoMission interrupted by user at: selecting Booster");
                                 StopAutoMission = true;
                                 return;
@@ -1352,7 +1363,7 @@ namespace AutoSF {
                         MouseActions.LeftMouseDown();
                         int moveToX = -215;
                         //while(moveToX > -1805 && StopAutoMission == false) {
-                            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                 log.Debug("AutoMission interrupted by user at: selecting Booster");
                                 StopAutoMission = true;
                                 return;
@@ -1377,7 +1388,7 @@ namespace AutoSF {
                             int i = 0;
                             while(Score > 2 && StopAutoMission == false) {
                                 Score = 0;
-                                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                     log.Debug("AutoMission interrupted by user at: CheckforGreenChests can be baugt for money");
                                     StopAutoMission = true;
                                     return;
@@ -1412,7 +1423,7 @@ namespace AutoSF {
                                 int i = 0;
                                 while(Score > 2 && StopAutoMission == false ) {
                                     Score = 0;
-                                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                         log.Debug("AutoMission interrupted by user at: CheckforGreenChests can be baugt for money");
                                         StopAutoMission = true;
                                         return;
@@ -1563,7 +1574,7 @@ namespace AutoSF {
                 int i = 0;
                 while(Score < 2 && StopAutoMission == false) {
                     Score = 0;
-                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                         log.Debug("AutoMission interrupted by user at: CheckforSoldierScreenSelection");
                         StopAutoMission = true;
                         return -1;
@@ -1594,8 +1605,13 @@ namespace AutoSF {
                     else if(CheckCounter.Length == 1) {
                         CacheDb.GetSoldiers(MissionDifficulty, CheckCounter[0]);
                     }
+                    CacheDb.GetSoldiersSelect(CheckSoldierType);
 
-                    CacheDb.GetSoldiersSelect();
+                    //CacheDb.DataTableFilteredSoldiers
+                    //Pick soldier in first line (activate filters) -> remove all of this Soldiertype(forEx Sniper) and all of the conter(forEx Aufklaerung)
+                    //Pick soldier in first line (now first line will be a diffrent Soldiertype) - repeat steps from before
+                    //
+
                     UpdateListeners(CacheDb.DataTableFilteredSoldiers);
                 } 
                 return 1;
@@ -1606,7 +1622,7 @@ namespace AutoSF {
                 int i = 0;
                 while(Score < 2 && StopAutoMission == false) {
                     Score = 0;
-                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                         log.Debug("AutoMission interrupted by user at: CheckforFilterMenu");
                         StopAutoMission = true;
                         return -1;
@@ -1628,7 +1644,7 @@ namespace AutoSF {
                 int i = 0;
                 while(Score < 2 && Score > -2 && StopAutoMission == false) {
                     Score = 0;
-                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                         log.Debug("AutoMission interrupted by user at: CheckforFilterMenu");
                         StopAutoMission = true;
                         return -1;
@@ -1660,7 +1676,7 @@ namespace AutoSF {
                 int i = 0;
                 while(Score < 2 && StopAutoMission == false) {
                     Score = 0;
-                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                         log.Debug("AutoMission interrupted by user at: CheckforFilterMenu");
                         StopAutoMission = true;
                         return -1;
@@ -1682,7 +1698,7 @@ namespace AutoSF {
                 int i = 0;
                 while(Score < 2 && StopAutoMission == false) {
                     Score = 0;
-                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                         log.Debug("AutoMission interrupted by user at: CheckforFilterMenu");
                         StopAutoMission = true;
                         return -1;
