@@ -19,7 +19,7 @@ namespace AutoSF.Helper {
         //private const string QUERY_AllSoldiers = "SELECT * FROM soldaten WHERE stufe = @stufe AND typ = @typ AND konter = @konter AND bonus = @bonus;";
 
         private static string QUERY_CreateMissionSoldiersTables = "";
-        private static string QUERY_GetMissionSoldiers = "SELECT * FROM TempBusy5; ";
+        private static string QUERY_GetMissionSoldiers = "SELECT * FROM TempBusy5 WHERE typ=@typ1 OR typ=@typ2 OR typ=@typ3 OR typ=@typ4; ";
         private const string QUERY_BusySoldiers = "SELECT count(*) FROM unterwegs where unterwegs.id = @id;";
         private const string INSERT_BusySoldier = "INSERT INTO unterwegs (id,dauer) VALUES (@id, @dauer);";
         private const string INSERT_ScanSoldier = "INSERT INTO soldaten (stufe,typ,konter,bonus,anzahl) VALUES (@stufe,@typ,@konter,@bonus,@anzahl);";
@@ -126,9 +126,27 @@ namespace AutoSF.Helper {
             return ("",""); // TODO maybe throw error?
         }
 
-        public static void GetSoldiersSelect() {
+        public static void GetSoldiersSelect(string[] soldierTypes) {
             using(SQLiteCommand command2 = new SQLiteCommand(QUERY_GetMissionSoldiers, connection)) {
-
+                command2.Parameters.AddWithValue("@typ1", soldierTypes[0].ToLower());
+                if(soldierTypes.Length > 1) {
+                    command2.Parameters.AddWithValue("@typ2", soldierTypes[1].ToLower());
+                }
+                else {
+                    command2.Parameters.AddWithValue("@typ2", "");
+                }
+                if(soldierTypes.Length > 2) {
+                    command2.Parameters.AddWithValue("@typ3", soldierTypes[2].ToLower());
+                }
+                else {
+                    command2.Parameters.AddWithValue("@typ3", "");
+                }
+                if(soldierTypes.Length > 3) {
+                    command2.Parameters.AddWithValue("@typ4", soldierTypes[3].ToLower());
+                }
+                else {
+                    command2.Parameters.AddWithValue("@typ4", "");
+                }
                 SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter(command2); //Adds command2 QueryResult into dataAdapter
                 dataAdapter.Fill(DataTableFilteredSoldiers); //Writes dataAdapter into the DataTable
             }
