@@ -446,12 +446,10 @@ namespace AutoSF {
                     log.Debug("counters checked. \nThe following counters have been found: " + FoundCounters.Substring(0, FoundCounters.Length - 1));
                     char[] CharSeperator = { ',' };
                     CheckCounter = FoundCounters.Split(CharSeperator, StringSplitOptions.RemoveEmptyEntries);
-                    if(CheckCounter.Length != 5 && CheckCounter.Length != 4) {
-                        //if(CheckCounter.Length == 0 || CheckCounter.Length > 5) {
+                    if(CheckCounter.Length == 0 || CheckCounter.Length > 5) {
                         log.Debug("Invalid Value at CheckCounter.Length (" + CheckCounter.Length + ")");
                         StopAutoMission = true;
                         return;
-                        //}
                     }
 
 
@@ -868,7 +866,7 @@ namespace AutoSF {
                                 MouseActions.SingleClickAtPosition(dicClickPos["Stern5"][0], dicClickPos["Stern5"][1]);
                                 MainWindow.Sleep(150);
                             }
-                            else if(StopAutoMission == false && (result[0].Field<Int64>("Difficulty")) == 4) {
+                            else if(StopAutoMission == false && (result[0].Field<Int64>("Difficulty") == 4 || result[0].Field<Int64>("Difficulty") == 3)) {
                                 MouseActions.SingleClickAtPosition(dicClickPos["Stern5"][0], dicClickPos["Stern5"][1]);
                                 MainWindow.Sleep(150);
                                 MouseActions.SingleClickAtPosition(dicClickPos["Stern4"][0], dicClickPos["Stern4"][1]);
