@@ -96,6 +96,7 @@ namespace AutoSF {
             string filename = "";
             string[] ImageResult = { "" };
             string FoundCounters = "";
+            string[] CheckCountersBackup = { "" };
 
 
             Dictionary<string, int[]> dicClickPos = new Dictionary<string, int[]>();
@@ -446,6 +447,7 @@ namespace AutoSF {
                     log.Debug("counters checked. \nThe following counters have been found: " + FoundCounters.Substring(0, FoundCounters.Length - 1));
                     char[] CharSeperator = { ',' };
                     CheckCounter = FoundCounters.Split(CharSeperator, StringSplitOptions.RemoveEmptyEntries);
+                    CheckCountersBackup = CheckCounter; //to find the OCRcheck Position
                     if(CheckCounter.Length == 0 || CheckCounter.Length > 5) {
                         log.Debug("Invalid Value at CheckCounter.Length (" + CheckCounter.Length + ")");
                         StopAutoMission = true;
@@ -1536,7 +1538,45 @@ namespace AutoSF {
                     }
                 }
                 else if(MissionDifficulty == 3 && StopAutoMission == false) {
-
+                    if(CheckCountersBackup.Length == 3) {
+                        OcrActiveSoldiers = OCR.OCRcheck(866, 922, 106, 34, "0123456789/ "); //6char
+                        if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                            OcrActiveSoldiers = OCR.OCRcheck(866, 922, 84, 34, "0123456789/ "); //5char
+                            if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                                OcrActiveSoldiers = OCR.OCRcheck(866, 922, 74, 34, "0123456789/ "); //4char
+                                if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                                    OcrActiveSoldiers = OCR.OCRcheck(866, 922, 51, 34, "0123456789/ "); //3char
+                                    if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //else if (CheckCountersBackup.Length == 2) //Not sure if there is a 3* with 2 Counters
+                    //{
+                    //    OcrActiveSoldiers = OCR.OCRcheck(866, 922, 106, 34, "0123456789/ "); //6char
+                    //    if (!CheckOCRResultValid(OcrActiveSoldiers))
+                    //    {
+                    //        OcrActiveSoldiers = OCR.OCRcheck(866, 922, 84, 34, "0123456789/ "); //5char
+                    //        if (!CheckOCRResultValid(OcrActiveSoldiers))
+                    //        {
+                    //            OcrActiveSoldiers = OCR.OCRcheck(866, 922, 74, 34, "0123456789/ "); //4char
+                    //            if (!CheckOCRResultValid(OcrActiveSoldiers))
+                    //            {
+                    //                OcrActiveSoldiers = OCR.OCRcheck(866, 922, 51, 34, "0123456789/ "); //3char
+                    //                if (!CheckOCRResultValid(OcrActiveSoldiers))
+                    //                {
+                    //                    return false;
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //}
+                    //else
+                    {
+                        log.Error("Less Counter found " + CheckCountersBackup.Length + " then expected at Missiondifficulty: " + MissionDifficulty);
+                    }
                 }
                 else if(MissionDifficulty == 2 && StopAutoMission == false) {
 
