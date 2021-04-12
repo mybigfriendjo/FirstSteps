@@ -159,7 +159,7 @@ namespace AutoSF {
             if(StopSoldierScan == true) { return; }
 
             int Score = 0;
-            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                 log.Debug("AutoMission interrupted by user at: FirstCheckforFilterMenu");
                 StopSoldierScan = true;
                 return;
@@ -196,7 +196,8 @@ namespace AutoSF {
                 Score = 0;
                 while(Score < 2 && StopSoldierScan == false) {
                     Score = 0;
-                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                    
+                    if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                         log.Debug("SoldierScan interrupted by user at: SecondCheckforFilterMenu");
                         StopSoldierScan = true;
                         return;
@@ -225,7 +226,7 @@ namespace AutoSF {
                         if(stufe.Key != "Stern3") {
                             foreach(var bonus in dicClickPosBonus) {
                                 //log.Debug("foreach bonus: " + bonus.Key);
-                                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                     log.Debug("SoldierScan interrupted by user at Click Bonus: " + "stufe: " + stufe.Key + " typ: " + typ.Key + " konter: " + konter.Key + " bonus: " + bonus.Key);
                                     StopSoldierScan = true;
                                     return;
@@ -253,7 +254,7 @@ namespace AutoSF {
 
                             foreach(var bonusUnimportant in dicClickPosBonusUnimportant) { //activates every BonusUnimportant
                                 //log.Debug("foreach bonus: " + bonus.Key);
-                                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                     log.Debug("SoldierScan interrupted by user at Click Bonus: " + "stufe: " + stufe.Key + " typ: " + typ.Key + " konter: " + konter.Key + " bonus: " + bonusUnimportant.Key);
                                     StopSoldierScan = true;
                                     return;
@@ -279,7 +280,7 @@ namespace AutoSF {
 
                             foreach(var bonusUnimportant in dicClickPosBonusUnimportant) { //deactivates every BonusUnimportant
                                 //log.Debug("foreach bonus: " + bonus.Key);
-                                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                     log.Debug("SoldierScan interrupted by user at Click Bonus: " + "stufe: " + stufe.Key + " typ: " + typ.Key + " konter: " + konter.Key + " bonusUnimportant: " + bonusUnimportant.Key);
                                     StopSoldierScan = true;
                                     return;

@@ -197,7 +197,7 @@ namespace AutoSF {
                 int RightArrow = 2;
                 int LeftArrow = 2;
 
-                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                     log.Debug("AutoMission interrupted by user at CheckIfMissionScreen");
                     StopAutoMission = true;
                     return PositionFound;
@@ -247,7 +247,7 @@ namespace AutoSF {
             }
 
             void NavigateToR19() {
-                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                     log.Debug("AutoMission interrupted by user at CheckIfMissionScreen");
                     StopAutoMission = true;
                     return;
@@ -280,7 +280,7 @@ namespace AutoSF {
 
             bool CheckIfAtSpezialMission(){
                 int Score = 0;
-                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                     log.Debug("AutoMission interrupted by user at: Checking for Position 'SpezialMission'");
                     StopAutoMission = true;
                     return false;
@@ -373,7 +373,7 @@ namespace AutoSF {
 
 
             Sleep(4000);
-            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                 log.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                 PositionCount = 10;
                 StopAutoPvP = true;
@@ -385,7 +385,7 @@ namespace AutoSF {
             //await Task.Delay(1);
             int round = 1;
             while(round < 250 && StopAutoPvP == false) {
-                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                     log.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                     PositionCount = 10;
                     StopAutoPvP = true;
@@ -566,7 +566,7 @@ namespace AutoSF {
                             MouseActions.DoubleClickAtPosition(-273, 539); //Spielen/Start Button
                         }
 
-                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                             log.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                             PositionCount = 10;
                             StopAutoPvP = true;
@@ -655,7 +655,7 @@ namespace AutoSF {
                             log.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             StuckOnIntro();
                         }
-                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                             log.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                             PositionCount = 10;
                             StopAutoPvP = true;
@@ -790,7 +790,7 @@ namespace AutoSF {
                     s.Stop();
 
                     while(PositionCount == 13 && StopAutoPvP == false) {
-                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                             log.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                             PositionCount = 10;
                             StopAutoPvP = true;
@@ -849,7 +849,7 @@ namespace AutoSF {
                             log.Debug("Stuck - i at" + i + ", current Programm Position is: " + PositionCount);
                             StuckOnIntro();
                         }
-                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                             log.Debug("AutoPvP interrupted by user at Pos:" + Convert.ToString(PositionCount));
                             BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker1); //MouseClick
                             BackgroundworkerConfig.BgwCancelAsyn(BackgroundworkerConfig.backgroundWorker3); //MouseMovement
