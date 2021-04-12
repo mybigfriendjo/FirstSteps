@@ -190,7 +190,7 @@ namespace AutoSF {
                         if(MainWindow.CurrentHostName == "VMgr4ndpa") {
                             MainWindow.Sleep(100);
                         }
-                        MouseActions.SingleClickAtPosition(-1372, 519); //click Mission to the left (not avilible Mission is at the right side)
+                        MouseActions.SingleClickAtPosition(-1372, 630); //click Mission to the left (not avilible Mission is at the right side)
                         if(MainWindow.CurrentHostName == "VMgr4ndpa") {
                             MainWindow.Sleep(100);
                         }
@@ -308,9 +308,9 @@ namespace AutoSF {
 
                     if((result[0].Field<Int64>("Speed")) == 1 && StopAutoMission == false) {
                         //DateTime CurrentTime = DateTime.Now;
-                        if(LastSpeedMission > DateTime.Now.AddSeconds(-90)) {
+                        if(LastSpeedMission > DateTime.Now.AddSeconds(-98)) {
                             //int TimeTillSpeedRdy = Convert.ToInt32((LastSpeedMission - CurrentTime.AddMinutes(-1)).TotalMilliseconds);
-                            MainWindow.Sleep(Convert.ToInt32((LastSpeedMission - DateTime.Now.AddSeconds(-90)).TotalMilliseconds));
+                            MainWindow.Sleep(Convert.ToInt32((LastSpeedMission - DateTime.Now.AddSeconds(-98)).TotalMilliseconds));
                             //MainWindow.Sleep(TimeTillSpeedRdy);
                         }
                         else {
@@ -648,7 +648,9 @@ namespace AutoSF {
                                 MouseActions.SingleClickAtPosition(-1664, 810); //click Bluebutton "Erledigt"
                                 MainWindow.Sleep(500); //Wiat for Mission Completed-Animation to be interruptable
                                 MouseActions.DoubleClickAtPosition(-979, 611); //click Screen mid to interruprt Mission Completed-Animation
-                                MainWindow.Sleep(400);
+                                MainWindow.Sleep(300);
+                                MouseActions.DoubleClickAtPosition(-979, 611); //click Screen mid to interruprt Mission Completed-Animation
+                                MainWindow.Sleep(500);
                                 MouseActions.SingleClickAtPosition(-263, 995); //Annehmen Button
                                 //Soldier is now Availible but SF will switch to MissionScreen therefore return to trigger the selection again.
                                 return;
@@ -1663,7 +1665,7 @@ namespace AutoSF {
                     if(Score <= -2) {
                         return 0; //BlueButton
                     }
-                    if(++i > 25) {
+                    if(++i > 35) {
                         log.Debug("No Soldier fullfilling the Filters couldnt be found in time:");
                         return -1; //Timeout
                     }
