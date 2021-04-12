@@ -23,7 +23,7 @@ namespace AutoSF {
         private static void DissmissMissingSoldiers() {
             StopSoldierDismiss = false;
             if(StopSoldierDismiss == false && CheckforTruppkameradenliste() == 1) {
-                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                     log.Debug("Dismissing Soldiers interrupted by user at: CheckforTruppkameradenliste");
                     StopSoldierDismiss = true;
                     return;
@@ -43,7 +43,7 @@ namespace AutoSF {
                         if(AmountOfLoops > 1) {
                             MainWindow.Sleep(300); //time required for SF to reorder soldiers after dissmissing one. Not needet in First round.
                         }
-                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                             log.Debug("Dismissing Soldiers interrupted by user at: CheckforTruppkameradenliste");
                             StopSoldierDismiss = true;
                             return;
@@ -80,7 +80,7 @@ namespace AutoSF {
                             //scroll 3boosters
                             int i = 0;
                             while(StopSoldierDismiss == false && i < 3) {
-                                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                     log.Debug("Dismissing Soldiers interrupted by user at: CheckforTruppkameradenliste");
                                     StopSoldierDismiss = true;
                                     return;
@@ -91,7 +91,7 @@ namespace AutoSF {
                                     moveToX = 1715;
                                     MouseActions.LeftMouseDown();
                                     while(moveToX > 48 && StopSoldierDismiss == false) {
-                                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                             log.Debug("AutoMission interrupted by user at: selecting Booster");
                                             StopSoldierDismiss = true;
                                             return;
@@ -106,7 +106,7 @@ namespace AutoSF {
                                     moveToX = -215;
                                     MouseActions.LeftMouseDown();
                                     while(moveToX > -1872 && StopSoldierDismiss == false) {
-                                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                                        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                             log.Debug("AutoMission interrupted by user at: selecting Booster");
                                             StopSoldierDismiss = true;
                                             return;
@@ -152,7 +152,7 @@ namespace AutoSF {
             int i = 0;
             while(Score < 2 && StopSoldierDismiss == false) {
                 Score = 0;
-                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                     log.Debug("Dismissing Soldiers interrupted by user at: CheckforTruppkameradenliste");
                     StopSoldierDismiss = true;
                     return -1;
@@ -174,7 +174,7 @@ namespace AutoSF {
             int i = 0;
             while(Score < 2 && StopSoldierDismiss == false) {
                 Score = 0;
-                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                     log.Debug("Dismissing Soldiers interrupted by user at: CheckforFilterScreen");
                     StopSoldierDismiss = true;
                     return -1;
@@ -196,7 +196,7 @@ namespace AutoSF {
             int i = 0;
             while(Score < 2 && StopSoldierDismiss == false) {
                 Score = 0;
-                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                     log.Debug("Dismissing Soldiers interrupted by user at: CheckforFilterScreen");
                     StopSoldierDismiss = true;
                     return -1;
@@ -218,7 +218,7 @@ namespace AutoSF {
             int i = 0;
             while(Score < 2 && StopSoldierDismiss == false) {
                 Score = 0;
-                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad0)) {
+                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                     log.Debug("Dismissing Soldiers interrupted by user at: CheckforFilterScreen");
                     StopSoldierDismiss = true;
                     return -1;
