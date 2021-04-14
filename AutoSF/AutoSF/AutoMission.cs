@@ -185,7 +185,7 @@ namespace AutoSF {
                         StopAutoMission = true;
                         return;
                     }
-                    MouseActions.SingleClickAtPosition(-1423, 939); //Click "Verfügbar"
+                    MouseActions.SingleClickAtPosition(-1423, 939); //Click "Verfügbare (Missionen)"
                     MainWindow.Sleep(400);
                     if(MissionsAvailible() != 0 && StopAutoMission == false) { //checks for availible Missions
                         if(MainWindow.CurrentHostName == "VMgr4ndpa") {
@@ -222,14 +222,14 @@ namespace AutoSF {
                                 if(Score == 2) {
                                     log.Debug("InMissionScreen and green Startbutton found,starting Mission: \"" + result[0].Field<string>("Missionname") + "\"");
                                     //Interaction.InputBox("Everything Ok? Press Ok to contiunue", "All good?");
-                                    MainWindow.Sleep(5000);
+                                    MainWindow.Sleep(4000);
                                     if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
                                         log.Debug("AutoMission interrupted by user at: Start Mission");
                                         StopAutoMission = true;
                                         return;
                                     }
                                     MouseActions.SingleClickAtPosition(-224, 996); //click Startbutton
-                                    MainWindow.Sleep(400);
+                                    MainWindow.Sleep(600);
                                 }
                                 else if (StopAutoMission == false){
                                     log.Debug("InMissionScreen found but Button not green - No Soldiers set, or time to get some gold!");
@@ -253,7 +253,7 @@ namespace AutoSF {
                     }
                     else if(StopAutoMission == false) {
                         MouseActions.SingleClickAtPosition(-1229, 169); //move to left next region (for ex.  R19 -> r18 -> r17)
-                        MainWindow.Sleep(100);
+                        MainWindow.Sleep(150);
                         if(CheckIfSpezialMissionsScreen() == -1) { return; }
                     }
                 }
@@ -600,7 +600,7 @@ namespace AutoSF {
                             }
                         }
                         else if(StopAutoMission == false){ return; }
-                        MainWindow.Sleep(500);
+                        MainWindow.Sleep(200);
                         if(StopAutoMission == false && (Missiontype == "Speed" || Missiontype == "SpeedMitBonus")) {
                             bool counterFound = false;
                             //if(currentSoldier == "Sniper") { //selects 9* schnell(kommunikation) or 9* Zeitgewinn(RSTarnung)
@@ -696,11 +696,11 @@ namespace AutoSF {
                             else if(StopAutoMission == false) { //no soldiers found
                                 if(result[0].Field<Int64>("Duration") > 4 && StopAutoMission == false) {
                                     MouseActions.SingleClickAtPosition(dicClickPos["BSAufsteiger"][0], dicClickPos["BSAufsteiger"][1]); //Bonus Aufsteiger +5% > 4hours
-                                    MainWindow.Sleep(400);
+                                    MainWindow.Sleep(300);
                                 }
                                 else if(StopAutoMission == false) {
                                     MouseActions.SingleClickAtPosition(dicClickPos["BSImprovisation"][0], dicClickPos["BSImprovisation"][1]); //Bonus BSImprovisation +5% < 4hours
-                                    MainWindow.Sleep(400);
+                                    MainWindow.Sleep(300);
                                 }
                                 if(StopAutoMission == false && CheckForAvailibleSoldiers() == true) {
                                     SoldierPickProcessDopMitBon();
@@ -755,7 +755,7 @@ namespace AutoSF {
                                 //CheckCounter = CheckCounter.Where(e => e != Counter).ToArray(); //creates a new Array without value Counter
                                 CheckSoldierType = CheckSoldierType.Where(e => e != currentSoldier).ToArray();
                                 MouseActions.SingleClickAtPosition(-1818, 209); //Close Filter
-                                MainWindow.Sleep(600);
+                                MainWindow.Sleep(200);
                                 MouseActions.SingleClickAtPosition(-1650, 813); //Select FilteredSoldier
                                 int InMissionscreen = CheckforInMissionScreen();
                                 if(InMissionscreen == -1) { return; } //else (1) InMissionscreen -> continue
@@ -810,7 +810,7 @@ namespace AutoSF {
                                 //CheckCounter = CheckCounter.Where(e => e != Counter).ToArray(); //creates a new Array without value Counter
                                 CheckSoldierType = CheckSoldierType.Where(e => e != currentSoldier).ToArray();
                                 MouseActions.SingleClickAtPosition(-1818, 209); //Close Filter
-                                MainWindow.Sleep(600);
+                                MainWindow.Sleep(200);
                                 MouseActions.SingleClickAtPosition(-1650, 813); //Select FilteredSoldier
                                 int InMissionscreen = CheckforInMissionScreen();
                                 if(InMissionscreen == -1) { return; } //else (1) InMissionscreen -> continue
@@ -848,7 +848,7 @@ namespace AutoSF {
                                 //CheckCounter = CheckCounter.Where(e => e != Counter).ToArray(); //creates a new Array without value Counter
                                 CheckSoldierType = CheckSoldierType.Where(e => e != currentSoldier).ToArray();
                                 MouseActions.SingleClickAtPosition(-1818, 209); //Close Filter
-                                MainWindow.Sleep(600);
+                                MainWindow.Sleep(200);
                                 MouseActions.SingleClickAtPosition(-1650, 813); //Select FilteredSoldier
                                 int InMissionscreen = CheckforInMissionScreen();
                                 if(InMissionscreen == -1) { return; } //else (1) InMissionscreen -> continue
@@ -883,7 +883,7 @@ namespace AutoSF {
                                 }
                                 MouseActions.SingleClickAtPosition(dicClickPos[Counter][0], dicClickPos[Counter][1]);
                                 log.Debug("Click Filter " + Counter + " at " + dicClickPos[Counter][0].ToString() + "," + dicClickPos[Counter][1].ToString());
-                                MainWindow.Sleep(300);
+                                MainWindow.Sleep(200);
                                 //string OcrActiveSoldiers = (OCR.OCRcheck(1160, 922, 140, 34, "0123456789/")); //bsp.: 19/25
                                 //if(OcrActiveSoldiers.Length <= 4) {
                                 //    OcrActiveSoldiers = (OCR.OCRcheck(1170, 926, 60, 34, "0123456789/")); //bsp.: 19/25
@@ -903,7 +903,7 @@ namespace AutoSF {
                                         if(!StopAutoMission) { NoSoldierfound(); }
                                     }
                                     MouseActions.SingleClickAtPosition(-1818, 209); //Close Filter
-                                    MainWindow.Sleep(300);
+                                    MainWindow.Sleep(200);
                                     MouseActions.DoubleClickAtPosition(-94, 125); //Close SoldierSelectionScreen - if no viable Soldier has been found
                                     int InMissionscreen = CheckforInMissionScreen();
                                     if(InMissionscreen == -1) { return; } //else (1) InMissionscreen -> continue
@@ -917,7 +917,7 @@ namespace AutoSF {
                                     CheckCounter = CheckCounter.Where(e => e != Counter).ToArray(); //creates a new Array without value Counter
                                     CheckSoldierType = CheckSoldierType.Where(e => e != currentSoldier).ToArray();
                                     MouseActions.SingleClickAtPosition(-1818, 209); //Close Filter
-                                    MainWindow.Sleep(300);
+                                    MainWindow.Sleep(200);
                                     MouseActions.SingleClickAtPosition(-1650, 813); //Select FilteredSoldier
                                     int InMissionscreen = CheckforInMissionScreen();
                                     if(InMissionscreen == -1) { return; } //else (1) InMissionscreen -> continue
@@ -931,7 +931,7 @@ namespace AutoSF {
                                         return;
                                     }
                                     MouseActions.SingleClickAtPosition(dicClickPos["BSAufsteiger"][0], dicClickPos["BSAufsteiger"][1]); ; //Aufsteiger +5
-                                    MainWindow.Sleep(600);                                               //if Still 0/0
+                                    MainWindow.Sleep(200);                                               //if Still 0/0
 
                                     if(StopAutoMission == false && CheckForAvailibleSoldiers() == true) {
                                         SoldierPickProcess();
@@ -939,9 +939,9 @@ namespace AutoSF {
                                     else if(StopAutoMission == false && ZeroCount == CheckSoldierType.Length) {
                                         
                                         MouseActions.SingleClickAtPosition(dicClickPos["BSDrohne"][0], dicClickPos["BSDrohne"][1]);
-                                        MainWindow.Sleep(200);
+                                        MainWindow.Sleep(150);
                                         MouseActions.SingleClickAtPosition(dicClickPos["BSKoordination"][0], dicClickPos["BSKoordination"][1]);
-                                        MainWindow.Sleep(400);
+                                        MainWindow.Sleep(200);
                                         SoldierPickProcess();
                                     }
                                 }
@@ -1553,29 +1553,26 @@ namespace AutoSF {
                             }
                         }
                     }
-                    //else if (CheckCountersBackup.Length == 2) //Not sure if there is a 3* with 2 Counters
-                    //{
-                    //    OcrActiveSoldiers = OCR.OCRcheck(866, 922, 106, 34, "0123456789/ "); //6char
-                    //    if (!CheckOCRResultValid(OcrActiveSoldiers))
-                    //    {
-                    //        OcrActiveSoldiers = OCR.OCRcheck(866, 922, 84, 34, "0123456789/ "); //5char
-                    //        if (!CheckOCRResultValid(OcrActiveSoldiers))
-                    //        {
-                    //            OcrActiveSoldiers = OCR.OCRcheck(866, 922, 74, 34, "0123456789/ "); //4char
-                    //            if (!CheckOCRResultValid(OcrActiveSoldiers))
-                    //            {
-                    //                OcrActiveSoldiers = OCR.OCRcheck(866, 922, 51, 34, "0123456789/ "); //3char
-                    //                if (!CheckOCRResultValid(OcrActiveSoldiers))
-                    //                {
-                    //                    return false;
-                    //                }
-                    //            }
-                    //        }
-                    //    }
-                    //}
-                    //else
+                    else if(CheckCountersBackup.Length == 2) //Not sure if there is a 3* with 2 Counters
                     {
+                        OcrActiveSoldiers = OCR.OCRcheck(762, 922, 106, 34, "0123456789/ "); //6char
+                        if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                            OcrActiveSoldiers = OCR.OCRcheck(762, 922, 84, 34, "0123456789/ "); //5char
+                            if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                                OcrActiveSoldiers = OCR.OCRcheck(762, 922, 74, 34, "0123456789/ "); //4char
+                                if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                                    OcrActiveSoldiers = OCR.OCRcheck(762, 922, 51, 34, "0123456789/ "); //3char
+                                    if(!CheckOCRResultValid(OcrActiveSoldiers)) {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
                         log.Error("Less Counter found " + CheckCountersBackup.Length + " then expected at Missiondifficulty: " + MissionDifficulty);
+                        StopAutoMission = true;
+                        return false;
                     }
                 }
                 else if(MissionDifficulty == 2 && StopAutoMission == false) {
