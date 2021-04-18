@@ -217,8 +217,8 @@ namespace AutoSF {
                         }
                         if(CheckforInMissionScreen() != 1) { return; }
 
-                        OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70); //bsp.: Hinweis
-                        OcrMissionname2 = OCR.OCRcheck(12, 105, 475, 55);
+                        OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz2ß!-"); //bsp.: Hinweis
+                        OcrMissionname2 = OCR.OCRcheck(12, 105, 475, 52, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz2ß!-");
                         result = DB.dt.Select("Missionname = '" + OcrMissionname1 + "'");
                         loadMission();
 
@@ -280,8 +280,8 @@ namespace AutoSF {
             }
             else {
                 if(CheckforInMissionScreen() != 1) { return; }
-                OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70,"ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ abcdefghijklmnopqrstuvwxyz2ß!-"); //bsp.: Hinweis
-                OcrMissionname2 = OCR.OCRcheck(12, 105, 475, 52, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ abcdefghijklmnopqrstuvwxyz2ß!-");
+                OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70,"ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz2ß!-"); //bsp.: Hinweis
+                OcrMissionname2 = OCR.OCRcheck(12, 105, 475, 52, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz2ß!-");
                 result = DB.dt.Select("Missionname = '" + OcrMissionname1 + "'");
                 loadMission();
             }
@@ -1674,9 +1674,9 @@ namespace AutoSF {
                         StopAutoMission = true;
                         return -1;
                     }
-                    if(PixelFinder.SearchStaticPixel(1187, 119, "#FFFFFF")) { Score++; } //Text Team zuwe>I<sen
+                    if(PixelFinder.SearchStaticPixel(1032, 171, "#1D5D99")) { Score++; } //lightblue stripe in lightblueBackround
                     if(PixelFinder.SearchStaticPixel(1828, 124, "#FEFEFE")) { Score++; } //white x top close window
-                    if(PixelFinder.SearchStaticPixel(1471, 100, "#123B64")) { Score++; } //TeamZuweisen Background
+                    if(PixelFinder.SearchStaticPixel(1711, 100, "#0A2245")) { Score++; } //brighter spot in Teamzuweisen Background
                     LoopGarbageCollector.ClearGarbageCollector();
                     if(++i > 30) {
                         log.Debug("SoldierScreenSelection couldnt be found in time:");
