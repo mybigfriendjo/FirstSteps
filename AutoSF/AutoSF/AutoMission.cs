@@ -202,13 +202,11 @@ namespace AutoSF {
                         }
 
                         if(MissionDifficulty == 0) {
-                            if(CheckforSoldierScreenSelection() == 1) {
-                                foreach(string difficulty in Difficulties) {
-                                    if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + difficulty + ".png", "120", -1641, 253, -1463, 358) != null) {
-                                        MissionDifficulty = Convert.ToInt32(difficulty.Substring(0, 1));
-                                        if(MissionDifficulty != 0) {
-                                            break;
-                                        }
+                            foreach(string difficulty in Difficulties) {
+                                if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + difficulty + ".png", "160", -1641, 253, -1463, 358) != null) {
+                                    MissionDifficulty = Convert.ToInt32(difficulty.Substring(0, 1));
+                                    if(MissionDifficulty != 0) {
+                                        break;
                                     }
                                 }
                             }
@@ -281,16 +279,6 @@ namespace AutoSF {
                 }
             }
             else {
-                if(MissionDifficulty == 0) {
-                    foreach(string difficulty in Difficulties) {
-                        if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + difficulty + ".png", "160", -1641, 253, -1463, 358) != null) {
-                            MissionDifficulty = Convert.ToInt32(difficulty.Substring(0, 1));
-                            if(MissionDifficulty != 0) {
-                                break;
-                            }
-                        }
-                    }
-                }
                 if(CheckforInMissionScreen() != 1) { return; }
                 OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70,"ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ abcdefghijklmnopqrstuvwxyz2ß!-"); //bsp.: Hinweis
                 OcrMissionname2 = OCR.OCRcheck(12, 105, 475, 52, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ abcdefghijklmnopqrstuvwxyz2ß!-");
