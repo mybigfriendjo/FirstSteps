@@ -17,7 +17,7 @@ namespace AutoSF.Helper {
         public static extern bool SetCursorPos(int x, int y);
 
         public static void DoubleClickAtPosition(int posX, int posY) {
-        if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+        if(MainWindow.CurrentHostName == "VMgr4ndpa" || MainWindow.CurrentHostName == "VMgr4ndpaClone") {
             posX += 1920; //Correts MousePosion for VM/SingleMonitor)
         }
         
@@ -29,7 +29,7 @@ namespace AutoSF.Helper {
         }
 
         public static void SingleClickAtPosition(int posX, int posY) {
-            if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+            if(MainWindow.CurrentHostName == "VMgr4ndpa" || MainWindow.CurrentHostName == "VMgr4ndpaClone") {
                 posX += 1920; //Correts MousePosion for VM/SingleMonitor)
             }
 

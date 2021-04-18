@@ -69,7 +69,7 @@ namespace AutoSF.Helper {
                 //Process.Start("k:\\spiele\\steamapps\\common\\Sniper Fury\\mcfw.exe");
                 Process.Start("C:\\Users\\gr4nd\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Steam\\Sniper Fury.url");
                 MainWindow.Sleep(60000); //Sleep 1min
-                if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                if(MainWindow.CurrentHostName == "VMgr4ndpa" || MainWindow.CurrentHostName == "VMgr4ndpaClone") {
                     Process.Start("c:\\spiele\\steam\\steamapps\\common\\Sniper Fury\\mcfw.exe");
                     MainWindow.Sleep(60000); //Sleep 1min
                     //Navigate to "trefferliste" -> pvp
@@ -87,7 +87,7 @@ namespace AutoSF.Helper {
             }
             if(!ProcessFound && ActivateGameStart == true) {
                 Console.WriteLine("Keyboard not Found - starting Game.");
-                //if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                //if(MainWindow.CurrentHostName == "VMgr4ndpa" || MainWindow.CurrentHostName == "VMgr4ndpaClone") {
                     Process.Start(@"C:\Temp\Resources\FreeVK.exe");
                     MainWindow.Sleep(1000); //Sleep 1min
                 //}

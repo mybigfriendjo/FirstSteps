@@ -197,7 +197,7 @@ namespace AutoSF {
                     MouseActions.SingleClickAtPosition(-1423, 939); //Click "Verfügbare (Missionen)"
                     MainWindow.Sleep(400);
                     if(MissionsAvailible() != 0 && StopAutoMission == false) { //checks for availible Missions
-                        if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                        if(MainWindow.CurrentHostName == "VMgr4ndpa" || MainWindow.CurrentHostName == "VMgr4ndpaClone") {
                             MainWindow.Sleep(100);
                         }
 
@@ -214,7 +214,7 @@ namespace AutoSF {
                             }
                         }
                         MouseActions.SingleClickAtPosition(-1372, 630); //click Mission to the left (not avilible Mission is at the right side)
-                        if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                        if(MainWindow.CurrentHostName == "VMgr4ndpa" || MainWindow.CurrentHostName == "VMgr4ndpaClone") {
                             MainWindow.Sleep(100);
                         }
                         if(CheckforInMissionScreen() != 1) { return; }
@@ -268,7 +268,7 @@ namespace AutoSF {
                         }
 
                         MouseActions.SingleClickAtPosition(-1867, 55); //get out of InMissionScreen into MissionsScreen
-                        if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                        if(MainWindow.CurrentHostName == "VMgr4ndpa" || MainWindow.CurrentHostName == "VMgr4ndpaClone") {
                             MainWindow.Sleep(100);
                         }
                         if(CheckIfSpezialMissionsScreen() == -1) { return; }
@@ -1358,7 +1358,7 @@ namespace AutoSF {
 
                     //scroll 3boosters
                     int moveToX = 0;
-                    if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                    if(MainWindow.CurrentHostName == "VMgr4ndpa" || MainWindow.CurrentHostName == "VMgr4ndpaClone") {
                         MouseActions.SetCursorPos(1718, 484);
                         moveToX = 1715;
                         MouseActions.LeftMouseDown();
@@ -1392,7 +1392,7 @@ namespace AutoSF {
                     MouseActions.LeftMouseUp();
                     i++;
                 }
-                if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                if(MainWindow.CurrentHostName == "VMgr4ndpa" || MainWindow.CurrentHostName == "VMgr4ndpaClone") {
                     MouseActions.SingleClickAtPosition(XCoordinate - 1920, 690);
                 }
                 else {

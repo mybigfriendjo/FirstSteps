@@ -21,7 +21,7 @@ namespace AutoSF.Helper {
             IMGPath = "*" + tolerance + " " + IMGPath;
 
             IntPtr result;
-            if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+            if(MainWindow.CurrentHostName == "VMgr4ndpa" || MainWindow.CurrentHostName == "VMgr4ndpaClone") {
                 xUpperLeftCoordinate += 1920;
                 xLowerRightCoordinate += 1920;
                 result = ImageSearch(xUpperLeftCoordinate, yUpperLeftCoordinate, xLowerRightCoordinate, yLowerRightCoordinate, IMGPath); //searchArea is in between x 0,and y 270, goes to x 1920,goes to y 540

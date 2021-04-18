@@ -86,7 +86,7 @@ namespace AutoSF {
                                     return;
                                 }
                                 int moveToX = 0;
-                                if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+                                if(MainWindow.CurrentHostName == "VMgr4ndpa" || MainWindow.CurrentHostName == "VMgr4ndpaClone") {
                                     MouseActions.SetCursorPos(1868, 484);
                                     moveToX = 1715;
                                     MouseActions.LeftMouseDown();

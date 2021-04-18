@@ -16,7 +16,7 @@ namespace AutoSF.Helper {
         public static void InitializeDB() {
 
             
-            if(MainWindow.CurrentHostName == "VMgr4ndpa") {
+            if(MainWindow.CurrentHostName == "VMgr4ndpa" || MainWindow.CurrentHostName == "VMgr4ndpaClone") {
                 DBConnection = new SQLiteConnection("Data Source=C:\\Spiele\\AutoSFDebug\\AutoSF.db; Mode=ReadOnly;FailIfMissing=True;Version=3;");  //Version = Sqliteverion 
             }
             else {
