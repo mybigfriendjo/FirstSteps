@@ -79,7 +79,7 @@ namespace AutoSF {
             char[] CharSeperator = { ',' };
             DataRow[] result = null; //MissionData From DB
             DateTime LastSpeedMission = DateTime.Now.AddMinutes(-2);
-            
+            DataTable FittingSolderDT = new DataTable();
 
 
 
@@ -226,8 +226,8 @@ namespace AutoSF {
                         }
                         if(CheckforInMissionScreen() != 1) { return; }
 
-                        OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz2ß!-"); //bsp.: Hinweis
-                        OcrMissionname2 = OCR.OCRcheck(12, 105, 475, 52, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz2ß!-");
+                        OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz27ß!-"); //bsp.: Hinweis
+                        OcrMissionname2 = OCR.OCRcheck(12, 105, 475, 52, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz27ß!-");
                         result = DB.dt.Select("Missionname = '" + OcrMissionname1 + "'");
                         loadMission();
 
@@ -289,8 +289,8 @@ namespace AutoSF {
             }
             else {
                 if(CheckforInMissionScreen() != 1) { return; }
-                OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70,"ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz2ß!-"); //bsp.: Hinweis
-                OcrMissionname2 = OCR.OCRcheck(12, 105, 475, 52, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz2ß!-");
+                OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70,"ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz27ß!-"); //bsp.: Hinweis
+                OcrMissionname2 = OCR.OCRcheck(12, 105, 475, 52, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz27ß!-");
                 result = DB.dt.Select("Missionname = '" + OcrMissionname1 + "'");
                 loadMission();
             }
@@ -316,7 +316,7 @@ namespace AutoSF {
                     foreach(string soldierType in SoldierTypes) {
                         string ImageSourcePath = Path.Combine(MainWindow.ResourcesPath + soldierType + ".png");
 
-                        if(ImgSearch.UseImageSearch(ImageSourcePath, "140", -1869, 819, -1465, 924) != null) {
+                        if(ImgSearch.UseImageSearch(ImageSourcePath, "180", -1869, 819, -1465, 924) != null) {
                             FoundCounters += soldierType + ",";
                         }
                     }
@@ -324,7 +324,7 @@ namespace AutoSF {
                     log.Debug("SoldierTypes checked. \nThe following types have been found: " + FoundCounters.Substring(0, FoundCounters.Length - 1));
                 
                     FoundSoldierTypesArray = FoundCounters.Split(CharSeperator, StringSplitOptions.RemoveEmptyEntries);
-                    FoundSoldierTypesArrayBackup = FoundSoldierTypesArray; //to find the OCRcheck Position
+                    CheckSoldierType = FoundSoldierTypesArray; //
                     if(FoundSoldierTypesArray.Length == 0 || FoundSoldierTypesArray.Length > 5) {
                         log.Debug("Invalid Value at FoundSoldierTypesArray.Length (" + FoundSoldierTypesArray.Length + ")");
                         StopAutoMission = true;
@@ -372,11 +372,8 @@ namespace AutoSF {
                 if(Missionfound == true && StopAutoMission == false) {
 
                     if((result[0].Field<Int64>("Speed")) == 1 && StopAutoMission == false) {
-                        //DateTime CurrentTime = DateTime.Now;
                         if(LastSpeedMission > DateTime.Now.AddSeconds(-98)) {
-                            //int TimeTillSpeedRdy = Convert.ToInt32((LastSpeedMission - CurrentTime.AddMinutes(-1)).TotalMilliseconds);
                             MainWindow.Sleep(Convert.ToInt32((LastSpeedMission - DateTime.Now.AddSeconds(-98)).TotalMilliseconds));
-                            //MainWindow.Sleep(TimeTillSpeedRdy);
                         }
                         else {
                             LastSpeedMission = DateTime.Now;
@@ -487,8 +484,6 @@ namespace AutoSF {
                         Graphics graphics = Graphics.FromImage(bitmap as Image); // Create a new graphics objects that can capture the scree
                         graphics.CopyFromScreen(SystemInformation.VirtualScreen.Left, SystemInformation.VirtualScreen.Top, 0, 0, bitmap.Size);
                         LoopGarbageCollector.ClearGarbageCollector();
-                        //Rectangle BoosterScanZone = new Rectangle(1920, 250, 1920, 350);
-                        //Bitmap cropped = (Bitmap)bitmap.Clone(BoosterScanZone, bitmap.PixelFormat);
                         Rectangle CounterScanZone = new Rectangle(0, 955, 500, 120);
                         cropped = (Bitmap)bitmap.Clone(CounterScanZone, bitmap.PixelFormat);
                         cropped.Save(@"c:\temp\ImageFinderCropped.png");
@@ -518,21 +513,21 @@ namespace AutoSF {
                     }
 
 
-                    //Adds all SOLDIERTYPE Columns with a value of one into the array CheckSoldierType
-                    foreach(DataRow row in result) {
-                        foreach(DataColumn col in row.Table.Columns) {
-                            if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
-                                log.Debug("AutoMission interrupted by user at Pos ??");
-                                StopAutoMission = true;
-                                return;
-                            }
-                            if(col.Ordinal >= 3 && col.Ordinal <= 10) { //3-10 is the Column range for all Soldiertypes
-                                if(Convert.ToInt32(row[col.Ordinal]) == 1) {
-                                    CheckSoldierType = CheckSoldierType.Append(col.ColumnName).ToArray();
-                                }
-                            }
-                        }
-                    }
+                    ////Adds all SOLDIERTYPE Columns with a value of one into the array CheckSoldierType
+                    //foreach(DataRow row in result) {
+                    //    foreach(DataColumn col in row.Table.Columns) {
+                    //        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
+                    //            log.Debug("AutoMission interrupted by user at Pos ??");
+                    //            StopAutoMission = true;
+                    //            return;
+                    //        }
+                    //        if(col.Ordinal >= 3 && col.Ordinal <= 10) { //3-10 is the Column range for all Soldiertypes
+                    //            if(Convert.ToInt32(row[col.Ordinal]) == 1) {
+                    //                CheckSoldierType = CheckSoldierType.Append(col.ColumnName).ToArray();
+                    //            }
+                    //        }
+                    //    }
+                    //}
 
 
 
@@ -1688,7 +1683,7 @@ namespace AutoSF {
                         return -1;
                     }
                 }
-                if(MissionDifficulty == 0 && CheckCounter.Length > 0 && StopAutoMission == false) {
+                if(MissionDifficulty == 1 && CheckCounter.Length > 0 && StopAutoMission == false) {
                     //CheckForDifficulty();
                     if(CheckCounter.Length == 5) { //5 Counter
                         CacheDb.GetSoldiers(MissionDifficulty, CheckCounter[0], CheckCounter[1], CheckCounter[2], CheckCounter[3], CheckCounter[4]);
