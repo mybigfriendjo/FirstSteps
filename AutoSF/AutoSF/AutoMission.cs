@@ -201,6 +201,8 @@ namespace AutoSF {
                             MainWindow.Sleep(100);
                         }
 
+
+                        //----GetMissionDifficulty (in SpecialMissionScreen)
                         if(MissionDifficulty == 0) {
                             foreach(string difficulty in Difficulties) {
                                 if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + difficulty + ".png", "160", -1641, 253, -1463, 358) != null) {
@@ -211,6 +213,13 @@ namespace AutoSF {
                                 }
                             }
                         }
+                        else if(MissionDifficulty == 0 && StopAutoMission == false) {
+                            log.Debug("Difficulty couldn't been detected!");
+                            StopAutoMission = true;
+                            return;
+                        }
+                        log.Debug("Difficulty is " + MissionDifficulty.ToString());
+
                         MouseActions.SingleClickAtPosition(-1372, 630); //click Mission to the left (not avilible Mission is at the right side)
                         if(MainWindow.CurrentHostName == "VMgr4ndpa" || MainWindow.CurrentHostName == "VMgr4ndpaClone") {
                             MainWindow.Sleep(100);
@@ -292,39 +301,35 @@ namespace AutoSF {
             void loadMission() {
 
                 //-----CheckForDifficulty
-                if(MissionDifficulty == 0) {
+                if(MissionDifficulty == 0 && StopAutoMission == false) {
                     MouseActions.SingleClickAtPosition(-816, 407);
                     if(CheckforSoldierScreenSelection() == 1) {
                         CheckForDifficulty();
                         MouseActions.SingleClickAtPosition(-92, 126); // Close SoldierSelectionScreen
                     }
                 }
-                else if(MissionDifficulty == 0) {
-                    log.Debug("Difficulty couldn't been detected!");
-                    StopAutoMission = true;
-                    return;
-                }
-                log.Debug("Difficulty is " + MissionDifficulty.ToString());
 
 
                 //-----CheckForSoldierType
-                FoundSoldierTypes = "";
-                foreach(string soldierType in SoldierTypes) {
-                    string ImageSourcePath = Path.Combine(MainWindow.ResourcesPath + soldierType + ".png");
+                if(StopAutoMission == false) {
+                    FoundSoldierTypes = "";
+                    foreach(string soldierType in SoldierTypes) {
+                        string ImageSourcePath = Path.Combine(MainWindow.ResourcesPath + soldierType + ".png");
 
-                    if(ImgSearch.UseImageSearch(ImageSourcePath, "120", -1869, 819, -1465, 924) != null) {
-                        FoundCounters += soldierType + ",";
+                        if(ImgSearch.UseImageSearch(ImageSourcePath, "140", -1869, 819, -1465, 924) != null) {
+                            FoundCounters += soldierType + ",";
+                        }
                     }
-                }
 
-                log.Debug("SoldierTypes checked. \nThe following types have been found: " + FoundCounters.Substring(0, FoundCounters.Length - 1));
+                    log.Debug("SoldierTypes checked. \nThe following types have been found: " + FoundCounters.Substring(0, FoundCounters.Length - 1));
                 
-                FoundSoldierTypesArray = FoundCounters.Split(CharSeperator, StringSplitOptions.RemoveEmptyEntries);
-                FoundSoldierTypesArrayBackup = FoundSoldierTypesArray; //to find the OCRcheck Position
-                if(FoundSoldierTypesArray.Length == 0 || FoundSoldierTypesArray.Length > 5) {
-                    log.Debug("Invalid Value at FoundSoldierTypesArray.Length (" + FoundSoldierTypesArray.Length + ")");
-                    StopAutoMission = true;
-                    return;
+                    FoundSoldierTypesArray = FoundCounters.Split(CharSeperator, StringSplitOptions.RemoveEmptyEntries);
+                    FoundSoldierTypesArrayBackup = FoundSoldierTypesArray; //to find the OCRcheck Position
+                    if(FoundSoldierTypesArray.Length == 0 || FoundSoldierTypesArray.Length > 5) {
+                        log.Debug("Invalid Value at FoundSoldierTypesArray.Length (" + FoundSoldierTypesArray.Length + ")");
+                        StopAutoMission = true;
+                        return;
+                    }
                 }
 
 
@@ -1683,7 +1688,7 @@ namespace AutoSF {
                         return -1;
                     }
                 }
-                if(MissionDifficulty == 0 && CheckCounter.Length > 0) {
+                if(MissionDifficulty == 0 && CheckCounter.Length > 0 && StopAutoMission == false) {
                     //CheckForDifficulty();
                     if(CheckCounter.Length == 5) { //5 Counter
                         CacheDb.GetSoldiers(MissionDifficulty, CheckCounter[0], CheckCounter[1], CheckCounter[2], CheckCounter[3], CheckCounter[4]);
