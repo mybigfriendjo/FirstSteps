@@ -76,6 +76,7 @@ namespace AutoSF {
             int successbooster = 0;
             int targetSuccessRate = 100;
             int ZeroCount = 0;
+            char[] CharSeperator = { ',' };
             DataRow[] result = null; //MissionData From DB
             DateTime LastSpeedMission = DateTime.Now.AddMinutes(-2);
             
@@ -97,9 +98,17 @@ namespace AutoSF {
             string[] ImageResult = { "" };
             string FoundCounters = "";
             string[] CheckCountersBackup = { "" };
+            string FoundSoldierTypes = "";
+            string[] SoldierTypes = { "Sniper","Sturm", "RPG", "Molotow", "Elite", "Beschuetzer", "Attentaeter", "Suppressor" };
+            string[] FoundSoldierTypesArray = { } ;
+            string[] FoundSoldierTypesArrayBackup = { };
+            //string[] Difficulties = { "6star","5star","7star","8star","9star","10star","4star","3star","2star","1star" }; //InsideMissionScreen
+            string[] Difficulties = { "6stern", "5stern", "7stern", "8stern", "9stern", "10stern", "4stern", "3stern", "2stern", "1stern" }; //SoldiersSelectionScreen
 
 
-            Dictionary<string, int[]> dicClickPos = new Dictionary<string, int[]>();
+
+
+        Dictionary<string, int[]> dicClickPos = new Dictionary<string, int[]>();
             #region DirectoryContentRegion //includes all Content for the Directory dicClickPos
             dicClickPos.Add("Sniper", new int[] { -1555, 230 });
             dicClickPos.Add("Sturm", new int[] { -1239, 230 });
@@ -191,6 +200,19 @@ namespace AutoSF {
                         if(MainWindow.CurrentHostName == "VMgr4ndpa") {
                             MainWindow.Sleep(100);
                         }
+
+                        if(MissionDifficulty == 0) {
+                            if(CheckforSoldierScreenSelection() == 1) {
+                                foreach(string difficulty in Difficulties) {
+                                    if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + difficulty + ".png", "120", -1641, 253, -1463, 358) != null) {
+                                        MissionDifficulty = Convert.ToInt32(difficulty.Substring(0, 1));
+                                        if(MissionDifficulty != 0) {
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         MouseActions.SingleClickAtPosition(-1372, 630); //click Mission to the left (not avilible Mission is at the right side)
                         if(MainWindow.CurrentHostName == "VMgr4ndpa") {
                             MainWindow.Sleep(100);
@@ -259,8 +281,19 @@ namespace AutoSF {
                 }
             }
             else {
-                OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70); //bsp.: Hinweis
-                OcrMissionname2 = OCR.OCRcheck(12, 105, 475, 55);
+                if(MissionDifficulty == 0) {
+                    foreach(string difficulty in Difficulties) {
+                        if(ImgSearch.UseImageSearch(MainWindow.ResourcesPath + difficulty + ".png", "160", -1641, 253, -1463, 358) != null) {
+                            MissionDifficulty = Convert.ToInt32(difficulty.Substring(0, 1));
+                            if(MissionDifficulty != 0) {
+                                break;
+                            }
+                        }
+                    }
+                }
+                if(CheckforInMissionScreen() != 1) { return; }
+                OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70,"ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ abcdefghijklmnopqrstuvwxyz2ß!-"); //bsp.: Hinweis
+                OcrMissionname2 = OCR.OCRcheck(12, 105, 475, 52, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ abcdefghijklmnopqrstuvwxyz2ß!-");
                 result = DB.dt.Select("Missionname = '" + OcrMissionname1 + "'");
                 loadMission();
             }
@@ -268,7 +301,45 @@ namespace AutoSF {
 
 
 
-            void loadMission() {    
+            void loadMission() {
+
+                //-----CheckForDifficulty
+                if(MissionDifficulty == 0) {
+                    MouseActions.SingleClickAtPosition(-816, 407);
+                    if(CheckforSoldierScreenSelection() == 1) {
+                        CheckForDifficulty();
+                        MouseActions.SingleClickAtPosition(-92, 126); // Close SoldierSelectionScreen
+                    }
+                }
+                else if(MissionDifficulty == 0) {
+                    log.Debug("Difficulty couldn't been detected!");
+                    StopAutoMission = true;
+                    return;
+                }
+                log.Debug("Difficulty is " + MissionDifficulty.ToString());
+
+
+                //-----CheckForSoldierType
+                FoundSoldierTypes = "";
+                foreach(string soldierType in SoldierTypes) {
+                    string ImageSourcePath = Path.Combine(MainWindow.ResourcesPath + soldierType + ".png");
+
+                    if(ImgSearch.UseImageSearch(ImageSourcePath, "120", -1869, 819, -1465, 924) != null) {
+                        FoundCounters += soldierType + ",";
+                    }
+                }
+
+                log.Debug("SoldierTypes checked. \nThe following types have been found: " + FoundCounters.Substring(0, FoundCounters.Length - 1));
+                
+                FoundSoldierTypesArray = FoundCounters.Split(CharSeperator, StringSplitOptions.RemoveEmptyEntries);
+                FoundSoldierTypesArrayBackup = FoundSoldierTypesArray; //to find the OCRcheck Position
+                if(FoundSoldierTypesArray.Length == 0 || FoundSoldierTypesArray.Length > 5) {
+                    log.Debug("Invalid Value at FoundSoldierTypesArray.Length (" + FoundSoldierTypesArray.Length + ")");
+                    StopAutoMission = true;
+                    return;
+                }
+
+
                 if((result == null || result.Length == 0) && StopAutoMission == false) {
                     result = DB.dt.Select("Missionname = '" + OcrMissionname2 + "'");
                     if((result == null || result.Length == 0) && StopAutoMission == false) { //Mission not found in DB - storing MissionScreenshot named OcrMissionname1_OcrMissionname2
@@ -445,7 +516,6 @@ namespace AutoSF {
                     }
 
                     log.Debug("counters checked. \nThe following counters have been found: " + FoundCounters.Substring(0, FoundCounters.Length - 1));
-                    char[] CharSeperator = { ',' };
                     CheckCounter = FoundCounters.Split(CharSeperator, StringSplitOptions.RemoveEmptyEntries);
                     CheckCountersBackup = CheckCounter; //to find the OCRcheck Position
                     if(CheckCounter.Length == 0 || CheckCounter.Length > 5) {
@@ -1620,13 +1690,13 @@ namespace AutoSF {
                     if(PixelFinder.SearchStaticPixel(1828, 124, "#FEFEFE")) { Score++; } //white x top close window
                     if(PixelFinder.SearchStaticPixel(1471, 100, "#123B64")) { Score++; } //TeamZuweisen Background
                     LoopGarbageCollector.ClearGarbageCollector();
-                    if(++i > 10) {
+                    if(++i > 30) {
                         log.Debug("SoldierScreenSelection couldnt be found in time:");
                         return -1;
                     }
                 }
-                if(MissionDifficulty == 0) {
-                    CheckForDifficulty();
+                if(MissionDifficulty == 0 && CheckCounter.Length > 0) {
+                    //CheckForDifficulty();
                     if(CheckCounter.Length == 5) { //5 Counter
                         CacheDb.GetSoldiers(MissionDifficulty, CheckCounter[0], CheckCounter[1], CheckCounter[2], CheckCounter[3], CheckCounter[4]);
                     }
