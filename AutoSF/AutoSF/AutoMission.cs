@@ -1683,7 +1683,7 @@ namespace AutoSF {
                         return -1;
                     }
                 }
-                if(MissionDifficulty == 1 && CheckCounter.Length > 0 && StopAutoMission == false) {
+                if(MissionDifficulty != 0 && CheckCounter.Length > 0 && StopAutoMission == false) {
                     //CheckForDifficulty();
                     if(CheckCounter.Length == 5) { //5 Counter
                         CacheDb.GetSoldiers(MissionDifficulty, CheckCounter[0], CheckCounter[1], CheckCounter[2], CheckCounter[3], CheckCounter[4]);
