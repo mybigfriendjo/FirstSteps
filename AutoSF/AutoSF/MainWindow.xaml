@@ -14,13 +14,15 @@
         <Label x:Name="Bgw2Label" Content="StatusBgw2:" HorizontalAlignment="Left" Margin="43,179,0,0" VerticalAlignment="Top" Height="26" Width="63" FontSize="10" RenderTransformOrigin="0.513,0.524"/>
         <Label x:Name="Bgw1resultLabel" Content="doesntExist" HorizontalAlignment="Left" Margin="123,163,0,0" VerticalAlignment="Top" Height="24" Width="61" FontSize="10" RenderTransformOrigin="0.513,0.524"/>
         <Label x:Name="Bgw1resultLabel_Copy" Content="doesntExist" HorizontalAlignment="Left" Margin="123,179,0,0" VerticalAlignment="Top" Height="26" Width="61" FontSize="10" RenderTransformOrigin="0.513,0.524"/>
-        <Button x:Name="btnCodeTest" Content="CodeTest" HorizontalAlignment="Left" Margin="43,130,0,0" VerticalAlignment="Top" Width="70" Click="btnCodeTest_Click" Height="31"/>
+        <Button x:Name="btnSoldierScan" Content="Soldier Scan" HorizontalAlignment="Left" Margin="43,130,0,0" VerticalAlignment="Top" Width="70" Click="btnSoldierScan_Click" Height="31"/>
         <CheckBox x:Name="cbNoMouse" Content="No Mouse" HorizontalAlignment="Left" Margin="118,93,0,0" VerticalAlignment="Top" Width="75" FontSize="11" Click="cbNoMouse_Click"/>
         <CheckBox x:Name="cbNoMouseMove" Content="No MMove" HorizontalAlignment="Left" Margin="118,109,0,0" VerticalAlignment="Top" Width="81" FontSize="11" Click="cbNoMouseMove_Click" IsChecked="True"/>
         <CheckBox x:Name="cbSpam2Active" Content="Use &quot;2&quot;" HorizontalAlignment="Left" Margin="118,130,0,0" VerticalAlignment="Top" Width="81" FontSize="11" Click="cbNoMouseMove_Click" IsChecked="True"/>
         <CheckBox x:Name="cbSpam3Active" Content="Use &quot;3&quot;" HorizontalAlignment="Left" Margin="118,148,0,0" VerticalAlignment="Top" Width="81" FontSize="11" Click="cbNoMouseMove_Click"/>
-        <CheckBox x:Name="cbMoveOn" Content="Move On" HorizontalAlignment="Left" Margin="118,21,0,0" VerticalAlignment="Top" Width="75" FontSize="11" Click="cbMoveOn_Click" IsChecked="True"/>
+        <CheckBox x:Name="cbMoveOn" Content="Move On" HorizontalAlignment="Left" Margin="118,21,0,0" VerticalAlignment="Top" Width="66" FontSize="11" Click="cbMoveOn_Click" IsChecked="True"/>
         <DataGrid x:Name="DataGridTableCacheDB" HorizontalAlignment="Left" Height="247" Margin="226,10,0,0" VerticalAlignment="Top" Width="416"/>
+        <Button x:Name="btnCodeTest" Content="CodeTest" HorizontalAlignment="Left" Margin="43,210,0,0" VerticalAlignment="Top" Width="70" Click="btnCodeTest_Click" Height="31"/>
+        <Button x:Name="btnOpenGridView" Content="Open GridV" HorizontalAlignment="Left" Margin="123,210,0,0" VerticalAlignment="Top" Width="70" Click="btnOpenGridView_Click" Height="31"/>
 
     </Grid>
 </Window>
