@@ -326,6 +326,15 @@ namespace AutoSF {
         }
         private delegate void InvokeUpdate(DataTable table);
 
+        private void btnOpenGridView_Click(object sender, RoutedEventArgs e) {
+            SecondWindow SWInstance = new SecondWindow();
+            SWInstance.Show();
+        }
+
+        private void btnSoldierScan_Click(object sender, RoutedEventArgs e) {
+            SoldierScan.StartSoldierScan();
+        }
+
         private void btnCodeTest_Click(object sender, RoutedEventArgs e) {
             ///////////////////////// vvv CodeTestArea vvv \\\\\\\\\\\\\\\\\\\\\
             ///
@@ -334,7 +343,7 @@ namespace AutoSF {
 
             //DataGridTableCacheDB.ItemsSource = CacheDb.DataTableFilteredSoldiers.DefaultView;
 
-            SoldierScan.StartSoldierScan();
+            
 
             ///////////////////////// ^^^ CodeTestArea ^^^ \\\\\\\\\\\\\\\\\\\\\
             string ImJustAPossibleBreakPoint = "";
@@ -681,7 +690,7 @@ namespace AutoSF {
                                 WinSystem.WindowActivateFreeVK(true); //Starts virtual Keyboard
                                 if(Spam2Active == 1) {
                                     KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_2);
-                                    SendKeys.Send("2");
+                                    SendKeys.SendWait("2");
                                     MouseActions.SingleClickAtPosition(-192, 49); //2
                                 }
                                 if(Spam3Active == 1 && i == 1) {   //only activate "3" once - pressing it again would disable it
