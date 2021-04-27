@@ -514,6 +514,10 @@ namespace AutoSF {
 
 
                     ////Adds all SOLDIERTYPE Columns with a value of one into the array CheckSoldierType
+                    ///if(result.Length > 1)
+                    //{
+                    //    log.Error("Multiple (" + result.Length.ToString() + ") Mission Entries found! for Mission: " + OcrMissionname1 + " or " + OcrMissionname2);
+                    //}
                     //foreach(DataRow row in result) {
                     //    foreach(DataColumn col in row.Table.Columns) {
                     //        if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && (Keyboard.IsKeyDown(Key.NumPad0) || Keyboard.IsKeyDown(Key.D0))) {
