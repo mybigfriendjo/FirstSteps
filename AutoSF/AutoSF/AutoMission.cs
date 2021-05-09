@@ -61,6 +61,7 @@ namespace AutoSF {
 
             string OcrMissionname1 = "";
             string OcrMissionname2 = "";
+            string OcrMissionname3 = "";
             int MissionDifficulty = 0;
 
             Logger log = LogManager.GetCurrentClassLogger();
@@ -228,6 +229,7 @@ namespace AutoSF {
 
                         OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz27ß!-"); //bsp.: Hinweis
                         OcrMissionname2 = OCR.OCRcheck(12, 105, 475, 52, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz27ß!-");
+                        OcrMissionname3 = OCR.OCRcheck(17, 115, 470, 36, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz27ß!-"); //Persönlicher Freiraum
                         result = DB.dt.Select("Missionname = '" + OcrMissionname1 + "'");
                         loadMission();
 
@@ -291,6 +293,7 @@ namespace AutoSF {
                 if(CheckforInMissionScreen() != 1) { return; }
                 OcrMissionname1 = OCR.OCRcheck(15, 100, 475, 70,"ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz27ß!-"); //bsp.: Hinweis
                 OcrMissionname2 = OCR.OCRcheck(12, 105, 475, 52, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz27ß!-");
+                OcrMissionname3 = OCR.OCRcheck(17, 115, 470, 36, "ABCDEFGHIJKLMNOPQRSTUVWÄÜÖ öüäabcdefghijklmnopqrstuvwxyz27ß!-"); //Persönlicher Freiraum
                 result = DB.dt.Select("Missionname = '" + OcrMissionname1 + "'");
                 loadMission();
             }
@@ -310,20 +313,41 @@ namespace AutoSF {
                 }
 
 
+
                 //-----CheckForSoldierType
+                CheckforInMissionScreen();
+                Bitmap Sbitmap = null;
+                Bitmap Scropped = null;
+
+                using(Sbitmap = new Bitmap(SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height)) { // Create an empty bitmap with the size of all connected screen
+                    Graphics Sgraphics = Graphics.FromImage(Sbitmap as Image); // Create a new graphics objects that can capture the scree
+                    Sgraphics.CopyFromScreen(SystemInformation.VirtualScreen.Left, SystemInformation.VirtualScreen.Top, 0, 0, Sbitmap.Size);
+                    LoopGarbageCollector.ClearGarbageCollector();
+                    Rectangle SCounterScanZone = new Rectangle(0, 819, 500, 95);
+                    Scropped = (Bitmap)Sbitmap.Clone(SCounterScanZone, Sbitmap.PixelFormat);
+                    Scropped.Save(@"c:\temp\SImageFinderCropped.png");
+                }
+
+                ImageFinder.SetSource(Scropped);
+
                 if(StopAutoMission == false) {
                     FoundSoldierTypes = "";
                     foreach(string soldierType in SoldierTypes) {
-                        string ImageSourcePath = Path.Combine(MainWindow.ResourcesPath + soldierType + ".png");
 
-                        if(ImgSearch.UseImageSearch(ImageSourcePath, "180", -1869, 819, -1465, 924) != null) {
-                            FoundCounters += soldierType + ",";
+                        string SImageSourcePath = Path.Combine(MainWindow.ResourcesPath + soldierType + "BMP.bmp");
+                        Image STempBit = Image.FromFile(SImageSourcePath);
+                        Image STempBitCopy = STempBit; //to avoid "Allgemeiner Fehler in GDI+"
+                        STempBitCopy.Save(@"c:\temp\STembBit.png");
+                        ImageFinder.Find(STempBit, 0.83f);
+                        STempBit.Dispose();
+                        if(ImageFinder.LastMatches.Count >= 1) {
+                            FoundSoldierTypes += soldierType + ",";
                         }
                     }
 
-                    log.Debug("SoldierTypes checked. \nThe following types have been found: " + FoundCounters.Substring(0, FoundCounters.Length - 1));
+                        log.Debug("SoldierTypes checked. \nThe following types have been found: " + FoundSoldierTypes.Substring(0, FoundSoldierTypes.Length - 1));
                 
-                    FoundSoldierTypesArray = FoundCounters.Split(CharSeperator, StringSplitOptions.RemoveEmptyEntries);
+                    FoundSoldierTypesArray = FoundSoldierTypes.Split(CharSeperator, StringSplitOptions.RemoveEmptyEntries);
                     CheckSoldierType = FoundSoldierTypesArray; //
                     if(FoundSoldierTypesArray.Length == 0 || FoundSoldierTypesArray.Length > 5) {
                         log.Debug("Invalid Value at FoundSoldierTypesArray.Length (" + FoundSoldierTypesArray.Length + ")");
@@ -334,9 +358,9 @@ namespace AutoSF {
 
 
                 if((result == null || result.Length == 0) && StopAutoMission == false) {
-                    result = DB.dt.Select("Missionname = '" + OcrMissionname2 + "'");
+                    result = DB.dt.Select("Missionname = '" + OcrMissionname2 + "' OR Missionname = '" + OcrMissionname3 + "'");
                     if((result == null || result.Length == 0) && StopAutoMission == false) { //Mission not found in DB - storing MissionScreenshot named OcrMissionname1_OcrMissionname2
-                        result = DB.dt.Select("MissionnameAlias = '" + OcrMissionname1 + "' OR MissionnameAlias = '" + OcrMissionname2 + "'");
+                        result = DB.dt.Select("MissionnameAlias = '" + OcrMissionname1 + "' OR MissionnameAlias = '" + OcrMissionname2 + "' OR MissionnameAlias = '" + OcrMissionname3 + "'");
                         if((result == null || result.Length == 0) && StopAutoMission == false) { //Mission not found in DB - storing MissionScreenshot named OcrMissionname1_OcrMissionname2
                             Console.WriteLine("MissionNotInDB_" + OcrMissionname1 + "_" + OcrMissionname2 + "_" + DateTime.Now.ToString("dd/MM/yyyy HH-mm-ss") + ".png");
 
@@ -540,7 +564,7 @@ namespace AutoSF {
                     //CacheDb.GetSoldiers(6, 5, Counters[0], Counters[1], Counters[2], Counters[3], Counters[4]);
                     //foreach(string SoldierType in CheckSoldierType) {
                     //    //--- select fist row -> get the Data, Drop alls rows where type = SelectedSoldier.type
-                    //    DataRow[] SelectedSoldier = CacheDb.DataTableFilteredSoldiers.Select("");
+                        DataRow[] SelectedSoldier = CacheDb.DataTableFilteredSoldiers.Select("SELECT * FROM SAMPLE_TABLE ORDER BY ROWID ASC LIMIT 1");
                     //}
 
 
@@ -1074,9 +1098,9 @@ namespace AutoSF {
                 if(targetSuccessRate > 49 && OcrSuccessRateInt < targetSuccessRate) {
                     MouseActions.SingleClickAtPosition((dicClickPos["bluedrohne"][0]), dicClickPos["bluedrohne"][1]);
                     MainWindow.Sleep(300);
-                    string OcrSuccessRateWithDrone = OCR.OCRcheck(1056, 963, 100, 35, "0123456789% "); //bsp.:  110% , 150%
+                    string OcrSuccessRateWithDrone = OCR.OCRcheck(1056, 963, 100, 35, "0123456789%"); //bsp.:  110% , 150%
                     if(OcrSuccessRateWithDrone == "") {
-                        OcrSuccessRateWithDrone = OCR.OCRcheck(1025, 963, 100, 35, "0123456789% ");
+                        OcrSuccessRateWithDrone = OCR.OCRcheck(1025, 963, 100, 35, "0123456789%");
                         if(OcrSuccessRateWithDrone == "") {
                             log.Error("OcrSuccessRateWithDrone not found or recognized!");
                             return -1;
@@ -1712,6 +1736,10 @@ namespace AutoSF {
                     //
 
                     UpdateListeners(CacheDb.DataTableFilteredSoldiers);
+
+                    //Test
+                    StopAutoMission = true;
+                    return -1;
                 } 
                 return 1;
             }
