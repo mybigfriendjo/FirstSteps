@@ -84,7 +84,7 @@ namespace AutoSF {
             StopAutoPvP = false;
 
             while(30 < 40 && StopAutoMission == false) { //endless loop
-                if(Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad2)) {
+                if((Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.NumPad2)) || (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftAlt) && Keyboard.IsKeyDown(Key.D2))) {
                     log.Debug("AutoMission start triggered by hotkey");
                     AutoMission.StartAutoMissionThread();
                     Sleep(400); //ensure it gets only triggered once
@@ -685,21 +685,21 @@ namespace AutoSF {
                             //var MsgBoxResult = MessageBox.Show("Is Curser Position Ok to Click?", "MouseClickPositionCheck - SwitchToRoom2", MessageBoxButton.YesNo);
                             //if(Convert.ToString(MsgBoxResult) == "Yes") {
                             MouseActions.DoubleClickAtPosition(-956, 134);
-                            if(Spam2Active == 1 || Spam3Active == 1) {
-                                Sleep(100);
-                                WinSystem.WindowActivateFreeVK(true); //Starts virtual Keyboard
-                                if(Spam2Active == 1) {
-                                    KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_2);
-                                    SendKeys.SendWait("2");
-                                    MouseActions.SingleClickAtPosition(-192, 49); //2
-                                }
-                                if(Spam3Active == 1 && i == 1) {   //only activate "3" once - pressing it again would disable it
-                                    //KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_3);
-                                    MouseActions.SingleClickAtPosition(-178, 49); //3
-                                }
-                                Sleep(25);
-                                WinSystem.WindowActivate(false);
-                            }
+                            //if(Spam2Active == 1 || Spam3Active == 1) {
+                            //    Sleep(100);
+                            //    WinSystem.WindowActivateFreeVK(true); //Starts virtual Keyboard
+                            //    if(Spam2Active == 1) {
+                            //        KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_2);
+                            //        SendKeys.SendWait("2");
+                            //        MouseActions.SingleClickAtPosition(-192, 49); //2
+                            //    }
+                            //    if(Spam3Active == 1 && i == 1) {   //only activate "3" once - pressing it again would disable it
+                            //        //KeyboardInput.Send(KeyboardInput.ScanCodeShort.KEY_3);
+                            //        MouseActions.SingleClickAtPosition(-178, 49); //3
+                            //    }
+                            //    Sleep(25);
+                            //    WinSystem.WindowActivate(false);
+                            //}
 
                             //}
                         }
